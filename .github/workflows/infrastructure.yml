@@ -1,0 +1,28 @@
+name: template-infrastructure
+on:
+  push:
+    branches:
+      - test
+      - production
+    paths:
+      - .github/workflows/infrastructure.yml
+      - infrastructure/**
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Set Environment Variables
+        run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: Run Terraform
+        run: ./run.sh
+        working-directory: infrastructure
+        env:
+          STAGE: ${{ env.BRANCH }}

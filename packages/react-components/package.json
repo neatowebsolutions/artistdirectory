@@ -1,0 +1,28 @@
+{
+  "name": "@template/react-components",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neatowebsolutions/template.git"
+  },
+  "homepage": "https://github.com/neatowebsolutions/template/tree/master/packages/react-components",
+  "license": "UNLICENSED",
+  "author": "Chad Johnson <chad@neatowebsolutions.com>",
+  "dependencies": {
+    "css-loader": "^3.5.3",
+    "style-loader": "^1.2.1"
+  },
+  "peerDependencies": {
+    "@template/react-hooks": "^0.0.0",
+    "prop-types": "^15.7.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "scripts": {
+    "build": "webpack",
+    "format": "find src -type f -iname '*.js' -exec eslint --fix {} +",
+    "lint": "eslint 'src/**/*.js'",
+    "start": "webpack --watch"
+  }
+}

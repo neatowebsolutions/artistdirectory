@@ -1,0 +1,6 @@
+hosted_zone_id = ""
+base_domain    = "domain.com"
+domain         = "domain.com"
+sandbox        = "false"
+jwt_secret     = "2fee701e3207545db93eaa9056536109069fea9c27724f1ef54ec39ef252b600"
+assets_domain  = "assets.domain.com"

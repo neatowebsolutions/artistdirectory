@@ -1,0 +1,86 @@
+service: template-example
+variablesResolutionMode: 20210326
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 2048
+  timeout: 10
+  endpointType: REGIONAL
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  versionFunctions: false
+  logRetentionInDays: 14
+  apiGateway:
+    shouldStartNameWithService: true
+  environment:
+    NODE_ENV: ${env:NODE_ENV, 'production'}
+    EXAMPLE_API_GATEWAY_URL: ${env:EXAMPLE_API_GATEWAY_URL, ssm:/template/${self:provider.stage}/example-api-gateway/url}
+    ASSETS_URL: ${env:ASSETS_URL, ssm:/template/${self:provider.stage}/assets/url}
+    JWT_SECRET: ${env:JWT_SECRET, ssm:/template/${self:provider.stage}/jwt-secret}
+
+custom:
+  customDomain:
+    domainName: ${ssm:/template/${self:provider.stage}/template-example-app/domain}
+    basePath: ''
+    certificateName: ${ssm:/template/${self:provider.stage}/certificate-name, ''}
+    createRoute53Record: true
+    endpointType: regional
+    route53Params:
+      routingPolicy: latency
+      setIdentifier: ${self:provider.region}
+      healthCheckId: ${ssm:/template/${self:provider.stage}/template-example-app/health-check-id, ''}
+    securityPolicy: tls_1_2
+    autoDomain: true
+  warmup:
+    default:
+      enabled: true
+      concurrency: 5
+      prewarm: true
+      events:
+        - schedule: rate(5 minutes)
+
+functions:
+  health:
+    memorySize: 128
+    handler: src/routes/health.handler
+    events:
+      - http:
+          path: /health
+          method: get
+          cors: true
+    warmup:
+      default:
+        enabled: false
+  region:
+    memorySize: 128
+    handler: src/routes/region.handler
+    events:
+      - http:
+          path: /region
+          method: get
+          cors: true
+    warmup:
+      default:
+        enabled: false
+  server:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/template/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/server.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+      - http:
+          path: /{any+}
+          method: ANY
+
+plugins:
+  - serverless-plugin-monorepo
+  - serverless-domain-manager
+  - serverless-plugin-warmup
+
+package:
+  patterns:
+    - '!infrastructure/**'
+    - '!.next/cache/webpack/**'

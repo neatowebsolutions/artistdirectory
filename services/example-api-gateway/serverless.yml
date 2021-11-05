@@ -1,0 +1,148 @@
+service: template-example-api-gateway
+variablesResolutionMode: 20210326
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 2048
+  timeout: 10
+  endpointType: REGIONAL
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  versionFunctions: false
+  logRetentionInDays: 14
+  apiGateway:
+    shouldStartNameWithService: true
+  environment:
+    EXAMPLE_API_GATEWAY_URL: ${env:EXAMPLE_API_GATEWAY_URL, ssm:/template/${self:provider.stage}/example-api/url}
+    JWT_SECRET: ${env:JWT_SECRET, ssm:/template/${self:provider.stage}/jwt-secret}
+    LOGS_API_URL: ${env:LOGS_API_URL, ssm:/template/${self:provider.stage}/logs-api/url}
+    LOG_QUEUE_URL: ${ssm:/template/${self:provider.stage}/queues/log/url, ''}
+    LOG_SOURCE: 'example-api-gateway'
+    NODE_ENV: ${env:NODE_ENV, 'production'}
+
+custom:
+  serverless-offline:
+    httpPort: ${env:EXAMPLE_API_GATEWAY_PORT, 3002}
+    lambdaPort: 5002
+  customDomain:
+    domainName: ${ssm:/template/${self:provider.stage}/example-api-gateway/domain, ''}
+    basePath: ''
+    certificateName: ${ssm:/template/${self:provider.stage}/certificate-name, ''}
+    createRoute53Record: true
+    endpointType: regional
+    route53Params:
+      routingPolicy: latency
+      setIdentifier: ${self:provider.region}
+      healthCheckId: ${ssm:/template/${self:provider.stage}/example-api-gateway/health-check-id, ''}
+    securityPolicy: tls_1_2
+    autoDomain: true
+  warmup:
+    default:
+      enabled: true
+      concurrency: 5
+      prewarm: true
+      events:
+        - schedule: rate(5 minutes)
+
+functions:
+  authorizer:
+    handler: src/authorizer.handler
+  health:
+    memorySize: 128
+    handler: src/routes/health.handler
+    events:
+      - http:
+          path: /health
+          method: get
+          cors: true
+    warmup:
+      default:
+        enabled: false
+  region:
+    memorySize: 128
+    handler: src/routes/region.handler
+    events:
+      - http:
+          path: /region
+          method: get
+          cors: true
+    warmup:
+      default:
+        enabled: false
+  createProduct:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/template/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/createProduct.handler
+    events:
+      - http:
+          path: /products
+          method: post
+          cors: true
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
+  deleteProduct:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/template/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/deleteProduct.handler
+    events:
+      - http:
+          path: /products/{productId}
+          method: delete
+          cors: true
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
+  findOneProduct:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/template/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findOneProduct.handler
+    events:
+      - http:
+          path: /products/{productId}
+          method: get
+          cors: true
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
+  findProducts:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/template/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findProducts.handler
+    events:
+      - http:
+          path: /products
+          method: get
+          cors: true
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
+  updateProduct:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/template/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/updateProduct.handler
+    events:
+      - http:
+          path: /products/{productId}
+          method: put
+          cors: true
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-monorepo
+  - serverless-domain-manager
+  - serverless-plugin-warmup
+
+package:
+  patterns:
+    - '!infrastructure/**'

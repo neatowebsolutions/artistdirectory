@@ -1,0 +1,132 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": [
+    "react-app",
+    "airbnb-base",
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier"
+  ],
+  "plugins": ["prettier", "jsx-a11y"],
+  "rules": {
+    "prettier/prettier": ["warn"],
+    "func-names": ["off"],
+    "no-param-reassign": ["off"],
+    "radix": ["error", "as-needed"],
+    "consistent-return": "off",
+    "no-useless-escape": "off",
+    "no-use-before-define": [
+      "warn",
+      {
+        "functions": false
+      }
+    ],
+    "no-return-await": "off",
+    "object-curly-spacing": ["warn", "always"],
+    "max-len": "off",
+    "no-plusplus": "off",
+    "global-require": "off",
+    "class-methods-use-this": "off",
+    "no-unused-vars": [
+      "warn",
+      {
+        "varsIgnorePattern": "React"
+      }
+    ],
+    "no-console": "warn",
+    "import/no-extraneous-dependencies": "off",
+    "keyword-spacing": [
+      "warn",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "no-underscore-dangle": "off",
+    "space-infix-ops": "warn",
+    "no-else-return": "off",
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
+    "import/newline-after-import": "warn",
+    "lines-between-class-members": "off",
+    "react/react-in-jsx-scope": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-uses-react": "warn",
+    "react/jsx-uses-vars": "warn",
+    "react/display-name": "off",
+    "react/prop-types": [
+      "warn",
+      {
+        "ignore": ["sx"]
+      }
+    ],
+    "jsx-a11y/anchor-is-valid": [
+      "error",
+      {
+        "components": ["Link"],
+        "specialLink": ["hrefLeft", "hrefRight"],
+        "aspects": ["invalidHref", "preferButton"]
+      }
+    ],
+    "jsx-a11y/alt-text": [
+      "error",
+      {
+        "elements": ["img", "object", "area", "input[type=\"image\"]"],
+        "img": ["Image"],
+        "object": ["Object"],
+        "area": ["Area"],
+        "input[type=\"image\"]": ["InputImage"]
+      }
+    ],
+    "jsx-a11y/no-static-element-interactions": "off",
+    "spaced-comment": ["warn", "always", {
+      "block": {
+        "balanced": true
+      }
+    }]
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    },
+    "ecmaVersion": 10
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  },
+  "overrides": [{
+      "files": ["applications/*/src/pages/**/*.js", "packages/*/src/**/*.js"],
+      "rules": {
+        "react/prop-types": "off"
+      }
+    },
+    {
+      "files": ["*.spec.js"],
+      "rules": {
+        "no-return-assign": "off",
+        "no-unused-expressions": "off",
+        "no-underscore-dangle": "off",
+        "prettier/prettier": ["off"]
+      }
+    },
+    {
+      "files": ["*.stories.js"],
+      "rules": {
+        "no-alert": "off"
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@template/react-hooks",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neatowebsolutions/template.git"
+  },
+  "homepage": "https://github.com/neatowebsolutions/template/tree/master/packages/react-hooks",
+  "license": "UNLICENSED",
+  "author": "Chad Johnson <chad@neatowebsolutions.com>",
+  "contributors": [],
+  "dependencies": {
+    "@template/http-client": "0.0.0",
+    "axios": "^0.21.1",
+    "luxon": "^1.27.0",
+    "querystringify": "^2.2.0",
+    "universal-cookie": "^4.0.4"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.7.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.0"
+  },
+  "scripts": {
+    "build": "webpack",
+    "format": "find src -type f -iname '*.js' -exec eslint --fix {} +",
+    "lint": "eslint 'src/**/*.js'",
+    "start": "webpack --watch"
+  }
+}

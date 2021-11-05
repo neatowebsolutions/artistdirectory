@@ -1,0 +1,76 @@
+name: template-example
+on:
+  push:
+    branches:
+      - test
+      - production
+    paths:
+      - .github/workflows/example.yml
+      - applications/example/**
+      - packages/**
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: us-east-1
+    steps:
+      - name: Set Environment Variables
+        run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: Inject "ASSETS_DOMAIN" SSM Parameter
+        uses: "marvinpinto/action-inject-ssm-secrets@latest"
+        with:
+          ssm_parameter: "/template/${{ env.BRANCH }}/assets/domain"
+          env_variable_name: "ASSETS_DOMAIN"
+      - name: Inject "ASSETS_URL" SSM Parameter
+        uses: "marvinpinto/action-inject-ssm-secrets@latest"
+        with:
+          ssm_parameter: "/template/${{ env.BRANCH }}/assets/url"
+          env_variable_name: "ASSETS_URL"
+      - name: Inject "EXAMPLE_API_GATEWAY_URL" SSM Parameter
+        uses: "marvinpinto/action-inject-ssm-secrets@latest"
+        with:
+          ssm_parameter: "/template/${{ env.BRANCH }}/example-api-gateway/url"
+          env_variable_name: "EXAMPLE_API_GATEWAY_URL"
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.17.0
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: Install Global Packages
+        run: npm install -g yarn serverless
+      - name: Run Terraform
+        run: ./run.sh
+        working-directory: applications/example/infrastructure
+        env:
+          STAGE: ${{ env.BRANCH }}
+      - name: Install Node Modules
+        run: yarn install
+      - name: Build Packages
+        run: lerna bootstrap --force-local && NODE_ENV=production lerna run build --stream --scope=@template/*
+      - name: Build Next.js Application
+        run: NODE_ENV=production yarn build
+        working-directory: applications/example
+      - name: Upload Next.js Static Assets to Assets Bucket
+        run: aws s3 sync applications/example/.next/static s3://$ASSETS_DOMAIN/example/_next/static --cache-control immutable,max-age=31536000,public --storage-class STANDARD_IA
+      - name: Upload Next.js Public Assets to Assets Bucket
+        run: aws s3 sync applications/example/public s3://$ASSETS_DOMAIN/example --cache-control immutable,max-age=31536000,public --storage-class STANDARD_IA
+      - name: Deploy Serverless Application to us-east-1
+        run: serverless deploy --stage $BRANCH --region us-east-1
+        working-directory: applications/example
+      - name: Deploy Serverless Application to eu-west-1
+        run: serverless deploy --stage $BRANCH --region eu-west-1
+        working-directory: applications/example
+        if: ${{ github.ref == 'refs/heads/production' }}
+      - name: Deploy Serverless Application to ap-northeast-1
+        run: serverless deploy --stage $BRANCH --region ap-northeast-1
+        working-directory: applications/example
+        if: ${{ github.ref == 'refs/heads/production' }}
+      - name: Uninstall Global Packages
+        if: always()
+        run: npm uninstall -g yarn serverless
