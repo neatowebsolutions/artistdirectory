@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "neatowebsolutions-artistdirectory-infrastructure"
+    bucket = "artistdirectory-infrastructure"
     key    = "infrastructure.tfstate"
     region = "us-east-1"
   }
@@ -8,7 +8,7 @@ terraform {
 
 resource "aws_s3_bucket" "backups" {
   count         = terraform.workspace == "production" ? 1 : 0
-  bucket        = "neatowebsolutions-artistdirectory-backups"
+  bucket        = "artistdirectory-backups"
   acl           = "private"
   force_destroy = false
 
