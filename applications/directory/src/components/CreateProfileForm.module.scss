@@ -68,6 +68,13 @@
   }
 }
 
+.uploadArea {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 20px;
+}
+
 .caveat {
   opacity: 0.75;
   font-size: 14px;

@@ -9,6 +9,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
+import UploadThumbnail from './UploadThumbnail';
 import classes from './CreateProfileForm.module.scss';
 
 function CreateProfileForm() {
@@ -145,7 +146,7 @@ function CreateProfileForm() {
             </Button>
           </div>
         </div>
-        <div className={classes.uploadArea}>{/* THUMBNAILS */}</div>
+        <div className={classes.uploadArea}>{/* <UploadThumbnail /> */}</div>
         <div>
           <p className={classes.fieldTitle}>
             Short description of what you do.
