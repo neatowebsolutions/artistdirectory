@@ -23,7 +23,7 @@ custom:
     httpPort: ${env:LOGS_API_PORT, 4009}
     lambdaPort: 5005
   customDomain:
-    domainName: ${ssm:/artistdirectory/${self:provider.stage}/logs-api/regional-domain, ''}
+    domainName: ${ssm:/artistdirectory/${self:provider.stage}/logs-api/domain, ''}
     basePath: ''
     certificateName: ${ssm:/artistdirectory/${self:provider.stage}/certificate-name, ''}
     createRoute53Record: true
