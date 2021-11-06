@@ -6,10 +6,7 @@ const App = ({ Component, pageProps }) => {
     <>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
-        <link
-          rel="stylesheet"
-          href="https://use.typekit.net/rih6hbv.css"
-        ></link>
+        <link rel="stylesheet" href="https://use.typekit.net/rih6hbv.css" />
         <link rel="stylesheet" href="https://use.typekit.net/rih6hbv.css" />
       </Head>
       <Component {...pageProps} />

@@ -1,0 +1,15 @@
+.toolbar {
+  ul {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    li {
+      a {
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+    }
+  }
+}

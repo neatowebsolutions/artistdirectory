@@ -1,0 +1,51 @@
+.header {
+  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .siteBranding {
+    width: 25%;
+  }
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  nav {
+    width: 75%;
+    ul {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      li {
+        margin-right: 20px;
+        a {
+          text-transform: uppercase;
+          text-decoration: none;
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      img {
+        height: 50px;
+        width: 50px;
+        border-radius: 4px;
+        margin-right: 20px;
+      }
+    }
+    .profileSubmenu {
+      display: block;
+      margin-left: 70px;
+      li {
+        margin-right: 0;
+      }
+    }
+  }
+}
