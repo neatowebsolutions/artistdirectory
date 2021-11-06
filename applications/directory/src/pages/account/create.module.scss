@@ -1,0 +1,29 @@
+@import '../../theme/variables.scss';
+
+.tagline {
+  font-family: $font__main;
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 3.53px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.heading {
+  font-family: $font__secondary;
+  font-size: 3.75rem;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  margin-top: 1.5rem;
+}
+
+.removeNotice {
+  font-style: italic;
+}
+
+.emailLink {
+  color: $primary__color;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1.25px;
+}

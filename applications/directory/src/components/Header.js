@@ -12,7 +12,7 @@ function Header() {
             <a href="/">Home</a>
           </li>
           <li>
-            <a href="/">City Director</a>
+            <a href="/">City Directory</a>
           </li>
           <li>
             <button>Create Your Artist Profile</button>

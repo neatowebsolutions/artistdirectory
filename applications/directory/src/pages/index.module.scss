@@ -1,0 +1,19 @@
+@import '../theme/variables.scss';
+
+.heading {
+  font-family: $font__secondary;
+  font-size: 3.75rem;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+  margin: 1.5rem auto;
+  max-width: 720px;
+}
+
+.description {
+  font-size: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.search {
+  margin: 0 auto;
+}
