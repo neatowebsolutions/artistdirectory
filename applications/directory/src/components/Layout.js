@@ -5,7 +5,7 @@ import Toolbar from './Toolbar';
 import styles from './Layout.module.scss';
 
 const Intro = ({ children }) => (
-  <section className={styles.description}>{children}</section>
+  <section className={styles.intro}>{children}</section>
 );
 
 Intro.propTypes = {

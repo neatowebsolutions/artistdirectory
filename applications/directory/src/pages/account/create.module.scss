@@ -17,6 +17,18 @@
   margin-top: 1.5rem;
 }
 
+.introText1 {
+  max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.introText2 {
+  max-width: 814px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .removeNotice {
   font-style: italic;
 }
@@ -26,4 +38,9 @@
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 1.25px;
+}
+
+.formCard {
+  max-width: 782px;
+  margin: auto;
 }

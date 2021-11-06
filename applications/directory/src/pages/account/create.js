@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Layout } from '../../components';
+import { Layout, Card } from '../../components';
 import styles from './create.module.scss';
 
 const CreatePage = () => (
@@ -12,12 +12,12 @@ const CreatePage = () => (
         <div className={styles.tagline}>Create your artist profile</div>
         <div className={styles.heading}>Local Artist Network</div>
 
-        <p>
+        <p className={styles.introText1}>
           By submitting this form, you agree to have the following listed in the
           LAN: name, profession, website, Instagram, a thumbnail image of work,
           and a short description of your talents and services.
         </p>
-        <p>
+        <p className={styles.introText2}>
           We&apos;re building a directory of the artists (art, design, music,
           performance) in the greater Grand Rapids area, so that people can
           discover their work all in once place. Whether you&apos;re looking to
@@ -37,6 +37,7 @@ const CreatePage = () => (
           </a>
         </p>
       </Layout.Intro>
+      <Card className={styles.formCard}>Form here</Card>
     </Layout>
   </>
 );
