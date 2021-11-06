@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import { Layout, Card, Search } from '../components';
+import Card from '@mui/material/Card';
+import { Layout, Search } from '../components';
 import styles from './index.module.scss';
 
 const HomePage = () => (
@@ -17,7 +18,7 @@ const HomePage = () => (
           collaborate, this is the place to start.
         </p>
       </Layout.Intro>
-      <Card>
+      <Card elevation={6}>
         <Search />
       </Card>
     </Layout>

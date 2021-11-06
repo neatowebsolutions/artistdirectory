@@ -1,5 +1,6 @@
 import Head from 'next/head';
-import { Layout, Card } from '../../components';
+import Card from '@mui/material/Card';
+import { Layout } from '../../components';
 import styles from './create.module.scss';
 
 const CreatePage = () => (
@@ -37,7 +38,9 @@ const CreatePage = () => (
           </a>
         </p>
       </Layout.Intro>
-      <Card className={styles.formCard}>Form here</Card>
+      <Card className={styles.formCard} elevation={6}>
+        Form here
+      </Card>
     </Layout>
   </>
 );
