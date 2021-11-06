@@ -14,7 +14,11 @@
     "prestart": "yarn install && dotenv -- yarn bootstrap",
     "start": "dotenv -- lerna run start --parallel --scope={@artistdirectory/*,artistdirectory-directory,artistdirectory-logs-service,artistdirectory-directory-api,artistdirectory-directory-api-gateway}"
   },
-  "author": "Chad Johnson <chad@neatowebsolutions.com>",
+  "contributors": [
+    "riemersmajackie@gmail.com",
+    "hello@bethanypaquette.com",
+    "chad@neatowebsolutions.com"
+  ],
   "license": "UNLICENSED",
   "homepage": "https://github.com/neatowebsolutions/artistdirectory",
   "dependencies": {
