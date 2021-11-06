@@ -3,7 +3,9 @@ const mongodbClient = require('./mongodbClient');
 
 const modelCache = {};
 const modelPathsMap = {
-  Product: path.join(__dirname, './Product')
+  Artist: path.join(__dirname, './Artist'),
+  Product: path.join(__dirname, './Product'),
+  Tag: path.join(__dirname, './Tag')
 };
 
 const get = async (modelName) => {
