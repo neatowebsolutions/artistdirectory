@@ -16,8 +16,14 @@ const Search = () => {
   const [skills, setSkills] = useState('');
 
   return (
-    <div className={classes.search}>
-      <FormControl sx={{ m: 1, minWidth: 450 }}>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        flexDirection: ['column', 'column', 'row', 'row']
+      }}
+    >
+      <FormControl sx={{ mr: 1, flex: 2 }}>
         <TextField
           InputProps={{
             startAdornment: (
@@ -27,12 +33,12 @@ const Search = () => {
             )
           }}
           variant="outlined"
-        ></TextField>
+        />
         <InputLabel sx={{ marginLeft: 5 }}>
           Search for artists, writers, musicians, etc.
         </InputLabel>
       </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 200 }}>
+      <FormControl sx={{ mx: 1, flex: 1 }}>
         <InputLabel>Categories</InputLabel>
         <Select
           value={categories}
@@ -47,7 +53,7 @@ const Search = () => {
           <MenuItem></MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 200 }}>
+      <FormControl sx={{ mx: 1, flex: 1 }}>
         <InputLabel>Tags</InputLabel>
         <Select
           value={tags}
@@ -62,7 +68,7 @@ const Search = () => {
           <MenuItem></MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ m: 1, minWidth: 200 }}>
+      <FormControl sx={{ mx: 1, flex: 1 }}>
         <InputLabel>Hireable Skills</InputLabel>
         <Select
           value={skills}
@@ -79,8 +85,8 @@ const Search = () => {
       </FormControl>
       <Box
         sx={{
-          m: 1,
-          minWidth: 200,
+          ml: 1,
+          flex: 1,
           minHeight: 56,
           display: 'inline-flex',
           alignItems: 'center'
@@ -90,7 +96,7 @@ const Search = () => {
           Search
         </Button>
       </Box>
-    </div>
+    </Box>
   );
 };
 
