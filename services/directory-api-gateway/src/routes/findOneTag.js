@@ -33,7 +33,7 @@ const handler = middy(async (event, context) => {
     const { tagId } = event.pathParameters;
     const data = JSON.parse(event.body);
 
-    const tag = await httpClient.put(`/tags/${tagId}`, data);
+    const tag = await httpClient.get(`/tags/${tagId}`, data);
 
     return {
       statusCode: StatusCodes.OK,
