@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "neatowebsolutions-artistdirectory-infrastructure"
+    bucket = "artistdirectory-infrastructure"
     key    = "directory-api-gateway.tfstate"
     region = "us-east-1"
   }

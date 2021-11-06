@@ -14,7 +14,7 @@ data "aws_region" "current" {
 data "terraform_remote_state" "artistdirectory_infrastructure" {
   backend = "s3"
   config = {
-    bucket = "neatowebsolutions-artistdirectory-infrastructure"
+    bucket = "artistdirectory-infrastructure"
     key    = "env:/${terraform.workspace}/infrastructure.tfstate"
     region = "us-east-1"
   }

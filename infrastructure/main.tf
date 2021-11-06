@@ -1,14 +1,18 @@
 terraform {
   backend "s3" {
-    bucket = "neatowebsolutions-artistdirectory-infrastructure"
+    bucket = "artistdirectory-infrastructure"
     key    = "infrastructure.tfstate"
     region = "us-east-1"
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+}
+
 resource "aws_s3_bucket" "backups" {
   count         = terraform.workspace == "production" ? 1 : 0
-  bucket        = "neatowebsolutions-artistdirectory-backups"
+  bucket        = "artistdirectory-backups"
   acl           = "private"
   force_destroy = false
 
@@ -31,7 +35,6 @@ resource "aws_s3_bucket" "backups" {
 resource "aws_default_vpc" "default" {
   enable_dns_support   = true
   enable_dns_hostnames = true
-  provider             = aws.region
 }
 
 output "domain" {

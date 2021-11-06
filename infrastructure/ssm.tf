@@ -3,7 +3,6 @@ resource "aws_ssm_parameter" "certificate_name" {
   type      = "String"
   value     = var.base_domain
   overwrite = true
-  provider  = aws.region
 }
 
 resource "aws_ssm_parameter" "sandbox" {
@@ -11,7 +10,6 @@ resource "aws_ssm_parameter" "sandbox" {
   type      = "String"
   value     = var.sandbox
   overwrite = true
-  provider  = aws.region
 }
 
 resource "aws_ssm_parameter" "jwt_secret" {
@@ -19,7 +17,6 @@ resource "aws_ssm_parameter" "jwt_secret" {
   type      = "SecureString"
   value     = var.jwt_secret
   overwrite = true
-  provider  = aws.region
 }
 
 resource "aws_ssm_parameter" "assets_domain" {
@@ -27,7 +24,6 @@ resource "aws_ssm_parameter" "assets_domain" {
   type      = "String"
   value     = var.assets_domain
   overwrite = true
-  provider  = aws.region
 }
 
 resource "aws_ssm_parameter" "assets_url" {
@@ -35,5 +31,4 @@ resource "aws_ssm_parameter" "assets_url" {
   type      = "String"
   value     = "https://${var.assets_domain}"
   overwrite = true
-  provider  = aws.region
 }
