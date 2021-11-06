@@ -7,11 +7,12 @@ const {
 } = require('http-status-codes');
 const { aws4Interceptor } = require('aws4-axios');
 const HttpClient = require('@artistdirectory/http-client').default;
+const logger = require('@artistdirectory/logger');
 
-const { AWS_REGION, DIRECTORY_API_URL } = process.env;
+const { AWS_REGION, ARTISTS_API_URL } = process.env;
 
 const httpClient = new HttpClient({
-  baseUrl: DIRECTORY_API_URL
+  baseUrl: ARTISTS_API_URL
 });
 
 httpClient.addRequestInterceptor(
@@ -30,12 +31,28 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    const data = JSON.parse(event.body);
-    const product = await httpClient.post(`/products`, data);
+    const { userId } = event.requestContext.authorizer;
+    const { productId } = event.pathParameters;
+    const product = await httpClient.get(`/products/${productId}`);
+    const productUserId = product && product.user;
+
+    if (userId !== productUserId) {
+      await logger.warn(
+        `Unauthorized access attempt for product ${productId}`,
+        null,
+        { event }
+      );
+
+      return {
+        statusCode: StatusCodes.FORBIDDEN,
+        body: ReasonPhrases.FORBIDDEN
+      };
+    }
+
+    await httpClient.delete(`/products/${productId}`);
 
     return {
-      statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(product)
+      statusCode: StatusCodes.NO_CONTENT
     };
   } catch (error) {
     if (error.response && error.response.status) {

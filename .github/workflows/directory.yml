@@ -20,20 +20,20 @@ jobs:
       - name: Set Environment Variables
         run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: Inject "ASSETS_DOMAIN" SSM Parameter
-        uses: "marvinpinto/action-inject-ssm-secrets@latest"
+        uses: 'marvinpinto/action-inject-ssm-secrets@latest'
         with:
-          ssm_parameter: "/artistdirectory/${{ env.BRANCH }}/assets/domain"
-          env_variable_name: "ASSETS_DOMAIN"
+          ssm_parameter: '/artistdirectory/${{ env.BRANCH }}/assets/domain'
+          env_variable_name: 'ASSETS_DOMAIN'
       - name: Inject "ASSETS_URL" SSM Parameter
-        uses: "marvinpinto/action-inject-ssm-secrets@latest"
+        uses: 'marvinpinto/action-inject-ssm-secrets@latest'
         with:
-          ssm_parameter: "/artistdirectory/${{ env.BRANCH }}/assets/url"
-          env_variable_name: "ASSETS_URL"
-      - name: Inject "DIRECTORY_API_GATEWAY_URL" SSM Parameter
-        uses: "marvinpinto/action-inject-ssm-secrets@latest"
+          ssm_parameter: '/artistdirectory/${{ env.BRANCH }}/assets/url'
+          env_variable_name: 'ASSETS_URL'
+      - name: Inject "DIRECTORY_API_URL" SSM Parameter
+        uses: 'marvinpinto/action-inject-ssm-secrets@latest'
         with:
-          ssm_parameter: "/artistdirectory/${{ env.BRANCH }}/directory-api-gateway/url"
-          env_variable_name: "DIRECTORY_API_GATEWAY_URL"
+          ssm_parameter: '/artistdirectory/${{ env.BRANCH }}/directory-api/url'
+          env_variable_name: 'DIRECTORY_API_URL'
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install Node.js

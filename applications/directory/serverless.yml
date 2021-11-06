@@ -16,7 +16,7 @@ provider:
     shouldStartNameWithService: true
   environment:
     NODE_ENV: ${env:NODE_ENV, 'production'}
-    DIRECTORY_API_GATEWAY_URL: ${env:DIRECTORY_API_GATEWAY_URL, ssm:/artistdirectory/${self:provider.stage}/directory-api-gateway/url}
+    DIRECTORY_API_URL: ${env:DIRECTORY_API_URL, ssm:/artistdirectory/${self:provider.stage}/directory-api/url}
     ASSETS_URL: ${env:ASSETS_URL, ssm:/artistdirectory/${self:provider.stage}/assets/url}
     JWT_SECRET: ${env:JWT_SECRET, ssm:/artistdirectory/${self:provider.stage}/jwt-secret}
 

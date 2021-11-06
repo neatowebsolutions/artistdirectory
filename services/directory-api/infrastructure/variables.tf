@@ -1,3 +1,3 @@
-variable "mongodb_app_password" {
+variable "directory_api_domain" {
   type = string
 }

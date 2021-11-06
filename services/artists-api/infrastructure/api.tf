@@ -1,5 +1,5 @@
 locals {
-  domain = "directory-api.${data.terraform_remote_state.artistdirectory_infrastructure.outputs.domain}"
+  domain = "artists-api.${data.terraform_remote_state.artistdirectory_infrastructure.outputs.domain}"
 }
 
 resource "aws_ssm_parameter" "mongodb_directory_database_url" {
@@ -10,14 +10,14 @@ resource "aws_ssm_parameter" "mongodb_directory_database_url" {
 }
 
 resource "aws_ssm_parameter" "directory_api_domain" {
-  name      = "/artistdirectory/${terraform.workspace}/directory-api/domain"
+  name      = "/artistdirectory/${terraform.workspace}/artists-api/domain"
   type      = "String"
   value     = local.domain
   overwrite = true
 }
 
-resource "aws_ssm_parameter" "directory_api_url" {
-  name      = "/artistdirectory/${terraform.workspace}/directory-api/url"
+resource "aws_ssm_parameter" "artists_api_url" {
+  name      = "/artistdirectory/${terraform.workspace}/artists-api/url"
   type      = "String"
   value     = "https://${local.domain}"
   overwrite = true

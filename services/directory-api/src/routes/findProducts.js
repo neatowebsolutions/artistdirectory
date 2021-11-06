@@ -8,10 +8,10 @@ const {
 const { aws4Interceptor } = require('aws4-axios');
 const HttpClient = require('@artistdirectory/http-client').default;
 
-const { AWS_REGION, DIRECTORY_API_URL } = process.env;
+const { AWS_REGION, ARTISTS_API_URL } = process.env;
 
 const httpClient = new HttpClient({
-  baseUrl: DIRECTORY_API_URL
+  baseUrl: ARTISTS_API_URL
 });
 
 httpClient.addRequestInterceptor(
@@ -30,14 +30,11 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    const { artistId } = event.pathParameters;
-    const data = JSON.parse(event.body);
-
-    const artist = await httpClient.get(`/artists/${artistId}`, data);
+    const products = await httpClient.get('/products');
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify(artist)
+      body: JSON.stringify(products)
     };
   } catch (error) {
     if (error.response && error.response.status) {
