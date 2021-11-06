@@ -10,7 +10,7 @@ If you are struggling and need help setting anything up, please ask for help.
 
 ### Node.js
 
-The Node version is specified in the top-level `.node-version` file; please install and use this version on your system. We are currently using Node 12.x, so we cannot use features from higher versions. For example, optional chaining cannot be used in our Node code.
+The Node version is specified in the top-level `.node-version` file; please install and use this version on your system. We are currently using Node 14.x, so we cannot use features from higher versions. For example, optional chaining cannot be used in our Node code.
 
 [nvm](https://github.com/nvm-sh/nvm) and [avn](https://github.com/wbyoung/avn) are recommended for easily managing and using Node versions.
 
