@@ -13,7 +13,6 @@ resource "aws_iam_role" "services_consumer_role" {
       }
     ]
   })
-  provider = aws.region
 }
 
 resource "aws_iam_policy" "services_consumer_role_policy" {
@@ -37,13 +36,11 @@ resource "aws_iam_policy" "services_consumer_role_policy" {
       }
     ]
   })
-  provider = aws.region
 }
 
 resource "aws_iam_role_policy_attachment" "services_consumer_role_policy" {
   role       = aws_iam_role.services_consumer_role.name
   policy_arn = aws_iam_policy.services_consumer_role_policy.arn
-  provider   = aws.region
 }
 
 resource "aws_ssm_parameter" "services_consumer_role_arn" {
@@ -51,5 +48,4 @@ resource "aws_ssm_parameter" "services_consumer_role_arn" {
   type      = "String"
   value     = aws_iam_role.services_consumer_role.arn
   overwrite = true
-  provider  = aws.region
 }
