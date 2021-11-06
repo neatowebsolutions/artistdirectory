@@ -6,6 +6,10 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+}
+
 resource "aws_s3_bucket" "backups" {
   count         = terraform.workspace == "production" ? 1 : 0
   bucket        = "artistdirectory-backups"
