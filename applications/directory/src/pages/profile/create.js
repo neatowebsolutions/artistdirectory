@@ -39,7 +39,9 @@ const CreatePage = () => (
           </a>
         </p>
       </Layout.Intro>
-      <Card className={styles.formCard}>Form here</Card>
+      <Card className={styles.formCard}>
+        <CreateProfileForm />
+      </Card>
     </Layout>
   </>
 );
