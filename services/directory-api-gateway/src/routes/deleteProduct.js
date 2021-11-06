@@ -9,10 +9,10 @@ const { aws4Interceptor } = require('aws4-axios');
 const HttpClient = require('@artistdirectory/http-client').default;
 const logger = require('@artistdirectory/logger');
 
-const { AWS_REGION, DIRECTORY_API_GATEWAY_URL } = process.env;
+const { AWS_REGION, DIRECTORY_API_URL } = process.env;
 
 const httpClient = new HttpClient({
-  baseUrl: DIRECTORY_API_GATEWAY_URL
+  baseUrl: DIRECTORY_API_URL
 });
 
 httpClient.addRequestInterceptor(

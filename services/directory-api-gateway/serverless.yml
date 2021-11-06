@@ -15,7 +15,7 @@ provider:
   apiGateway:
     shouldStartNameWithService: true
   environment:
-    DIRECTORY_API_GATEWAY_URL: ${env:DIRECTORY_API_GATEWAY_URL, ssm:/artistdirectory/${self:provider.stage}/directory-api/url}
+    DIRECTORY_API_URL: ${env:DIRECTORY_API_URL, ssm:/artistdirectory/${self:provider.stage}/directory-api/url}
     JWT_SECRET: ${env:JWT_SECRET, ssm:/artistdirectory/${self:provider.stage}/jwt-secret}
     LOGS_API_URL: ${env:LOGS_API_URL, ssm:/artistdirectory/${self:provider.stage}/logs-api/url}
     LOG_QUEUE_URL: ${ssm:/artistdirectory/${self:provider.stage}/queues/log/url, ''}
