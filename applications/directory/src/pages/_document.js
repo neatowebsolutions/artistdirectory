@@ -4,7 +4,6 @@ import * as React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from '../theme/createEmotionCache';
-
 import theme from '../theme/material';
 
 export default class MyDocument extends Document {
@@ -13,7 +12,6 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="theme-color" content={theme.palette.primary.main} />
-          <meta name="viewport" content="initial-scale=1, width=device-width" />
           <link rel="stylesheet" href="https://use.typekit.net/rih6hbv.css" />
           <link
             rel="stylesheet"

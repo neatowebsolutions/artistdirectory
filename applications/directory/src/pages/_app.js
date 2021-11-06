@@ -14,6 +14,8 @@ const App = ({
   emotionCache = clientSideEmotionCache
 }) => (
   <CacheProvider value={emotionCache}>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Component {...pageProps} />
