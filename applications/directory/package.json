@@ -12,6 +12,7 @@
     "@artistdirectory/react-components": "0.0.0",
     "@artistdirectory/react-hooks": "0.0.0",
     "@emotion/react": "^11.5.0",
+    "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@middy/core": "^1.0.0",
     "@middy/http-cors": "^1.0.0",
