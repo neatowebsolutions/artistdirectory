@@ -1,3 +1,5 @@
+@import '../theme/variables.scss';
+
 .toolbar {
   ul {
     display: flex;
@@ -6,9 +8,11 @@
     padding: 0;
     list-style: none;
     li {
+      margin: 10px;
       a {
         text-transform: uppercase;
         text-decoration: none;
+        color: $primary__color;
       }
     }
   }

@@ -97,25 +97,14 @@ button {
   letter-spacing: 1.25px;
 }
 
-.btn__primary {
-  background-color: $primary__color;
-  color: #fff;
-  border-radius: $border-radius;
-  border: none;
-  padding: 6px 16px;
-}
-
-input {
-  margin: 0 0 3px;
-  padding: 10px 15px;
-  border: 1px solid $border__color;
-  border-radius: $border-radius;
-}
-
 p {
   font-size: 20px;
   line-height: 1.6;
   letter-spacing: 0.15px;
   margin-top: 2rem;
   margin-top: 2rem;
+}
+
+a {
+  font-weight: bold;
 }

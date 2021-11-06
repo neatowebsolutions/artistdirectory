@@ -1,3 +1,6 @@
+import Button from '@mui/material/Button';
+import ControlPointIcon from '@mui/icons-material/ControlPoint';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import classes from './Header.module.scss';
 
 function Header() {
@@ -9,20 +12,29 @@ function Header() {
       <nav>
         <ul>
           <li>
-            <a href="/">Home</a>
+            <a href="/" className={classes.active}>
+              Home
+            </a>
           </li>
           <li>
-            <a href="/">City Directory</a>
+            <a href="/city-directory">City Directory</a>
           </li>
           <li>
-            <button className="btn__primary">Create Your Artist Profile</button>
+            <Button
+              variant="contained"
+              startIcon={<ControlPointIcon />}
+              disableElevation
+            >
+              Create Your Artist Profile
+            </Button>
           </li>
           <li className={classes.profile}>
-            <a href="/my-profile">
+            <a href="/">
+              {' '}
               <img src="/images/placeholder.png" alt="placeholder" />
               Josephine Washington
+              <ArrowDropDownIcon />
             </a>
-
             <ul className={classes.profileSubmenu}>
               <li>
                 <a href="/my-account">My Account</a>
