@@ -97,6 +97,14 @@ button {
   letter-spacing: 1.25px;
 }
 
+.btn__primary {
+  background-color: $primary__color;
+  color: #fff;
+  border-radius: $border-radius;
+  border: none;
+  padding: 6px 16px;
+}
+
 input {
   margin: 0 0 3px;
   padding: 10px 15px;

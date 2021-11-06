@@ -1,3 +1,5 @@
+@import '../theme/variables.scss';
+
 .header {
   background-color: #fff;
   display: flex;
@@ -42,20 +44,27 @@
       }
     }
     .profile {
-      display: flex;
-      align-items: center;
-      img {
-        height: 50px;
-        width: 50px;
-        border-radius: 4px;
-        margin-right: 20px;
+      position: relative;
+      & a {
+        display: flex;
+        align-items: center;
+        img {
+          height: 50px;
+          width: 50px;
+          border-radius: $border-radius;
+          margin-right: 20px;
+        }
       }
-    }
-    .profileSubmenu {
-      display: block;
-      margin-left: 70px;
-      li {
-        margin-right: 0;
+      .profileSubmenu {
+        display: none;
+        position: absolute;
+        left: 70px;
+        li {
+          margin-right: 0;
+        }
+      }
+      &:hover .profileSubmenu {
+        display: block;
       }
     }
   }

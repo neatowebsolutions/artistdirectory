@@ -15,13 +15,14 @@ function Header() {
             <a href="/">City Directory</a>
           </li>
           <li>
-            <button>Create Your Artist Profile</button>
+            <button className="btn__primary">Create Your Artist Profile</button>
           </li>
-          <li>
-            <div className={classes.profile}>
+          <li className={classes.profile}>
+            <a href="/my-profile">
               <img src="/images/placeholder.png" alt="placeholder" />
-              <a href="/my-profile">Josephine Washington</a>
-            </div>
+              Josephine Washington
+            </a>
+
             <ul className={classes.profileSubmenu}>
               <li>
                 <a href="/my-account">My Account</a>
