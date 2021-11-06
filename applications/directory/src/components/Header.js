@@ -4,7 +4,7 @@ function Header() {
   return (
     <header className={classes.header}>
       <div className={classes.siteBranding}>
-        <img src="/images/img-logo.png" alt="Avenue For The Arts Logo" />
+        <img src="/images/img-logo.svg" alt="Avenue For The Arts" />
       </div>
       <nav>
         <ul>
