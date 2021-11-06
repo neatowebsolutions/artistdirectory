@@ -1,6 +1,5 @@
 resource "aws_sqs_queue" "log" {
-  name     = "log-queue-${terraform.workspace}"
-  provider = aws.region
+  name = "log-queue-${terraform.workspace}"
 }
 
 resource "aws_sqs_queue_policy" "log_policy" {
@@ -16,7 +15,6 @@ resource "aws_sqs_queue_policy" "log_policy" {
       }
     ]
   })
-  provider = aws.region
 }
 
 resource "aws_ssm_parameter" "log_queue_arn" {
@@ -24,7 +22,6 @@ resource "aws_ssm_parameter" "log_queue_arn" {
   type      = "String"
   value     = aws_sqs_queue.log.arn
   overwrite = true
-  provider  = aws.region
 }
 
 resource "aws_ssm_parameter" "log_queue_url" {
@@ -32,5 +29,4 @@ resource "aws_ssm_parameter" "log_queue_url" {
   type      = "String"
   value     = aws_sqs_queue.log.id
   overwrite = true
-  provider  = aws.region
 }
