@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 /* Reference: https://gist.github.com/hsleonis/55712b0eafc9b25f1944 */
 * {
   font-size: 100%;
@@ -16,14 +18,6 @@ body,
 #__next {
   height: 100%;
 }
-// Fonts
-$font__main: 'gira-sans', sans-serif;
-$font__secondary: 'brandon-grotesque', sans-serif;
-// Colors
-$text__main: rgba(0, 0, 0, 0.87);
-$border__color: rgba(0, 0, 0, 0.38);
-// Other
-$border-radius: 4px;
 
 body {
   font-family: $font__main;
