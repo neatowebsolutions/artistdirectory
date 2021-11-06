@@ -11,13 +11,8 @@
   "dependencies": {
     "@artistdirectory/react-components": "0.0.0",
     "@artistdirectory/react-hooks": "0.0.0",
-    "@material-ui/core": "^4.11.3",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^4.0.0-alpha.57",
     "@middy/core": "^1.0.0",
     "@middy/http-cors": "^1.0.0",
-    "clsx": "^1.1.1",
-    "codemirror": "^5.60.0",
     "compression-webpack-plugin": "^9.0.0",
     "dotenv": "^8.2.0",
     "dotenv-expand": "^5.1.0",
@@ -33,7 +28,6 @@
     "react-dom": "^17.0.2",
     "sass": "^1.43.4",
     "serverless-http": "^2.7.0",
-    "styled-components": "^5.2.1",
     "swr": "^0.5.6",
     "universal-cookie": "^4.0.4"
   },
