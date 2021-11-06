@@ -53,6 +53,49 @@ custom:
         - schedule: rate(5 minutes)
 
 functions:
+  health:
+    memorySize: 128
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/health.handler
+    events:
+      - http:
+          path: /health
+          method: get
+    warmup:
+      default:
+        enabled: false
+  createArtist:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/createArtist.handler
+    events:
+      - http:
+          path: /artists
+          method: post
+          authorizer: aws_iam
+  findOneArtist:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findOneArtist.handler
+    events:
+      - http:
+          path: /artists/{artistId}
+          method: get
+          authorizer: aws_iam
+  findArtists:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findArtists.handler
+    events:
+      - http:
+          path: /artists
+          method: get
+          authorizer: aws_iam
+  updateArtist:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/updateArtist.handler
+    events:
+      - http:
+          path: /artists/{artistId}
+          method: put
+          authorizer: aws_iam
   createProduct:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/createProduct.handler
@@ -69,6 +112,14 @@ functions:
           path: /products/{productId}
           method: delete
           authorizer: aws_iam
+  findOneProduct:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findOneProduct.handler
+    events:
+      - http:
+          path: /products/{productId}
+          method: get
+          authorizer: aws_iam
   findProducts:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findProducts.handler
@@ -77,17 +128,6 @@ functions:
           path: /products
           method: get
           authorizer: aws_iam
-  health:
-    memorySize: 128
-    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/health.handler
-    events:
-      - http:
-          path: /health
-          method: get
-    warmup:
-      default:
-        enabled: false
   updateProduct:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/updateProduct.handler
@@ -95,6 +135,30 @@ functions:
       - http:
           path: /products/{productId}
           method: put
+          authorizer: aws_iam
+  createTag:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/createTag.handler
+    events:
+      - http:
+          path: /tags
+          method: post
+          authorizer: aws_iam
+  findOneTag:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findOneTag.handler
+    events:
+      - http:
+          path: /tags/{tagId}
+          method: get
+          authorizer: aws_iam
+  findTags:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findTags.handler
+    events:
+      - http:
+          path: /tags
+          method: get
           authorizer: aws_iam
 
 plugins:

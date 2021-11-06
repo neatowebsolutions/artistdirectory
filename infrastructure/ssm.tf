@@ -1,7 +1,7 @@
 resource "aws_ssm_parameter" "certificate_name" {
   name      = "/artistdirectory/${terraform.workspace}/certificate-name"
   type      = "String"
-  value     = "domain.com"
+  value     = var.base_domain
   overwrite = true
   provider  = aws.region
 }

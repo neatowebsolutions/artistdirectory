@@ -30,12 +30,14 @@ const handler = middy(async (event, context) => {
   }
 
   try {
+    const { tagId } = event.pathParameters;
     const data = JSON.parse(event.body);
-    const product = await httpClient.post(`/products`, data);
+
+    const tag = await httpClient.get(`/tags/${tagId}`, data);
 
     return {
-      statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(product)
+      statusCode: StatusCodes.OK,
+      body: JSON.stringify(tag)
     };
   } catch (error) {
     if (error.response && error.response.status) {
