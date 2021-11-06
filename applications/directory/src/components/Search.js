@@ -34,7 +34,7 @@ const Search = () => {
           }}
           variant="outlined"
         />
-        <InputLabel sx={{ marginLeft: 5 }}>
+        <InputLabel sx={{ marginLeft: 4 }}>
           Search for artists, writers, musicians, etc.
         </InputLabel>
       </FormControl>
