@@ -33,7 +33,7 @@ const handler = middy(async (event, context) => {
     const { productId } = event.pathParameters;
     const data = JSON.parse(event.body);
 
-    const updatedProduct = await httpClient.put(`/product/${productId}`, data);
+    const updatedProduct = await httpClient.put(`/products/${productId}`, data);
 
     return {
       statusCode: StatusCodes.OK,

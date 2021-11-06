@@ -31,11 +31,11 @@ const handler = middy(async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    const product = await httpClient.post(`/products`, data);
+    const artist = await httpClient.post(`/artists`, data);
 
     return {
       statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(product)
+      body: JSON.stringify(artist)
     };
   } catch (error) {
     if (error.response && error.response.status) {
