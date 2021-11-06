@@ -1,0 +1,102 @@
+@import '../theme/variables.scss';
+
+.formTitle {
+  font-family: $font__secondary;
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0.18px;
+}
+
+.fieldTitle {
+  font-family: $font__secondary;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 0.15px;
+}
+
+.required {
+  color: $primary__color;
+}
+.urls {
+  display: flex;
+  margin-bottom: 25px;
+}
+.other {
+  display: flex;
+  margin: 15px 0 0 0;
+}
+.question {
+  font-family: $font__secondary;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 0.15px;
+}
+
+.dropUpload {
+  width: 100%;
+  border: dashed 2px $primary__color;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: $border-radius;
+  .browse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    p {
+      font-size: 20px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      margin: 10px 15px 10px 0;
+    }
+  }
+}
+
+.caveat {
+  opacity: 0.75;
+  font-size: 14px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 1.33;
+  letter-spacing: 1px;
+  font-family: $text__main;
+  margin-left: 15px;
+}
+
+.example {
+  font-size: 12px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 1.33;
+  letter-spacing: 0.4px;
+  margin-top: 0;
+}
+
+.newsletter {
+  display: flex;
+  .image img {
+    margin-top: 2rem;
+    margin-right: 2rem;
+  }
+  .field {
+    width: 75%;
+  }
+}
