@@ -1,4 +1,4 @@
-name: upselling-email-service
+name: artistdirectory-email-service
 on:
   push:
     branches:
