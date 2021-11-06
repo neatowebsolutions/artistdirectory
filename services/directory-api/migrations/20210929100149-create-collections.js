@@ -2,9 +2,11 @@ const models = require('../src/models');
 
 module.exports = {
   async up() {
-    const Product = await models.get('Product');
+    const Artist = await models.get('Artist');
+    const Tag = await models.get('Tag');
 
-    await Product.createCollection();
+    await Artist.createCollection();
+    await Tag.createCollection();
   },
 
   async down() {
