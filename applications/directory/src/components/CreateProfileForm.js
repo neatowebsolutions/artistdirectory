@@ -12,6 +12,22 @@ import Radio from '@mui/material/Radio';
 import UploadThumbnail from './UploadThumbnail';
 import classes from './CreateProfileForm.module.scss';
 
+const topArtistServices = [
+  { title: 'Painting' },
+  { title: 'Drawing' },
+  { title: 'Ceramics' },
+  { title: 'Musician' },
+  { title: 'Muralist' },
+  { title: 'Drag Queen' },
+  { title: 'Theatre Artist' }
+];
+
+const topArtistMarketableServices = [
+  { title: 'D.J.' },
+  { title: 'Wedding Photographer' },
+  { title: 'Logo Creation' }
+];
+
 function CreateProfileForm() {
   return (
     <form>
@@ -270,19 +286,4 @@ function CreateProfileForm() {
   );
 }
 
-const topArtistServices = [
-  { title: 'Painting' },
-  { title: 'Drawing' },
-  { title: 'Ceramics' },
-  { title: 'Musician' },
-  { title: 'Muralist' },
-  { title: 'Drag Queen' },
-  { title: 'Theatre Artist' }
-];
-
-const topArtistMarketableServices = [
-  { title: 'D.J.' },
-  { title: 'Wedding Photographer' },
-  { title: 'Logo Creation' }
-];
 export default CreateProfileForm;
