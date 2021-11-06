@@ -4,7 +4,6 @@ const mongodbClient = require('./mongodbClient');
 const modelCache = {};
 const modelPathsMap = {
   Artist: path.join(__dirname, './Artist'),
-  Product: path.join(__dirname, './Product'),
   Tag: path.join(__dirname, './Tag')
 };
 
