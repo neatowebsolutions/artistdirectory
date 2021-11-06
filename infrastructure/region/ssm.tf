@@ -1,5 +1,5 @@
 resource "aws_ssm_parameter" "certificate_name" {
-  name      = "/template/${terraform.workspace}/certificate-name"
+  name      = "/artistdirectory/${terraform.workspace}/certificate-name"
   type      = "String"
   value     = "domain.com"
   overwrite = true
@@ -7,7 +7,7 @@ resource "aws_ssm_parameter" "certificate_name" {
 }
 
 resource "aws_ssm_parameter" "sandbox" {
-  name      = "/template/${terraform.workspace}/sandbox"
+  name      = "/artistdirectory/${terraform.workspace}/sandbox"
   type      = "String"
   value     = var.sandbox
   overwrite = true
@@ -15,7 +15,7 @@ resource "aws_ssm_parameter" "sandbox" {
 }
 
 resource "aws_ssm_parameter" "jwt_secret" {
-  name      = "/template/${terraform.workspace}/jwt-secret"
+  name      = "/artistdirectory/${terraform.workspace}/jwt-secret"
   type      = "SecureString"
   value     = var.jwt_secret
   overwrite = true
@@ -23,7 +23,7 @@ resource "aws_ssm_parameter" "jwt_secret" {
 }
 
 resource "aws_ssm_parameter" "assets_domain" {
-  name      = "/template/${terraform.workspace}/assets/domain"
+  name      = "/artistdirectory/${terraform.workspace}/assets/domain"
   type      = "String"
   value     = var.assets_domain
   overwrite = true
@@ -31,7 +31,7 @@ resource "aws_ssm_parameter" "assets_domain" {
 }
 
 resource "aws_ssm_parameter" "assets_url" {
-  name      = "/template/${terraform.workspace}/assets/url"
+  name      = "/artistdirectory/${terraform.workspace}/assets/url"
   type      = "String"
   value     = "https://${var.assets_domain}"
   overwrite = true

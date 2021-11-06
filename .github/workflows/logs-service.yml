@@ -1,4 +1,4 @@
-name: template-logs-service
+name: artistdirectory-logs-service
 on:
   push:
     branches:
@@ -21,7 +21,7 @@ jobs:
       - name: Inject "MONGODB_URL_LOGS" SSM Parameter
         uses: "marvinpinto/action-inject-ssm-secrets@latest"
         with:
-          ssm_parameter: "/template/${{ env.BRANCH }}/database/mongodb-logs/url"
+          ssm_parameter: "/artistdirectory/${{ env.BRANCH }}/database/mongodb-logs/url"
           env_variable_name: "MONGODB_URL_LOGS"
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,7 +42,7 @@ jobs:
       - name: Install Node Modules
         run: yarn install
       - name: Build Packages
-        run: lerna bootstrap --force-local && NODE_ENV=production lerna run build --stream --scope=@template/*
+        run: lerna bootstrap --force-local && NODE_ENV=production lerna run build --stream --scope=@artistdirectory/*
       - name: Run Data Migrations
         run: yarn migrate
         working-directory: services/logs

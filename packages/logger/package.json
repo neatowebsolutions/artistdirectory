@@ -1,17 +1,17 @@
 {
-  "name": "@template/logger",
+  "name": "@artistdirectory/logger",
   "version": "0.0.0",
   "description": "Logger service.",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neatowebsolutions/template.git"
+    "url": "git+https://github.com/neatowebsolutions/artistdirectory.git"
   },
   "author": "Chad Johnson <chad@neatowebsolutions.com>",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/neatowebsolutions/template/tree/master/packages/logger",
+  "homepage": "https://github.com/neatowebsolutions/artistdirectory/tree/master/packages/logger",
   "dependencies": {
-    "@template/http-client": "0.0.0",
+    "@artistdirectory/http-client": "0.0.0",
     "aws-sdk": "^2.984.0",
     "aws4-axios": "^2.2.0",
     "axios": "^0.21.1"

@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import PropTypes from 'prop-types';
-import HttpClient from '@template/http-client';
+import HttpClient from '@artistdirectory/http-client';
 
 const HttpClientContext = createContext(null);
 

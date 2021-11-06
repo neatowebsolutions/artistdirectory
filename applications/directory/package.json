@@ -1,0 +1,53 @@
+{
+  "name": "artistdirectory-directory",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neatowebsolutions/artistdirectory.git"
+  },
+  "homepage": "https://github.com/neatowebsolutions/artistdirectory/tree/master/applications/directory#readme",
+  "author": "Chad Johnson <chad@neatowebsolutions.com>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.57",
+    "@middy/core": "^1.0.0",
+    "@middy/http-cors": "^1.0.0",
+    "@artistdirectory/react-components": "0.0.0",
+    "@artistdirectory/react-hooks": "0.0.0",
+    "clsx": "^1.1.1",
+    "codemirror": "^5.60.0",
+    "compression-webpack-plugin": "^9.0.0",
+    "dotenv": "^8.2.0",
+    "dotenv-expand": "^5.1.0",
+    "eslint-webpack-plugin": "^2.5.3",
+    "getenv": "^1.0.0",
+    "http-status-codes": "^2.1.4",
+    "koa": "^2.13.1",
+    "luxon": "^1.27.0",
+    "next": "^11.1.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-codemirror2": "^7.2.1",
+    "react-dom": "^17.0.2",
+    "serverless-http": "^2.7.0",
+    "styled-components": "^5.2.1",
+    "swr": "^0.5.6",
+    "universal-cookie": "^4.0.4"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-imports": "^2.0.0",
+    "nodemon": "^2.0.7",
+    "serverless": "^2.43.1",
+    "serverless-domain-manager": "git+https://github.com/neatowebsolutions/serverless-domain-manager.git#166aff6a8bcb09047e344e1fd6d67638bbfaeaed",
+    "serverless-plugin-monorepo": "^0.10.0",
+    "serverless-plugin-warmup": "^5.3.1"
+  },
+  "scripts": {
+    "build": "next build",
+    "format": "find src -type f -iname '*.js' -exec eslint --fix {} +",
+    "lint": "eslint 'src/**/*.js'",
+    "start": "nodemon -e js --exec \"node src/routes/server\" --watch src/routes"
+  }
+}

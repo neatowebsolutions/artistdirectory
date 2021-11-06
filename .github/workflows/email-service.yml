@@ -37,7 +37,7 @@ jobs:
       - name: Install Node Modules
         run: yarn install
       - name: Build Packages
-        run: lerna bootstrap --force-local && NODE_ENV=production lerna run build --stream --scope=@template/*
+        run: lerna bootstrap --force-local && NODE_ENV=production lerna run build --stream --scope=@artistdirectory/*
       - name: Deploy Serverless Application to us-east-1
         run: serverless deploy --stage $BRANCH --region us-east-1
         working-directory: services/email

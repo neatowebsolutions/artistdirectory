@@ -10,13 +10,13 @@
     "lint": "lerna run lint",
     "format": "lerna run format",
     "bootstrap": "dotenv -- lerna bootstrap --force-local",
-    "postbootstrap": "dotenv -- lerna run build --stream --scope=@template/*",
+    "postbootstrap": "dotenv -- lerna run build --stream --scope=@artistdirectory/*",
     "prestart": "yarn install && dotenv -- yarn bootstrap",
-    "start": "dotenv -- lerna run start --parallel --scope={@template/*,template-example,template-logs-service,template-example-api,template-example-api-gateway}"
+    "start": "dotenv -- lerna run start --parallel --scope={@artistdirectory/*,artistdirectory-directory,artistdirectory-logs-service,artistdirectory-directory-api,artistdirectory-directory-api-gateway}"
   },
   "author": "Chad Johnson <chad@neatowebsolutions.com>",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/neatowebsolutions/template",
+  "homepage": "https://github.com/neatowebsolutions/artistdirectory",
   "dependencies": {
     "prop-types": "^15.7.2",
     "react": "^17.0.2",

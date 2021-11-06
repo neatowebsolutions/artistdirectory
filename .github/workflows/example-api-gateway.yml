@@ -1,12 +1,12 @@
-name: template-example-api-gateway
+name: artistdirectory-directory-api-gateway
 on:
   push:
     branches:
       - test
       - production
     paths:
-      - .github/workflows/example-api-gateway.yml
-      - services/example-api-gateway/**
+      - .github/workflows/directory-api-gateway.yml
+      - services/directory-api-gateway/**
       - packages/logger/**
 jobs:
   deploy:
@@ -30,23 +30,23 @@ jobs:
         run: npm install -g yarn serverless
       - name: Run Terraform
         run: ./run.sh
-        working-directory: services/example-api-gateway/infrastructure
+        working-directory: services/directory-api-gateway/infrastructure
         env:
           STAGE: ${{ env.BRANCH }}
       - name: Install Node Modules
         run: yarn install
       - name: Build Packages
-        run: lerna bootstrap --force-local && NODE_ENV=production lerna run build --stream --scope=@template/*
+        run: lerna bootstrap --force-local && NODE_ENV=production lerna run build --stream --scope=@artistdirectory/*
       - name: Deploy Serverless Application to us-east-1
         run: serverless deploy --stage $BRANCH --region us-east-1
-        working-directory: services/example-api-gateway
+        working-directory: services/directory-api-gateway
       - name: Deploy Serverless Application to eu-west-1
         run: serverless deploy --stage $BRANCH --region eu-west-1
-        working-directory: services/example-api-gateway
+        working-directory: services/directory-api-gateway
         if: ${{ github.ref == 'refs/heads/production' }}
       - name: Deploy Serverless Application to ap-northeast-1
         run: serverless deploy --stage $BRANCH --region ap-northeast-1
-        working-directory: services/example-api-gateway
+        working-directory: services/directory-api-gateway
         if: ${{ github.ref == 'refs/heads/production' }}
       - name: Uninstall Global Packages
         if: always()

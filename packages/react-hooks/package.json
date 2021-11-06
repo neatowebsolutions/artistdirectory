@@ -1,17 +1,17 @@
 {
-  "name": "@template/react-hooks",
+  "name": "@artistdirectory/react-hooks",
   "version": "0.0.0",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neatowebsolutions/template.git"
+    "url": "git+https://github.com/neatowebsolutions/artistdirectory.git"
   },
-  "homepage": "https://github.com/neatowebsolutions/template/tree/master/packages/react-hooks",
+  "homepage": "https://github.com/neatowebsolutions/artistdirectory/tree/master/packages/react-hooks",
   "license": "UNLICENSED",
   "author": "Chad Johnson <chad@neatowebsolutions.com>",
   "contributors": [],
   "dependencies": {
-    "@template/http-client": "0.0.0",
+    "@artistdirectory/http-client": "0.0.0",
     "axios": "^0.21.1",
     "luxon": "^1.27.0",
     "querystringify": "^2.2.0",

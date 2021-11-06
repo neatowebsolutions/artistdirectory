@@ -1,8 +1,8 @@
-# Template App
+# Artist Directory
 
 ## Overview
 
-This monorepo is a collection of applications, services, packages, and infrastructure as code comprising the entirety of a template app.
+This monorepo is a collection of applications, services, packages, and infrastructure as code comprising the entirety of an artist directory app.
 
 ## Dependencies
 
@@ -104,8 +104,8 @@ Code consistency is important. In order to maintain consistency, convention chan
                "Effect": "Allow",
                "Action": "s3:*",
                "Resource": [
-                  "arn:aws:s3:::neatowebsolutions-template-backups",
-                  "arn:aws:s3:::neatowebsolutions-template-backups/*"
+                  "arn:aws:s3:::neatowebsolutions-artistdirectory-backups",
+                  "arn:aws:s3:::neatowebsolutions-artistdirectory-backups/*"
                ]
          }
       ]
@@ -113,7 +113,7 @@ Code consistency is important. In order to maintain consistency, convention chan
    ```
 1. Set the following in `infrastructure/config/[environment].tfvars`, and commit these changes:
    1. `hosted_zone_id` (get this from Route 53 for the domain)
-1. Configure the following secrets [here](https://github.com/neatowebsolutions/template-app/settings/secrets/actions) in GitHub:
+1. Configure the following secrets [here](https://github.com/neatowebsolutions/artistdirectory/settings/secrets/actions) in GitHub:
    1. `MONGODB_APP_PASSWORD` (the app account MongoDB password)
 
 ### Triggering
@@ -129,10 +129,10 @@ Initial deployments should occur in the following order:
 
 1. `infrastructure`
 1. `services/logs`
-1. `services/example-api`
+1. `services/directory-api`
 1. `services/email`
-1. `services/example-api-gateway`
-1. `applications/example`
+1. `services/directory-api-gateway`
+1. `applications/directory`
 
 ## Infrastructure
 

@@ -20,17 +20,17 @@ resource "aws_sqs_queue_policy" "log_policy" {
 }
 
 resource "aws_ssm_parameter" "log_queue_arn" {
-  name     = "/template/${terraform.workspace}/queues/log/arn"
-  type     = "String"
-  value    = aws_sqs_queue.log.arn
+  name      = "/artistdirectory/${terraform.workspace}/queues/log/arn"
+  type      = "String"
+  value     = aws_sqs_queue.log.arn
   overwrite = true
-  provider = aws.region
+  provider  = aws.region
 }
 
 resource "aws_ssm_parameter" "log_queue_url" {
-  name     = "/template/${terraform.workspace}/queues/log/url"
-  type     = "String"
-  value    = aws_sqs_queue.log.id
+  name      = "/artistdirectory/${terraform.workspace}/queues/log/url"
+  type      = "String"
+  value     = aws_sqs_queue.log.id
   overwrite = true
-  provider = aws.region
+  provider  = aws.region
 }

@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const HttpClient = require('@template/http-client').default;
+const HttpClient = require('@artistdirectory/http-client').default;
 
 // TODO: Use bunyan? Use winston?
 

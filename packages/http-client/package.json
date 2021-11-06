@@ -1,12 +1,12 @@
 {
-  "name": "@template/http-client",
+  "name": "@artistdirectory/http-client",
   "version": "0.0.0",
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/neatowebsolutions/template-app.git"
+    "url": "git+https://github.com/neatowebsolutions/artistdirectory.git"
   },
-  "homepage": "https://github.com/neatowebsolutions/template-app/tree/master/packages/http-client",
+  "homepage": "https://github.com/neatowebsolutions/artistdirectory/tree/master/packages/http-client",
   "license": "UNLICENSED",
   "author": "Chad Johnson <chad@neatowebsolutions.com>",
   "dependencies": {},

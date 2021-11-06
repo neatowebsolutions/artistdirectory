@@ -1,4 +1,4 @@
-service: template-logs-service
+service: artistdirectory-logs-service
 variablesResolutionMode: 20210326
 useDotenv: true
 
@@ -16,16 +16,16 @@ provider:
     shouldStartNameWithService: true
   environment:
     NODE_ENV: ${env:NODE_ENV, 'production'}
-    MONGODB_URL_LOGS: ${env:MONGODB_URL_LOGS, ssm:/template/${self:provider.stage}/database/mongodb-logs/url}
+    MONGODB_URL_LOGS: ${env:MONGODB_URL_LOGS, ssm:/artistdirectory/${self:provider.stage}/database/mongodb-logs/url}
 
 custom:
   serverless-offline:
     httpPort: ${env:LOGS_API_PORT, 4009}
     lambdaPort: 5005
   customDomain:
-    domainName: ${ssm:/template/${self:provider.stage}/logs-api/regional-domain, ''}
+    domainName: ${ssm:/artistdirectory/${self:provider.stage}/logs-api/regional-domain, ''}
     basePath: ''
-    certificateName: ${ssm:/template/${self:provider.stage}/certificate-name, ''}
+    certificateName: ${ssm:/artistdirectory/${self:provider.stage}/certificate-name, ''}
     createRoute53Record: true
     endpointType: regional
     securityPolicy: tls_1_2
@@ -63,7 +63,7 @@ functions:
     handler: src/workers/log.handler
     events:
       - sqs:
-          arn: ${ssm:/template/${self:provider.stage}/queues/log/arn, 'arn:aws:sqs:${self:provider.region}:000000000000:log-queue-dev'}
+          arn: ${ssm:/artistdirectory/${self:provider.stage}/queues/log/arn, 'arn:aws:sqs:${self:provider.region}:000000000000:log-queue-dev'}
           batchSize: 10
           maximumBatchingWindow: 10
     warmup:

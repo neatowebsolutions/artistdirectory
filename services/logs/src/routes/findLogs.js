@@ -1,5 +1,5 @@
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
-const logger = require('@template/logger');
+const logger = require('@artistdirectory/logger');
 const models = require('../models');
 
 const handler = async (event, context) => {
