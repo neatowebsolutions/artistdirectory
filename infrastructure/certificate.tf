@@ -3,9 +3,7 @@ resource "aws_acm_certificate" "domain" {
   validation_method = "DNS"
   subject_alternative_names = [
     "*.${var.base_domain}",
-    "*.${data.aws_region.current.name}.${var.base_domain}",
-    "*.test.${var.base_domain}",
-    "*.${data.aws_region.current.name}.test.${var.base_domain}"
+    "*.test.${var.base_domain}"
   ]
 }
 
