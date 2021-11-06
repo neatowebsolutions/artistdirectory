@@ -72,9 +72,9 @@ functions:
           path: /artists
           method: post
           authorizer: aws_iam
-  getArtist:
+  findOneArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/getArtist.handler
+    handler: src/routes/findOneArtist.handler
     events:
       - http:
           path: /artists/{artistId}
@@ -112,9 +112,9 @@ functions:
           path: /products/{productId}
           method: delete
           authorizer: aws_iam
-  getProduct:
+  findOneProduct:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/getProduct.handler
+    handler: src/routes/findOneProduct.handler
     events:
       - http:
           path: /products/{productId}
@@ -144,9 +144,9 @@ functions:
           path: /tags
           method: post
           authorizer: aws_iam
-  getTag:
+  findOneTag:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/createTag.handler
+    handler: src/routes/findOneTag.handler
     events:
       - http:
           path: /tags/{tagId}
