@@ -1,4 +1,4 @@
-hosted_zone_id = ""
+hosted_zone_id = "Z01700632XJRQMTZEZO7W"
 base_domain    = "artistdirectory.co"
 domain         = "test.artistdirectory.co"
 sandbox        = "true"
