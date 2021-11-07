@@ -160,6 +160,19 @@ functions:
           #   type: request
           #   identitySource: method.request.header.Authorization
           #   resultTtlInSeconds: 0
+  findCategories:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findCategories.handler
+    events:
+      - http:
+          path: /categories
+          method: get
+          cors: true
+          # authorizer:
+          #   name: authorizer
+          #   type: request
+          #   identitySource: method.request.header.Authorization
+          #   resultTtlInSeconds: 0
   updateProduct:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/updateProduct.handler

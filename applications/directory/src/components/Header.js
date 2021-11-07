@@ -22,7 +22,7 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link href="/artist-directory">
+            <Link href="/artists">
               <a>Artist Directory</a>
             </Link>
           </li>
