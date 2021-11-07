@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const mongodbClient = require('../mongodbClient');
-const exampleMethod = require('./exampleMethod');
 
 let Artist = null;
 
@@ -13,10 +12,6 @@ const schema = new mongoose.Schema(
   },
   schemaOptions
 );
-
-schema.methods.exampleMethod = function () {
-  return exampleMethod(this);
-};
 
 Artist = mongodbClient.connection.model('Artist', schema);
 
