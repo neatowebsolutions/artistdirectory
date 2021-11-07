@@ -22,7 +22,7 @@ data "terraform_remote_state" "artistdirectory_infrastructure" {
 resource "aws_ssm_parameter" "shopify_admin_app_root_domain" {
   name      = "/artistdirectory/${terraform.workspace}/directory-app/gateway-domain"
   type      = "String"
-  value     = directory_gateway_app_domain
+  value     = var.directory_gateway_app_domain
   overwrite = true
 }
 
