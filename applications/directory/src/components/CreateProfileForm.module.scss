@@ -65,3 +65,16 @@
     width: 75%;
   }
 }
+
+.formCard {
+  max-width: 782px;
+  margin: auto;
+}
+
+.formActions {
+  max-width: 782px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}

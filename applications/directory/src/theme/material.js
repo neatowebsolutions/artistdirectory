@@ -16,11 +16,6 @@ const theme = responsiveFontSizes(
       }
     },
     components: {
-      MuiCard: {
-        defaultProps: {
-          elevation: 6
-        }
-      },
       MuiPaper: {
         styleOverrides: {
           root: {
@@ -28,6 +23,19 @@ const theme = responsiveFontSizes(
             paddingBottom: 8 * 3,
             paddingLeft: 8 * 3,
             paddingRight: 8 * 3
+          }
+        }
+      },
+      MuiButton: {
+        defaultProps: {
+          disableElevation: true
+        },
+        styleOverrides: {
+          root: {
+            fontWeight: 'bold',
+            letterSpacing: '1.25px',
+            paddingLeft: '1.25rem',
+            paddingRight: '1.25rem'
           }
         }
       }

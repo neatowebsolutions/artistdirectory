@@ -1,0 +1,164 @@
+service: artistdirectory-artists-api
+variablesResolutionMode: 20210326
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 2048
+  timeout: 10
+  endpointType: REGIONAL
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  versionFunctions: false
+  logRetentionInDays: 14
+  apiGateway:
+    shouldStartNameWithService: true
+    resourcePolicy: # https://www.serverless.com/framework/docs/deprecations/#AWS_API_GATEWAY_SPECIFIC_KEYS
+      - Effect: Allow
+        Principal:
+          AWS: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+        Action: execute-api:Invoke
+        Resource: '*'
+      - Effect: Allow
+        Principal: '*'
+        Action: execute-api:Invoke
+        Resource: 'execute-api:/*/GET/health'
+  environment:
+    NODE_ENV: ${env:NODE_ENV, 'production'}
+    LOG_QUEUE_URL: ${ssm:/artistdirectory/${self:provider.stage}/queues/log/url, ''}
+    LOG_SOURCE: 'artists-api'
+    LOGS_API_URL: ${env:LOGS_API_URL, ssm:/artistdirectory/${self:provider.stage}/logs-api/url}
+    MONGODB_URL_DIRECTORY: ${env:MONGODB_URL_DIRECTORY, ssm:/artistdirectory/${self:provider.stage}/database/mongodb-directory/url}
+    SANDBOX: ${env:SANDBOX, ssm:/artistdirectory/${self:provider.stage}/sandbox}
+
+custom:
+  serverless-offline:
+    httpPort: ${env:ARTISTS_API_PORT, 3000}
+    lambdaPort: 4000
+  customDomain:
+    domainName: ${ssm:/artistdirectory/${self:provider.stage}/artists-api/domain, ''}
+    basePath: ''
+    certificateName: ${ssm:/artistdirectory/${self:provider.stage}/certificate-name, ''}
+    createRoute53Record: true
+    endpointType: regional
+    securityPolicy: tls_1_2
+    autoDomain: true
+  warmup:
+    default:
+      enabled: true
+      concurrency: 5
+      prewarm: true
+      events:
+        - schedule: rate(5 minutes)
+
+functions:
+  health:
+    memorySize: 128
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/health.handler
+    events:
+      - http:
+          path: /health
+          method: get
+    warmup:
+      default:
+        enabled: false
+  createArtist:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/createArtist.handler
+    events:
+      - http:
+          path: /artists
+          method: post
+          authorizer: aws_iam
+  findOneArtist:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findOneArtist.handler
+    events:
+      - http:
+          path: /artists/{artistId}
+          method: get
+          authorizer: aws_iam
+  findArtists:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findArtists.handler
+    events:
+      - http:
+          path: /artists
+          method: get
+          authorizer: aws_iam
+  updateArtist:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/updateArtist.handler
+    events:
+      - http:
+          path: /artists/{artistId}
+          method: put
+          authorizer: aws_iam
+  createProduct:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/createProduct.handler
+    events:
+      - http:
+          path: /products
+          method: post
+          authorizer: aws_iam
+  deleteProduct:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/deleteProduct.handler
+    events:
+      - http:
+          path: /products/{productId}
+          method: delete
+          authorizer: aws_iam
+  findOneProduct:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findOneProduct.handler
+    events:
+      - http:
+          path: /products/{productId}
+          method: get
+          authorizer: aws_iam
+  findProducts:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findProducts.handler
+    events:
+      - http:
+          path: /products
+          method: get
+          authorizer: aws_iam
+  updateProduct:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/updateProduct.handler
+    events:
+      - http:
+          path: /products/{productId}
+          method: put
+          authorizer: aws_iam
+  createTag:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/createTag.handler
+    events:
+      - http:
+          path: /tags
+          method: post
+          authorizer: aws_iam
+  findTags:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findTags.handler
+    events:
+      - http:
+          path: /tags
+          method: get
+          authorizer: aws_iam
+
+plugins:
+  - serverless-offline
+  - serverless-plugin-monorepo
+  - serverless-domain-manager
+  - serverless-plugin-warmup
+
+package:
+  patterns:
+    - '!infrastructure/**'

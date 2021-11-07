@@ -18,7 +18,7 @@ const HomePage = () => (
           collaborate, this is the place to start.
         </p>
       </Layout.Intro>
-      <Card className={styles.searchCard}>
+      <Card className={styles.searchCard} elevation={6}>
         <Search />
       </Card>
     </Layout>

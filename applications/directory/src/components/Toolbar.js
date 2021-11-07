@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import classes from './Toobar.module.scss';
 
 function Toolbar() {
@@ -5,7 +6,9 @@ function Toolbar() {
     <div className={classes.toolbar}>
       <ul>
         <li>
-          <a href="/contact-us">Contact Us</a>
+          <Link href="https://www.avenueforthearts.co/about">
+            <a>Contact Us</a>
+          </Link>
         </li>
       </ul>
     </div>
