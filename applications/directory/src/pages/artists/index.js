@@ -5,6 +5,7 @@ import { groupBy } from 'lodash';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import EastIcon from '@mui/icons-material/East';
+import Grid from '@mui/material/Grid';
 import { Layout, Search, ArtistSearchResult } from '../../components';
 import classes from './index.module.scss';
 
@@ -18,9 +19,13 @@ const Category = ({ category, artists = [] }) => (
         </Button>
       </Link>
     </h2>
-    {artists.map((artist, artistIndex) => (
-      <ArtistSearchResult key={artistIndex} artist={artist} />
-    ))}
+    <Grid container spacing={2}>
+      {artists.map((artist, artistIndex) => (
+        <Grid item key={artistIndex} sx={{ width: '50%' }}>
+          <ArtistSearchResult artist={artist} />
+        </Grid>
+      ))}
+    </Grid>
   </div>
 );
 
@@ -76,6 +81,60 @@ export async function getServerSideProps() {
       category: 'Visual Artist',
       keywords: ['one', 'two', 'three'],
       hireableSkills: ['UI', 'UX', 'Branding', 'Web Design', 'Graphic Design'],
+      subscribedToNewsletter: false
+    },
+    {
+      _id: '6187db3040c7677f16cf21c0',
+      firstName: 'Eli',
+      lastName: 'Lemons',
+      email: 'hello@elilemons.com',
+      city: 'Grand Rapids',
+      social: {
+        website: 'http://elilemons.com',
+        behance: '@elilemons'
+      },
+      artistType: 'Pixel Artist',
+      description:
+        'Esse officia enim quis minim eiusmod adipisicing commodo dolor est enim mollit in dolor. Do Lorem ex ullamco ea nisi. Non aliqua exercitation ex minim in minim elit. Tempor laboris incididunt non eu do enim laborum aute proident duis. Laborum veniam fugiat eiusmod aute id cillum cillum magna reprehenderit aute officia consequat ullamco elit. Officia deserunt et laborum velit mollit exercitation ea quis et veniam.',
+      category: 'Visual Artist',
+      keywords: ['one', 'two', 'three'],
+      hireableSkills: ['Web Design', 'Graphic Design'],
+      subscribedToNewsletter: false
+    },
+    {
+      _id: '6187db3040c7677f16cf21c0',
+      firstName: 'Sonrisa',
+      lastName: 'Gonzalez',
+      email: 'hello@sonrisa.com',
+      city: 'Grand Rapids',
+      social: {
+        website: 'http://sonrisa.com',
+        behance: '@elilemons'
+      },
+      artistType: 'Tattoo Artist',
+      description:
+        'Esse officia enim quis minim eiusmod adipisicing commodo dolor est enim mollit in dolor. Do Lorem ex ullamco ea nisi. Non aliqua exercitation ex minim in minim elit. Tempor laboris incididunt non eu do enim laborum aute proident duis. Laborum veniam fugiat eiusmod aute id cillum cillum magna reprehenderit aute officia consequat ullamco elit. Officia deserunt et laborum velit mollit exercitation ea quis et veniam.',
+      category: 'Visual Artist',
+      keywords: ['one', 'two', 'three'],
+      hireableSkills: ['Web Design', 'Graphic Design'],
+      subscribedToNewsletter: false
+    },
+    {
+      _id: '6187db3040c7677f16cf21c0',
+      firstName: 'Laura',
+      lastName: 'Gonzalez',
+      email: 'hello@gonzalez.com',
+      city: 'Grand Rapids',
+      social: {
+        website: 'http://gonzalez.com',
+        behance: '@elilemons'
+      },
+      artistType: 'Designer',
+      description:
+        'Esse officia enim quis minim eiusmod adipisicing commodo dolor est enim mollit in dolor. Do Lorem ex ullamco ea nisi. Non aliqua exercitation ex minim in minim elit. Tempor laboris incididunt non eu do enim laborum aute proident duis. Laborum veniam fugiat eiusmod aute id cillum cillum magna reprehenderit aute officia consequat ullamco elit. Officia deserunt et laborum velit mollit exercitation ea quis et veniam.',
+      category: 'Visual Artist',
+      keywords: ['one', 'two', 'three'],
+      hireableSkills: ['UI', 'Web Design', 'Graphic Design'],
       subscribedToNewsletter: false
     }
   ];
