@@ -15,7 +15,6 @@ resource "aws_ssm_parameter" "directory_app_domain" {
   type      = "String"
   value     = var.directory_app_domain
   overwrite = true
-  provider  = aws.region
 }
 
 resource "aws_ssm_parameter" "directory_app_url" {
@@ -23,7 +22,6 @@ resource "aws_ssm_parameter" "directory_app_url" {
   type      = "String"
   value     = "https://${var.directory_app_domain}"
   overwrite = true
-  provider  = aws.region
 }
 
 resource "aws_route53_health_check" "directory_app" {
@@ -40,5 +38,4 @@ resource "aws_ssm_parameter" "directory_app_health_check_id" {
   type      = "String"
   value     = aws_route53_health_check.directory_app.id
   overwrite = true
-  provider  = aws.region
 }
