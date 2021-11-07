@@ -14,7 +14,7 @@ resource "aws_cloudfront_distribution" "directory" {
   }
 
   origin {
-    domain_name = data.terraform_remote_state.artistdirectory_infrastructure.outputs.domain
+    domain_name = var.directory_gateway_app_domain
     origin_id   = "app"
 
     custom_origin_config {
