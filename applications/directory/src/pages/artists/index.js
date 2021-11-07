@@ -22,7 +22,7 @@ const Category = ({ category, artists = [] }) => (
     </h2>
     <Grid container spacing={2}>
       {artists.map((artist, artistIndex) => (
-        <Grid item key={artistIndex} sx={{ width: '50%' }}>
+        <Grid item key={artistIndex} xs={12} md={6}>
           <ArtistSearchResult artist={artist} />
         </Grid>
       ))}
