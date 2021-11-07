@@ -1,1 +1,1 @@
-directory_app_domain = "example.test.domain.com"
+directory_app_domain = "test.artistdirectory.co"

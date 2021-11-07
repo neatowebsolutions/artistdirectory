@@ -49,17 +49,6 @@ functions:
     warmup:
       default:
         enabled: false
-  region:
-    memorySize: 128
-    handler: src/routes/region.handler
-    events:
-      - http:
-          path: /region
-          method: get
-          cors: true
-    warmup:
-      default:
-        enabled: false
   server:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/server.handler

@@ -37,7 +37,7 @@ custom:
     httpPort: ${env:DIRECTORY_API_PORT, 3000}
     lambdaPort: 4000
   customDomain:
-    domainName: ${ssm:/artistdirectory/${self:provider.stage}/artists-api/regional-domain, ''}
+    domainName: ${ssm:/artistdirectory/${self:provider.stage}/artists-api/domain, ''}
     basePath: ''
     certificateName: ${ssm:/artistdirectory/${self:provider.stage}/certificate-name, ''}
     createRoute53Record: true
