@@ -16,15 +16,7 @@ const schema = new mongoose.Schema(
     artistType: { type: mongoose.Schema.Types.Mixed, required: true },
     description: { type: String, required: true },
     keywords: [{ type: String, required: true }],
-    hireableSkills: {
-      type: [String],
-      validate: {
-        validation: (value) => {
-          return !value?.length > 0;
-        }
-      },
-      required: true
-    },
+    hireableSkills: [{ type: String, required: true }],
     subscribedToNewsletter: { type: Boolean, required: true }
   },
   schemaOptions
