@@ -92,7 +92,7 @@ const Search = () => {
           alignItems: 'center'
         }}
       >
-        <Button style={{ width: '100%' }} variant="contained" disableElevation>
+        <Button fullWidth variant="contained">
           Search
         </Button>
       </Box>
