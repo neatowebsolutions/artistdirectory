@@ -22,7 +22,7 @@ provider:
 
 custom:
   customDomain:
-    domainName: ${ssm:/artistdirectory/${self:provider.stage}/artistdirectory-directory-app/domain}
+    domainName: ${ssm:/artistdirectory/${self:provider.stage}/directory-app/domain}
     basePath: ''
     certificateName: ${ssm:/artistdirectory/${self:provider.stage}/certificate-name, ''}
     createRoute53Record: true
