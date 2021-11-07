@@ -29,14 +29,54 @@ const topArtistMarketableServices = [
   { title: 'Logo Creation' }
 ];
 
+const requiredArrayValidation = (fieldId, fieldName, entries) => {
+  if (!entries[fieldId]?.length > 0) {
+    return { success: false, message: `${fieldName} is required.` }
+  }
+};
+
+/*
+  fieldId is used to check for values against the submitted object keys
+  validate is an optional callback in case something more than standard truthiness is needed for the check
+ */
+const requiredFields = [
+  { fieldId: "firstName", fieldName: "First name" },
+  { fieldId: "lastName", fieldName: "Last name" },
+  { fieldId: "email", fieldName: "Email" },
+  { fieldId: "city", fieldName: "City" },
+  { fieldId: "social", fieldName: "Social" },
+  { fieldId: "artistType", fieldName: "Artist type" },
+  { fieldId: "description", fieldName: "Description" },
+  { fieldId: "keywords", fieldName: "Keywords", validate: requiredArrayValidation },
+  { fieldId: "hireableSkills", fieldName: "Hireable skills", validate: requiredArrayValidation },
+];
+
 function CreateProfileForm() {
   const handleSubmit = (event, values = {}) => {
-    if (!values.firstName) {
-      event.preventDefault();
-      window.alert('First name is required.');
+    const entries = Object.entries(values);
+
+    const defaultValidation = (fieldId, fieldName, entriesArray) => {
+      if (!entriesArray[fieldId]) {
+        return { success: false, message: `${fieldName} is required.` };
+      }
+      return { success: true };
     }
 
-    // etc.
+    let validationResult = { success: true };
+    requiredFields.every(
+      ({ fieldId, fieldName, validate = defaultValidation }) => {
+        validationResult = validate(fieldId, fieldName, entries);
+        return validationResult.success; // Break out of the loop on the first failure
+      }
+    );
+
+    if (!validationResult.success) {
+      event.preventDefault();
+      window.alert(validationResult.message);
+      return false;
+    }
+
+    return true;
   };
 
   return (
