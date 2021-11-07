@@ -2,8 +2,8 @@ import Button from '@mui/material/Button';
 import Head from 'next/head';
 import CreateProfileForm from '../../components/CreateProfileForm';
 import ProfileDetails from '../../components/ProfileDetails';
-import LoginInfo from '../../components/LoginInfo';
-import Upload from '../../components/Upload';
+// import LoginInfo from '../../components/LoginInfo';
+// import Upload from '../../components/Upload';
 import { Layout } from '../../components';
 import classes from './edit.module.scss';
 

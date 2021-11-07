@@ -1,0 +1,15 @@
+@import '../../theme/variables.scss';
+
+.root {
+  max-width: 1064px;
+  margin: auto;
+}
+
+.profileTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  h1 {
+    font-size: 34px;
+  }
+}

@@ -1,4 +1,9 @@
 import Head from 'next/head';
+import Box from '@mui/material/Box';
+import PersonalDetails from '../../components/PersonalDetails';
+import ProfileDetails from '../../components/ProfileDetails';
+import WorkExamples from '../../components/WorkExamples';
+import classes from './index.module.scss';
 import { Layout } from '../../components';
 
 const AccountPage = () => (
@@ -6,7 +11,27 @@ const AccountPage = () => (
     <Head>
       <title>Artist Account</title>
     </Head>
-    <Layout>Artist details here</Layout>
+    <Layout>
+      <div className={classes.root}>
+        <div className={classes.profileTitle}>
+          <h1>My Profile</h1>
+          {/* <h1>Artist Profile</h1> */}
+        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'start'
+          }}
+        >
+          <ProfileDetails />
+          <Box sx={{ flex: 3 }}>
+            <PersonalDetails />
+            <WorkExamples />
+          </Box>
+        </Box>
+      </div>
+    </Layout>
   </>
 );
 

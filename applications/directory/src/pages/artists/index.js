@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import HttpClient from '@artistdirectory/http-client';
 import { groupBy } from 'lodash';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
@@ -138,6 +139,10 @@ export async function getServerSideProps() {
       subscribedToNewsletter: false
     }
   ];
+  // const httpClient = new HttpClient({
+  //   baseUrl: process.env.DIRECTORY_API_URL
+  // });
+  // const artists = await httpClient.get('/artists');
 
   return {
     props: {
