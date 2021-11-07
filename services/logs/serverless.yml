@@ -20,8 +20,8 @@ provider:
 
 custom:
   serverless-offline:
-    httpPort: ${env:LOGS_API_PORT, 4009}
-    lambdaPort: 5005
+    httpPort: ${env:LOGS_API_PORT, 3003}
+    lambdaPort: 5003
   customDomain:
     domainName: ${ssm:/artistdirectory/${self:provider.stage}/logs-api/domain, ''}
     basePath: ''
