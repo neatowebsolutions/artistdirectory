@@ -3,9 +3,13 @@ const models = require('../src/models');
 module.exports = {
   async up() {
     const Artist = await models.get('Artist');
+    const Category = await models.get('Category');
+    const Profile = await models.get('Profile');
     const Tag = await models.get('Tag');
 
     await Artist.createCollection();
+    await Category.createCollection();
+    await Profile.createCollection();
     await Tag.createCollection();
   },
 
