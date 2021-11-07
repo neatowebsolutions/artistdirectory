@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
 import { Layout, Search } from '../components';
 import classes from './index.module.scss';
 
@@ -10,9 +11,9 @@ const HomePage = () => (
     </Head>
     <Layout>
       <Layout.Intro>
-        <div className={classes.heading}>
+        <Box className={classes.heading} sx={{ lineHeight: [1, 1.5] }}>
           Discover artists and their work all in one place.
-        </div>
+        </Box>
         <p className={classes.description}>
           Whether you’re looking to purchase artwork, hire an artist, or
           collaborate, this is the place to start.
