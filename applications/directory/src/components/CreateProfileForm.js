@@ -30,12 +30,13 @@ const topArtistMarketableServices = [
 ];
 
 function CreateProfileForm() {
-  const handleSubmit = (event) => {
-    console.log('checks');
+  const handleSubmit = (event, values = {}) => {
+    if (!values.firstName) {
+      event.preventDefault();
+      window.alert('First name is required.');
+    }
 
-    event.preventDefault();
-
-    // TODO Very simple checks for required fields.
+    // etc.
   };
 
   return (
