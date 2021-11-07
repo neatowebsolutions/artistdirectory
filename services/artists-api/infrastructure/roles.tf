@@ -1,5 +1,5 @@
 resource "aws_iam_role" "services_consumer_role" {
-  name = "services_consumer_role"
+  name = "services_consumer_role_${terraform.workspace}"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
