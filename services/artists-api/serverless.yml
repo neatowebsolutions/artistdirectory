@@ -88,6 +88,14 @@ functions:
           path: /artists
           method: get
           authorizer: aws_iam
+  findCategories:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findCategories.handler
+    events:
+      - http:
+          path: /categories
+          method: get
+          authorizer: aws_iam
   updateArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/updateArtist.handler

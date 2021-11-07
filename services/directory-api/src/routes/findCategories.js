@@ -30,11 +30,11 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    const products = await httpClient.get('/products');
+    const categories = await httpClient.get('/categories');
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify(products)
+      body: JSON.stringify(categories)
     };
   } catch (error) {
     if (error.response && error.response.status) {
