@@ -10,6 +10,15 @@ provider "aws" {
   region = "us-east-1"
 }
 
+data "terraform_remote_state" "artistdirectory_infrastructure" {
+  backend = "s3"
+  config = {
+    bucket = "artistdirectory-infrastructure"
+    key    = "env:/${terraform.workspace}/infrastructure.tfstate"
+    region = "us-east-1"
+  }
+}
+
 resource "aws_ssm_parameter" "directory_app_domain" {
   name      = "/artistdirectory/${terraform.workspace}/directory-app/domain"
   type      = "String"
