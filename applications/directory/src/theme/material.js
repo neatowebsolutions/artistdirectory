@@ -12,7 +12,7 @@ const theme = responsiveFontSizes(
         mobile: 0,
         tablet: 768,
         laptop: 1024,
-        desktop: 1440
+        desktop: 1280
       }
     },
     components: {
