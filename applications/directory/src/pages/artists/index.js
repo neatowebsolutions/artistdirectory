@@ -76,13 +76,15 @@ export async function getServerSideProps() {
         website: 'http://bethanypaquette.com',
         behance: '@bethanypaquette'
       },
+      img: 'http://placekitten.com/160',
       artistType: 'Graphic Artist',
       description:
         'Esse officia enim quis minim eiusmod adipisicing commodo dolor est enim mollit in dolor. Do Lorem ex ullamco ea nisi. Non aliqua exercitation ex minim in minim elit. Tempor laboris incididunt non eu do enim laborum aute proident duis. Laborum veniam fugiat eiusmod aute id cillum cillum magna reprehenderit aute officia consequat ullamco elit. Officia deserunt et laborum velit mollit exercitation ea quis et veniam.',
       category: 'Visual Artist',
       keywords: ['one', 'two', 'three'],
-      hireableSkills: ['UI', 'UX', 'Branding', 'Web Design', 'Graphic Design'],
-      subscribedToNewsletter: false
+      skills: ['UI', 'UX', 'Branding', 'Web Design', 'Graphic Design'],
+      subscribedToNewsletter: false,
+      tags: ['Awesome', 'Talented']
     },
     {
       _id: '6187db3040c7677f16cf21c0',
@@ -94,13 +96,26 @@ export async function getServerSideProps() {
         website: 'http://elilemons.com',
         behance: '@elilemons'
       },
+      img: 'http://placekitten.com/160',
       artistType: 'Pixel Artist',
       description:
         'Esse officia enim quis minim eiusmod adipisicing commodo dolor est enim mollit in dolor. Do Lorem ex ullamco ea nisi. Non aliqua exercitation ex minim in minim elit. Tempor laboris incididunt non eu do enim laborum aute proident duis. Laborum veniam fugiat eiusmod aute id cillum cillum magna reprehenderit aute officia consequat ullamco elit. Officia deserunt et laborum velit mollit exercitation ea quis et veniam.',
       category: 'Visual Artist',
       keywords: ['one', 'two', 'three'],
-      hireableSkills: ['Web Design', 'Graphic Design'],
-      subscribedToNewsletter: false
+      skills: ['Web Design', 'Graphic Design'],
+      subscribedToNewsletter: false,
+      tags: [
+        'Figurative',
+        'Multiples',
+        'Artist',
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7'
+      ]
     },
     {
       _id: '6187db3040c7677f16cf21c0',
@@ -112,13 +127,15 @@ export async function getServerSideProps() {
         website: 'http://sonrisa.com',
         behance: '@elilemons'
       },
+      img: 'http://placekitten.com/160',
       artistType: 'Tattoo Artist',
       description:
         'Esse officia enim quis minim eiusmod adipisicing commodo dolor est enim mollit in dolor. Do Lorem ex ullamco ea nisi. Non aliqua exercitation ex minim in minim elit. Tempor laboris incididunt non eu do enim laborum aute proident duis. Laborum veniam fugiat eiusmod aute id cillum cillum magna reprehenderit aute officia consequat ullamco elit. Officia deserunt et laborum velit mollit exercitation ea quis et veniam.',
       category: 'Visual Artist',
       keywords: ['one', 'two', 'three'],
-      hireableSkills: ['Web Design', 'Graphic Design'],
-      subscribedToNewsletter: false
+      skills: ['Web Design', 'Graphic Design'],
+      subscribedToNewsletter: false,
+      tags: ['Experimental', 'Oddities', 'Oil paint']
     },
     {
       _id: '6187db3040c7677f16cf21c0',
@@ -130,13 +147,15 @@ export async function getServerSideProps() {
         website: 'http://gonzalez.com',
         behance: '@elilemons'
       },
+      img: 'http://placekitten.com/160',
       artistType: 'Designer',
       description:
         'Esse officia enim quis minim eiusmod adipisicing commodo dolor est enim mollit in dolor. Do Lorem ex ullamco ea nisi. Non aliqua exercitation ex minim in minim elit. Tempor laboris incididunt non eu do enim laborum aute proident duis. Laborum veniam fugiat eiusmod aute id cillum cillum magna reprehenderit aute officia consequat ullamco elit. Officia deserunt et laborum velit mollit exercitation ea quis et veniam.',
       category: 'Visual Artist',
       keywords: ['one', 'two', 'three'],
-      hireableSkills: ['UI', 'Web Design', 'Graphic Design'],
-      subscribedToNewsletter: false
+      skills: ['UI', 'Web Design', 'Graphic Design'],
+      subscribedToNewsletter: false,
+      tags: ['Experimental', 'Oddities']
     }
   ];
   // const httpClient = new HttpClient({
