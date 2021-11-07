@@ -33,7 +33,7 @@ const topArtistMarketableServices = [
 
 const requiredArrayValidation = (fieldId, fieldName, entries) => {
   if (!entries[fieldId]?.length > 0) {
-    return { success: false, message: `${fieldName} is required.` }
+    return { success: false, message: `${fieldName} is required.` };
   }
 };
 
@@ -42,15 +42,23 @@ const requiredArrayValidation = (fieldId, fieldName, entries) => {
   validate is an optional callback in case something more than standard truthiness is needed for the check
  */
 const requiredFields = [
-  { fieldId: "firstName", fieldName: "First name" },
-  { fieldId: "lastName", fieldName: "Last name" },
-  { fieldId: "email", fieldName: "Email" },
-  { fieldId: "city", fieldName: "City" },
-  { fieldId: "social", fieldName: "Social" },
-  { fieldId: "artistType", fieldName: "Artist type" },
-  { fieldId: "description", fieldName: "Description" },
-  { fieldId: "keywords", fieldName: "Keywords", validate: requiredArrayValidation },
-  { fieldId: "hireableSkills", fieldName: "Hireable skills", validate: requiredArrayValidation },
+  { fieldId: 'firstName', fieldName: 'First name' },
+  { fieldId: 'lastName', fieldName: 'Last name' },
+  { fieldId: 'email', fieldName: 'Email' },
+  { fieldId: 'city', fieldName: 'City' },
+  { fieldId: 'social', fieldName: 'Social' },
+  { fieldId: 'artistType', fieldName: 'Artist type' },
+  { fieldId: 'description', fieldName: 'Description' },
+  {
+    fieldId: 'keywords',
+    fieldName: 'Keywords',
+    validate: requiredArrayValidation
+  },
+  {
+    fieldId: 'hireableSkills',
+    fieldName: 'Hireable skills',
+    validate: requiredArrayValidation
+  }
 ];
 
 function CreateProfileForm() {
@@ -62,7 +70,7 @@ function CreateProfileForm() {
         return { success: false, message: `${fieldName} is required.` };
       }
       return { success: true };
-    }
+    };
 
     let validationResult = { success: true };
     requiredFields.every(
@@ -83,7 +91,7 @@ function CreateProfileForm() {
 
   return (
     <form noValidate onSubmit={handleSubmit}>
-      <Card className={classes.formCard}>
+      <Card className={classes.formCard} elevation={6}>
         <legend className={classes.formTitle}>Your Info</legend>
         <p className={classes.fieldTitle}>
           <span className={classes.required}>*</span>Required

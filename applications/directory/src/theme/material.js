@@ -16,11 +16,6 @@ const theme = responsiveFontSizes(
       }
     },
     components: {
-      MuiCard: {
-        defaultProps: {
-          elevation: 6
-        }
-      },
       MuiPaper: {
         styleOverrides: {
           root: {
