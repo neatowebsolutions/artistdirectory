@@ -18,6 +18,12 @@ const handler = async (event, context) => {
     const Artist = await models.get('Artist');
     const artist = await Artist.findById(artistId);
 
+    await artist
+      .populate('categories')
+      .populate('tags')
+      .populate('skills')
+      .execPopulate();
+
     if (!artist) {
       return {
         statusCode: StatusCodes.NOT_FOUND,

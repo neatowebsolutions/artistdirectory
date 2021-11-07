@@ -17,6 +17,16 @@ const handler = async (event, context) => {
     const Artist = await models.get('Artist');
     const artists = await Artist.find({});
 
+    await Promise.all(
+      artists.map(async (artist) => {
+        await artist
+          .populate('categories')
+          .populate('tags')
+          .populate('skills')
+          .execPopulate();
+      })
+    );
+
     return {
       statusCode: StatusCodes.OK,
       body: JSON.stringify(artists)

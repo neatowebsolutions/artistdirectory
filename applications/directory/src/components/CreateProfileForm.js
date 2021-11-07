@@ -57,7 +57,7 @@ const requiredFields = [
     validate: requiredArrayValidation
   },
   {
-    fieldId: 'hireableSkills',
+    fieldId: 'skills',
     fieldName: 'Hireable skills',
     validate: requiredArrayValidation
   }

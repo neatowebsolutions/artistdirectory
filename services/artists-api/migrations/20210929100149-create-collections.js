@@ -5,11 +5,13 @@ module.exports = {
     const Artist = await models.get('Artist');
     const Category = await models.get('Category');
     const Profile = await models.get('Profile');
+    const Skill = await models.get('Skill');
     const Tag = await models.get('Tag');
 
     await Artist.createCollection();
     await Category.createCollection();
     await Profile.createCollection();
+    await Skill.createCollection();
     await Tag.createCollection();
   },
 

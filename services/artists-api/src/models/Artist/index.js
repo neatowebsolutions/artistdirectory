@@ -13,11 +13,28 @@ const schema = new mongoose.Schema(
     email: { type: String, required: true },
     city: { type: String, required: true },
     social: { type: mongoose.Schema.Types.Mixed, required: true },
-    artistType: { type: mongoose.Schema.Types.Mixed, required: true },
     description: { type: String, required: true },
-    category: [{ type: String, required: true }],
-    keywords: [{ type: String, required: true }],
-    hireableSkills: [{ type: String, required: true }],
+    categories: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
+        required: true
+      }
+    ],
+    tags: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Tag',
+        required: true
+      }
+    ],
+    skills: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Skill',
+        required: true
+      }
+    ],
     subscribedToNewsletter: { type: Boolean, required: true }
   },
   schemaOptions

@@ -4,6 +4,9 @@ const mongodbClient = require('./mongodbClient');
 const modelCache = {};
 const modelPathsMap = {
   Artist: path.join(__dirname, './Artist'),
+  Category: path.join(__dirname, './Category'),
+  Profile: path.join(__dirname, './Profile'),
+  Skill: path.join(__dirname, './Skill'),
   Tag: path.join(__dirname, './Tag')
 };
 
@@ -29,5 +32,11 @@ const get = async (modelName) => {
   // Return the model.
   return modelCache[modelName];
 };
+
+const modelNames = Object.keys(modelPathsMap);
+
+modelNames.forEach(async (modelName) => {
+  await get(modelName);
+});
 
 module.exports = { get };

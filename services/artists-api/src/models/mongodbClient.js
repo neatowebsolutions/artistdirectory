@@ -31,7 +31,7 @@ const mongodbClient = new MongodbClientLambda(connectionUri, connectionOptions);
 mongoose.Promise = Promise;
 
 // Set serialization options.
-mongoose.set('toObject', { depopulate: true });
-mongoose.set('toJSON', { depopulate: true });
+mongoose.set('toObject');
+mongoose.set('toJSON');
 
 module.exports = mongodbClient;
