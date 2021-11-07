@@ -1,4 +1,4 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -11,9 +11,9 @@ import Button from '@mui/material/Button';
 import classes from './Search.module.scss';
 
 const Search = () => {
-  // const [categories, setCategories] = useState('');
-  // const [tags, setTags] = useState('');
-  // const [skills, setSkills] = useState('');
+  const [categories, setCategories] = useState('');
+  const [tags, setTags] = useState('');
+  const [skills, setSkills] = useState('');
 
   return (
     <Box
@@ -26,7 +26,7 @@ const Search = () => {
       <FormControl sx={{ mr: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
         <InputLabel>Categories</InputLabel>
         <Select
-          // value={categories}
+          value={categories}
           label="Categories"
           inputProps={{
             classes: {
@@ -41,7 +41,7 @@ const Search = () => {
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
         <InputLabel>Tags</InputLabel>
         <Select
-          // value={tags}
+          value={tags}
           label="Tags"
           inputProps={{
             classes: {
@@ -56,7 +56,7 @@ const Search = () => {
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
         <InputLabel>Hireable Skills</InputLabel>
         <Select
-          // value={skills}
+          value={skills}
           label="Hireable Skills"
           inputProps={{
             classes: {

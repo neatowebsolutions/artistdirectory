@@ -39,7 +39,7 @@ const Category = ({ category, artists }) => {
   );
 };
 
-const ArtistDirectoryPage = ({ categories, artists }) => {
+const ArtistDirectoryPage = ({ categories, artists, tags, skills }) => {
   const sortedCategories = useMemo(
     () => sortBy(categories, 'name'),
     [categories]
@@ -84,7 +84,7 @@ const ArtistDirectoryPage = ({ categories, artists }) => {
           </p>
         </Layout.Intro>
         <Card elevation={6}>
-          <Search />
+          <Search categories={categories} tags={tags} skills={skills} />
         </Card>
         <div className={classes.results}>
           {sortedCategories.map((category, index) => (
@@ -104,15 +104,19 @@ export async function getServerSideProps() {
   const httpClient = new HttpClient({
     baseUrl: process.env.DIRECTORY_API_URL
   });
-  const [categories, artists] = await Promise.all([
+  const [categories, artists, tags, skills] = await Promise.all([
     httpClient.get('/categories'),
-    httpClient.get('/artists')
+    httpClient.get('/artists'),
+    httpClient.get('/tags'),
+    httpClient.get('/skills')
   ]);
 
   return {
     props: {
       categories,
-      artists
+      artists,
+      tags,
+      skills
     }
   };
 }

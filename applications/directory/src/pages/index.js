@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { Layout, Search } from '../components';
 import classes from './index.module.scss';
 
-const HomePage = () => (
+const HomePage = ({categories, tags, skills}) => (
   <>
     <Head>
       <title>Home</title>
@@ -20,10 +20,29 @@ const HomePage = () => (
         </p>
       </Layout.Intro>
       <Card className={classes.searchCard} elevation={6}>
-        <Search />
+        <Search categories={categories} tags={tags} skills={skills} />
       </Card>
     </Layout>
   </>
 );
+
+export async function getServerSideProps() {
+  const httpClient = new HttpClient({
+    baseUrl: process.env.DIRECTORY_API_URL
+  });
+  const [categories, tags, skills] = await Promise.all([
+    httpClient.get('/categories'),
+    httpClient.get('/tags'),
+    httpClient.get('/skills')
+  ]);
+
+  return {
+    props: {
+      categories,
+      tags,
+      skills
+    }
+  };
+}
 
 export default HomePage;
