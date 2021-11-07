@@ -6,6 +6,7 @@ import { groupBy } from 'lodash';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import EastIcon from '@mui/icons-material/East';
+import Grid from '@mui/material/Grid';
 import { Layout, Search, ArtistSearchResult } from '../../components';
 import classes from './index.module.scss';
 
@@ -19,9 +20,13 @@ const Category = ({ category, artists = [] }) => (
         </Button>
       </Link>
     </h2>
-    {artists.map((artist, artistIndex) => (
-      <ArtistSearchResult key={artistIndex} artist={artist} />
-    ))}
+    <Grid container spacing={2}>
+      {artists.map((artist, artistIndex) => (
+        <Grid item key={artistIndex} sx={{ width: '50%' }}>
+          <ArtistSearchResult artist={artist} />
+        </Grid>
+      ))}
+    </Grid>
   </div>
 );
 
