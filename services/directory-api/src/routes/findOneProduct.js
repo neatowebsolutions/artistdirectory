@@ -30,14 +30,14 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    const { artistId } = event.pathParameters;
+    const { productId } = event.pathParameters;
     const data = JSON.parse(event.body);
 
-    const artist = await httpClient.get(`/artists/${artistId}`, data);
+    const product = await httpClient.get(`/products/${productId}`, data);
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify(artist)
+      body: JSON.stringify(product)
     };
   } catch (error) {
     if (error.response && error.response.status) {

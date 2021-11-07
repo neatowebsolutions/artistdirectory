@@ -1,10 +1,10 @@
 {
-  "name": "artistdirectory-directory-api",
+  "name": "artistdirectory-artists-api",
   "version": "0.0.0",
   "scripts": {
-    "format": "find src -type f -iname '*.js' -exec eslint --fix {} +",
     "lint": "eslint src/**/*.js",
-    "infrastructure": "./scripts/infrastructure.sh",
+    "format": "find src -type f -iname '*.js' -exec eslint --fix {} +",
+    "migrate": "migrate-mongo up",
     "start": "nodemon -e js --exec \"serverless offline start --useWorkerThreads --allowCache --noPrependStageInUrl\" --watch src"
   },
   "repository": {
@@ -13,18 +13,22 @@
   },
   "author": "Chad Johnson <chad@neatowebsolutions.com>",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/neatowebsolutions/artistdirectory/tree/master/services/directory-api",
+  "homepage": "https://github.com/neatowebsolutions/artistdirectory/tree/master/services/artists-api",
   "dependencies": {
-    "@middy/core": "^1.0.0",
-    "@middy/http-cors": "^1.0.0",
-    "@artistdirectory/http-client": "0.0.0",
+    "@chaddjohnson/mongodb-client-lambda": "^2.1.0",
     "@artistdirectory/logger": "0.0.0",
-    "aws4-axios": "^2.2.0",
-    "axios": "^0.21.1",
+    "bluebird": "^3.7.2",
+    "getenv": "^1.0.0",
     "http-status-codes": "^2.1.4",
-    "jsonwebtoken": "^8.5.1"
+    "lodash": "^4.17.15",
+    "luxon": "^1.27.0",
+    "migrate-mongo": "^8.2.3",
+    "mongoose": "^5.13.9",
+    "mongoose-int32": "^0.4.1",
+    "saslprep": "^1.0.3"
   },
   "devDependencies": {
+    "aws-sdk": "^2.984.0",
     "nodemon": "^2.0.7",
     "serverless": "^2.43.1",
     "serverless-domain-manager": "git+https://github.com/neatowebsolutions/serverless-domain-manager.git#166aff6a8bcb09047e344e1fd6d67638bbfaeaed",

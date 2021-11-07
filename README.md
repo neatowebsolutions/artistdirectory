@@ -129,9 +129,9 @@ Initial deployments should occur in the following order:
 
 1. `infrastructure`
 1. `services/logs`
-1. `services/directory-api`
+1. `services/artists-api`
 1. `services/email`
-1. `services/directory-api-gateway`
+1. `services/directory-api`
 1. `applications/directory`
 
 ## Infrastructure

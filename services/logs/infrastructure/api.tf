@@ -9,8 +9,8 @@ resource "aws_ssm_parameter" "mongodb_logs_database_url" {
   overwrite = true
 }
 
-resource "aws_ssm_parameter" "logs_api_regional_domain" {
-  name      = "/artistdirectory/${terraform.workspace}/logs-api/regional-domain"
+resource "aws_ssm_parameter" "logs_api_domain" {
+  name      = "/artistdirectory/${terraform.workspace}/logs-api/domain"
   type      = "String"
   value     = local.domain
   overwrite = true

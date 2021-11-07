@@ -1,12 +1,13 @@
-name: artistdirectory-logs-service
+name: artistdirectory-directory-api
 on:
   push:
     branches:
       - test
       - production
     paths:
-      - .github/workflows/logs-service.yml
-      - services/logs/**
+      - .github/workflows/directory-api.yml
+      - services/directory-api/**
+      - packages/logger/**
 jobs:
   deploy:
     name: Deploy
@@ -14,7 +15,6 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: us-east-1
     steps:
       - name: Set Environment Variables
         run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
@@ -30,27 +30,16 @@ jobs:
         run: npm install -g yarn serverless
       - name: Run Terraform
         run: ./run.sh
-        working-directory: services/logs/infrastructure
+        working-directory: services/directory-api/infrastructure
         env:
           STAGE: ${{ env.BRANCH }}
-          MONGODB_APP_PASSWORD: ${{ secrets.MONGODB_APP_PASSWORD }}
-      - name: Inject "MONGODB_URL_LOGS" SSM Parameter
-        uses: 'marvinpinto/action-inject-ssm-secrets@latest'
-        with:
-          ssm_parameter: '/artistdirectory/${{ env.BRANCH }}/database/mongodb-logs/url'
-          env_variable_name: 'MONGODB_URL_LOGS'
       - name: Install Node Modules
         run: yarn install
       - name: Build Packages
         run: lerna bootstrap --force-local && NODE_ENV=production lerna run build --stream --scope=@artistdirectory/*
-      - name: Run Data Migrations
-        run: yarn migrate
-        working-directory: services/logs
-        env:
-          MONGODB_URL_LOGS: ${{ env.MONGODB_URL_LOGS }}
       - name: Deploy Serverless Application to us-east-1
         run: serverless deploy --stage $BRANCH --region us-east-1
-        working-directory: services/logs
+        working-directory: services/directory-api
       - name: Uninstall Global Packages
         if: always()
         run: npm uninstall -g yarn serverless

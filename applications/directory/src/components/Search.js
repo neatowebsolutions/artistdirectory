@@ -23,22 +23,7 @@ const Search = () => {
         flexDirection: ['column', 'column', 'row', 'row']
       }}
     >
-      <FormControl sx={{ mr: 1, flex: 2 }}>
-        <TextField
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            )
-          }}
-          variant="outlined"
-        />
-        <InputLabel sx={{ marginLeft: 4 }}>
-          Search for artists, writers, musicians, etc.
-        </InputLabel>
-      </FormControl>
-      <FormControl sx={{ mx: 1, flex: 1 }}>
+      <FormControl sx={{ mr: 1, flex: 1 }}>
         <InputLabel>Categories</InputLabel>
         <Select
           value={categories}
@@ -82,6 +67,21 @@ const Search = () => {
         >
           <MenuItem></MenuItem>
         </Select>
+      </FormControl>
+      <FormControl sx={{ mx: 1, flex: 2 }}>
+        <TextField
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            )
+          }}
+          variant="outlined"
+        />
+        <InputLabel sx={{ marginLeft: 4 }}>
+          Search for artists, writers, musicians, etc.
+        </InputLabel>
       </FormControl>
       <Box
         sx={{

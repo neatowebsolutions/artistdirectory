@@ -37,6 +37,10 @@ resource "aws_default_vpc" "default" {
   enable_dns_hostnames = true
 }
 
+output "hosted_zone_id" {
+  value = var.hosted_zone_id
+}
+
 output "domain" {
   value = var.domain
 }

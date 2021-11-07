@@ -1,4 +1,4 @@
-service: artistdirectory-directory-api
+service: artistdirectory-artists-api
 variablesResolutionMode: 20210326
 useDotenv: true
 
@@ -14,20 +14,30 @@ provider:
   logRetentionInDays: 14
   apiGateway:
     shouldStartNameWithService: true
+    resourcePolicy: # https://www.serverless.com/framework/docs/deprecations/#AWS_API_GATEWAY_SPECIFIC_KEYS
+      - Effect: Allow
+        Principal:
+          AWS: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+        Action: execute-api:Invoke
+        Resource: '*'
+      - Effect: Allow
+        Principal: '*'
+        Action: execute-api:Invoke
+        Resource: 'execute-api:/*/GET/health'
   environment:
-    ARTISTS_API_URL: ${env:ARTISTS_API_URL, ssm:/artistdirectory/${self:provider.stage}/artists-api/url}
-    JWT_SECRET: ${env:JWT_SECRET, ssm:/artistdirectory/${self:provider.stage}/jwt-secret}
-    LOGS_API_URL: ${env:LOGS_API_URL, ssm:/artistdirectory/${self:provider.stage}/logs-api/url}
-    LOG_QUEUE_URL: ${ssm:/artistdirectory/${self:provider.stage}/queues/log/url, ''}
-    LOG_SOURCE: 'directory-api'
     NODE_ENV: ${env:NODE_ENV, 'production'}
+    LOG_QUEUE_URL: ${ssm:/artistdirectory/${self:provider.stage}/queues/log/url, ''}
+    LOG_SOURCE: 'artists-api'
+    LOGS_API_URL: ${env:LOGS_API_URL, ssm:/artistdirectory/${self:provider.stage}/logs-api/url}
+    MONGODB_URL_DIRECTORY: ${env:MONGODB_URL_DIRECTORY, ssm:/artistdirectory/${self:provider.stage}/database/mongodb-directory/url}
+    SANDBOX: ${env:SANDBOX, ssm:/artistdirectory/${self:provider.stage}/sandbox}
 
 custom:
   serverless-offline:
-    httpPort: ${env:DIRECTORY_API_PORT, 3002}
-    lambdaPort: 5002
+    httpPort: ${env:DIRECTORY_API_PORT, 3000}
+    lambdaPort: 4000
   customDomain:
-    domainName: ${ssm:/artistdirectory/${self:provider.stage}/directory-api/domain, ''}
+    domainName: ${ssm:/artistdirectory/${self:provider.stage}/artists-api/domain, ''}
     basePath: ''
     certificateName: ${ssm:/artistdirectory/${self:provider.stage}/certificate-name, ''}
     createRoute53Record: true
@@ -43,16 +53,14 @@ custom:
         - schedule: rate(5 minutes)
 
 functions:
-  authorizer:
-    handler: src/authorizer.handler
   health:
     memorySize: 128
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/health.handler
     events:
       - http:
           path: /health
           method: get
-          cors: true
     warmup:
       default:
         enabled: false
@@ -63,12 +71,7 @@ functions:
       - http:
           path: /artists
           method: post
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   findOneArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findOneArtist.handler
@@ -76,12 +79,7 @@ functions:
       - http:
           path: /artists/{artistId}
           method: get
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   findArtists:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findArtists.handler
@@ -89,12 +87,7 @@ functions:
       - http:
           path: /artists
           method: get
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   updateArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/updateArtist.handler
@@ -102,12 +95,7 @@ functions:
       - http:
           path: /artists/{artistId}
           method: put
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   createProduct:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/createProduct.handler
@@ -115,12 +103,7 @@ functions:
       - http:
           path: /products
           method: post
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   deleteProduct:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/deleteProduct.handler
@@ -128,12 +111,7 @@ functions:
       - http:
           path: /products/{productId}
           method: delete
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   findOneProduct:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findOneProduct.handler
@@ -141,12 +119,7 @@ functions:
       - http:
           path: /products/{productId}
           method: get
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   findProducts:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findProducts.handler
@@ -154,12 +127,7 @@ functions:
       - http:
           path: /products
           method: get
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   updateProduct:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/updateProduct.handler
@@ -167,12 +135,7 @@ functions:
       - http:
           path: /products/{productId}
           method: put
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   createTag:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/createTag.handler
@@ -180,12 +143,7 @@ functions:
       - http:
           path: /tags
           method: post
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   findOneTag:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findOneTag.handler
@@ -193,12 +151,7 @@ functions:
       - http:
           path: /tags/{tagId}
           method: get
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
   findTags:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findTags.handler
@@ -206,12 +159,7 @@ functions:
       - http:
           path: /tags
           method: get
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer: aws_iam
 
 plugins:
   - serverless-offline
