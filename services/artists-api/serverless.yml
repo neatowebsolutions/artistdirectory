@@ -34,7 +34,7 @@ provider:
 
 custom:
   serverless-offline:
-    httpPort: ${env:DIRECTORY_API_PORT, 3000}
+    httpPort: ${env:ARTISTS_API_PORT, 3000}
     lambdaPort: 4000
   customDomain:
     domainName: ${ssm:/artistdirectory/${self:provider.stage}/artists-api/domain, ''}
