@@ -5,4 +5,4 @@
 terraform init
 terraform validate
 terraform workspace select $STAGE || terraform workspace new $STAGE
-terraform apply -var-file=./config/$STAGE.tfvars -auto-approve
+terraform apply -var="jwt_secret=$JWT_SECRET" -var-file=./config/$STAGE.tfvars -auto-approve

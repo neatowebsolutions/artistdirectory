@@ -26,3 +26,4 @@ jobs:
         working-directory: infrastructure
         env:
           STAGE: ${{ env.BRANCH }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
