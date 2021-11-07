@@ -1,0 +1,63 @@
+@import '../theme/variables.scss';
+
+.fieldTitle {
+  font-family: $font__secondary;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 0.15px;
+}
+
+.uploadArea {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 20px;
+}
+
+.alertArea {
+  margin-top: 25px;
+}
+
+.required {
+  color: $primary__color;
+}
+
+.example {
+  font-size: 16px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 1.33;
+  letter-spacing: 0.4px;
+  margin-top: 0;
+}
+
+.dropUpload {
+  width: 100%;
+  border: dashed 2px $primary__color;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: $border-radius;
+  .browse {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    p {
+      font-size: 20px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      margin: 10px 15px 10px 0;
+    }
+  }
+}

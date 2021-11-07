@@ -3,30 +3,13 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
-import UploadThumbnail from './UploadThumbnail';
+import Upload from './Upload';
 import classes from './CreateProfileForm.module.scss';
-
-const topArtistServices = [
-  { title: 'Painting' },
-  { title: 'Drawing' },
-  { title: 'Ceramics' },
-  { title: 'Musician' },
-  { title: 'Muralist' },
-  { title: 'Drag Queen' },
-  { title: 'Theatre Artist' }
-];
-
-const topArtistMarketableServices = [
-  { title: 'D.J.' },
-  { title: 'Wedding Photographer' },
-  { title: 'Logo Creation' }
-];
 
 function CreateProfileForm() {
   return (
@@ -35,6 +18,7 @@ function CreateProfileForm() {
       <p className={classes.fieldTitle}>
         <span className={classes.required}>*</span>Required
       </p>
+
       <div className={classes.contact}>
         <div>
           <TextField
@@ -69,6 +53,7 @@ function CreateProfileForm() {
           </div>
         </div>
       </div>
+
       <div>
         <p className={classes.fieldTitle}>
           What&apos;s the best place to find your work online? (Website,
@@ -118,6 +103,7 @@ function CreateProfileForm() {
           </div>
         </FormGroup>
       </div>
+
       <div>
         <p className={classes.fieldTitle}>
           What kind of artist are you? (Check all that apply)
@@ -146,144 +132,145 @@ function CreateProfileForm() {
           </div>
         </FormGroup>
       </div>
+
+      <Upload></Upload>
+
       <div>
         <p className={classes.fieldTitle}>
-          Add up to 5 images of your work - up to 2mb in size
+          Short description of what you do.
+          <span className={classes.required}>*</span>
+          <span className={classes.caveat}>1500 CHARACTERS MAX!</span>
+        </p>
+        <p className={classes.example}>
+          Example: Visual artist and musician whose work explores themes of
+          nature, memory, trauma and identity. Reyes primarily creates
+          participatory work that utilizes found objects and sounds of nature.
+        </p>
+        <FormControl fullWidth>
+          <TextField
+            id="outlined-textarea"
+            label="Short description of what you do."
+            minRows={6}
+            inputProps={{ maxLength: 1500 }}
+            multiline
+          />
+        </FormControl>
+      </div>
+
+      <div>
+        <p className={classes.fieldTitle}>
+          Please list up to 10 keywords that would describe your work and
+          services.
           <span className={classes.required}>*</span>
         </p>
-        <div className={classes.dropUpload}>
-          <div>
-            <img src="/images/img-artupload.svg" alt="Art Upload Frame" />
-          </div>
-          <div className={classes.browse}>
-            <p>Drag and drop here, or</p>
-            <Button variant="contained" disableElevation>
-              Browse
-            </Button>
-          </div>
-        </div>
-        <div className={classes.uploadArea}>{/* <UploadThumbnail /> */}</div>
-        <div>
-          <p className={classes.fieldTitle}>
-            Short description of what you do.
-            <span className={classes.required}>*</span>
-            <span className={classes.caveat}>1500 CHARACTERS MAX!</span>
-          </p>
-          <p className={classes.example}>
-            Example: Visual artist and musician whose work explores themes of
-            nature, memory, trauma and identity. Reyes primarily creates
-            participatory work that utilizes found objects and sounds of nature.
-          </p>
-          <FormControl fullWidth>
-            <TextField
-              id="outlined-textarea"
-              label="Short description of what you do."
-              minRows={6}
-              inputProps={{ maxLength: 1500 }}
-              multiline
-            />
-          </FormControl>
-        </div>
-        <div>
-          <p className={classes.fieldTitle}>
-            Please list up to 10 keywords that would describe your work and
-            services.
-            <span className={classes.required}>*</span>
-          </p>
-          <Stack>
-            <Autocomplete
-              multiple
-              id="tags-filled"
-              options={topArtistServices.map((option) => option.title)}
-              defaultValue={[topArtistServices[1].title]}
-              freeSolo
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip
-                    key={option}
-                    variant="outlined"
-                    label={option}
-                    {...getTagProps({ index })}
-                  />
-                ))
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  minRows={2}
-                  multiline
-                  label="My 10 Keywords"
+        <Stack>
+          <Autocomplete
+            multiple
+            id="tags-filled"
+            options={topArtistServices.map((option) => option.title)}
+            defaultValue={[topArtistServices[1].title]}
+            freeSolo
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+                <Chip
+                  key={option}
+                  variant="outlined"
+                  label={option}
+                  {...getTagProps({ index })}
                 />
-              )}
-            />
-          </Stack>
-        </div>
-        <div>
-          <p className={classes.fieldTitle}>
-            Do you have skills, artistic or otherwise, for which you could be
-            hired by Network visitors? If so, please list.
-            <span className={classes.required}>*</span>
-          </p>
-          <p className={classes.example}>
-            Example: DJ, wedding photographer, translation work, welding.
-          </p>
-          <Stack>
-            <Autocomplete
-              multiple
-              id="tags-filled"
-              options={topArtistMarketableServices.map(
-                (option) => option.title
-              )}
-              defaultValue={[topArtistMarketableServices[1].title]}
-              freeSolo
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip
-                    key={option}
-                    variant="outlined"
-                    label={option}
-                    {...getTagProps({ index })}
-                  />
-                ))
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  minRows={2}
-                  multiline
-                  label="My 10 Keywords"
-                />
-              )}
-            />
-          </Stack>
-        </div>
-        <div className={classes.newsletter}>
-          <div className={classes.image}>
-            <img src="/images/img-newsletter.svg" alt="Evelope" />
-          </div>
-          <div className={classes.field}>
-            <p className={classes.fieldTitle}>
-              Would you like to subscribe to our monthly newsletter about local
-              art opportunities?
-            </p>
-            <RadioGroup
-              row
-              aria-label="newsletter"
-              name="row-radio-buttons-group"
-            >
-              <FormControlLabel
-                value="yes"
-                control={<Radio />}
-                label="Yes!"
-                defaultChecked
+              ))
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                minRows={2}
+                multiline
+                label="My 10 Keywords"
               />
-              <FormControlLabel value="no" control={<Radio />} label="No" />
-            </RadioGroup>
-          </div>
+            )}
+          />
+        </Stack>
+      </div>
+
+      <div>
+        <p className={classes.fieldTitle}>
+          Do you have skills, artistic or otherwise, for which you could be
+          hired by Network visitors? If so, please list.
+          <span className={classes.required}>*</span>
+        </p>
+        <p className={classes.example}>
+          Example: DJ, wedding photographer, translation work, welding.
+        </p>
+        <Stack>
+          <Autocomplete
+            multiple
+            id="tags-filled"
+            options={topArtistMarketableServices.map((option) => option.title)}
+            defaultValue={[topArtistMarketableServices[1].title]}
+            freeSolo
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+                <Chip
+                  key={option}
+                  variant="outlined"
+                  label={option}
+                  {...getTagProps({ index })}
+                />
+              ))
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                minRows={2}
+                multiline
+                label="My 10 Keywords"
+              />
+            )}
+          />
+        </Stack>
+      </div>
+
+      <div className={classes.newsletter}>
+        <div className={classes.image}>
+          <img src="/images/img-newsletter.svg" alt="Evelope" />
+        </div>
+        <div className={classes.field}>
+          <p className={classes.fieldTitle}>
+            Would you like to subscribe to our monthly newsletter about local
+            art opportunities?
+          </p>
+          <RadioGroup
+            row
+            aria-label="newsletter"
+            name="row-radio-buttons-group"
+          >
+            <FormControlLabel
+              value="yes"
+              control={<Radio />}
+              label="Yes!"
+              defaultChecked
+            />
+            <FormControlLabel value="no" control={<Radio />} label="No" />
+          </RadioGroup>
         </div>
       </div>
     </form>
   );
 }
 
+const topArtistServices = [
+  { title: 'Painting' },
+  { title: 'Drawing' },
+  { title: 'Ceramics' },
+  { title: 'Musician' },
+  { title: 'Muralist' },
+  { title: 'Drag Queen' },
+  { title: 'Theatre Artist' }
+];
+
+const topArtistMarketableServices = [
+  { title: 'D.J.' },
+  { title: 'Wedding Photographer' },
+  { title: 'Logo Creation' }
+];
 export default CreateProfileForm;

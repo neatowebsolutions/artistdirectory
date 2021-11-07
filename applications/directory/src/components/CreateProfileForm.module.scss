@@ -23,6 +23,7 @@
 .required {
   color: $primary__color;
 }
+
 .urls {
   display: flex;
   margin-bottom: 25px;
@@ -30,49 +31,6 @@
 .other {
   display: flex;
   margin: 15px 0 0 0;
-}
-.question {
-  font-family: $font__secondary;
-  font-size: 20px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.2;
-  letter-spacing: 0.15px;
-}
-
-.dropUpload {
-  width: 100%;
-  border: dashed 2px $primary__color;
-  height: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  border-radius: $border-radius;
-  .browse {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    p {
-      font-size: 20px;
-      font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
-      line-height: normal;
-      letter-spacing: normal;
-      text-align: center;
-      margin: 10px 15px 10px 0;
-    }
-  }
-}
-
-.uploadArea {
-  margin-top: 25px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 20px;
 }
 
 .caveat {
