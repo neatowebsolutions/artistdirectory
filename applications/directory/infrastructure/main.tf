@@ -24,7 +24,6 @@ resource "aws_ssm_parameter" "shopify_admin_app_root_domain" {
   type      = "String"
   value     = directory_gateway_app_domain
   overwrite = true
-  provider  = aws.region
 }
 
 resource "aws_ssm_parameter" "directory_app_domain" {
