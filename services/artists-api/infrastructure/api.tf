@@ -5,7 +5,7 @@ locals {
 resource "aws_ssm_parameter" "mongodb_directory_database_url" {
   name      = "/artistdirectory/${terraform.workspace}/database/mongodb-directory/url"
   type      = "SecureString"
-  value     = "mongodb://app:${var.mongodb_app_password}@services.artistdirectory.co/artistdirectory-directory?replicaSet=rs0&readPreference=secondaryPreferred&ssl=true"
+  value     = "mongodb://app:${var.mongodb_app_password}@services.artistdirectory.co/artistdirectory-directory-${terraform.workspace}?replicaSet=rs0&ssl=true"
   overwrite = true
 }
 
