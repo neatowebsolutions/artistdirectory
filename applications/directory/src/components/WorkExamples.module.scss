@@ -1,0 +1,13 @@
+@import '../theme/variables.scss';
+
+.workExamples {
+  h2 {
+    font-family: $font__main;
+    font-size: 20px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+}
