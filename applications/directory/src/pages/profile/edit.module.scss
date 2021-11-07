@@ -1,5 +1,10 @@
 @import '../../theme/variables.scss';
 
+.root {
+  max-width: 1064px;
+  margin: auto;
+}
+
 .account {
   display: flex;
   justify-content: space-between;

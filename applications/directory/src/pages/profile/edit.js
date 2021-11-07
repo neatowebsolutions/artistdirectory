@@ -1,6 +1,5 @@
 import Button from '@mui/material/Button';
 import Head from 'next/head';
-import Card from '@mui/material/Card';
 import CreateProfileForm from '../../components/CreateProfileForm';
 import ProfileDetails from '../../components/ProfileDetails';
 import LoginInfo from '../../components/LoginInfo';
@@ -14,7 +13,7 @@ const AccountEditPage = () => (
       <title>My Profile</title>
     </Head>
     <Layout>
-      <div className={classes.accountEditPage}>
+      <div className={classes.root}>
         <div className={classes.profileTitle}>
           <h1>My Profile</h1>
           <nav>
@@ -50,11 +49,9 @@ const AccountEditPage = () => (
               </ul>
             </nav>
 
-            <Card>
-              <CreateProfileForm />
-              {/* <Upload /> */}
-              {/* <LoginInfo /> */}
-            </Card>
+            <CreateProfileForm />
+            {/* <Upload /> */}
+            {/* <LoginInfo /> */}
           </div>
         </div>
       </div>

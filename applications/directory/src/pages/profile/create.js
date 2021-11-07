@@ -38,7 +38,7 @@ const CreatePage = () => (
           </a>
         </p>
       </Layout.Intro>
-      <CreateProfileForm />
+      <CreateProfileForm className={styles.form} />
     </Layout>
   </>
 );
