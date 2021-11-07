@@ -24,7 +24,9 @@ const AccountPage = () => (
             alignItems: 'start'
           }}
         >
-          <ProfileDetails />
+          <Box sx={{ flex: 1, marginRight: '5%' }}>
+            <ProfileDetails />
+          </Box>
           <Box sx={{ flex: 3 }}>
             <PersonalDetails />
             <WorkExamples />

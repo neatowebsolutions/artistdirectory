@@ -1,11 +1,10 @@
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import Head from 'next/head';
-import CreateProfileForm from '../../components/CreateProfileForm';
 import ProfileDetails from '../../components/ProfileDetails';
-// import LoginInfo from '../../components/LoginInfo';
-// import Upload from '../../components/Upload';
 import { Layout } from '../../components';
 import classes from './edit.module.scss';
+import EditProfileTabs from '../../components/EditProfileTabs';
 
 const AccountEditPage = () => (
   <>
@@ -30,30 +29,20 @@ const AccountEditPage = () => (
           </nav>
         </div>
 
-        <div className={classes.account}>
-          <ProfileDetails />
-          <div className={classes.personalDetails}>
-            <nav>
-              <ul>
-                <li>
-                  <a href="/" className={classes.active}>
-                    Profile Details
-                  </a>
-                </li>
-                <li>
-                  <a href="/">Work</a>
-                </li>
-                <li>
-                  <a href="/">Login Info</a>
-                </li>
-              </ul>
-            </nav>
-
-            <CreateProfileForm />
-            {/* <Upload /> */}
-            {/* <LoginInfo /> */}
-          </div>
-        </div>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start'
+          }}
+        >
+          <Box sx={{ flex: 1, marginRight: '5%' }}>
+            <ProfileDetails />
+          </Box>
+          <Box sx={{ flex: 3 }}>
+            <EditProfileTabs />
+          </Box>
+        </Box>
       </div>
     </Layout>
   </>

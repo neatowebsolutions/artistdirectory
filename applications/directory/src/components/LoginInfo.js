@@ -1,9 +1,6 @@
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import classes from './LoginInfo.module.scss';
 
