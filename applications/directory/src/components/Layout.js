@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from './Header';
 import Toolbar from './Toolbar';
-import styles from './Layout.module.scss';
+import classes from './Layout.module.scss';
 
 const Intro = ({ children }) => (
-  <section className={styles.intro}>{children}</section>
+  <section className={classes.intro}>{children}</section>
 );
 
 Intro.propTypes = {
@@ -13,10 +13,10 @@ Intro.propTypes = {
 };
 
 const Layout = ({ children }) => (
-  <div className={styles.root}>
+  <div className={classes.root}>
     <Toolbar />
     <Header />
-    <main className={styles.main}>{children}</main>
+    <main className={classes.main}>{children}</main>
   </div>
 );
 

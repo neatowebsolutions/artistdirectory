@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Card from '@mui/material/Card';
 import { Layout, Search } from '../components';
-import styles from './index.module.scss';
+import classes from './index.module.scss';
 
 const HomePage = () => (
   <>
@@ -10,15 +10,15 @@ const HomePage = () => (
     </Head>
     <Layout>
       <Layout.Intro>
-        <div className={styles.heading}>
+        <div className={classes.heading}>
           Discover artists and their work all in one place.
         </div>
-        <p className={styles.description}>
+        <p className={classes.description}>
           Whether you’re looking to purchase artwork, hire an artist, or
           collaborate, this is the place to start.
         </p>
       </Layout.Intro>
-      <Card className={styles.searchCard} elevation={6}>
+      <Card className={classes.searchCard} elevation={6}>
         <Search />
       </Card>
     </Layout>
