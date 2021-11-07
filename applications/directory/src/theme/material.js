@@ -30,6 +30,15 @@ const theme = responsiveFontSizes(
             paddingRight: 8 * 3
           }
         }
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            '&&': {
+              color: 'white'
+            }
+          }
+        }
       }
     }
   })
