@@ -4,19 +4,23 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import IconButton from '@mui/material/IconButton';
 import classes from './Thumbnail.module.scss';
 
-function Thumbnail({ upload }) {
+function ThumbnailLoading() {
   return (
     <Box sx={{ position: 'relative' }}>
       <Card
-        className={classes.uploadThumbnail}
-        style={{ borderRadius: 10, padding: 0 }}
+        className={`${classes.uploadThumbnail} ${classes.errorBorder}`}
+        style={{ borderRadius: 10, padding: 0, overflow: 'unset' }}
         elevation={2}
       >
-        <img
-          src={upload.preview}
-          className={classes.uploadedImage}
-          alt={upload.name}
-        />
+        <div className={classes.loading}>
+          <div className={classes.loader}></div>
+          <div>
+            <p>
+              Uploading, <br />
+              give us a second…
+            </p>
+          </div>
+        </div>
       </Card>
 
       <IconButton className={classes.delete}>
@@ -26,4 +30,4 @@ function Thumbnail({ upload }) {
   );
 }
 
-export default Thumbnail;
+export default ThumbnailLoading;

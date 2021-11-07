@@ -5,16 +5,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
-.delete {
+button.delete {
   position: absolute;
   top: -15px;
   right: -15px;
-}
-
-.delete button {
   height: 30px;
   width: 30px;
   background: #fff;
@@ -22,11 +18,11 @@
     0 3px 4px 0 rgba(0, 0, 0, 0.14);
 }
 
-.delete button:hover {
+button.delete:hover {
   background: rgb(205, 205, 205);
 }
 
-.delete button svg {
+button.delete svg {
   color: $primary__color;
   width: 20px;
 }
@@ -46,6 +42,7 @@
 img.uploadedImage {
   width: 105%;
   height: 105%;
+  min-height: 225px;
   object-fit: cover;
 }
 
@@ -65,7 +62,7 @@ img.refresh {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 100%;
+  min-height: 225px;
   p {
     margin: 0;
     text-align: center;
