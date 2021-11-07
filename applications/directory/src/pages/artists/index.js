@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import HttpClient from '@artistdirectory/http-client';
 import { groupBy } from 'lodash';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
@@ -59,26 +60,10 @@ const ArtistDirectoryPage = ({ artists }) => {
 };
 
 export async function getServerSideProps() {
-  const artists = [
-    {
-      _id: '6187db3040c7677f16cf21c0',
-      firstName: 'Bethany',
-      lastName: 'Pearson',
-      email: 'hello@bethanypaquette.com',
-      city: 'Grand Rapids',
-      social: {
-        website: 'http://bethanypaquette.com',
-        behance: '@bethanypaquette'
-      },
-      artistType: 'Graphic Artist',
-      description:
-        'Esse officia enim quis minim eiusmod adipisicing commodo dolor est enim mollit in dolor. Do Lorem ex ullamco ea nisi. Non aliqua exercitation ex minim in minim elit. Tempor laboris incididunt non eu do enim laborum aute proident duis. Laborum veniam fugiat eiusmod aute id cillum cillum magna reprehenderit aute officia consequat ullamco elit. Officia deserunt et laborum velit mollit exercitation ea quis et veniam.',
-      category: 'Visual Artist',
-      keywords: ['one', 'two', 'three'],
-      hireableSkills: ['UI', 'UX', 'Branding', 'Web Design', 'Graphic Design'],
-      subscribedToNewsletter: false
-    }
-  ];
+  const httpClient = new HttpClient({
+    baseUrl: process.env.DIRECTORY_API_URL
+  });
+  const artists = await httpClient.get('/artists');
 
   return {
     props: {
