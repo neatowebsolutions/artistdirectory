@@ -15,6 +15,7 @@ const schema = new mongoose.Schema(
     social: { type: mongoose.Schema.Types.Mixed, required: true },
     artistType: { type: mongoose.Schema.Types.Mixed, required: true },
     description: { type: String, required: true },
+    category: { type: String, required: true },
     keywords: [{ type: String, required: true }],
     hireableSkills: [{ type: String, required: true }],
     subscribedToNewsletter: { type: Boolean, required: true }
