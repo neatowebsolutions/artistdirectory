@@ -23,7 +23,7 @@ const Search = () => {
         flexDirection: ['column', 'column', 'row', 'row']
       }}
     >
-      <FormControl sx={{ mr: 1, flex: 1 }}>
+      <FormControl sx={{ mr: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
         <InputLabel>Categories</InputLabel>
         <Select
           // value={categories}
@@ -38,7 +38,7 @@ const Search = () => {
           <MenuItem></MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ mx: 1, flex: 1 }}>
+      <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
         <InputLabel>Tags</InputLabel>
         <Select
           // value={tags}
@@ -53,7 +53,7 @@ const Search = () => {
           <MenuItem></MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ mx: 1, flex: 1 }}>
+      <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
         <InputLabel>Hireable Skills</InputLabel>
         <Select
           // value={skills}
@@ -68,7 +68,7 @@ const Search = () => {
           <MenuItem></MenuItem>
         </Select>
       </FormControl>
-      <FormControl sx={{ mx: 1, flex: 2 }}>
+      <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 2 }}>
         <TextField
           InputProps={{
             startAdornment: (
@@ -78,14 +78,12 @@ const Search = () => {
             )
           }}
           variant="outlined"
+          placeholder="Search for artists, writers, musicians, etc."
         />
-        <InputLabel sx={{ marginLeft: 4 }}>
-          Search for artists, writers, musicians, etc.
-        </InputLabel>
       </FormControl>
       <Box
         sx={{
-          ml: 1,
+          mx: [0, 0, 1],
           flex: 1,
           minHeight: 56,
           display: 'inline-flex',
