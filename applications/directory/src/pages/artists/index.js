@@ -1,13 +1,13 @@
 import Head from 'next/head';
 import { Layout } from '../../components';
 
-const ArtistsPage = () => (
+const ArtistDirectoryPage = () => (
   <>
     <Head>
-      <title>Artists</title>
+      <title>Artist Directory</title>
     </Head>
-    <Layout>Artist list here</Layout>
+    <Layout>List here</Layout>
   </>
 );
 
-export default ArtistsPage;
+export default ArtistDirectoryPage;
