@@ -15,15 +15,7 @@ const schema = new mongoose.Schema(
     social: { type: mongoose.Schema.Types.Mixed, required: true },
     artistType: { type: mongoose.Schema.Types.Mixed, required: true },
     description: { type: String, required: true },
-    keywords: {
-      type: [String],
-      validate: {
-        validation: (value) => {
-          return !value?.length > 0;
-        }
-      },
-      required: true
-    },
+    keywords: [{ type: String, required: true }],
     hireableSkills: {
       type: [String],
       validate: {
