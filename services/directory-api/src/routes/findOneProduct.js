@@ -32,7 +32,6 @@ const handler = middy(async (event, context) => {
   try {
     const { productId } = event.pathParameters;
     const data = JSON.parse(event.body);
-
     const product = await httpClient.get(`/products/${productId}`, data);
 
     return {

@@ -17,7 +17,6 @@ const handler = async (event, context) => {
     const { artistId } = event.pathParameters;
     const Artist = await models.get('Artist');
     const artist = await Artist.findById(artistId);
-    const data = JSON.parse(event.body);
 
     if (!artist) {
       return {

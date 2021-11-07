@@ -32,7 +32,6 @@ const handler = middy(async (event, context) => {
   try {
     const { artistId } = event.pathParameters;
     const data = JSON.parse(event.body);
-
     const artist = await httpClient.get(`/artists/${artistId}`, data);
 
     return {

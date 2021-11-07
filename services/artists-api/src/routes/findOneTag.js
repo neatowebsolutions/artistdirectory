@@ -17,7 +17,6 @@ const handler = async (event, context) => {
     const { tagId } = event.pathParameters;
     const Tag = await models.get('Tag');
     const tag = await Tag.findById(tagId);
-    const data = JSON.parse(event.body);
 
     if (!tag) {
       return {
