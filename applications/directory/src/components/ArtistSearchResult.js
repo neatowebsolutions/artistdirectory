@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Stack from '@mui/material/Stack';
@@ -12,20 +13,42 @@ const ArtistSearchResult = ({ artist }) => {
   return (
     <Card elevation={4}>
       <Stack direction="row" alignItems="flex-start" spacing={2}>
-        <img src={photoUrls?.[0]} alt={`${firstName} ${lastName}`} />
+        <Box
+          as="img"
+          src={photoUrls?.[0]}
+          alt={`${firstName} ${lastName}`}
+          sx={{
+            maxWidth: '160px',
+            height: 'auto'
+          }}
+        />
         <Stack spacing={2}>
-          <div>
+          <Box
+            sx={{
+              fontSize: '1.375rem',
+              fontWeight: 'bold'
+            }}
+          >
             {`${firstName} ${lastName}`}
             <IconButton>
               <ArrowForwardIcon color="error" />
             </IconButton>
-          </div>
+          </Box>
           <div>
             {skills.length > 0 &&
               skills
                 .map((skill, index) => {
                   if (index < 2) {
-                    return <div key={skill._id}>{skill.name}</div>;
+                    return (
+                      <Box
+                        key={skill._id}
+                        sx={{
+                          fontSize: '1.25rem'
+                        }}
+                      >
+                        {skill.name}
+                      </Box>
+                    );
                   } else {
                     return false;
                   }
