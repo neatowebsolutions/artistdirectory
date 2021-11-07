@@ -35,6 +35,7 @@ const schema = new mongoose.Schema(
         required: true
       }
     ],
+    photoUrls: [{ type: String, required: true }],
     subscribedToNewsletter: { type: Boolean, required: true }
   },
   schemaOptions
