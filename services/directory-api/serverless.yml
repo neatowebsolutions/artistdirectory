@@ -32,10 +32,6 @@ custom:
     certificateName: ${ssm:/artistdirectory/${self:provider.stage}/certificate-name, ''}
     createRoute53Record: true
     endpointType: regional
-    route53Params:
-      routingPolicy: latency
-      setIdentifier: ${self:provider.region}
-      healthCheckId: ${ssm:/artistdirectory/${self:provider.stage}/directory-api/health-check-id, ''}
     securityPolicy: tls_1_2
     autoDomain: true
   warmup:
