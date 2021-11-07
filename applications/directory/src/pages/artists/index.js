@@ -1,13 +1,90 @@
+import React, { useMemo } from 'react';
 import Head from 'next/head';
-import { Layout } from '../../components';
+import Link from 'next/link';
+import { groupBy } from 'lodash';
+import Card from '@mui/material/Card';
+import Button from '@mui/material/Button';
+import EastIcon from '@mui/icons-material/East';
+import { Layout, Search, ArtistSearchResult } from '../../components';
+import classes from './index.module.scss';
 
-const ArtistDirectoryPage = () => (
-  <>
-    <Head>
-      <title>Artist Directory</title>
-    </Head>
-    <Layout>List here</Layout>
-  </>
+const Category = ({ category, artists = [] }) => (
+  <div>
+    <h2 className={classes.categoryHeading}>
+      <span>{category}</span>
+      <Link href={`/artists?category=${encodeURIComponent(category)}`} passHref>
+        <Button component="a" color="primary" endIcon={<EastIcon />}>
+          See more
+        </Button>
+      </Link>
+    </h2>
+    {artists.map((artist, artistIndex) => (
+      <ArtistSearchResult key={artistIndex} artist={artist} />
+    ))}
+  </div>
 );
+
+const ArtistDirectoryPage = ({ artists }) => {
+  const groupedArtists = useMemo(() => groupBy(artists, 'category'), [artists]);
+  const categories = Object.keys(groupedArtists);
+
+  return (
+    <>
+      <Head>
+        <title>Artist Directory</title>
+      </Head>
+      <Layout>
+        <Layout.Intro className={classes.intro}>
+          <h1 className={classes.heading}>Artist Directory</h1>
+          <p className={classes.description}>
+            Search by Type of Artist, Tags, Hireable Skills, or whatever you
+            need.
+          </p>
+        </Layout.Intro>
+        <Card elevation={6}>
+          <Search />
+        </Card>
+        <div className={classes.results}>
+          {categories.map((category, index) => (
+            <Category
+              key={index}
+              category={category}
+              artists={groupedArtists[category]}
+            />
+          ))}
+        </div>
+      </Layout>
+    </>
+  );
+};
+
+export async function getServerSideProps() {
+  const artists = [
+    {
+      _id: '6187db3040c7677f16cf21c0',
+      firstName: 'Bethany',
+      lastName: 'Pearson',
+      email: 'hello@bethanypaquette.com',
+      city: 'Grand Rapids',
+      social: {
+        website: 'http://bethanypaquette.com',
+        behance: '@bethanypaquette'
+      },
+      artistType: 'Graphic Artist',
+      description:
+        'Esse officia enim quis minim eiusmod adipisicing commodo dolor est enim mollit in dolor. Do Lorem ex ullamco ea nisi. Non aliqua exercitation ex minim in minim elit. Tempor laboris incididunt non eu do enim laborum aute proident duis. Laborum veniam fugiat eiusmod aute id cillum cillum magna reprehenderit aute officia consequat ullamco elit. Officia deserunt et laborum velit mollit exercitation ea quis et veniam.',
+      category: 'Visual Artist',
+      keywords: ['one', 'two', 'three'],
+      hireableSkills: ['UI', 'UX', 'Branding', 'Web Design', 'Graphic Design'],
+      subscribedToNewsletter: false
+    }
+  ];
+
+  return {
+    props: {
+      artists
+    }
+  };
+}
 
 export default ArtistDirectoryPage;

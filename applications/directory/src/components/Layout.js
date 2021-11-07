@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import Header from './Header';
 import Toolbar from './Toolbar';
 import classes from './Layout.module.scss';
 
-const Intro = ({ children }) => (
-  <section className={classes.intro}>{children}</section>
+const Intro = ({ className, children }) => (
+  <section className={clsx(classes.intro, className)}>{children}</section>
 );
 
 Intro.propTypes = {
+  className: PropTypes.string,
   children: PropTypes.node.isRequired
 };
 
