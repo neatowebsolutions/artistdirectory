@@ -33,7 +33,11 @@ function Header() {
                 color="primary"
                 variant="contained"
                 startIcon={<ControlPointIcon />}
-                disableElevation
+                sx={{
+                  '&&': {
+                    color: 'white'
+                  }
+                }}
               >
                 Create Your Artist Profile
               </Button>

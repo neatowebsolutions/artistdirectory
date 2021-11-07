@@ -10,6 +10,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
 import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
+import SendIcon from '@mui/icons-material/Send';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import UploadThumbnail from './UploadThumbnail';
 import classes from './CreateProfileForm.module.scss';
 
@@ -80,8 +82,8 @@ function CreateProfileForm() {
   };
 
   return (
-    <Card className={classes.formCard}>
-      <form noValidate onSubmit={handleSubmit}>
+    <form noValidate onSubmit={handleSubmit}>
+      <Card className={classes.formCard}>
         <legend className={classes.formTitle}>Your Info</legend>
         <p className={classes.fieldTitle}>
           <span className={classes.required}>*</span>Required
@@ -208,9 +210,7 @@ function CreateProfileForm() {
             </div>
             <div className={classes.browse}>
               <p>Drag and drop here, or</p>
-              <Button variant="contained" disableElevation>
-                Browse
-              </Button>
+              <Button variant="contained">Browse</Button>
             </div>
           </div>
           <div className={classes.uploadArea}>{/* <UploadThumbnail /> */}</div>
@@ -334,12 +334,20 @@ function CreateProfileForm() {
             </div>
           </div>
         </div>
-        <div>
-          <Button type="submit">Submit Form</Button>
-          <Button type="reset">Clear Form</Button>
-        </div>
-      </form>
-    </Card>
+      </Card>
+      <div className={classes.formActions}>
+        <Button type="submit" variant="contained" startIcon={<SendIcon />}>
+          Submit Form
+        </Button>
+        <Button
+          type="reset"
+          variant="outlined"
+          startIcon={<DeleteOutlineIcon />}
+        >
+          Clear Form
+        </Button>
+      </div>
+    </form>
   );
 }
 

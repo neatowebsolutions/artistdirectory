@@ -32,11 +32,15 @@ const theme = responsiveFontSizes(
         }
       },
       MuiButton: {
+        defaultProps: {
+          disableElevation: true
+        },
         styleOverrides: {
           root: {
-            '&&': {
-              color: 'white'
-            }
+            fontWeight: 'bold',
+            letterSpacing: '1.25px',
+            paddingLeft: '1.25rem',
+            paddingRight: '1.25rem'
           }
         }
       }
