@@ -16,7 +16,7 @@ resource "aws_iam_role" "services_consumer_role" {
 }
 
 resource "aws_iam_policy" "services_consumer_role_policy" {
-  name = "services_consumer_role_policy"
+  name = "services_consumer_role_policy_${terraform.workspace}"
   policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
