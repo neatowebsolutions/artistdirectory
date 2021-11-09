@@ -2,15 +2,6 @@
 
 .personalDetails {
   margin-bottom: 50px;
-  h2 {
-    font-family: $font__main;
-    font-size: 20px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-  }
   .detail {
     margin-right: 20px;
     .label {
@@ -37,16 +28,15 @@
       margin: 0;
     }
   }
-}
-
-.about {
-  p {
-    margin: 1rem 0;
-    font-size: 16px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.5;
-    letter-spacing: 0.15px;
+  .about {
+    p {
+      margin: 1rem 0;
+      font-size: 16px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.5;
+      letter-spacing: 0.15px;
+    }
   }
 }

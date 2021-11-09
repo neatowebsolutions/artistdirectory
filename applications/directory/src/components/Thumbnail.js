@@ -9,18 +9,14 @@ function Thumbnail({ upload }) {
     <Box sx={{ position: 'relative' }}>
       <Card
         className={classes.uploadThumbnail}
-        style={{ borderRadius: 10, padding: 0 }}
+        style={{ padding: 0, borderRadius: 10 }}
         elevation={2}
       >
-        <img
-          src={upload.preview}
-          className={classes.uploadedImage}
-          alt={upload.name}
-        />
+        <img src={upload.preview} alt={upload.name} />
       </Card>
 
-      <IconButton className={classes.delete}>
-        <DeleteOutlineIcon sx={{ color: 'primary' }} />
+      <IconButton className="delete">
+        <DeleteOutlineIcon sx={{ color: 'primary.main', width: 20 }} />
       </IconButton>
     </Box>
   );

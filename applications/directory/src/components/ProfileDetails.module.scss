@@ -1,55 +1,42 @@
 @import '../theme/variables.scss';
 
-.profileImage {
-  width: 150px;
-  height: 150px;
-  margin: 0 auto;
-  border-radius: $border-radius;
-  overflow: hidden;
-  img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-}
-
 .profileDetails {
-  // flex: 1;
-  // margin-right: 5%;
+  .profileImage {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    border-radius: $border-radius;
+    overflow: hidden;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
   .profileName {
     border-bottom: solid 1px rgba(0, 0, 0, 0.1);
     text-align: center;
+    h4 {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0 0 10px 0;
+      color: $text__tertiary;
+    }
+    .editButton {
+      margin-bottom: 10px;
+      text-align: center;
+    }
   }
   h3 {
     font-size: 22px;
     font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
     margin: 10px 0 5px 0;
-  }
-  h4 {
-    font-size: 16px;
-    font-weight: bold;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    margin: 0 0 10px 0;
-    color: $text__tertiary;
-  }
-  .editButton {
-    margin-bottom: 10px;
-    text-align: center;
   }
   .contactDetails {
     a {
       margin: 0;
       font-size: 16px;
       font-weight: normal;
-      font-stretch: normal;
-      font-style: normal;
       line-height: 1.5;
       letter-spacing: 0.15px;
       color: $text__main;

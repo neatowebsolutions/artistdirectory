@@ -5,7 +5,7 @@ import classes from './PersonalDetails.module.scss';
 function PersonalDetails() {
   return (
     <Card className={classes.personalDetails}>
-      <h2>Personal Details</h2>
+      <h2 className="cardTitle">Personal Details</h2>
       <Box
         sx={{
           display: 'flex',
@@ -45,7 +45,7 @@ function PersonalDetails() {
         </Box>
       </Box>
       <Box className={classes.about}>
-        <h2>About Josephine</h2>
+        <h2 className="cardTitle">About Josephine</h2>
         <p>
           Josephine is a Grand Rapidian painter, sculptor and printmaker, noted
           for his work in the areas of minimalism and post-painterly

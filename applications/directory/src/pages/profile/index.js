@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import PersonalDetails from '../../components/PersonalDetails';
 import ProfileDetails from '../../components/ProfileDetails';
 import WorkExamples from '../../components/WorkExamples';
-import classes from './index.module.scss';
 import { Layout } from '../../components';
 
 const AccountPage = () => (
@@ -12,11 +11,17 @@ const AccountPage = () => (
       <title>Artist Account</title>
     </Head>
     <Layout>
-      <div className={classes.root}>
-        <div className={classes.profileTitle}>
-          <h1>My Profile</h1>
-          {/* <h1>Artist Profile</h1> */}
-        </div>
+      <div className="root">
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
+          <h1 className="pageTitle">My Profile</h1>
+          {/* <h1 className="pageTitle">Artist Profile</h1> */}
+        </Box>
         <Box
           sx={{
             display: 'flex',

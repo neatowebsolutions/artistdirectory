@@ -1,53 +1,51 @@
 import FormControl from '@mui/material/FormControl';
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import classes from './LoginInfo.module.scss';
 
 function LoginInfo() {
   return (
-    <form className={classes.loginInfoForm}>
-      <legend className={classes.formTitle}>Login Info</legend>
-      <p className={classes.fieldTitle}>
-        <span className={classes.required}>*</span>Required
+    <form>
+      <legend className="formTitle">Login Info</legend>
+      <p className="fieldTitle">
+        <span className="required">*</span>Required
       </p>
-      <div className={classes.email}>
-        <FormControl sx={{ mr: 1, width: '50%' }}>
-          <TextField
-            id="outlined-required"
-            label="Email Address"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <MailOutlineIcon />
-                </InputAdornment>
-              )
-            }}
-            style={{ marginBottom: 25 }}
-            required
-          />
-        </FormControl>
-      </div>
-      <div>
+      <Box sx={{ mb: 2 }}>
+        <TextField
+          id="outlined-required"
+          label="Email Address"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <MailOutlineIcon />
+              </InputAdornment>
+            )
+          }}
+          sx={{ width: '50%' }}
+          required
+        />
+      </Box>
+      <Box sx={{ mb: 2 }}>
         <TextField
           id="outlined-password-input"
           label="Password"
           type="password"
           autoComplete="current-password"
-          style={{ width: '50%', marginBottom: 25 }}
+          sx={{ width: '50%' }}
           required
         />
-      </div>
-      <div>
+      </Box>
+      <Box>
         <TextField
           id="outlined-password-input"
           label="Confirm Password"
           type="password"
           autoComplete="current-password"
-          style={{ width: '50%', marginBottom: 25 }}
+          sx={{ width: '50%' }}
           required
         />
-      </div>
+      </Box>
     </form>
   );
 }

@@ -1,23 +1,6 @@
 @import '../../theme/variables.scss';
 
-.root {
-  max-width: 1064px;
-  margin: auto;
-}
-
-.account {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
 .profileTitle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  h1 {
-    font-size: 34px;
-  }
   nav {
     ul {
       margin: 0;

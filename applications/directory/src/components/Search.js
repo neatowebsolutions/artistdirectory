@@ -8,13 +8,11 @@ import Box from '@mui/material/Box';
 import Select from '@mui/material/Select';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
-import classes from './Search.module.scss';
 
 const Search = () => {
   // const [categories, setCategories] = useState('');
   // const [tags, setTags] = useState('');
   // const [skills, setSkills] = useState('');
-
   return (
     <Box
       sx={{
@@ -28,12 +26,12 @@ const Search = () => {
         <Select
           // value={categories}
           label="Categories"
-          inputProps={{
-            classes: {
-              icon: classes.icon
+          autoWidth
+          sx={{
+            '& svg': {
+              color: 'primary.main'
             }
           }}
-          autoWidth
         >
           <MenuItem></MenuItem>
         </Select>
@@ -43,9 +41,9 @@ const Search = () => {
         <Select
           // value={tags}
           label="Tags"
-          inputProps={{
-            classes: {
-              icon: classes.icon
+          sx={{
+            '& svg': {
+              color: 'primary.main'
             }
           }}
           autoWidth
@@ -58,9 +56,9 @@ const Search = () => {
         <Select
           // value={skills}
           label="Hireable Skills"
-          inputProps={{
-            classes: {
-              icon: classes.icon
+          sx={{
+            '& svg': {
+              color: 'primary.main'
             }
           }}
           autoWidth

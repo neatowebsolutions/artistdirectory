@@ -5,6 +5,9 @@ const theme = responsiveFontSizes(
     palette: {
       primary: {
         main: '#be2926'
+      },
+      secondary: {
+        main: '#8a9918'
       }
     },
     breakpoints: {

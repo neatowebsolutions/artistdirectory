@@ -6,6 +6,8 @@ import InfoIcon from '@mui/icons-material/Info';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Thumbnail from './Thumbnail';
+// import ThumbnailError from './ThumbnailError';
+// import ThumbnailLoading from './ThumbnailLoading';
 import classes from './Upload.module.scss';
 
 function Upload() {
@@ -42,16 +44,15 @@ function Upload() {
   );
 
   return (
-    <div>
-      <p className={classes.fieldTitle}>
+    <Box>
+      <h2 className="cardTitle">Work</h2>
+      <p className="fieldTitle">
         Add up to 5 images of your work - up to 2mb in size
-        <span className={classes.required}>*</span>
+        <span className="required">*</span>
       </p>
-      <p className={classes.example}>
-        At least 1 image of your work is required.
-      </p>
+      <p className="example">At least 1 image of your work is required.</p>
 
-      <section className="container">
+      <div>
         <div {...getRootProps({ className: `dropzone ${classes.dropUpload}` })}>
           <div>
             <img src="/images/img-artupload.svg" alt="Art Upload Frame" />
@@ -91,8 +92,8 @@ function Upload() {
         >
           {thumbs}
         </Box>
-      </section>
-    </div>
+      </div>
+    </Box>
   );
 }
 

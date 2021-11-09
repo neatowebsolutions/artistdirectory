@@ -12,9 +12,16 @@ const AccountEditPage = () => (
       <title>My Profile</title>
     </Head>
     <Layout>
-      <div className={classes.root}>
-        <div className={classes.profileTitle}>
-          <h1>My Profile</h1>
+      <div className="root">
+        <Box
+          className={classes.profileTitle}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+        >
+          <h1 className="pageTitle">My Profile</h1>
           <nav>
             <ul>
               <li>
@@ -27,7 +34,7 @@ const AccountEditPage = () => (
               </li>
             </ul>
           </nav>
-        </div>
+        </Box>
 
         <Box
           sx={{
