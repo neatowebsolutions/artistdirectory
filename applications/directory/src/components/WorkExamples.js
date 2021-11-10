@@ -4,8 +4,12 @@ import Thumbnail from './Thumbnail';
 
 function WorkExamples() {
   return (
-    <Card>
-      <h2 className="cardTitle">Work Examples</h2>
+    <Card
+      sx={{
+        '& h2': { typography: 'body1', fontSize: '20px', fontWeight: '500' }
+      }}
+    >
+      <h2>Work Examples</h2>
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
         {/* <Thumbnail /> */}
       </Box>

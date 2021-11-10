@@ -3,7 +3,6 @@ import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import { Layout, Search } from '../components';
 
-// Done restyling
 const HomePage = () => (
   <>
     <Head>

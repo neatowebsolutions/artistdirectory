@@ -12,6 +12,24 @@ const theme = responsiveFontSizes(
       }
     },
     typography: {
+      h1: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h2: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h3: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h4: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h5: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h6: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
       body1: {
         fontFamily: ['gira-sans', 'sans-serif'].join(',')
       },
@@ -24,7 +42,8 @@ const theme = responsiveFontSizes(
         mobile: 0,
         tablet: 768,
         laptop: 1024,
-        desktop: 1280
+        desktop: 1280,
+        desktopLg: 1350
       }
     },
     components: {
@@ -56,4 +75,3 @@ const theme = responsiveFontSizes(
 );
 
 export default theme;
-// fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')

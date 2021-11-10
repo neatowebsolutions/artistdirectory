@@ -6,7 +6,6 @@ import createEmotionServer from '@emotion/server/create-instance';
 import createEmotionCache from '../theme/createEmotionCache';
 import theme from '../theme/material';
 
-// Done restyling
 export default class MyDocument extends Document {
   render() {
     return (

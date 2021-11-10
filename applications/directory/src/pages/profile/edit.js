@@ -5,7 +5,6 @@ import ProfileDetails from '../../components/ProfileDetails';
 import { Layout } from '../../components';
 import EditProfileTabs from '../../components/EditProfileTabs';
 
-// Done restyling
 const AccountEditPage = () => (
   <>
     <Head>

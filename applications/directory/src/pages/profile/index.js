@@ -5,7 +5,6 @@ import ProfileDetails from '../../components/ProfileDetails';
 import WorkExamples from '../../components/WorkExamples';
 import { Layout } from '../../components';
 
-// Done restyling
 const AccountPage = () => (
   <>
     <Head>
@@ -30,10 +29,18 @@ const AccountPage = () => (
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'start'
+            alignItems: ['center', 'start', 'start', 'start', 'start'],
+            flexDirection: ['column', 'column', 'row', 'row', 'row']
           }}
         >
-          <Box sx={{ flex: 1, marginRight: '5%' }}>
+          <Box
+            sx={{
+              flex: 1,
+              mr: ['0', '0', '5%', '5%', '5%'],
+              mb: '50px',
+              width: '100%'
+            }}
+          >
             <ProfileDetails />
           </Box>
           <Box sx={{ flex: 3 }}>

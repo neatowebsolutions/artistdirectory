@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import { Layout } from '../../components';
 import CreateProfileForm from '../../components/CreateProfileForm';
 
-// Done restyling
 const CreatePage = () => (
   <>
     <Head>

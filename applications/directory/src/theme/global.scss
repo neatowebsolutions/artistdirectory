@@ -1,5 +1,3 @@
-@import './variables.scss';
-
 /* Reference: https://gist.github.com/hsleonis/55712b0eafc9b25f1944 */
 * {
   font-size: 100%;
@@ -17,25 +15,6 @@ html,
 body,
 #__next {
   height: 100%;
-}
-
-body {
-  font-family: $font__main;
-  color: $text__main;
-}
-
-.root {
-  max-width: 1064px;
-  margin: auto;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: $font__secondary;
 }
 
 h1 {
@@ -93,43 +72,6 @@ p {
 
 a {
   font-weight: bold;
-}
-
-h1.pageTitle {
-  font-size: 34px;
-}
-
-h2.cardTitle {
-  font-family: $font__main;
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.formTitle {
-  font-family: $font__secondary;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 1;
-  letter-spacing: 0.18px;
-}
-
-.fieldTitle {
-  font-family: $font__secondary;
-  font-size: 20px;
-  line-height: 1.2;
-  letter-spacing: 0.15px;
-}
-
-.required {
-  color: $primary__color;
-}
-
-.example {
-  font-size: 16px;
-  font-style: italic;
-  line-height: 1.33;
-  letter-spacing: 0.4px;
-  margin-top: 0;
 }
 
 @-webkit-keyframes load8 {

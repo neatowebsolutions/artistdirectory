@@ -22,7 +22,12 @@ Intro.propTypes = {
 };
 
 const Layout = ({ children }) => (
-  <Box sx={{ maxWidth: 1280, margin: '0 auto' }}>
+  <Box
+    sx={{
+      maxWidth: ['90%', '90%', '90%', '1180px', '1280px'],
+      margin: '0 auto'
+    }}
+  >
     <Toolbar />
     <Header />
     <main>{children}</main>
