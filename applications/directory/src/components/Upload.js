@@ -8,7 +8,6 @@ import Stack from '@mui/material/Stack';
 import Thumbnail from './Thumbnail';
 // import ThumbnailError from './ThumbnailError';
 // import ThumbnailLoading from './ThumbnailLoading';
-import classes from './Upload.module.scss';
 
 function Upload() {
   const [files, setFiles] = useState([]);
@@ -52,47 +51,73 @@ function Upload() {
       </p>
       <p className="example">At least 1 image of your work is required.</p>
 
-      <div>
-        <div {...getRootProps({ className: `dropzone ${classes.dropUpload}` })}>
-          <div>
-            <img src="/images/img-artupload.svg" alt="Art Upload Frame" />
-          </div>
-          <input {...getInputProps()} />
-          <div className={classes.browse}>
-            <p>Drag and drop here, or</p>
-            <Button variant="contained" disableElevation>
-              Browse
-            </Button>
-          </div>
-        </div>
-        <Box sx={{ marginTop: '25px' }}>
-          <Stack>
-            <Alert
-              variant="outlined"
-              icon={<InfoIcon sx={{ color: '#3d748a' }} />}
-              onClose={() => {}}
-              sx={{
-                backgroundColor: '#ebf1f3',
-                border: 'solid 1px #3d748a',
-                color: 'rgba(0, 0, 0, 0.87)'
-              }}
-            >
-              Looks like you have the maximum 5 images uploaded to your profile.{' '}
-            </Alert>
-          </Stack>
+      <Box
+        sx={{
+          width: '100%',
+          border: '2px dashed',
+          borderColor: 'primary.main',
+          borderRadius: '4px',
+          height: '250px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          textAlign: 'center'
+        }}
+        {...getRootProps({ className: 'dropzone' })}
+      >
+        <Box>
+          <img src="/images/img-artupload.svg" alt="Art Upload Frame" />
         </Box>
+        <input {...getInputProps()} />
         <Box
           sx={{
-            marginTop: '25px',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            columnGap: '20px',
-            rowGap: '25px'
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            '& p': {
+              fontSize: '20px',
+              textAlign: 'center',
+              margin: '10px 15px 10px 0'
+            }
           }}
         >
-          {thumbs}
+          <p>Drag and drop here, or</p>
+          <Button variant="contained" disableElevation>
+            Browse
+          </Button>
         </Box>
-      </div>
+      </Box>
+      <Box sx={{ marginTop: '25px' }}>
+        <Stack>
+          <Alert
+            variant="outlined"
+            icon={<InfoIcon sx={{ color: '#3d748a' }} />}
+            onClose={() => {}}
+            sx={{
+              backgroundColor: '#ebf1f3',
+              border: 'solid 1px #3d748a',
+              color: 'rgba(0, 0, 0, 0.87)',
+              typography: 'body1',
+              fontSize: '14px'
+            }}
+          >
+            Looks like you have the maximum 5 images uploaded to your profile.{' '}
+          </Alert>
+        </Stack>
+      </Box>
+      <Box
+        sx={{
+          marginTop: '25px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          columnGap: '20px',
+          rowGap: '25px'
+        }}
+      >
+        {thumbs}
+      </Box>
     </Box>
   );
 }

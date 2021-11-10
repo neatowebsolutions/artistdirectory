@@ -69,6 +69,7 @@ const Search = () => {
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 2 }}>
         <TextField
           InputProps={{
+            style: { fontSize: '.95rem' },
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon />

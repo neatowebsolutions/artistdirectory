@@ -1,4 +1,4 @@
-import React from 'react';
+import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
@@ -15,7 +15,6 @@ import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Upload from './Upload';
-import classes from './CreateProfileForm.module.scss';
 
 const topArtistServices = [
   { title: 'Painting' },
@@ -91,101 +90,119 @@ function CreateProfileForm({ className }) {
   return (
     <div className={className}>
       <form noValidate onSubmit={handleSubmit}>
-        <Card elevation={6}>
-          <legend className={classes.formTitle}>Your Info</legend>
-          <p className={classes.fieldTitle}>
-            <span className={classes.required}>*</span>Required
+        <Card
+          sx={{
+            '& legend': {
+              typography: 'body2',
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              lineHeight: '1',
+              letterSpacing: '0.18px'
+            },
+            '& p': {
+              typography: 'body2',
+              fontSize: '20px',
+              lineHeight: '1.2',
+              letterSpacing: '0.15px',
+              '& span': {
+                color: 'primary.main'
+              }
+            }
+          }}
+          elevation={6}
+        >
+          <legend>Your Info</legend>
+          <p>
+            <span>*</span>Required
           </p>
 
-          <div className={classes.contact}>
-            <div>
+          <Box>
+            <Box>
               <TextField
                 required
-                style={{ width: '47%', marginBottom: 25, marginRight: 25 }}
+                sx={{ width: '47%', mb: '25px', mr: '25px' }}
                 id="outlined-required"
                 label="First Name"
               />
               <TextField
                 required
-                style={{ width: '47%', marginBottom: 25 }}
+                sx={{ width: '47%', mb: '25px' }}
                 id="outlined-required"
                 label="Last Name"
               />
+            </Box>
+            <div>
+              <TextField
+                required
+                sx={{ width: '47%', mb: '25px' }}
+                id="outlined-required"
+                label="Email Address"
+              />
             </div>
             <div>
-              <div>
-                <TextField
-                  required
-                  style={{ width: '47%', marginBottom: 25 }}
-                  id="outlined-required"
-                  label="Email Address"
-                />
-              </div>
-              <div>
-                <TextField
-                  required
-                  style={{ width: '47%', marginBottom: 25 }}
-                  id="outlined-required"
-                  label="In which city do you reside?"
-                />
-              </div>
+              <TextField
+                required
+                sx={{ width: '47%', mb: '25px' }}
+                id="outlined-required"
+                label="In which city do you reside?"
+              />
             </div>
-          </div>
+          </Box>
 
-          <div>
-            <p className={classes.fieldTitle}>
+          <Box>
+            <p>
               What&apos;s the best place to find your work online? (Website,
               Behance, etc.)
-              <span className={classes.required}>*</span>
+              <span>*</span>
             </p>
             <FormGroup>
-              <div className={classes.urls}>
+              <Box sx={{ display: 'flex', mb: '25px' }}>
                 <FormControlLabel
                   control={<Checkbox defaultChecked />}
-                  style={{ width: '15%' }}
+                  sx={{ width: '15%' }}
                   label="Website"
                 />
                 <TextField
                   id="outlined-required"
-                  style={{ width: '50%' }}
+                  sx={{ width: '50%' }}
                   label="Website URL"
                 />
-              </div>
+              </Box>
             </FormGroup>
             <FormGroup>
-              <div className={classes.urls}>
+              <Box sx={{ display: 'flex', mb: '25px' }}>
                 <FormControlLabel
                   control={<Checkbox />}
-                  style={{ width: '15%' }}
+                  sx={{ width: '15%' }}
                   label="Behance"
                 />
                 <TextField
                   id="outlined-required"
-                  style={{ width: '50%' }}
+                  sx={{ width: '50%' }}
                   label="Behance URL"
                 />
-              </div>
+              </Box>
             </FormGroup>
             <FormGroup>
-              <div className={classes.urls}>
+              <Box sx={{ display: 'flex', mb: '25px' }}>
                 <FormControlLabel
                   control={<Checkbox />}
-                  style={{ width: '15%' }}
+                  sx={{ width: '15%' }}
                   label=""
                 />
                 <TextField
                   id="outlined-required"
-                  style={{ width: '50%' }}
+                  sx={{ width: '50%' }}
                   label="Other"
                 />
-              </div>
+              </Box>
             </FormGroup>
-          </div>
+          </Box>
 
-          <div>
-            <p className={classes.fieldTitle}>
+          <Box>
+            <p>
               What kind of artist are you? (Check all that apply)
-              <span className={classes.required}>*</span>
+              <span>*</span>
             </p>
             <FormGroup>
               <FormControlLabel
@@ -200,26 +217,47 @@ function CreateProfileForm({ className }) {
               <FormControlLabel control={<Checkbox />} label="Theatre Artist" />
             </FormGroup>
             <FormGroup>
-              <div className={classes.other}>
+              <Box sx={{ display: 'flex', mb: '25px' }}>
                 <FormControlLabel control={<Checkbox />} label="" />
                 <TextField
                   id="outlined-required"
-                  style={{ width: '75%' }}
+                  sx={{ width: '75%' }}
                   label="Other Artist Type"
                 />
-              </div>
+              </Box>
             </FormGroup>
-          </div>
+          </Box>
 
           <Upload />
 
-          <div>
-            <p className={classes.fieldTitle}>
+          <Box
+            sx={{
+              '& span:nth-child(2)': {
+                color: 'primary.text',
+                opacity: '0.75',
+                fontSize: '14px',
+                fontWeight: '500',
+                fontStyle: 'italic',
+                lineHeight: '1.33',
+                letterSpacing: '1px',
+                ml: '15px'
+              },
+              '& p:nth-child(2)': {
+                typography: 'body1',
+                fontSize: '12px',
+                fontStyle: 'italic',
+                lineHeight: '1.33',
+                letterSpacing: '0.4px',
+                mt: '0'
+              }
+            }}
+          >
+            <p>
               Short description of what you do.
-              <span className={classes.required}>*</span>
-              <span className={classes.caveat}>1500 CHARACTERS MAX!</span>
+              <span>*</span>
+              <span>1500 CHARACTERS MAX!</span>
             </p>
-            <p className={classes.example}>
+            <p>
               Example: Visual artist and musician whose work explores themes of
               nature, memory, trauma and identity. Reyes primarily creates
               participatory work that utilizes found objects and sounds of
@@ -234,13 +272,13 @@ function CreateProfileForm({ className }) {
                 multiline
               />
             </FormControl>
-          </div>
+          </Box>
 
-          <div>
-            <p className={classes.fieldTitle}>
+          <Box>
+            <p>
               Please list up to 10 keywords that would describe your work and
               services.
-              <span className={classes.required}>*</span>
+              <span>*</span>
             </p>
             <Stack>
               <Autocomplete
@@ -269,17 +307,27 @@ function CreateProfileForm({ className }) {
                 )}
               />
             </Stack>
-          </div>
+          </Box>
 
-          <div>
-            <p className={classes.fieldTitle}>
+          <Box
+            sx={{
+              '& p:nth-child(2)': {
+                typography: 'body1',
+                fontSize: '12px',
+                fontStyle: 'italic',
+                lineHeight: '1.33',
+                letterSpacing: '0.4px',
+                mt: '0',
+                mb: '20px'
+              }
+            }}
+          >
+            <p>
               Do you have skills, artistic or otherwise, for which you could be
               hired by Network visitors? If so, please list.
-              <span className={classes.required}>*</span>
+              <span>*</span>
             </p>
-            <p className={classes.example}>
-              Example: DJ, wedding photographer, translation work, welding.
-            </p>
+            <p>Example: DJ, wedding photographer, translation work, welding.</p>
             <Stack>
               <Autocomplete
                 multiple
@@ -309,14 +357,14 @@ function CreateProfileForm({ className }) {
                 )}
               />
             </Stack>
-          </div>
+          </Box>
 
-          <div className={classes.newsletter}>
-            <div className={classes.image}>
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ '& img': { mt: '2rem', mr: '2rem' } }}>
               <img src="/images/img-newsletter.svg" alt="Evelope" />
-            </div>
-            <div className={classes.field}>
-              <p className={classes.fieldTitle}>
+            </Box>
+            <Box sx={{ width: '75%' }}>
+              <p>
                 Would you like to subscribe to our monthly newsletter about
                 local art opportunities?
               </p>
@@ -333,10 +381,18 @@ function CreateProfileForm({ className }) {
                 />
                 <FormControlLabel value="no" control={<Radio />} label="No" />
               </RadioGroup>
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Card>
-        <div className={classes.formActions}>
+        <Box
+          sx={{
+            maxWidth: '782px',
+            margin: '0 auto',
+            display: 'flex',
+            justifyContent: 'space-between',
+            mt: '2rem'
+          }}
+        >
           <Button type="submit" variant="contained" startIcon={<SendIcon />}>
             Submit Form
           </Button>
@@ -347,7 +403,7 @@ function CreateProfileForm({ className }) {
           >
             Clear Form
           </Button>
-        </div>
+        </Box>
       </form>
     </div>
   );

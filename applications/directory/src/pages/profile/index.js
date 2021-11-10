@@ -5,22 +5,26 @@ import ProfileDetails from '../../components/ProfileDetails';
 import WorkExamples from '../../components/WorkExamples';
 import { Layout } from '../../components';
 
+// Done restyling
 const AccountPage = () => (
   <>
     <Head>
       <title>Artist Account</title>
     </Head>
     <Layout>
-      <div className="root">
+      <Layout.Root>
         <Box
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            '& h1': {
+              fontSize: '2.2rem'
+            }
           }}
         >
-          <h1 className="pageTitle">My Profile</h1>
-          {/* <h1 className="pageTitle">Artist Profile</h1> */}
+          <h1>My Profile</h1>
+          {/* <h1>Artist Profile</h1> */}
         </Box>
         <Box
           sx={{
@@ -37,7 +41,7 @@ const AccountPage = () => (
             <WorkExamples />
           </Box>
         </Box>
-      </div>
+      </Layout.Root>
     </Layout>
   </>
 );

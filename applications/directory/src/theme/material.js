@@ -4,10 +4,19 @@ const theme = responsiveFontSizes(
   createTheme({
     palette: {
       primary: {
-        main: '#be2926'
+        main: '#be2926',
+        text: 'rgba(0, 0, 0, 0.87)'
       },
       secondary: {
         main: '#8a9918'
+      }
+    },
+    typography: {
+      body1: {
+        fontFamily: ['gira-sans', 'sans-serif'].join(',')
+      },
+      body2: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
       }
     },
     breakpoints: {
@@ -47,3 +56,4 @@ const theme = responsiveFontSizes(
 );
 
 export default theme;
+// fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')

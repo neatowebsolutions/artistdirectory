@@ -3,25 +3,43 @@ import Box from '@mui/material/Box';
 import Head from 'next/head';
 import ProfileDetails from '../../components/ProfileDetails';
 import { Layout } from '../../components';
-import classes from './edit.module.scss';
 import EditProfileTabs from '../../components/EditProfileTabs';
 
+// Done restyling
 const AccountEditPage = () => (
   <>
     <Head>
       <title>My Profile</title>
     </Head>
     <Layout>
-      <div className="root">
+      <Layout.Root>
         <Box
-          className={classes.profileTitle}
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            '& h1': {
+              fontSize: '2.2rem'
+            },
+            '& nav': {
+              '& ul': {
+                margin: 0,
+                padding: 0,
+                listStyle: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
+                '& li': {
+                  mr: '20px',
+                  '&:last-child': {
+                    mr: '0'
+                  }
+                }
+              }
+            }
           }}
         >
-          <h1 className="pageTitle">My Profile</h1>
+          <h1>My Profile</h1>
           <nav>
             <ul>
               <li>
@@ -43,14 +61,14 @@ const AccountEditPage = () => (
             alignItems: 'flex-start'
           }}
         >
-          <Box sx={{ flex: 1, marginRight: '5%' }}>
+          <Box sx={{ flex: 1, mr: '5%' }}>
             <ProfileDetails />
           </Box>
           <Box sx={{ flex: 3 }}>
             <EditProfileTabs />
           </Box>
         </Box>
-      </div>
+      </Layout.Root>
     </Layout>
   </>
 );

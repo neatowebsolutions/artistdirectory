@@ -7,7 +7,7 @@ import '../theme/index.scss';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
-
+// Done restyling
 const App = ({
   Component,
   pageProps,
