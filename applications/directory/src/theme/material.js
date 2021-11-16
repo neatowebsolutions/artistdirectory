@@ -8,7 +8,8 @@ const theme = responsiveFontSizes(
         text: 'rgba(0, 0, 0, 0.87)'
       },
       secondary: {
-        main: '#8a9918'
+        main: '#8a9918',
+        secondary: '#585481'
       }
     },
     typography: {

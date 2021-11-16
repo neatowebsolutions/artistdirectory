@@ -1,13 +1,25 @@
-// import FormControl from '@mui/material/FormControl';
+import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import Button from '@mui/material/Button';
+import VerifiedIcon from '@mui/icons-material/Verified';
 
-function LoginInfo() {
+function CreateAccount() {
   return (
-    <Box
+    <Card
       sx={{
+        flex: 1,
+        textAlign: 'center',
+        border: '2px solid',
+        borderColor: 'secondary.secondary',
+        '& p.create': {
+          color: 'secondary.secondary',
+          fontSize: '1.875rem',
+          fontWeight: '500',
+          mt: 0
+        },
         '& form': {
           '& legend.formTitle': {
             fontSize: '1.5rem',
@@ -27,9 +39,14 @@ function LoginInfo() {
           }
         }
       }}
+      elevation={6}
     >
+      <p className="create">
+        While you&apos;re at it, create an account to manage your work and
+        update your profile in the future.
+      </p>
       <form>
-        <legend className="formTitle">Login Info</legend>
+        <legend className="formTitle">Create an Account</legend>
         <p>
           <span>*</span>Required
         </p>
@@ -44,7 +61,7 @@ function LoginInfo() {
                 </InputAdornment>
               )
             }}
-            sx={{ width: '50%' }}
+            sx={{ minWidth: ['100%', '100%', '325px'] }}
             required
           />
         </Box>
@@ -54,7 +71,7 @@ function LoginInfo() {
             label="Password"
             type="password"
             autoComplete="current-password"
-            sx={{ width: '50%' }}
+            sx={{ minWidth: ['100%', '100%', '325px'] }}
             required
           />
         </Box>
@@ -64,13 +81,22 @@ function LoginInfo() {
             label="Confirm Password"
             type="password"
             autoComplete="current-password"
-            sx={{ width: '50%' }}
+            sx={{ minWidth: ['100%', '100%', '325px'] }}
             required
           />
         </Box>
+        <Button
+          sx={{ mt: 3, mb: 1, maxWidth: ['100%', '100%', '325px'] }}
+          type="submit"
+          variant="contained"
+          startIcon={<VerifiedIcon />}
+          fullWidth
+        >
+          Create Account
+        </Button>
       </form>
-    </Box>
+    </Card>
   );
 }
 
-export default LoginInfo;
+export default CreateAccount;
