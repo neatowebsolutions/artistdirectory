@@ -24,10 +24,10 @@ function Upload() {
           })
         )
       );
-    },
-    onDropRejected: (fileRejections) => {
-      console.log(fileRejections);
     }
+    // onDropRejected: (fileRejections) => {
+    //   console.log(fileRejections);
+    // }
   });
 
   const thumbs = files.map((file) => (
@@ -43,7 +43,27 @@ function Upload() {
   );
 
   return (
-    <Box>
+    <Box
+      sx={{
+        '& h2.cardTitle': {
+          typography: 'body1',
+          fontSize: '20px',
+          fontWeight: '500'
+        },
+        '& p': {
+          typography: 'body2',
+          fontSize: '20px',
+          lineHeight: '1.2',
+          letterSpacing: '0.15px',
+          '& span': {
+            color: 'primary.main'
+          }
+        },
+        '& p.example': {
+          fontStyle: 'italic'
+        }
+      }}
+    >
       <h2 className="cardTitle">Work</h2>
       <p className="fieldTitle">
         Add up to 5 images of your work - up to 2mb in size
