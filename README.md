@@ -47,6 +47,12 @@ During development, a local replica set is required as transactions may be used.
 
 ## Development
 
+### Getting started
+
+1. Review designs, and understand the purpose and facets of this application.
+1. Follow steps below under Setup to get the application running.
+1. Ask for your first task.
+
 ### Setup
 
 1. Clone this repository.
