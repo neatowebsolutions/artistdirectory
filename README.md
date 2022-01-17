@@ -6,9 +6,9 @@ This monorepo is a collection of applications, services, packages, and infrastru
 
 ## Links
 
-- [Trello](https://trello.com/b/pumtPrnj/artist-directory)
-- [Test site](https://test.artistdirectory.co/)
-- [Production site](https://artistdirectory.co/)
+- [Tasks](https://trello.com/b/pumtPrnj/artist-directory)
+- [Test environment](https://test.artistdirectory.co/)
+- [Production environment](https://artistdirectory.co/)
 - [Designs](https://app.zeplin.io/project/6185cf219478b92fa4e09cef)
 
 ## Dependencies
