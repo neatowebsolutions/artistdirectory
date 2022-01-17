@@ -4,6 +4,13 @@
 
 This monorepo is a collection of applications, services, packages, and infrastructure as code comprising the entirety of an artist directory app.
 
+## Links
+
+- [Trello](https://trello.com/b/pumtPrnj/artist-directory)
+- [Test site](https://test.artistdirectory.co/)
+- [Production site](https://artistdirectory.co/)
+- [Designs](https://app.zeplin.io/project/6185cf219478b92fa4e09cef)
+
 ## Dependencies
 
 If you are struggling and need help setting anything up, please ask for help.
