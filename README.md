@@ -10,8 +10,8 @@ This monorepo is a collection of applications, services, packages, and infrastru
 - [Test environment](https://test.artistdirectory.co/)
 - [Production environment](https://artistdirectory.co/)
 - Designs
-    * [Private access, with more detail](https://app.zeplin.io/project/6185cf219478b92fa4e09cef)
-    * [Public access](https://scene.zeplin.io/project/6185cf219478b92fa4e09cef)
+  - [Private access, with more detail](https://app.zeplin.io/project/6185cf219478b92fa4e09cef)
+  - [Public access](https://scene.zeplin.io/project/6185cf219478b92fa4e09cef)
 
 ## Dependencies
 
@@ -59,7 +59,7 @@ During development, a local replica set is required as transactions may be used.
 
 1. Clone this repository.
 1. Create a top-level `.env` file by copying `.env.example` and fill in values.
-1. Create hard links (e.g., `ln ../../.env .`) to the top-level `.env` file within each `applications/` and `services/` subdirectory.
+1. Create symlinks (e.g., `ln -s ../../.env .`) to the top-level `.env` file within each `applications/` and `services/` subdirectory.
 1. TODO: Create AWS IAM account
 1. TODO: Add AWS config and credentials to ~/.aws/config and ~/.aws/credentials.
 1. Run `yarn start`. This automatically does the following:
