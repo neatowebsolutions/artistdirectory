@@ -3,7 +3,7 @@ import axios from 'axios';
 class HttpClient {
   constructor({ baseUrl, ...options }) {
     const client = axios.create();
-
+   
     client.defaults.baseURL = baseUrl;
     client.defaults.timeout = 20 * 1000;
     client.defaults.responseType = 'json';
@@ -23,6 +23,9 @@ class HttpClient {
 
     this.client = client;
   }
+
+
+
 
   // Axios options may be passed for `options`. See https://www.npmjs.com/package/axios#request-config.
   async request(method, url, data = null, options = {}) {
