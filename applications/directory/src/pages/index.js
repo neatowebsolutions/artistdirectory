@@ -9,7 +9,7 @@ const HomePage = () => {
   const { categories, categoriesLoading, categoriesError } = useCategories();
   const { tags, tagsLoading, tagsError } = useTags();
   const { skills, skillsLoading, skillsError } = useSkills();
-  
+
   return (
     <>
       <Head>
@@ -46,9 +46,9 @@ const HomePage = () => {
         </Layout.Intro>
         <Card elevation={6}>
           <Search
-            allCategories={{ categories, categoriesError, categoriesLoading }}
-            allTags={{ tags, tagsError, tagsLoading }}
-            allSkills={{ skills, skillsError, skillsLoading }}
+            categories={{ categories, categoriesError, categoriesLoading }}
+            tags={{ tags, tagsError, tagsLoading }}
+            skills={{ skills, skillsError, skillsLoading }}
           />
         </Card>
       </Layout>
