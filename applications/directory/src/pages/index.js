@@ -1,8 +1,10 @@
+import { Loader } from "@artistdirectory/react-components";
 import Head from "next/head";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
+import Alert from "@mui/material/Alert";
+import LinearProgress from "@mui/material/LinearProgress";
 import { Layout, Search } from "../components";
-
 import { useCategories, useTags, useSkills } from "../hooks";
 
 const HomePage = () => {
@@ -24,7 +26,7 @@ const HomePage = () => {
               fontSize: "3.75rem",
               fontWeight: "bold",
               letterSpacing: "-0.5px",
-              margin: "3rem auto 1.5rem auto",
+              margin: "3rem auto 1.5rem auto"
             }}
           >
             Discover artists and their work,
@@ -45,11 +47,25 @@ const HomePage = () => {
           </Box>
         </Layout.Intro>
         <Card elevation={6}>
-          <Search
-            categories={{ categories, categoriesError, categoriesLoading }}
-            tags={{ tags, tagsError, tagsLoading }}
-            skills={{ skills, skillsError, skillsLoading }}
-          />
+          <Loader
+            isLoading={categoriesLoading || tagsLoading || skillsLoading}
+            isError={categoriesError || tagsError || skillsError}
+            loadingComponent={() => (
+              <LinearProgress color="primary"></LinearProgress>
+            )}
+            errorComponent={() => (
+              <Alert
+                severity="error"
+                sx={{
+                  fontSize: "1.2rem"
+                }}
+              >
+                An unexpected error occurred. Please try again shortly.
+              </Alert>
+            )}
+          >
+            <Search categories={categories} tags={tags} skills={skills} />
+          </Loader>
         </Card>
       </Layout>
     </>

@@ -8,7 +8,7 @@ const useCategories = () => {
     `/categories`,
     httpClient.get.bind(httpClient),
     {
-      revalidateOnFocus: false,
+      revalidateOnFocus: false
     }
   );
   const categoriesLoading = !categories && !categoriesError;
@@ -16,7 +16,7 @@ const useCategories = () => {
   return {
     categories,
     categoriesLoading,
-    categoriesError,
+    categoriesError
   };
 };
 

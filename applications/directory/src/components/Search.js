@@ -9,9 +9,7 @@ import Select from "@mui/material/Select";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
 
-const renderMenuItemsList = (items, error, loading) => {
-  if (error) return <MenuItem>Failed to fetch options</MenuItem>;
-  if (loading) return <MenuItem>Loading...</MenuItem>;
+const renderMenuItemsList = (items) => {
   return items.map(({ _id, name }) => (
     <MenuItem
       key={_id}
@@ -24,11 +22,7 @@ const renderMenuItemsList = (items, error, loading) => {
   ));
 };
 
-const Search = ({
-  categories: { categories, categoriesError, categoriesLoading },
-  tags: { tags, tagsError, tagsLoading },
-  skills: { skills, skillsError, skillsLoading },
-}) => {
+const Search = ({ categories, tags, skills }) => {
   const [category, setCategory] = useState("");
   const onCategoryChange = (e) => setCategory(e.target.value);
 
@@ -54,7 +48,7 @@ const Search = ({
       sx={{
         display: "flex",
         justifyContent: "space-evenly",
-        flexDirection: ["column", "column", "row", "row"],
+        flexDirection: ["column", "column", "row", "row"]
       }}
     >
       <FormControl sx={{ mr: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
@@ -72,7 +66,7 @@ const Search = ({
           autoWidth
           MenuProps={selectMenuProps}
         >
-          {renderMenuItemsList(categories, categoriesError, categoriesLoading)}
+          {renderMenuItemsList(categories)}
         </Select>
       </FormControl>
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
@@ -90,7 +84,7 @@ const Search = ({
           autoWidth
           MenuProps={selectMenuProps}
         >
-          {renderMenuItemsList(tags, tagsError, tagsLoading)}
+          {renderMenuItemsList(tags)}
         </Select>
       </FormControl>
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
@@ -103,12 +97,12 @@ const Search = ({
           sx={{
             "& svg": {
               color: "primary.main",
-            },
+            }
           }}
           autoWidth
           MenuProps={selectMenuProps}
         >
-          {renderMenuItemsList(skills, skillsError, skillsLoading)}
+          {renderMenuItemsList(skills)}
         </Select>
       </FormControl>
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 2 }}>
@@ -119,7 +113,7 @@ const Search = ({
               <InputAdornment position="start">
                 <SearchIcon />
               </InputAdornment>
-            ),
+            )
           }}
           variant="outlined"
           placeholder="Search for artists, writers, musicians, etc."
@@ -131,7 +125,7 @@ const Search = ({
           flex: 1,
           minHeight: 56,
           display: "inline-flex",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <Button fullWidth variant="contained">
