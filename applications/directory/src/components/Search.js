@@ -1,75 +1,114 @@
-// import { useState } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Box from '@mui/material/Box';
-import Select from '@mui/material/Select';
-import InputAdornment from '@mui/material/InputAdornment';
-import Button from '@mui/material/Button';
+import { useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Box from "@mui/material/Box";
+import Select from "@mui/material/Select";
+import InputAdornment from "@mui/material/InputAdornment";
+import Button from "@mui/material/Button";
 
-const Search = () => {
-  // const [categories, setCategories] = useState('');
-  // const [tags, setTags] = useState('');
-  // const [skills, setSkills] = useState('');
+const renderMenuItemsList = (items) => {
+  return items.map(({ _id, name }) => (
+    <MenuItem
+      key={_id}
+      value={name}
+      name={name}
+      sx={{ minHeight: 0.1, p: 0.6 }}
+    >
+      {name}
+    </MenuItem>
+  ));
+};
+
+const Search = ({ categories, tags, skills }) => {
+  const [category, setCategory] = useState("");
+  const onCategoryChange = (e) => setCategory(e.target.value);
+
+  const [tag, setTag] = useState("");
+  const onTagChange = (e) => setTag(e.target.value);
+
+  const [skill, setSkill] = useState("");
+  const onSkillChange = (e) => setSkill(e.target.value);
+
+  // style container for dropdown items
+  const selectMenuProps = {
+    PaperProps: {
+      sx: {
+        padding: 2,
+        "& .MuiList-padding": {
+          padding: 0
+        }
+      }
+    }
+  };
   return (
     <Box
       sx={{
-        display: 'flex',
-        justifyContent: 'space-evenly',
-        flexDirection: ['column', 'column', 'row', 'row']
+        display: "flex",
+        justifyContent: "space-evenly",
+        flexDirection: ["column", "column", "row", "row"]
       }}
     >
       <FormControl sx={{ mr: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
         <InputLabel>Categories</InputLabel>
         <Select
-          // value={categories}
           label="Categories"
-          autoWidth
+          name="categories"
+          value={category}
+          onChange={onCategoryChange}
           sx={{
-            '& svg': {
-              color: 'primary.main'
+            "& svg": {
+              color: "primary.main",
             }
           }}
+          autoWidth
+          MenuProps={selectMenuProps}
         >
-          <MenuItem></MenuItem>
+          {renderMenuItemsList(categories)}
         </Select>
       </FormControl>
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
         <InputLabel>Tags</InputLabel>
         <Select
-          // value={tags}
           label="Tags"
+          name="tags"
+          value={tag}
+          onChange={onTagChange}
           sx={{
-            '& svg': {
-              color: 'primary.main'
+            "& svg": {
+              color: "primary.main",
             }
           }}
           autoWidth
+          MenuProps={selectMenuProps}
         >
-          <MenuItem></MenuItem>
+          {renderMenuItemsList(tags)}
         </Select>
       </FormControl>
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
         <InputLabel>Hireable Skills</InputLabel>
         <Select
-          // value={skills}
           label="Hireable Skills"
+          name="skills"
+          value={skill}
+          onChange={onSkillChange}
           sx={{
-            '& svg': {
-              color: 'primary.main'
+            "& svg": {
+              color: "primary.main",
             }
           }}
           autoWidth
+          MenuProps={selectMenuProps}
         >
-          <MenuItem></MenuItem>
+          {renderMenuItemsList(skills)}
         </Select>
       </FormControl>
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 2 }}>
         <TextField
           InputProps={{
-            style: { fontSize: '.95rem' },
+            style: { fontSize: ".95rem" },
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon />
@@ -85,8 +124,8 @@ const Search = () => {
           mx: [0, 0, 1],
           flex: 1,
           minHeight: 56,
-          display: 'inline-flex',
-          alignItems: 'center'
+          display: "inline-flex",
+          alignItems: "center"
         }}
       >
         <Button fullWidth variant="contained">
