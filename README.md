@@ -60,8 +60,18 @@ During development, a local replica set is required as transactions may be used.
 1. Clone this repository.
 1. Create a top-level `.env` file by copying `.env.example` and fill in values.
 1. Create symlinks (e.g., `ln -s ../../.env .`) to the top-level `.env` file within each `applications/` and `services/` subdirectory.
-1. TODO: Create AWS IAM account
-1. TODO: Add AWS config and credentials to ~/.aws/config and ~/.aws/credentials.
+1. Ask Chad to create an AWS IAM account for you and give you your credentials.
+1. Add AWS credentials `~/.aws/credentials`:
+   ```
+   [avenueforthearts]
+   aws_access_key_id = <your key>
+   aws_secret_access_key = <your secret key>
+   ```
+1. Create `~/.aws/config` if it doesn't exist:
+   ```
+   [default]
+   region = us-east-1
+   ```
 1. Run `yarn start`. This automatically does the following:
    1. Installs dependencies.
    1. Runs Lerna bootstrapping.
