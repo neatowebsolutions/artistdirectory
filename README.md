@@ -61,7 +61,7 @@ During development, a local replica set is required as transactions may be used.
 1. Create a top-level `.env` file by copying `.env.example` and fill in values.
 1. Create symlinks (e.g., `ln -s ../../.env .`) to the top-level `.env` file within each `applications/` and `services/` subdirectory.
 1. Ask Chad to create an AWS IAM account for you and give you your credentials.
-1. Add AWS credentials `~/.aws/credentials`:
+1. Add AWS credentials to `~/.aws/credentials`:
    ```
    [avenueforthearts]
    aws_access_key_id = <your key>
