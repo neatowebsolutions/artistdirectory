@@ -80,6 +80,16 @@ During development, a local replica set is required as transactions may be used.
 
 Please use the `master` branch for main development.
 
+### Troubleshooting
+
+#### Ports already in use
+
+Sometimes Node processes hang and become "zombie" processes, and then you receive error messages about ports being in use. To remedy this, try running `killall -9 node`.
+
+#### ngrok not starting
+
+Occasionally ngrok tunnels will fail to start because ngrok is running in the background. In this case, try running `killall -9 ngrok`.
+
 ### Tooling
 
 The following are used:
