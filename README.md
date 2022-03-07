@@ -93,11 +93,11 @@ Note that `lerna add foo` will add `foo` to package.json in all packages and _no
 
 To add a dependency for an individual package, use the following command:
 
-    lerna add foo --scope @org-name/application-name
+    lerna add foo --scope application-name
 
 For example:
 
-    lerna add http-status-codes --scope @artistdirectory/artistdirectory-directory
+    lerna add http-status-codes --scope artistdirectory-directory
 
 Please find more examples [here](https://github.com/lerna/lerna/tree/master/commands/add#examples).
 
@@ -105,8 +105,7 @@ Please find more examples [here](https://github.com/lerna/lerna/tree/master/comm
 
 Unfortunately [there is no](https://github.com/lerna/lerna/issues/1886) `lerna remove` command. Here are possible workarounds for removing dependencies from individual package:
 
-1. Run `lerna exec 'yarn remove foo' --scope @org-name/application-name`.
-1. Manually remove dependencies from `application-name/package.json` and then run `lerna bootstrap --scope @org-name/application-name --force-local`.
+1. Run `lerna exec 'yarn remove foo' --scope application-name`.
 
 ### Troubleshooting
 
