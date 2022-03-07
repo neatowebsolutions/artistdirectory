@@ -72,6 +72,7 @@ During development, a local replica set is required as transactions may be used.
    [default]
    region = us-east-1
    ```
+1. Run `yarn global add lerna`.
 1. Run `yarn start`. This automatically does the following:
    1. Installs dependencies.
    1. Runs Lerna bootstrapping.
@@ -92,7 +93,7 @@ Note that `lerna add foo` will add `foo` to package.json in all packages and _no
 
 To add a dependency for an individual package, use the following command:
 
-    lerna add foo --scope @org-name/package-name
+    lerna add foo --scope @org-name/application-name
 
 For example:
 
@@ -104,8 +105,8 @@ Please find more examples [here](https://github.com/lerna/lerna/tree/master/comm
 
 Unfortunately [there is no](https://github.com/lerna/lerna/issues/1886) `lerna remove` command. Here are possible workarounds for removing dependencies from individual package:
 
-1. Run `lerna exec 'yarn remove foo' --scope @org-name/package-name`.
-1. Manually remove dependencies from `@org-name/package-name/package.json` and then run `lerna bootstrap --scope @org-name/package-name --force-local`.
+1. Run `lerna exec 'yarn remove foo' --scope @org-name/application-name`.
+1. Manually remove dependencies from `application-name/package.json` and then run `lerna bootstrap --scope @org-name/application-name --force-local`.
 
 ### Troubleshooting
 
