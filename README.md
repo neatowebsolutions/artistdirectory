@@ -96,7 +96,7 @@ To add a dependency for an individual package, use the following command:
 
 For example:
 
-    lerna add http-status-codes --scope @zeitcode/smithfield-myxx-api-client
+    lerna add http-status-codes --scope @artistdirectory/artistdirectory-directory
 
 Please find more examples [here](https://github.com/lerna/lerna/tree/master/commands/add#examples).
 
