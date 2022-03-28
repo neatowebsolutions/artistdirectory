@@ -17,6 +17,7 @@ function Upload() {
     maxSize: 2097152,
     accept: 'image/*',
     onDrop: (acceptedFiles) => {
+      console.log(acceptedFiles)
       setFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
