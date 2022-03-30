@@ -12,7 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
-import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
+import Autocomplete from "@mui/material/Autocomplete";
 import Stack from "@mui/material/Stack";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
@@ -53,7 +53,7 @@ const initialValues = {
   website: { checked: true, name: "website", url: "" },
   behance: { checked: false, name: "behance", url: "" },
   other: { checked: false, name: "other", url: "" },
-  //files: [],
+  files: [],
   categories: [categoriesDefaultValue],
   tags: [tagsDefaultValue],
   skills: [skillsDefaultValue],
@@ -187,10 +187,11 @@ function CreateProfileForm({
         website,
         behance,
         other,
+        files,
         subscribedToNewsletter,
         categories: allCategories,
         tags: allTags,
-        skills: allSkills
+        skills: allSkills,
       } = vals;
 
       // user social links
@@ -198,7 +199,7 @@ function CreateProfileForm({
         delete item.checked;
         return item;
       });
-      console.log(social);
+
       const parsedCategories = parseKeywords(allCategories, categories);
       const parsedTags = parseKeywords(allTags, tags);
       const parsedSkills = parseKeywords(allSkills, skills);
@@ -213,6 +214,7 @@ function CreateProfileForm({
       formData.append("categories", parsedCategories);
       formData.append("tags", parsedTags);
       formData.append("skills", parsedSkills);
+      formData.append("files", files);
       formData.append("subscribedToNewsletter", subscribedToNewsletter);
 
       console.log([...formData]);
@@ -224,6 +226,7 @@ function CreateProfileForm({
   });
 
   const [formReset, setFormReset] = useState(false);
+  const [imageFiles, setFiles] = useState(initialValues.files);
 
   const handleChangeSocial = (e) => {
     const { value, name, type, checked } = e.target;
@@ -242,6 +245,7 @@ function CreateProfileForm({
     }
   };
 
+  // block from my old version
   // const handleCategoryChange = (e) => {
   //   const { name, type, value, checked } = e.target;
   //   // console.log(name, type, value, checked);
@@ -258,8 +262,13 @@ function CreateProfileForm({
   //   }
   // };
 
+  const getFiles = (files) => {
+    setFiles(files);
+    setFieldValue("files", files);
+  };
   const handleFormReset = () => {
     setFormReset(!formReset);
+    setFiles([]);
     handleReset();
   };
 
@@ -478,7 +487,7 @@ function CreateProfileForm({
             </Stack>
           </Box>
 
-          <Upload />
+          <Upload getFiles={getFiles} files={imageFiles} />
 
           <Box
             sx={{
