@@ -31,9 +31,9 @@ custom:
     autoDomain: true
   warmup:
     default:
-      enabled: true
+      enabled: false
       concurrency: 5
-      prewarm: true
+      prewarm: false
       events:
         - schedule: rate(5 minutes)
 

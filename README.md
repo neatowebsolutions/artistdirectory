@@ -4,13 +4,22 @@
 
 This monorepo is a collection of applications, services, packages, and infrastructure as code comprising the entirety of an artist directory app.
 
+## Links
+
+- [Tasks](https://trello.com/b/pumtPrnj/artist-directory)
+- [Test environment](https://test.artistdirectory.co/)
+- [Production environment](https://artistdirectory.co/)
+- Designs
+  - [Private access, with more detail](https://app.zeplin.io/project/6185cf219478b92fa4e09cef)
+  - [Public access](https://scene.zeplin.io/project/6185cf219478b92fa4e09cef)
+
 ## Dependencies
 
 If you are struggling and need help setting anything up, please ask for help.
 
 ### Node.js
 
-The Node version is specified in the top-level `.node-version` file; please install and use this version on your system. We are currently using Node 14.x, so we cannot use features from higher versions. For example, optional chaining cannot be used in our Node code.
+The Node version is specified in the top-level `.node-version` file; please install and use this version on your system. We are currently using Node 14.17.0, so we cannot use features from higher versions. For example, optional chaining cannot be used in our Node code.
 
 [nvm](https://github.com/nvm-sh/nvm) and [avn](https://github.com/wbyoung/avn) are recommended for easily managing and using Node versions.
 
@@ -40,13 +49,30 @@ During development, a local replica set is required as transactions may be used.
 
 ## Development
 
+### Getting started
+
+1. Review designs, and understand the purpose and facets of this application.
+1. Follow steps below under Setup to get the application running.
+1. Ask for your first task.
+
 ### Setup
 
 1. Clone this repository.
 1. Create a top-level `.env` file by copying `.env.example` and fill in values.
-1. Create hard links (e.g., `ln ../../.env .`) to the top-level `.env` file within each `applications/` and `services/` subdirectory.
-1. TODO: Create AWS IAM account
-1. TODO: Add AWS config and credentials to ~/.aws/config and ~/.aws/credentials.
+1. Create symlinks (e.g., `ln -s ../../.env .`) to the top-level `.env` file within each `applications/` and `services/` subdirectory.
+1. Ask Chad to create an AWS IAM account for you and give you your credentials.
+1. Add AWS credentials to `~/.aws/credentials`:
+   ```
+   [avenueforthearts]
+   aws_access_key_id = <your key>
+   aws_secret_access_key = <your secret key>
+   ```
+1. Create `~/.aws/config` if it doesn't exist:
+   ```
+   [default]
+   region = us-east-1
+   ```
+1. Run `yarn global add lerna`.
 1. Run `yarn start`. This automatically does the following:
    1. Installs dependencies.
    1. Runs Lerna bootstrapping.
@@ -54,6 +80,42 @@ During development, a local replica set is required as transactions may be used.
    1. Starts all applications, services, and package build watching.
 
 Please use the `master` branch for main development.
+
+## Package Management
+
+### Adding a shared dependency for all projects
+
+To add a dependency shared by all packages, simply run `yarn add foo -W`. To remove a dependency, run `yarn add foo`.
+
+Note that `lerna add foo` will add `foo` to package.json in all packages and _not_ to the high-level `package.json`.
+
+### Adding dependencies for packages
+
+To add a dependency for an individual package, use the following command:
+
+    lerna add foo --scope application-name
+
+For example:
+
+    lerna add http-status-codes --scope artistdirectory-directory
+
+Please find more examples [here](https://github.com/lerna/lerna/tree/master/commands/add#examples).
+
+### Removing dependencies for packages
+
+Unfortunately [there is no](https://github.com/lerna/lerna/issues/1886) `lerna remove` command. Here are possible workarounds for removing dependencies from individual package:
+
+1. Run `lerna exec 'yarn remove foo' --scope application-name`.
+
+### Troubleshooting
+
+#### Ports already in use
+
+Sometimes Node processes hang and become "zombie" processes, and then you receive error messages about ports being in use. To remedy this, try running `killall -9 node`.
+
+#### ngrok not starting
+
+Occasionally ngrok tunnels will fail to start because ngrok is running in the background. In this case, try running `killall -9 ngrok`.
 
 ### Tooling
 

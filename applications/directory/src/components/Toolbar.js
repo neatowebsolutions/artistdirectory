@@ -1,9 +1,27 @@
 import Link from 'next/link';
-import classes from './Toobar.module.scss';
+import Box from '@mui/material/Box';
 
 function Toolbar() {
   return (
-    <div className={classes.toolbar}>
+    <Box
+      sx={{
+        '& ul': {
+          display: 'flex',
+          justifyContent: 'flex-end',
+          margin: 0,
+          padding: 0,
+          listStyle: 'none',
+          '& li': {
+            margin: '10px',
+            '& a': {
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              color: 'primary.main'
+            }
+          }
+        }
+      }}
+    >
       <ul>
         <li>
           <Link href="https://www.avenueforthearts.co/about">
@@ -11,7 +29,7 @@ function Toolbar() {
           </Link>
         </li>
       </ul>
-    </div>
+    </Box>
   );
 }
 

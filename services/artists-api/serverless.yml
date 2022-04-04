@@ -46,9 +46,9 @@ custom:
     autoDomain: true
   warmup:
     default:
-      enabled: true
+      enabled: false
       concurrency: 5
-      prewarm: true
+      prewarm: false
       events:
         - schedule: rate(5 minutes)
 
@@ -160,7 +160,14 @@ functions:
           path: /tags
           method: get
           authorizer: aws_iam
-
+  findSkills:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findSkills.handler
+    events:
+      - http:
+          path: /skills
+          method: get
+          authorizer: aws_iam
 plugins:
   - serverless-offline
   - serverless-plugin-monorepo

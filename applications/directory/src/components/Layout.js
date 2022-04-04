@@ -1,12 +1,19 @@
 import React from 'react';
+import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
 import Header from './Header';
 import Toolbar from './Toolbar';
-import classes from './Layout.module.scss';
 
-const Intro = ({ className, children }) => (
-  <section className={clsx(classes.intro, className)}>{children}</section>
+const Intro = ({ children }) => (
+  <Box sx={{ textAlign: 'center', margin: '2.5rem auto' }}>
+    <section>{children}</section>
+  </Box>
+);
+
+const Root = ({ children }) => (
+  <Box sx={{ maxWidth: 1064, margin: '0 auto' }}>
+    <section>{children}</section>
+  </Box>
 );
 
 Intro.propTypes = {
@@ -15,14 +22,20 @@ Intro.propTypes = {
 };
 
 const Layout = ({ children }) => (
-  <div className={classes.root}>
+  <Box
+    sx={{
+      maxWidth: ['90%', '90%', '90%', '1180px', '1280px'],
+      margin: '0 auto'
+    }}
+  >
     <Toolbar />
     <Header />
-    <main className={classes.main}>{children}</main>
-  </div>
+    <main>{children}</main>
+  </Box>
 );
 
 Layout.Intro = Intro;
+Layout.Root = Root;
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired

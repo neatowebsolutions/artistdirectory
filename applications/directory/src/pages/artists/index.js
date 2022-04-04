@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import Box from '@mui/material/Box';
 import Head from 'next/head';
 import Link from 'next/link';
 import HttpClient from '@artistdirectory/http-client';
@@ -8,7 +9,6 @@ import Button from '@mui/material/Button';
 import EastIcon from '@mui/icons-material/East';
 import Grid from '@mui/material/Grid';
 import { Layout, Search, ArtistSearchResult } from '../../components';
-import classes from './index.module.scss';
 
 const Category = ({ category, artists }) => {
   if (!artists?.length) {
@@ -16,8 +16,15 @@ const Category = ({ category, artists }) => {
   }
 
   return (
-    <div>
-      <h2 className={classes.categoryHeading}>
+    <Box
+      sx={{
+        '& h2': {
+          display: 'flex',
+          justifyContent: 'space-between'
+        }
+      }}
+    >
+      <h2>
         <span>{category.name}</span>
         <Link
           href={`/artists?category=${encodeURIComponent(category.slug)}`}
@@ -35,7 +42,7 @@ const Category = ({ category, artists }) => {
           </Grid>
         ))}
       </Grid>
-    </div>
+    </Box>
   );
 };
 
@@ -76,17 +83,35 @@ const ArtistDirectoryPage = ({ categories, artists }) => {
         <title>Artist Directory</title>
       </Head>
       <Layout>
-        <Layout.Intro className={classes.intro}>
-          <h1 className={classes.heading}>Artist Directory</h1>
-          <p className={classes.description}>
-            Search by Type of Artist, Tags, Hireable Skills, or whatever you
-            need.
-          </p>
+        <Layout.Intro>
+          <Box
+            sx={{
+              '& h1': {
+                typography: 'body2',
+                fontSize: '3.75rem',
+                fontWeight: 'bold',
+                letterSpacing: '-0.5px',
+                margin: '1.5rem auto',
+                maxWidth: '720px'
+              },
+              '& p': {
+                fontSize: '1.5rem',
+                fontStyle: 'italic',
+                color: 'rgba(0, 0, 0, 0.6)'
+              }
+            }}
+          >
+            <h1>Artist Directory</h1>
+            <p>
+              Search by Type of Artist, Tags, Hireable Skills, or whatever you
+              need.
+            </p>
+          </Box>
         </Layout.Intro>
         <Card elevation={6}>
           <Search />
         </Card>
-        <div className={classes.results}>
+        <Box sx={{ mt: '4rem' }}>
           {sortedCategories.map((category, index) => (
             <Category
               key={index}
@@ -94,7 +119,7 @@ const ArtistDirectoryPage = ({ categories, artists }) => {
               artists={artistsByCategory[category._id]}
             />
           ))}
-        </div>
+        </Box>
       </Layout>
     </>
   );

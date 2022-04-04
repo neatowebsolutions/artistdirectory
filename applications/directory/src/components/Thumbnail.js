@@ -1,105 +1,50 @@
-import Card from '@mui/material/Card';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import IconButton from '@mui/material/IconButton';
-import classes from './Thumbnail.module.scss';
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import IconButton from "@mui/material/IconButton";
 
-function Thumbnail() {
-  // if (img) {
-  //   return (
-  //     <Card
-  //       className={classes.uploadThumbnail}
-  //       style={{ borderRadius: 10, padding: 0, overflow: 'unset' }}
-  //       elevation={2}
-  //     >
-  //       <img
-  //         src="/images/img-2.png"
-  //         className={classes.uploadedImage}
-  //         alt={'img.title'}
-  //       />
-  //       <div className={classes.delete}>
-  //         <IconButton>
-  //           <DeleteOutlineIcon sx={{ color: 'primary' }} />
-  //         </IconButton>
-  //       </div>
-  //     </Card>
-  //   );
-  // }
-  // if (status) {
-  //   return (
-  //     <Card
-  //       className={`${classes.uploadThumbnail} ${classes.errorBorder}`}
-  //       style={{ borderRadius: 10, padding: 0, overflow: 'unset' }}
-  //       elevation={2}
-  //     >
-  //       <div className={classes.loading}>
-  //         <div className={classes.loader}></div>
-  //         <div>
-  //           <p>
-  //             Uploading, <br />
-  //             give us a second…
-  //           </p>
-  //         </div>
-  //       </div>
-  //       <div className={classes.delete}>
-  //         <IconButton>
-  //           <DeleteOutlineIcon sx={{ color: 'primary' }} />
-  //         </IconButton>
-  //       </div>
-  //     </Card>
-  //   );
-  // }
-  // if (error) {
-  //   return (
-  //     <Card
-  //       className={`${classes.uploadThumbnail} ${classes.errorBorder}`}
-  //       style={{ borderRadius: 10 }}
-  //       elevation={2}
-  //     >
-  //       <div className={classes.loading}>
-  //         <div className={classes.errorImage}>
-  //           <img
-  //             className={classes.sadImage}
-  //             src="/images/img-sadface.svg"
-  //             alt="Sad Face"
-  //           />
-  //           <img
-  //             src="/images/img-sync-black-24-dp.svg"
-  //             className={classes.refresh}
-  //             alt="refresh"
-  //           />
-  //         </div>
-  //         <div>
-  //           <p>
-  //             Uh oh! Your image didn’t upload right. <br />
-  //             Try again!
-  //           </p>
-  //         </div>
-  //         <div className={classes.delete}>
-  //           <IconButton>
-  //             <DeleteOutlineIcon sx={{ color: 'primary' }} />
-  //           </IconButton>
-  //         </div>
-  //       </div>
-  //     </Card>
-  //   );
-  // }
+function Thumbnail({ upload, handleDelete }) {
   return (
-    <Card
-      className={classes.uploadThumbnail}
-      style={{ borderRadius: 10, padding: 0, overflow: 'unset' }}
-      elevation={2}
-    >
-      <img
-        src="/images/img-2.png"
-        className={classes.uploadedImage}
-        alt={'img.title'}
-      />
-      <div className={classes.delete}>
-        <IconButton>
-          <DeleteOutlineIcon sx={{ color: 'primary' }} />
-        </IconButton>
-      </div>
-    </Card>
+    <Box sx={{ position: "relative" }}>
+      <Card
+        sx={{
+          minHeight: "225px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 0,
+          borderRadius: "10px",
+          "& img": {
+            width: "100%",
+            height: "100%",
+            minHeight: "225px",
+            objectFit: "cover",
+          },
+        }}
+        elevation={2}
+      >
+        <img src={upload.preview} alt={upload.name} />
+      </Card>
+
+      <IconButton
+        onClick={() => handleDelete(upload.name)}
+        sx={{
+          position: "absolute",
+          top: "-15px",
+          right: "-15px",
+          height: "30px",
+          width: "30px",
+          background: "#fff",
+          boxShadow:
+            "0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 3px -2px rgba(0, 0, 0, 0.12),0 3px 4px 0 rgba(0, 0, 0, 0.14)",
+          "&:hover": {
+            background: "rgb(205, 205, 205)",
+          },
+        }}
+      >
+        <DeleteOutlineIcon sx={{ color: "primary.main", width: 20 }} />
+      </IconButton>
+    </Box>
   );
 }
 

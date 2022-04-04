@@ -13,10 +13,6 @@ export default class MyDocument extends Document {
         <Head>
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link rel="stylesheet" href="https://use.typekit.net/rih6hbv.css" />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          />
         </Head>
         <body>
           <Main />

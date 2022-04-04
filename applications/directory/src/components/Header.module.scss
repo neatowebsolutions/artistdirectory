@@ -1,5 +1,3 @@
-@import '../theme/variables.scss';
-
 .header {
   background-color: #fff;
   display: flex;
@@ -40,10 +38,10 @@
         a {
           text-transform: uppercase;
           text-decoration: none;
-          color: $text__secondary;
+          color: rgba(0, 0, 0, 0.5);
           &.active {
-            color: $primary__color;
-            border-bottom: 2px solid $primary__color;
+            color: #be2926;
+            border-bottom: 2px solid #be2926;
             padding-bottom: 10px;
           }
         }
@@ -57,11 +55,11 @@
       & a {
         display: flex;
         align-items: center;
-        color: $primary__color;
+        color: #be2926;
         img {
           height: 50px;
           width: 50px;
-          border-radius: $border-radius;
+          border-radius: 4px;
           margin-right: 20px;
         }
       }
@@ -72,7 +70,7 @@
         li {
           margin-right: 0;
           a {
-            color: $primary__color;
+            color: #be2926;
           }
         }
       }

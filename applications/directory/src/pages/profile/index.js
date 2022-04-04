@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import PersonalDetails from '../../components/PersonalDetails';
 import ProfileDetails from '../../components/ProfileDetails';
 import WorkExamples from '../../components/WorkExamples';
-import classes from './index.module.scss';
 import { Layout } from '../../components';
 
 const AccountPage = () => (
@@ -12,19 +11,36 @@ const AccountPage = () => (
       <title>Artist Account</title>
     </Head>
     <Layout>
-      <div className={classes.root}>
-        <div className={classes.profileTitle}>
+      <Layout.Root>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            '& h1': {
+              fontSize: '2.2rem'
+            }
+          }}
+        >
           <h1>My Profile</h1>
           {/* <h1>Artist Profile</h1> */}
-        </div>
+        </Box>
         <Box
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            alignItems: 'start'
+            alignItems: ['center', 'start', 'start', 'start', 'start'],
+            flexDirection: ['column', 'column', 'row', 'row', 'row']
           }}
         >
-          <Box sx={{ flex: 1, marginRight: '5%' }}>
+          <Box
+            sx={{
+              flex: 1,
+              mr: ['0', '0', '5%', '5%', '5%'],
+              mb: '50px',
+              width: '100%'
+            }}
+          >
             <ProfileDetails />
           </Box>
           <Box sx={{ flex: 3 }}>
@@ -32,7 +48,7 @@ const AccountPage = () => (
             <WorkExamples />
           </Box>
         </Box>
-      </div>
+      </Layout.Root>
     </Layout>
   </>
 );

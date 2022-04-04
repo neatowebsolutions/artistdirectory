@@ -4,7 +4,38 @@ const theme = responsiveFontSizes(
   createTheme({
     palette: {
       primary: {
-        main: '#be2926'
+        main: '#be2926',
+        text: 'rgba(0, 0, 0, 0.87)'
+      },
+      secondary: {
+        main: '#8a9918',
+        secondary: '#585481'
+      }
+    },
+    typography: {
+      h1: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h2: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h3: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h4: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h5: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      h6: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+      },
+      body1: {
+        fontFamily: ['gira-sans', 'sans-serif'].join(',')
+      },
+      body2: {
+        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
       }
     },
     breakpoints: {
@@ -12,7 +43,8 @@ const theme = responsiveFontSizes(
         mobile: 0,
         tablet: 768,
         laptop: 1024,
-        desktop: 1280
+        desktop: 1280,
+        desktopLg: 1350
       }
     },
     components: {
