@@ -4,7 +4,7 @@ import { Layout } from '../../components';
 import ThankYou from '../../components/ThankYou';
 import CreateAccount from '../../components/CreateAccount';
 
-function CreateAccount() {
+function CreateAccountPage() {
   return (
     <>
       <Head>
@@ -28,4 +28,4 @@ function CreateAccount() {
   );
 }
 
-export default CreateAccount;
+export default CreateAccountPage;
