@@ -96,13 +96,13 @@ function Upload({ getFiles, files }) {
   ));
 
   // TODO - where should this be
-  useEffect(
-    () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      imageFiles.forEach((file) => URL.revokeObjectURL(file.preview));
-    },
-    [imageFiles]
-  );
+  // useEffect(
+  //   () => () => {
+  //     // Make sure to revoke the data uris to avoid memory leaks
+  //     imageFiles.forEach((file) => URL.revokeObjectURL(file.preview));
+  //   },
+  //   [imageFiles]
+  // );
 
   return (
     <Box
