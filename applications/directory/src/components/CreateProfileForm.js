@@ -120,7 +120,7 @@ const formValidationSchema = Yup.object().shape({
       'Must be at least 10 characters and not longer than 1500 characters', // what is the min length?
       (val) => val && val.length > 10 && val.length <= 1500
     )
-    .required('Desctiption is required'),
+    .required('Description is required'),
   categories: Yup.array()
     .test('categories', 'Enter valid artist type', (categories) =>
       categories.every(
