@@ -1,11 +1,11 @@
-import Head from "next/head";
-import { Loader } from "@artistdirectory/react-components";
-import Alert from "@mui/material/Alert";
-import LinearProgress from "@mui/material/LinearProgress";
-import Box from "@mui/material/Box";
-import { Layout } from "../../components";
-import CreateProfileForm from "../../components/CreateProfileForm";
-import { useCategories, useTags, useSkills } from "../../hooks";
+import Head from 'next/head';
+import { Loader } from '@artistdirectory/react-components';
+import Alert from '@mui/material/Alert';
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
+import { Layout } from '../../components';
+import CreateProfileForm from '../../components/CreateProfileForm';
+import { useCategories, useTags, useSkills } from '../../hooks';
 
 const CreatePage = () => {
   const { categories, categoriesLoading, categoriesError } = useCategories();
@@ -21,47 +21,47 @@ const CreatePage = () => {
         <Layout.Intro>
           <Box
             sx={{
-              "& h1": {
-                typography: "body2",
-                fontSize: "3.75rem",
-                fontWeight: "bold",
-                letterSpacing: "-0.5px",
-                mt: "1.5rem",
-              },
+              '& h1': {
+                typography: 'body2',
+                fontSize: '3.75rem',
+                fontWeight: 'bold',
+                letterSpacing: '-0.5px',
+                mt: '1.5rem'
+              }
             }}
           >
             <Box
               sx={{
-                "& p": {
-                  typography: "body1",
-                  fontWeight: "900",
-                  fontSize: "24px",
-                  textTransform: "uppercase",
-                  letterSpacing: "3.53px",
-                  mb: "1.5rem",
-                  lineHeight: "1.5",
-                },
+                '& p': {
+                  typography: 'body1',
+                  fontWeight: '900',
+                  fontSize: '24px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '3.53px',
+                  mb: '1.5rem',
+                  lineHeight: '1.5'
+                }
               }}
             >
               <p>Grand Rapids Artist Directory</p>
             </Box>
             <Box
               sx={{
-                color: "primary.main",
+                color: 'primary.main',
                 letterSpacing: 10,
-                "& span": {
-                  fontSize: "60px",
-                  fontWeight: "bold",
-                  lineHeight: "72px",
-                  letterSpacing: "3px",
-                  textTransform: "uppercase",
-                  color: "primary.main",
-                },
+                '& span': {
+                  fontSize: '60px',
+                  fontWeight: 'bold',
+                  lineHeight: '72px',
+                  letterSpacing: '3px',
+                  textTransform: 'uppercase',
+                  color: 'primary.main'
+                }
               }}
             >
               <span>Get found.</span>
             </Box>
-            <Box sx={{ maxWidth: 1080, margin: "0 auto" }}>
+            <Box sx={{ maxWidth: 1080, margin: '0 auto' }}>
               <p>
                 By submitting this form you agree to have the following listed
                 in the LAN: name, profession, website, Instagram, a thumbnail
@@ -69,7 +69,7 @@ const CreatePage = () => {
                 services.
               </p>
             </Box>
-            <Box sx={{ maxWidth: 814, margin: "0 auto" }}>
+            <Box sx={{ maxWidth: 814, margin: '0 auto' }}>
               <p>
                 We’re building a directory of the artists (art, design, music,
                 performance) in the greater Grand Rapids area, so that people
@@ -81,15 +81,15 @@ const CreatePage = () => {
             </Box>
             <Box
               sx={{
-                "& p span": {
-                  fontStyle: "italic",
+                '& p span': {
+                  fontStyle: 'italic'
                 },
-                "& p a": {
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                  letterSpacing: "1.25px",
-                  color: "primary.main",
-                },
+                '& p a': {
+                  textTransform: 'uppercase',
+                  fontWeight: 'bold',
+                  letterSpacing: '1.25px',
+                  color: 'primary.main'
+                }
               }}
             >
               <p>
@@ -105,7 +105,7 @@ const CreatePage = () => {
             </Box>
           </Box>
         </Layout.Intro>
-        <Box sx={{ maxWidth: "782px", margin: "0 auto" }}>
+        <Box sx={{ maxWidth: '782px', margin: '0 auto' }}>
           <Loader
             isLoading={categoriesLoading || tagsLoading || skillsLoading}
             isError={categoriesError || tagsError || skillsError}
@@ -116,7 +116,7 @@ const CreatePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: "1.2rem",
+                  fontSize: '1.2rem'
                 }}
               >
                 An unexpected error occurred. Please try again shortly.

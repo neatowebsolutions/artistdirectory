@@ -1,14 +1,14 @@
 // TODO - make dropzone only accept one file at a time??
 
-import { useDropzone } from "react-dropzone";
-import { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import InfoIcon from "@mui/icons-material/Info";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import Thumbnail from "./Thumbnail";
-import { useUpload } from "../hooks";
+import { useDropzone } from 'react-dropzone';
+import { useState, useEffect } from 'react';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import InfoIcon from '@mui/icons-material/Info';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import Thumbnail from './Thumbnail';
+import { useUpload } from '../hooks';
 // import ThumbnailError from './ThumbnailError';
 // import ThumbnailLoading from './ThumbnailLoading';
 
@@ -16,17 +16,17 @@ const maxFilesNumber = 5;
 const imageMaxSize = 2097152;
 
 const acceptedFileTypes = [
-  "image/x-png",
-  "image/png",
-  "image/jpg",
-  "image/jpeg",
-  "image/gif",
+  'image/x-png',
+  'image/png',
+  'image/jpg',
+  'image/jpeg',
+  'image/gif'
 ];
 
 function Upload() {
   const [files, setFiles] = useState([]); // TODO send initial value from parent component??
 
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
   const { getSignedProfileUrl } = useUpload();
 
   const verifyFile = (filesToVerify) => {
@@ -37,13 +37,13 @@ function Upload() {
         const { size: currentFileSize, type: currentFileType } = currentFile;
 
         if (currentFileSize > imageMaxSize) {
-          setErrorMessage("File is too large");
+          setErrorMessage('File is too large');
           return false;
         }
 
         // Do we need this check??
         if (!acceptedFileTypes.includes(currentFileType)) {
-          setErrorMessage("This file is not allowed. Only images are allowed.");
+          setErrorMessage('This file is not allowed. Only images are allowed.');
           return false;
         }
 
@@ -51,7 +51,7 @@ function Upload() {
       });
 
       if (!isValid) return false;
-      setErrorMessage("");
+      setErrorMessage('');
       return true;
     }
   };
@@ -60,7 +60,7 @@ function Upload() {
     maxFiles: maxFilesNumber,
     maxSize: imageMaxSize,
     multiple: true,
-    accept: "image/*",
+    accept: 'image/*',
 
     onDrop: async (acceptedFiles, rejectedFiles) => {
       if (rejectedFiles && rejectedFiles.length > 0) {
@@ -73,14 +73,14 @@ function Upload() {
           // check if the number of provided files exceeds maximum file number
           if (files.length + acceptedFiles.length > maxFilesNumber) {
             setErrorMessage(
-              "Looks like you have the maximum 5 images uploaded to your profile."
+              'Looks like you have the maximum 5 images uploaded to your profile.'
             );
             return false;
           }
-          setErrorMessage("");
+          setErrorMessage('');
           const parsedFiles = acceptedFiles.map((file) =>
             Object.assign(file, {
-              preview: URL.createObjectURL(file),
+              preview: URL.createObjectURL(file)
             })
           );
 
@@ -94,7 +94,7 @@ function Upload() {
               return {
                 ...file,
                 signedUrl,
-                signedUrlError: error,
+                signedUrlError: error
               };
             });
             return Promise.all(promises);
@@ -113,10 +113,10 @@ function Upload() {
             return res?.name !== name;
           });
           setFiles([...noneDuplicate, ...parsedFiles]);
-          //getFiles([...noneDuplicate, ...parsedFiles]);
+          // getFiles([...noneDuplicate, ...parsedFiles]);
         }
       }
-    },
+    }
   });
 
   const handleFileDelete = (fileName) => {
@@ -139,23 +139,23 @@ function Upload() {
   return (
     <Box
       sx={{
-        "& h2.cardTitle": {
-          typography: "body1",
-          fontSize: "20px",
-          fontWeight: "500",
+        '& h2.cardTitle': {
+          typography: 'body1',
+          fontSize: '20px',
+          fontWeight: '500'
         },
-        "& p": {
-          typography: "body2",
-          fontSize: "20px",
-          lineHeight: "1.2",
-          letterSpacing: "0.15px",
-          "& span": {
-            color: "primary.main",
-          },
+        '& p': {
+          typography: 'body2',
+          fontSize: '20px',
+          lineHeight: '1.2',
+          letterSpacing: '0.15px',
+          '& span': {
+            color: 'primary.main'
+          }
         },
-        "& p.example": {
-          fontStyle: "italic",
-        },
+        '& p.example': {
+          fontStyle: 'italic'
+        }
       }}
     >
       <h2 className="cardTitle">Work</h2>
@@ -167,18 +167,18 @@ function Upload() {
 
       <Box
         sx={{
-          width: "100%",
-          border: "2px dashed",
-          borderColor: "primary.main",
-          borderRadius: "4px",
-          height: "250px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          textAlign: "center",
+          width: '100%',
+          border: '2px dashed',
+          borderColor: 'primary.main',
+          borderRadius: '4px',
+          height: '250px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          textAlign: 'center'
         }}
-        {...getRootProps({ className: "dropzone" })}
+        {...getRootProps({ className: 'dropzone' })}
       >
         <Box>
           <img src="/images/img-artupload.svg" alt="Art Upload Frame" />
@@ -186,15 +186,15 @@ function Upload() {
         <input {...getInputProps()} />
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            "& p": {
-              fontSize: "20px",
-              textAlign: "center",
-              margin: "10px 15px 10px 0",
-            },
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            '& p': {
+              fontSize: '20px',
+              textAlign: 'center',
+              margin: '10px 15px 10px 0'
+            }
           }}
         >
           <p>Drag and drop here, or</p>
@@ -205,18 +205,18 @@ function Upload() {
       </Box>
       {/* TODO: Should user be able to close alert window?  */}
       {errorMessage && (
-        <Box sx={{ marginTop: "25px" }}>
+        <Box sx={{ marginTop: '25px' }}>
           <Stack>
             <Alert
               variant="outlined"
-              icon={<InfoIcon sx={{ color: "#3d748a" }} />}
+              icon={<InfoIcon sx={{ color: '#3d748a' }} />}
               onClose={() => {}}
               sx={{
-                backgroundColor: "#ebf1f3",
-                border: "solid 1px #3d748a",
-                color: "rgba(0, 0, 0, 0.87)",
-                typography: "body1",
-                fontSize: "16px",
+                backgroundColor: '#ebf1f3',
+                border: 'solid 1px #3d748a',
+                color: 'rgba(0, 0, 0, 0.87)',
+                typography: 'body1',
+                fontSize: '16px'
               }}
             >
               {errorMessage}
@@ -227,11 +227,11 @@ function Upload() {
 
       <Box
         sx={{
-          marginTop: "25px",
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          columnGap: "20px",
-          rowGap: "25px",
+          marginTop: '25px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          columnGap: '20px',
+          rowGap: '25px'
         }}
       >
         {thumbs}

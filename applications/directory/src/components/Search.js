@@ -1,13 +1,13 @@
-import { useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Box from "@mui/material/Box";
-import Select from "@mui/material/Select";
-import InputAdornment from "@mui/material/InputAdornment";
-import Button from "@mui/material/Button";
+import { useState } from 'react';
+import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Box from '@mui/material/Box';
+import Select from '@mui/material/Select';
+import InputAdornment from '@mui/material/InputAdornment';
+import Button from '@mui/material/Button';
 
 const renderMenuItemsList = (items) => {
   return items.map(({ _id, name }) => (
@@ -23,13 +23,13 @@ const renderMenuItemsList = (items) => {
 };
 
 const Search = ({ categories, tags, skills }) => {
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState('');
   const onCategoryChange = (e) => setCategory(e.target.value);
 
-  const [tag, setTag] = useState("");
+  const [tag, setTag] = useState('');
   const onTagChange = (e) => setTag(e.target.value);
 
-  const [skill, setSkill] = useState("");
+  const [skill, setSkill] = useState('');
   const onSkillChange = (e) => setSkill(e.target.value);
 
   // style container for dropdown items
@@ -37,7 +37,7 @@ const Search = ({ categories, tags, skills }) => {
     PaperProps: {
       sx: {
         padding: 2,
-        "& .MuiList-padding": {
+        '& .MuiList-padding': {
           padding: 0
         }
       }
@@ -46,9 +46,9 @@ const Search = ({ categories, tags, skills }) => {
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "space-evenly",
-        flexDirection: ["column", "column", "row", "row"]
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        flexDirection: ['column', 'column', 'row', 'row']
       }}
     >
       <FormControl sx={{ mr: [0, 0, 1], mb: [3, 3, 0], flex: 1 }}>
@@ -59,8 +59,8 @@ const Search = ({ categories, tags, skills }) => {
           value={category}
           onChange={onCategoryChange}
           sx={{
-            "& svg": {
-              color: "primary.main",
+            '& svg': {
+              color: 'primary.main'
             }
           }}
           autoWidth
@@ -77,8 +77,8 @@ const Search = ({ categories, tags, skills }) => {
           value={tag}
           onChange={onTagChange}
           sx={{
-            "& svg": {
-              color: "primary.main",
+            '& svg': {
+              color: 'primary.main'
             }
           }}
           autoWidth
@@ -95,8 +95,8 @@ const Search = ({ categories, tags, skills }) => {
           value={skill}
           onChange={onSkillChange}
           sx={{
-            "& svg": {
-              color: "primary.main",
+            '& svg': {
+              color: 'primary.main'
             }
           }}
           autoWidth
@@ -108,7 +108,7 @@ const Search = ({ categories, tags, skills }) => {
       <FormControl sx={{ mx: [0, 0, 1], mb: [3, 3, 0], flex: 2 }}>
         <TextField
           InputProps={{
-            style: { fontSize: ".95rem" },
+            style: { fontSize: '.95rem' },
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon />
@@ -124,8 +124,8 @@ const Search = ({ categories, tags, skills }) => {
           mx: [0, 0, 1],
           flex: 1,
           minHeight: 56,
-          display: "inline-flex",
-          alignItems: "center"
+          display: 'inline-flex',
+          alignItems: 'center'
         }}
       >
         <Button fullWidth variant="contained">

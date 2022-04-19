@@ -1,59 +1,59 @@
-const middy = require("@middy/core");
-const cors = require("@middy/http-cors");
-const AWS = require("aws-sdk");
-const { v4: uuidv4 } = require("uuid");
+const middy = require('@middy/core');
+const cors = require('@middy/http-cors');
+const AWS = require('aws-sdk');
+const { v4: uuidv4 } = require('uuid');
 
 const {
   StatusCodes,
   ReasonPhrases,
-  getReasonPhrase,
-} = require("http-status-codes");
-const { aws4Interceptor } = require("aws4-axios");
-const HttpClient = require("@artistdirectory/http-client").default;
+  getReasonPhrase
+} = require('http-status-codes');
+const { aws4Interceptor } = require('aws4-axios');
+const HttpClient = require('@artistdirectory/http-client').default;
 
 const s3 = new AWS.S3();
 
 const { AWS_REGION, ARTISTS_API_URL, AWS_UPLOADS_BUCKET } = process.env;
 console.log(process.env);
-console.log("===========================");
+console.log('===========================');
 
 console.log(AWS_UPLOADS_BUCKET);
-console.log("===========================");
+console.log('===========================');
 console.log(ARTISTS_API_URL);
-console.log("===========================");
-console.log("===========================");
+console.log('===========================');
+console.log('===========================');
 const httpClient = new HttpClient({
-  baseUrl: ARTISTS_API_URL,
+  baseUrl: ARTISTS_API_URL
 });
 
 httpClient.addRequestInterceptor(
   aws4Interceptor({
     region: AWS_REGION,
-    service: "execute-api",
+    service: 'execute-api'
   })
 );
 
 const handler = middy(async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
-  if (event.source === "serverless-plugin-warmup") {
+  if (event.source === 'serverless-plugin-warmup') {
     await new Promise((resolve) => setTimeout(resolve, 25));
-    return "Lambda is warm!";
+    return 'Lambda is warm!';
   }
 
   try {
     // TODO
 
-    const name = `${uuidv4()}.${event.body.split("/")[1]}`;
+    const name = `${uuidv4()}.${event.body.split('/')[1]}`;
     console.log(event.body);
     // console.log(process.env)
     const params = {
-      Bucket: "artistdirectory-uploads-test", //AWS_UPLOADS_BUCKET,
-      Key: name, //File name
-      ContentType: event.body, // example // data.type  // MIME type based on file name (e.g., "image/jpeg" or "image/png") using "mime-types" NPM package OR via sending from the frontend.
+      Bucket: 'artistdirectory-uploads-test', // AWS_UPLOADS_BUCKET,
+      Key: name, // File name
+      ContentType: event.body // example // data.type  // MIME type based on file name (e.g., "image/jpeg" or "image/png") using "mime-types" NPM package OR via sending from the frontend.
     };
 
-    //const uploadURL =
+    // const uploadURL =
     // await s3.getSignedUrl("putObject", params, (err, data) => {
     //   if (err) {
     //     console.log("IS THERE AN ERRROROR===========")
@@ -69,7 +69,7 @@ const handler = middy(async (event, context) => {
     // });
 
     const uploadURL = await new Promise((resolve, reject) => {
-      s3.getSignedUrl("putObject", params, (error, url) => {
+      s3.getSignedUrl('putObject', params, (error, url) => {
         if (error) {
           reject(error);
         }
@@ -83,7 +83,7 @@ const handler = middy(async (event, context) => {
 
     return {
       statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(uploadURL), //JSON.stringify(uploadURL),
+      body: JSON.stringify(uploadURL) // JSON.stringify(uploadURL),
     };
   } catch (error) {
     console.log(error);
@@ -92,13 +92,13 @@ const handler = middy(async (event, context) => {
         statusCode: error.response.status,
         body:
           JSON.stringify(error.response.data) ||
-          getReasonPhrase(error.response.status),
+          getReasonPhrase(error.response.status)
       };
     }
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
     };
   }
 });

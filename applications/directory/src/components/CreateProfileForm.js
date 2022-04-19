@@ -1,110 +1,110 @@
 // handle error if categories, tags, skills are not fetched
 // TODO validation ??? -  make sure at least one social link provided or delete the * for the social being required??
 // TODO - validation - make sure at least one image is provided
-import { useState } from "react";
-import Box from "@mui/material/Box";
-import PropTypes from "prop-types";
-import TextField from "@mui/material/TextField";
-import Card from "@mui/material/Card";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import Checkbox from "@mui/material/Checkbox";
-import Button from "@mui/material/Button";
-import Chip from "@mui/material/Chip";
-import Autocomplete from "@mui/material/Autocomplete";
-import Stack from "@mui/material/Stack";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import SendIcon from "@mui/icons-material/Send";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import Upload from "./Upload";
+import { useState } from 'react';
+import Box from '@mui/material/Box';
+import PropTypes from 'prop-types';
+import TextField from '@mui/material/TextField';
+import Card from '@mui/material/Card';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
+import Autocomplete from '@mui/material/Autocomplete';
+import Stack from '@mui/material/Stack';
+import RadioGroup from '@mui/material/RadioGroup';
+import Radio from '@mui/material/Radio';
+import SendIcon from '@mui/icons-material/Send';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import Upload from './Upload';
 
-const categoriesDefaultValue = "Dancer";
-const tagsDefaultValue = "Education";
-const skillsDefaultValue = "Carpentry";
+const categoriesDefaultValue = 'Dancer';
+const tagsDefaultValue = 'Education';
+const skillsDefaultValue = 'Carpentry';
 
 const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  city: "",
-  description: "",
-  website: { checked: true, name: "website", url: "" },
-  behance: { checked: false, name: "behance", url: "" },
-  other: { checked: false, name: "other", url: "" },
+  firstName: '',
+  lastName: '',
+  email: '',
+  city: '',
+  description: '',
+  website: { checked: true, name: 'website', url: '' },
+  behance: { checked: false, name: 'behance', url: '' },
+  other: { checked: false, name: 'other', url: '' },
   files: [],
   categories: [categoriesDefaultValue],
   tags: [tagsDefaultValue],
   skills: [skillsDefaultValue],
-  subscribedToNewsletter: "yes",
+  subscribedToNewsletter: 'yes'
 };
 
 // TODO: validation to ensure user enters either website, behance or other
 const formValidationSchema = Yup.object().shape({
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
-  city: Yup.string().required("City is required"),
+  firstName: Yup.string().required('First name is required'),
+  lastName: Yup.string().required('Last name is required'),
+  city: Yup.string().required('City is required'),
   email: Yup.string()
-    .email("Please provide a valid email address.")
-    .required("Please enter your email address."),
+    .email('Please provide a valid email address.')
+    .required('Please enter your email address.'),
   website: Yup.object({
     checked: Yup.boolean(),
-    url: Yup.string().when("checked", {
+    url: Yup.string().when('checked', {
       is: true,
       then: Yup.string()
         .matches(
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          "Enter correct url!"
+          'Enter correct url!'
         )
-        .required("Please enter website url"),
-    }),
+        .required('Please enter website url')
+    })
   }),
   behance: Yup.object({
     checked: Yup.boolean(),
-    url: Yup.string().when("checked", {
+    url: Yup.string().when('checked', {
       is: true,
       then: Yup.string()
         .matches(
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          "Enter correct url!"
+          'Enter correct url!'
         )
-        .required("Please enter behance url"), // ??????
-    }),
+        .required('Please enter behance url') // ??????
+    })
   }),
   other: Yup.object({
     checked: Yup.boolean(),
-    url: Yup.string().when("checked", {
+    url: Yup.string().when('checked', {
       is: true,
       then: Yup.string()
         .matches(
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          "Enter correct url!"
+          'Enter correct url!'
         )
-        .required("Please enter website url"),
-    }),
+        .required('Please enter website url')
+    })
   }),
   category: Yup.object({
     checked: Yup.boolean(),
-    name: Yup.string().when("checked", {
+    name: Yup.string().when('checked', {
       is: true,
       then: Yup.string() // /^([a-zA-Z-]+,?\s*)+/g
-        .matches(/^([a-zA-Z-, ]+)?$/g, "Enter correct artist type!")
-        .required("Please enter artist type"), // ??????
-    }),
+        .matches(/^([a-zA-Z-, ]+)?$/g, 'Enter correct artist type!')
+        .required('Please enter artist type') // ??????
+    })
   }),
   // what is the validation rule?
   description: Yup.string()
     .test(
-      "len",
-      "Must be at least 50 characters and not longer than 1500 characters", // what is the min length?
+      'len',
+      'Must be at least 50 characters and not longer than 1500 characters', // what is the min length?
       (val) => val && val.length > 50 && val.length <= 1500
     )
-    .required("Desctiption is required"),
+    .required('Desctiption is required'),
   categories: Yup.array()
-    .test("categories", "Enter valid artist type", (categories) =>
+    .test('categories', 'Enter valid artist type', (categories) =>
       categories.every(
         (category) =>
           /^([a-zA-Z- ]+)?$/g.test(category) &&
@@ -112,17 +112,17 @@ const formValidationSchema = Yup.object().shape({
           category.length > 3
       )
     )
-    .min(1, "Please provide at least one artist type"),
+    .min(1, 'Please provide at least one artist type'),
   tags: Yup.array()
-    .test("tags", "Enter valid keyword", (tags) =>
+    .test('tags', 'Enter valid keyword', (tags) =>
       tags.every(
         (tag) =>
           /^([a-zA-Z- ]+)?$/g.test(tag) && tag.length < 30 && tag.length > 3
       )
     )
-    .min(1, "Please choose at least one keyword"),
+    .min(1, 'Please choose at least one keyword'),
   skills: Yup.array()
-    .test("skills", "Enter valid keyword", (skills) =>
+    .test('skills', 'Enter valid keyword', (skills) =>
       skills.every(
         (skill) =>
           /^([a-zA-Z- ]+)?$/g.test(skill) &&
@@ -130,14 +130,14 @@ const formValidationSchema = Yup.object().shape({
           skill.length > 3
       )
     )
-    .min(1, "Please choose at least one keyword"),
+    .min(1, 'Please choose at least one keyword')
 });
 
 function CreateProfileForm({
   className,
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
-  skills = [skillsDefaultValue],
+  skills = [skillsDefaultValue]
 }) {
   const {
     handleBlur,
@@ -150,7 +150,7 @@ function CreateProfileForm({
     isValid,
     dirty,
     errors,
-    touched,
+    touched
   } = useFormik({
     initialValues,
     enableReinitialize: true, // lets the form to go back to initial values if reset form
@@ -169,7 +169,7 @@ function CreateProfileForm({
         subscribedToNewsletter,
         categories: allCategories,
         tags: allTags,
-        skills: allSkills,
+        skills: allSkills
       } = vals;
 
       // user social links
@@ -179,36 +179,36 @@ function CreateProfileForm({
       });
 
       const formData = new FormData();
-      formData.append("firstName", firstName);
-      formData.append("lastName", lastName);
-      formData.append("email", email);
-      formData.append("city", city);
-      formData.append("description", description);
-      formData.append("social", social);
-      formData.append("categories", allCategories);
-      formData.append("tags", allTags);
-      formData.append("skills", allSkills);
-      formData.append("files", files);
-      formData.append("subscribedToNewsletter", subscribedToNewsletter);
+      formData.append('firstName', firstName);
+      formData.append('lastName', lastName);
+      formData.append('email', email);
+      formData.append('city', city);
+      formData.append('description', description);
+      formData.append('social', social);
+      formData.append('categories', allCategories);
+      formData.append('tags', allTags);
+      formData.append('skills', allSkills);
+      formData.append('files', files);
+      formData.append('subscribedToNewsletter', subscribedToNewsletter);
 
       console.log([...formData]);
 
       // TODO - do something to submit data to the backend
 
       resetForm(); // handleReset
-    },
+    }
   });
 
   const [formReset, setFormReset] = useState(false);
-  //const [imageFiles, setFiles] = useState(initialValues.files);
+  // const [imageFiles, setFiles] = useState(initialValues.files);
 
   const handleChangeSocial = (e) => {
     const { value, name, type, checked } = e.target;
     const checkboxValName = `${name}.checked`;
 
-    if (type === "checkbox") {
+    if (type === 'checkbox') {
       if (!checked) {
-        setFieldValue([value], { checked, name: value, url: "" }); // clear respective input field if not checked
+        setFieldValue([value], { checked, name: value, url: '' }); // clear respective input field if not checked
       } else {
         setFieldValue(checkboxValName, checked);
       }
@@ -251,22 +251,22 @@ function CreateProfileForm({
       <form noValidate onSubmit={handleSubmit}>
         <Card
           sx={{
-            "& legend": {
-              typography: "body2",
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              lineHeight: "1",
-              letterSpacing: "0.18px",
+            '& legend': {
+              typography: 'body2',
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              lineHeight: '1',
+              letterSpacing: '0.18px'
             },
-            "& p": {
-              typography: "body2",
-              fontSize: "20px",
-              lineHeight: "1.2",
-              letterSpacing: "0.15px",
-              "& span": {
-                color: "primary.main",
-              },
-            },
+            '& p': {
+              typography: 'body2',
+              fontSize: '20px',
+              lineHeight: '1.2',
+              letterSpacing: '0.15px',
+              '& span': {
+                color: 'primary.main'
+              }
+            }
           }}
           elevation={6}
         >
@@ -279,7 +279,7 @@ function CreateProfileForm({
             <Box>
               <TextField
                 required
-                sx={{ width: "47%", mb: "25px", mr: "25px" }}
+                sx={{ width: '47%', mb: '25px', mr: '25px' }}
                 id="outlined-required"
                 label="First Name"
                 name="firstName"
@@ -287,11 +287,11 @@ function CreateProfileForm({
                 onBlur={handleBlur}
                 value={values.firstName}
                 error={errors.firstName && touched.firstName}
-                helperText={touched.firstName ? errors.firstName : ""}
+                helperText={touched.firstName ? errors.firstName : ''}
               />
               <TextField
                 required
-                sx={{ width: "47%", mb: "25px" }}
+                sx={{ width: '47%', mb: '25px' }}
                 id="outlined-required"
                 label="Last Name"
                 name="lastName"
@@ -299,13 +299,13 @@ function CreateProfileForm({
                 onBlur={handleBlur}
                 value={values.lastName}
                 error={errors.lastName && touched.lastName}
-                helperText={touched.lastName ? errors.lastName : ""}
+                helperText={touched.lastName ? errors.lastName : ''}
               />
             </Box>
             <div>
               <TextField
                 required
-                sx={{ width: "47%", mb: "25px" }}
+                sx={{ width: '47%', mb: '25px' }}
                 id="outlined-required"
                 label="Email Address"
                 name="email"
@@ -313,13 +313,13 @@ function CreateProfileForm({
                 onBlur={handleBlur}
                 value={values.email}
                 error={errors.email && touched.email}
-                helperText={touched.email ? errors.email : ""}
+                helperText={touched.email ? errors.email : ''}
               />
             </div>
             <div>
               <TextField
                 required
-                sx={{ width: "47%", mb: "25px" }}
+                sx={{ width: '47%', mb: '25px' }}
                 id="outlined-required"
                 label="In which city do you reside?"
                 name="city"
@@ -327,7 +327,7 @@ function CreateProfileForm({
                 onBlur={handleBlur}
                 value={values.city}
                 error={errors.city && touched.city}
-                helperText={touched.city ? errors.city : ""}
+                helperText={touched.city ? errors.city : ''}
               />
             </div>
           </Box>
@@ -343,7 +343,7 @@ function CreateProfileForm({
               onChange={(e) => handleChangeSocial(e, values)}
             >
               <FormGroup>
-                <Box sx={{ display: "flex", mb: "25px" }}>
+                <Box sx={{ display: 'flex', mb: '25px' }}>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -352,24 +352,24 @@ function CreateProfileForm({
                         checked={values.website.checked}
                       />
                     }
-                    sx={{ width: "15%" }}
+                    sx={{ width: '15%' }}
                     label="Website"
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: "50%" }}
+                    sx={{ width: '50%' }}
                     label="Website URL"
                     onBlur={handleBlur}
                     name="website"
                     value={values.website.url}
                     error={errors.website && touched.website}
-                    helperText={touched.website ? errors.website?.url : ""} // ??
+                    helperText={touched.website ? errors.website?.url : ''} // ??
                   />
                 </Box>
               </FormGroup>
 
               <FormGroup>
-                <Box sx={{ display: "flex", mb: "25px" }}>
+                <Box sx={{ display: 'flex', mb: '25px' }}>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -378,23 +378,23 @@ function CreateProfileForm({
                         checked={values.behance.checked}
                       />
                     }
-                    sx={{ width: "15%" }}
+                    sx={{ width: '15%' }}
                     label="Behance"
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: "50%" }}
+                    sx={{ width: '50%' }}
                     label="Behance URL"
                     onBlur={handleBlur}
                     name="behance"
                     value={values.behance.url}
                     error={errors.behance && touched.behance}
-                    helperText={touched.behance ? errors.behance?.url : ""} // ??
+                    helperText={touched.behance ? errors.behance?.url : ''} // ??
                   />
                 </Box>
               </FormGroup>
               <FormGroup>
-                <Box sx={{ display: "flex", mb: "25px" }}>
+                <Box sx={{ display: 'flex', mb: '25px' }}>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -403,18 +403,18 @@ function CreateProfileForm({
                         checked={values.other.checked}
                       />
                     }
-                    sx={{ width: "15%" }}
+                    sx={{ width: '15%' }}
                     label="other"
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: "50%" }}
+                    sx={{ width: '50%' }}
                     label="Other"
                     onBlur={handleBlur}
                     name="other"
                     value={values.other.url}
                     error={errors.other?.url && touched.other}
-                    helperText={touched.other ? errors.other?.url : ""} // ??
+                    helperText={touched.other ? errors.other?.url : ''} // ??
                   />
                 </Box>
               </FormGroup>
@@ -445,14 +445,14 @@ function CreateProfileForm({
                     />
                   ))
                 }
-                onChange={(event, value) => setFieldValue("categories", value)}
+                onChange={(event, value) => setFieldValue('categories', value)}
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     label="Artist types"
                     name="categories"
                     error={errors.categories && touched.categories}
-                    helperText={touched.categories ? errors.categories : ""}
+                    helperText={touched.categories ? errors.categories : ''}
                   />
                 )}
               />
@@ -463,24 +463,24 @@ function CreateProfileForm({
           <Upload />
           <Box
             sx={{
-              "& span:nth-child(2)": {
-                color: "primary.text",
-                opacity: "0.75",
-                fontSize: "14px",
-                fontWeight: "500",
-                fontStyle: "italic",
-                lineHeight: "1.33",
-                letterSpacing: "1px",
-                ml: "15px",
+              '& span:nth-child(2)': {
+                color: 'primary.text',
+                opacity: '0.75',
+                fontSize: '14px',
+                fontWeight: '500',
+                fontStyle: 'italic',
+                lineHeight: '1.33',
+                letterSpacing: '1px',
+                ml: '15px'
               },
-              "& p:nth-child(2)": {
-                typography: "body1",
-                fontSize: "12px",
-                fontStyle: "italic",
-                lineHeight: "1.33",
-                letterSpacing: "0.4px",
-                mt: "0",
-              },
+              '& p:nth-child(2)': {
+                typography: 'body1',
+                fontSize: '12px',
+                fontStyle: 'italic',
+                lineHeight: '1.33',
+                letterSpacing: '0.4px',
+                mt: '0'
+              }
             }}
           >
             <p>
@@ -506,7 +506,7 @@ function CreateProfileForm({
                 name="description"
                 onChange={handleChange}
                 error={errors.description && touched.description} // ??
-                helperText={touched.description ? errors.description : ""} // ??
+                helperText={touched.description ? errors.description : ''} // ??
               />
             </FormControl>
           </Box>
@@ -537,14 +537,14 @@ function CreateProfileForm({
                     />
                   ))
                 }
-                onChange={(event, value) => setFieldValue("tags", value)}
+                onChange={(event, value) => setFieldValue('tags', value)}
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     label="My 10 Keywords"
                     name="tags"
                     error={errors.tags && touched.tags}
-                    helperText={touched.tags ? errors.tags : ""}
+                    helperText={touched.tags ? errors.tags : ''}
                   />
                 )}
               />
@@ -553,15 +553,15 @@ function CreateProfileForm({
 
           <Box
             sx={{
-              "& p:nth-child(2)": {
-                typography: "body1",
-                fontSize: "12px",
-                fontStyle: "italic",
-                lineHeight: "1.33",
-                letterSpacing: "0.4px",
-                mt: "0",
-                mb: "20px",
-              },
+              '& p:nth-child(2)': {
+                typography: 'body1',
+                fontSize: '12px',
+                fontStyle: 'italic',
+                lineHeight: '1.33',
+                letterSpacing: '0.4px',
+                mt: '0',
+                mb: '20px'
+              }
             }}
           >
             <p>
@@ -589,7 +589,7 @@ function CreateProfileForm({
                     />
                   ))
                 }
-                onChange={(event, value) => setFieldValue("skills", value)}
+                onChange={(event, value) => setFieldValue('skills', value)}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -597,18 +597,18 @@ function CreateProfileForm({
                     label="My 10 Keywords"
                     error={errors.skills && touched.skills}
                     // touched={touched.skills} // ??
-                    helperText={touched.skills ? errors.skills : ""} // ??∂
+                    helperText={touched.skills ? errors.skills : ''} // ??∂
                   />
                 )}
               />
             </Stack>
           </Box>
 
-          <Box sx={{ display: "flex" }}>
-            <Box sx={{ "& img": { mt: "2rem", mr: "2rem" } }}>
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ '& img': { mt: '2rem', mr: '2rem' } }}>
               <img src="/images/img-newsletter.svg" alt="Evelope" />
             </Box>
-            <Box sx={{ width: "75%" }}>
+            <Box sx={{ width: '75%' }}>
               <p>
                 Would you like to subscribe to our monthly newsletter about
                 local art opportunities?
@@ -639,11 +639,11 @@ function CreateProfileForm({
         </Card>
         <Box
           sx={{
-            maxWidth: "782px",
-            margin: "0 auto",
-            display: "flex",
-            justifyContent: "space-between",
-            mt: "2rem",
+            maxWidth: '782px',
+            margin: '0 auto',
+            display: 'flex',
+            justifyContent: 'space-between',
+            mt: '2rem'
           }}
         >
           <Button
@@ -669,7 +669,7 @@ function CreateProfileForm({
 }
 
 CreateProfileForm.propTypes = {
-  className: PropTypes.string,
+  className: PropTypes.string
 };
 
 export default CreateProfileForm;
