@@ -3,9 +3,13 @@ const logger = require('@artistdirectory/logger');
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 
-const { AWS_UPLOADS_BUCKET } = process.env;
+const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_UPLOADS_BUCKET } =
+  process.env;
 
-const s3 = new AWS.S3();
+const s3 = new AWS.S3({
+  accessKeyId: AWS_ACCESS_KEY_ID,
+  secretAccessKey: AWS_SECRET_ACCESS_KEY
+});
 
 const handler = async (event) => {
   if (event.source === 'serverless-plugin-warmup') {
