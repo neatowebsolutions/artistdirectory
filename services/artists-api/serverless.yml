@@ -31,7 +31,7 @@ provider:
     LOGS_API_URL: ${env:LOGS_API_URL, ssm:/artistdirectory/${self:provider.stage}/logs-api/url}
     MONGODB_URL_DIRECTORY: ${env:MONGODB_URL_DIRECTORY, ssm:/artistdirectory/${self:provider.stage}/database/mongodb-directory/url}
     SANDBOX: ${env:SANDBOX, ssm:/artistdirectory/${self:provider.stage}/sandbox}
-    AWS_UPLOADS_BUCKET: ${env:AWS_UPLOADS_BUCKET} 
+    AWS_UPLOADS_BUCKET: ${env:AWS_UPLOADS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/uploads}
 
 custom:
   serverless-offline:

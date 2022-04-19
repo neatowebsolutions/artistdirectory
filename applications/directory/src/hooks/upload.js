@@ -2,10 +2,11 @@ import { useHttpClient } from '@artistdirectory/react-hooks';
 
 const useUpload = () => {
   const { httpClient } = useHttpClient();
-  const getSignedProfileUrl = async (metadata) => {
+
+  const getSignedProfileUrl = async (mimeType) => {
     try {
       const url = `/uploads/signed-url/profile`;
-      const signedUrl = await httpClient.post(url, metadata);
+      const signedUrl = await httpClient.post(url, { mimeType });
 
       return {
         signedUrl
