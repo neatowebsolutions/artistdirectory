@@ -121,6 +121,19 @@ functions:
           #   type: request
           #   identitySource: method.request.header.Authorization
           #   resultTtlInSeconds: 0
+  generateProfileUploadSignedUrl:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/generateProfileUploadSignedUrl.handler
+    events:
+      - http:
+          path: /uploads/signed-url/profile
+          method: post
+          cors: true
+          # authorizer:
+          #   name: authorizer
+          #   type: request
+          #   identitySource: method.request.header.Authorization
+          #   resultTtlInSeconds: 0
   deleteProduct:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/deleteProduct.handler

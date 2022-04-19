@@ -1,4 +1,7 @@
 import Head from "next/head";
+import { Loader } from "@artistdirectory/react-components";
+import Alert from "@mui/material/Alert";
+import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import { Layout } from "../../components";
 import CreateProfileForm from "../../components/CreateProfileForm";
@@ -103,11 +106,29 @@ const CreatePage = () => {
           </Box>
         </Layout.Intro>
         <Box sx={{ maxWidth: "782px", margin: "0 auto" }}>
-          <CreateProfileForm
-            skills={skills}
-            tags={tags}
-            categories={categories}
-          />
+          <Loader
+            isLoading={categoriesLoading || tagsLoading || skillsLoading}
+            isError={categoriesError || tagsError || skillsError}
+            loadingComponent={() => (
+              <LinearProgress color="primary"></LinearProgress>
+            )}
+            errorComponent={() => (
+              <Alert
+                severity="error"
+                sx={{
+                  fontSize: "1.2rem",
+                }}
+              >
+                An unexpected error occurred. Please try again shortly.
+              </Alert>
+            )}
+          >
+            <CreateProfileForm
+              skills={skills}
+              tags={tags}
+              categories={categories}
+            />
+          </Loader>
         </Box>
       </Layout>
     </>
@@ -115,3 +136,11 @@ const CreatePage = () => {
 };
 
 export default CreatePage;
+/*
+
+
+ skills={{ skills, skillsLoading, skillsError }}
+            tags={{ tags, tagsLoading, tagsError }}
+            categories={{ categories, categoriesLoading, categoriesError }}
+
+*/
