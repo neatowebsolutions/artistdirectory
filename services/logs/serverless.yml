@@ -32,7 +32,7 @@ custom:
     autoDomain: true
   warmup:
     default:
-      enabled: true
+      enabled: false
       concurrency: 5
       prewarm: true
       events:
