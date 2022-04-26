@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import IconButton from '@mui/material/IconButton';
 
-function Thumbnail({ upload, handleDelete }) {
+function Thumbnail({ uploadUrl, handleDelete, fileName }) {
   return (
     <Box sx={{ position: 'relative' }}>
       <Card
@@ -23,11 +23,11 @@ function Thumbnail({ upload, handleDelete }) {
         }}
         elevation={2}
       >
-        <img src={upload.preview} alt={upload.name} />
+        <img src={uploadUrl} alt={fileName} />
       </Card>
 
       <IconButton
-        onClick={() => handleDelete(upload.name)}
+        onClick={() => handleDelete(fileName)}
         sx={{
           position: 'absolute',
           top: '-15px',

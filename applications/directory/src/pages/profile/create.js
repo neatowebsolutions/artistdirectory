@@ -26,8 +26,8 @@ const CreatePage = () => {
                 fontSize: '3.75rem',
                 fontWeight: 'bold',
                 letterSpacing: '-0.5px',
-                mt: '1.5rem'
-              }
+                mt: '1.5rem',
+              },
             }}
           >
             <Box
@@ -36,11 +36,12 @@ const CreatePage = () => {
                   typography: 'body1',
                   fontWeight: '900',
                   fontSize: '24px',
+
                   textTransform: 'uppercase',
                   letterSpacing: '3.53px',
                   mb: '1.5rem',
-                  lineHeight: '1.5'
-                }
+                  lineHeight: '1.5',
+                },
               }}
             >
               <p>Grand Rapids Artist Directory</p>
@@ -51,16 +52,18 @@ const CreatePage = () => {
                 letterSpacing: 10,
                 '& span': {
                   fontSize: '60px',
+                  //  fontSize: [24, 48, 60],
                   fontWeight: 'bold',
                   lineHeight: '72px',
                   letterSpacing: '3px',
                   textTransform: 'uppercase',
-                  color: 'primary.main'
-                }
+                  color: 'primary.main',
+                },
               }}
             >
               <span>Get found.</span>
             </Box>
+            {/*  '& p': { fontSize: [14, 16,20] } */}
             <Box sx={{ maxWidth: 1080, margin: '0 auto' }}>
               <p>
                 By submitting this form you agree to have the following listed
@@ -82,14 +85,14 @@ const CreatePage = () => {
             <Box
               sx={{
                 '& p span': {
-                  fontStyle: 'italic'
+                  fontStyle: 'italic',
                 },
                 '& p a': {
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
                   letterSpacing: '1.25px',
-                  color: 'primary.main'
-                }
+                  color: 'primary.main',
+                },
               }}
             >
               <p>
@@ -116,7 +119,7 @@ const CreatePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem'
+                  fontSize: '1.2rem',
                 }}
               >
                 An unexpected error occurred. Please try again shortly.

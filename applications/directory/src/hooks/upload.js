@@ -9,31 +9,38 @@ const useUpload = () => {
       const signedUrl = await httpClient.post(url, { mimeType });
 
       return {
-        signedUrl
+        data: signedUrl,
       };
     } catch (error) {
       return {
-        error: error.message
+        error: error.message,
       };
     }
   };
 
   const uploadFile = async (signedUrl, file) => {
+    // const body = new FormData();
+    // body.append('image', file);
+
     const body = new FormData();
-    body.append('image', file);
+
+    const blob = new Blob([file], { type: file.type});
+    body.append('image', blob);
+
     try {
       const uploadedImageUrl = await httpClient.put(signedUrl, body);
+
       return { uploadedImageUrl };
     } catch (error) {
       return {
-        error: error.message
+        error: error.message,
       };
     }
   };
 
   return {
     getSignedProfileUrl,
-    uploadFile
+    uploadFile,
   };
 };
 

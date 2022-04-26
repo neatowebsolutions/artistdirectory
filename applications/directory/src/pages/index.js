@@ -22,11 +22,11 @@ const HomePage = () => {
           <Box
             sx={{
               typography: 'body2',
-              lineHeight: [1, 1.5],
-              fontSize: '3.75rem',
+              lineHeight: ['normal', 1.17, 1.2],
+              fontSize: [24, 48, 60], //'3.75rem',
               fontWeight: 'bold',
-              letterSpacing: '-0.5px',
-              margin: '3rem auto 1.5rem auto'
+              letterSpacing: [0.18, 'normal', -0.5],
+              margin: '3rem auto 1.5rem auto',
             }}
           >
             Discover artists and their work,
@@ -36,8 +36,8 @@ const HomePage = () => {
             sx={{
               '& p': {
                 fontSize: '1.5rem',
-                margin: '0 auto'
-              }
+                margin: '0 auto',
+              },
             }}
           >
             <p>
@@ -57,7 +57,7 @@ const HomePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem'
+                  fontSize: '1.2rem',
                 }}
               >
                 An unexpected error occurred. Please try again shortly.

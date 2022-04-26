@@ -1,4 +1,4 @@
-// handle error if categories, tags, skills are not fetched
+
 // TODO validation ??? -  make sure at least one social link provided or delete the * for the social being required??
 // TODO - validation - make sure at least one image is provided
 import { useState } from 'react';
@@ -39,7 +39,7 @@ const initialValues = {
   categories: [categoriesDefaultValue],
   tags: [tagsDefaultValue],
   skills: [skillsDefaultValue],
-  subscribedToNewsletter: 'yes'
+  subscribedToNewsletter: 'yes',
 };
 
 // TODO: validation to ensure user enters either website, behance or other
@@ -59,8 +59,8 @@ const formValidationSchema = Yup.object().shape({
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
           'Enter correct url!'
         )
-        .required('Please enter website url')
-    })
+        .required('Please enter website url'),
+    }),
   }),
   behance: Yup.object({
     checked: Yup.boolean(),
@@ -71,8 +71,8 @@ const formValidationSchema = Yup.object().shape({
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
           'Enter correct url!'
         )
-        .required('Please enter behance url') // ??????
-    })
+        .required('Please enter behance url'), // ??????
+    }),
   }),
   other: Yup.object({
     checked: Yup.boolean(),
@@ -83,8 +83,8 @@ const formValidationSchema = Yup.object().shape({
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
           'Enter correct url!'
         )
-        .required('Please enter website url')
-    })
+        .required('Please enter website url'),
+    }),
   }),
   category: Yup.object({
     checked: Yup.boolean(),
@@ -92,8 +92,8 @@ const formValidationSchema = Yup.object().shape({
       is: true,
       then: Yup.string() // /^([a-zA-Z-]+,?\s*)+/g
         .matches(/^([a-zA-Z-, ]+)?$/g, 'Enter correct artist type!')
-        .required('Please enter artist type') // ??????
-    })
+        .required('Please enter artist type'), // ??????
+    }),
   }),
   // what is the validation rule?
   description: Yup.string()
@@ -130,14 +130,14 @@ const formValidationSchema = Yup.object().shape({
           skill.length > 3
       )
     )
-    .min(1, 'Please choose at least one keyword')
+    .min(1, 'Please choose at least one keyword'),
 });
 
 function CreateProfileForm({
   className,
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
-  skills = [skillsDefaultValue]
+  skills = [skillsDefaultValue],
 }) {
   const {
     handleBlur,
@@ -150,7 +150,7 @@ function CreateProfileForm({
     isValid,
     dirty,
     errors,
-    touched
+    touched,
   } = useFormik({
     initialValues,
     enableReinitialize: true, // lets the form to go back to initial values if reset form
@@ -169,7 +169,7 @@ function CreateProfileForm({
         subscribedToNewsletter,
         categories: allCategories,
         tags: allTags,
-        skills: allSkills
+        skills: allSkills,
       } = vals;
 
       // user social links
@@ -196,11 +196,11 @@ function CreateProfileForm({
       // TODO - do something to submit data to the backend
 
       resetForm(); // handleReset
-    }
+    },
   });
 
   const [formReset, setFormReset] = useState(false);
-  // const [imageFiles, setFiles] = useState(initialValues.files);
+  const [imageFiles, setFiles] = useState(initialValues.files);
 
   const handleChangeSocial = (e) => {
     const { value, name, type, checked } = e.target;
@@ -236,10 +236,10 @@ function CreateProfileForm({
   //   }
   // };
 
-  // const getFiles = (files) => {
-  //   setFiles(files);
-  //   setFieldValue("files", files);
-  // };
+  const getFiles = (files) => {
+    setFiles(files);
+    setFieldValue('files', files);
+  };
   const handleFormReset = () => {
     setFormReset(!formReset);
     // setFiles([]); TODO reset files
@@ -256,7 +256,7 @@ function CreateProfileForm({
               fontSize: '1.5rem',
               fontWeight: 'bold',
               lineHeight: '1',
-              letterSpacing: '0.18px'
+              letterSpacing: '0.18px',
             },
             '& p': {
               typography: 'body2',
@@ -264,9 +264,9 @@ function CreateProfileForm({
               lineHeight: '1.2',
               letterSpacing: '0.15px',
               '& span': {
-                color: 'primary.main'
-              }
-            }
+                color: 'primary.main',
+              },
+            },
           }}
           elevation={6}
         >
@@ -459,8 +459,8 @@ function CreateProfileForm({
             </Stack>
           </Box>
 
-          {/* <Upload getFiles={getFiles} files={imageFiles} /> */}
-          <Upload />
+          <Upload getFiles={getFiles} files={imageFiles} />
+          {/* <Upload /> */}
           <Box
             sx={{
               '& span:nth-child(2)': {
@@ -471,7 +471,7 @@ function CreateProfileForm({
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '1px',
-                ml: '15px'
+                ml: '15px',
               },
               '& p:nth-child(2)': {
                 typography: 'body1',
@@ -479,8 +479,8 @@ function CreateProfileForm({
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
-                mt: '0'
-              }
+                mt: '0',
+              },
             }}
           >
             <p>
@@ -560,8 +560,8 @@ function CreateProfileForm({
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
                 mt: '0',
-                mb: '20px'
-              }
+                mb: '20px',
+              },
             }}
           >
             <p>
@@ -643,7 +643,7 @@ function CreateProfileForm({
             margin: '0 auto',
             display: 'flex',
             justifyContent: 'space-between',
-            mt: '2rem'
+            mt: '2rem',
           }}
         >
           <Button
@@ -669,7 +669,7 @@ function CreateProfileForm({
 }
 
 CreateProfileForm.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default CreateProfileForm;
