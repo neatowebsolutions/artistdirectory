@@ -14,28 +14,29 @@ const theme = responsiveFontSizes(
     },
     typography: {
       h1: {
-        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+        fontFamily: 'brandon-grotesque, sans-serif'
       },
       h2: {
-        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+        fontFamily: 'brandon-grotesque, sans-serif'
       },
       h3: {
-        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+        fontFamily: 'brandon-grotesque, sans-serif'
       },
       h4: {
-        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+        fontFamily: 'brandon-grotesque, sans-serif'
       },
       h5: {
-        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+        fontFamily: 'brandon-grotesque, sans-serif'
       },
       h6: {
-        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+        fontFamily: 'brandon-grotesque, sans-serif'
       },
       body1: {
-        fontFamily: ['gira-sans', 'sans-serif'].join(',')
+        fontFamily: 'gira-sans, sans-serif',
+        fontSize: ['1rem', '1rem', '1rem', '1.5rem']
       },
       body2: {
-        fontFamily: ['brandon-grotesque', 'sans-serif'].join(',')
+        fontFamily: 'brandon-grotesque, sans-serif'
       }
     },
     breakpoints: {
