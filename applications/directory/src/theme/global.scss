@@ -1,5 +1,13 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
 /* Reference: https://gist.github.com/hsleonis/55712b0eafc9b25f1944 */
-* {
+html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
   font-variant-ligatures: none;
@@ -10,6 +18,9 @@
   -webkit-font-smoothing: antialiased;
   text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
 }
+body {
+  box-sizing: border-box;
+}
 
 html,
 body,
@@ -17,68 +28,62 @@ body,
   height: 100%;
 }
 
+// h1 {
+//   font-size: 96px;
+//   font-weight: 300;
+//   line-height: 1.17;
+//   letter-spacing: -1.5px;
+// }
 
+// h2 {
+//   font-size: 60px;
+//   font-weight: 300;
+//   line-height: 1.2;
+//   letter-spacing: -0.5px;
+// }
 
+// h3 {
+//   font-size: 48px;
+//   font-style: normal;
+//   line-height: 1.17;
+// }
 
-h1 {
-  font-size: 96px;
-  font-weight: 300;
-  line-height: 1.17;
-  letter-spacing: -1.5px;
-}
+// h4 {
+//   font-size: 34px;
+//   line-height: 1.06;
+// }
 
-h2 {
-  font-size: 60px;
-  font-weight: 300;
-  line-height: 1.2;
-  letter-spacing: -0.5px;
-}
+// h5 {
+//   font-size: 24px;
+//   line-height: 1;
+//   letter-spacing: 0.18px;
+// }
 
-h3 {
-  font-size: 48px;
-  font-style: normal;
-  line-height: 1.17;
-}
+// h6 {
+//   font-size: 20px;
+//   line-height: 1.2;
+//   letter-spacing: 0.15px;
+// }
 
-h4 {
-  font-size: 34px;
-  line-height: 1.06;
-}
+// button {
+//   text-transform: capitalize;
+//   font-size: 14px;
+//   font-weight: 500;
+//   line-height: 1.14;
+//   letter-spacing: 1.25px;
+// }
 
-h5 {
-  font-size: 24px;
-  line-height: 1;
-  letter-spacing: 0.18px;
-}
+// p {
+//   font-size: 20px;
+//   line-height: 1.6;
+//   letter-spacing: 0.15px;
+//   margin-top: 2rem;
+//   margin-top: 2rem;
+// }
 
-h6 {
-  font-size: 20px;
-  line-height: 1.2;
-  letter-spacing: 0.15px;
-}
-
-button {
-  text-transform: capitalize;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.14;
-  letter-spacing: 1.25px;
-}
-
-p {
-  font-size: 20px;
-  line-height: 1.6;
-  letter-spacing: 0.15px;
-  margin-top: 2rem;
-  margin-top: 2rem;
-}
-
-a {
-  font-weight: bold;
-}
-
-
-
+// a {
+//   font-weight: bold;
+// }
 
 @-webkit-keyframes load8 {
   0% {

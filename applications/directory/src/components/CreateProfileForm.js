@@ -20,7 +20,7 @@ import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import Upload from './Upload';
+//import Upload from './Upload';
 
 // parse keywords(skills, categories, tags) list to separate existed in database from added by user
 const parseKeywords = (keywords, databaseList) => {
@@ -487,7 +487,7 @@ function CreateProfileForm({
             </Stack>
           </Box>
 
-          <Upload getFiles={getFiles} files={imageFiles} />
+          {/* <Upload getFiles={getFiles} files={imageFiles} /> */}
 
           <Box
             sx={{
