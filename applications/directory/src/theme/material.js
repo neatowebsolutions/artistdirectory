@@ -1,3 +1,5 @@
+// mui default themes
+
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
 //create a 'partial theme' which will be used in the actual theme below
@@ -5,10 +7,9 @@ const breakpointsVals = createTheme({
   breakpoints: {
     values: {
       mobile: 0,
-      tablet: 768,
-      laptop: 1024,
-      desktop: 1280,
-      desktopLg: 1350,
+      tablet: 768, // 48em
+      tabletLg: 1024, // 64em
+      desktop: 1440, //  90em
     },
   },
 });
@@ -25,9 +26,22 @@ const theme = responsiveFontSizes(
         secondary: '#585481',
       },
     },
+
     typography: {
       h1: {
         fontFamily: 'brandon-grotesque, sans-serif',
+        [breakpointsVals.breakpoints.up('mobile')]: {
+          fontSize: 24,
+        },
+        [breakpointsVals.breakpoints.between('tablet', 'tabletLg')]: {
+          fontSize: 48,
+          // letterSpacing: '0.5',
+          lineHeight: '1.17',
+        },
+        [breakpointsVals.breakpoints.up('tabletLg')]: {
+          fontSize: 60,
+          lineHeight: '1.2',
+        },
       },
       h2: {
         fontFamily: 'brandon-grotesque, sans-serif',
@@ -44,14 +58,52 @@ const theme = responsiveFontSizes(
       h6: {
         fontFamily: 'brandon-grotesque, sans-serif',
       },
+      // font-size is 16px
       body1: {
         fontFamily: 'gira-sans, sans-serif',
-        fontSize: ['1rem', '1rem', '1rem', '1.5rem'],
+        [breakpointsVals.breakpoints.up('mobile')]: {
+          fontSize: 14,
+        },
+        [breakpointsVals.breakpoints.between('tablet', 'tabletLg')]: {
+          fontSize: 16,
+          letterSpacing: 0.5,
+          lineHeight: 1.5,
+        },
+        [breakpointsVals.breakpoints.up('tabletLg')]: {
+          fontSize: 18,
+          letterSpacing: 0.5,
+          lineHeight: 1.6,
+        },
+        [breakpointsVals.breakpoints.up('desktop')]: {
+          fontSize: 20,
+        },
       },
+      //  font size is 14
       body2: {
         fontFamily: 'brandon-grotesque, sans-serif',
+        [breakpointsVals.breakpoints.up('tablet')]: {
+          fontSize: 16,
+          // lineHeight: '1.5',
+        },
+        [breakpointsVals.breakpoints.up('tabletLg')]: {
+          fontSize: 18,
+          // lineHeight: '1.6',
+        },
+      },
+      // font size is 14
+      body3: {
+        fontFamily: 'brandon-grotesque, sans-serif',
+        [breakpointsVals.breakpoints.up('tablet')]: {
+          fontSize: 12,
+          // lineHeight: '1.5',
+        },
+        [breakpointsVals.breakpoints.up('tabletLg')]: {
+          fontSize: 14,
+          // lineHeight: '1.6',
+        },
       },
     },
+
     components: {
       MuiPaper: {
         styleOverrides: {
@@ -75,6 +127,18 @@ const theme = responsiveFontSizes(
             paddingRight: '1.25rem',
           },
         },
+      },
+      MuiTypography: {
+        variants: [
+          {
+            props: {
+              variant: 'body3',
+            },
+            style: {
+              fontSize: 16,
+            },
+          },
+        ],
       },
     },
   })
