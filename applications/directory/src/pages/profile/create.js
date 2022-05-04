@@ -1,8 +1,6 @@
 import Head from 'next/head';
-import { Loader } from '@artistdirectory/react-components';
-import Alert from '@mui/material/Alert';
-import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
 import { Layout } from '../../components';
 import CreateProfileForm from '../../components/CreateProfileForm';
 import { useCategories, useTags, useSkills } from '../../hooks';
@@ -35,8 +33,7 @@ const CreatePage = () => {
                 '& p': {
                   typography: 'body1',
                   fontWeight: '900',
-                  fontSize: '24px',
-
+                  fontSize: ['0.875rem', '1.25rem', '1.5rem'],
                   textTransform: 'uppercase',
                   letterSpacing: '3.53px',
                   mb: '1.5rem',
@@ -49,13 +46,12 @@ const CreatePage = () => {
             <Box
               sx={{
                 color: 'primary.main',
-                letterSpacing: 10,
+                //  letterSpacing: 10,
                 '& span': {
-                  fontSize: '60px',
-                  //  fontSize: [24, 48, 60],
+                  fontSize: ['1.5rem', '3rem', '3.75rem'],
                   fontWeight: 'bold',
-                  lineHeight: '72px',
-                  letterSpacing: '3px',
+                  lineHeight: ['normal', '1.17', '1.2'],
+                  letterSpacing: ['2px', '3px'],
                   textTransform: 'uppercase',
                   color: 'primary.main',
                 },
@@ -63,7 +59,6 @@ const CreatePage = () => {
             >
               <span>Get found.</span>
             </Box>
-            {/*  '& p': { fontSize: [14, 16,20] } */}
             <Box sx={{ maxWidth: 1080, margin: '0 auto' }}>
               <p>
                 By submitting this form you agree to have the following listed
@@ -84,54 +79,44 @@ const CreatePage = () => {
             </Box>
             <Box
               sx={{
-                '& p span': {
+                margin: [
+                  '1rem 4.37rem',
+                  '1rem 4.6rem 1rem 4.6rem',
+                  '1.5rem 6.5rem 1rem',
+                ],
+                '& p': {
                   fontStyle: 'italic',
+                  display: 'inline-block',
                 },
                 '& p a': {
+                  fontStyle: 'normal',
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
                   letterSpacing: '1.25px',
                   color: 'primary.main',
+                  margin: ['0 0 0 8px', '0 0 0 1rem'],
                 },
               }}
             >
-              <p>
-                <span>
-                  You may remove yourself from this listing at any time by
-                  emailing
-                </span>
-                <br />
+              <Typography variant="body1">
+                You may remove yourself from this listing at any time by
+                emailing
+              </Typography>
+              <br />
+              <Typography variant="body1">
                 <a href="mailto:avenueforthearts@gmail.com">
                   avenueforthearts@gmail.com
                 </a>
-              </p>
+              </Typography>
             </Box>
           </Box>
         </Layout.Intro>
         <Box sx={{ maxWidth: '782px', margin: '0 auto' }}>
-          <Loader
-            isLoading={categoriesLoading || tagsLoading || skillsLoading}
-            isError={categoriesError || tagsError || skillsError}
-            loadingComponent={() => (
-              <LinearProgress color="primary"></LinearProgress>
-            )}
-            errorComponent={() => (
-              <Alert
-                severity="error"
-                sx={{
-                  fontSize: '1.2rem',
-                }}
-              >
-                An unexpected error occurred. Please try again shortly.
-              </Alert>
-            )}
-          >
-            <CreateProfileForm
-              skills={skills}
-              tags={tags}
-              categories={categories}
-            />
-          </Loader>
+          <CreateProfileForm
+            skills={skills}
+            tags={tags}
+            categories={categories}
+          />
         </Box>
       </Layout>
     </>
@@ -139,11 +124,3 @@ const CreatePage = () => {
 };
 
 export default CreatePage;
-/*
-
-
- skills={{ skills, skillsLoading, skillsError }}
-            tags={{ tags, tagsLoading, tagsError }}
-            categories={{ categories, categoriesLoading, categoriesError }}
-
-*/
