@@ -17,59 +17,49 @@ const CreatePage = () => {
       </Head>
       <Layout>
         <Layout.Intro>
-          <Box
-            sx={{
-              '& h1': {
-                typography: 'body2',
-                fontSize: '3.75rem',
-                fontWeight: 'bold',
-                letterSpacing: '-0.5px',
-                mt: '1.5rem',
-              },
-            }}
-          >
+          <Box>
             <Box
               sx={{
-                '& p': {
-                  typography: 'body1',
+                width: "100%",
+                '& h2': {
                   fontWeight: '900',
                   fontSize: ['0.875rem', '1.25rem', '1.5rem'],
                   textTransform: 'uppercase',
-                  letterSpacing: '3.53px',
+                  letterSpacing: 3.53,
                   mb: '1.5rem',
-                  lineHeight: '1.5',
                 },
               }}
             >
-              <p>Grand Rapids Artist Directory</p>
+              <Typography variant="h2" component="h2">
+                Grand Rapids Artist Directory
+              </Typography>
             </Box>
+
             <Box
               sx={{
-                color: 'primary.main',
-                //  letterSpacing: 10,
-                '& span': {
-                  fontSize: ['1.5rem', '3rem', '3.75rem'],
-                  fontWeight: 'bold',
+                '& h1': {
+                  //  fontSize: ['1.5rem', '3rem', '3.75rem'],
+                  fontFamily: 'gira-sans, sans-serif',
                   lineHeight: ['normal', '1.17', '1.2'],
-                  letterSpacing: ['2px', '3px'],
                   textTransform: 'uppercase',
                   color: 'primary.main',
+                  letterSpacing: [2, 3],
                 },
               }}
             >
-              <span>Get found.</span>
+              <Typography variant="h1" component="h1">
+                Get found.
+              </Typography>
             </Box>
             <Box
               sx={{
-                //  letterSpacing: ['0.25', '0.5', '0.15'],
-                //  lineHeight: ['1.43', '1.5', '1.6'],
-                maxWidth: 840, //1080, //???
+                maxWidth: ['90%', '45rem', '52.5rem'], // TODO - width is to narrow on screens less than tablet
                 margin: '0 auto',
                 '& p': {
                   margin: [
-                    '1.6rem 1rem  1rem',
-                    '3.7rem 1.5rem 3rem',
-                    '2.7rem 4.8rem 1.5rem',
+                    '1.563rem 1rem 1rem',
+                    '3.688rem 1.5rem 3rem',
+                    '2.688rem 5.75rem 1.5rem',
                   ],
                 },
               }}
@@ -83,10 +73,7 @@ const CreatePage = () => {
             </Box>
             <Box
               sx={{
-                //  fontSize: ['0.9rem', '1rem', '1.25rem'],
-                //   letterSpacing: ['0.25', '0.5', '0.15'],
-                //  lineHeight: ['1.43', '1.5', '1.6'],
-                maxWidth: 840,
+                maxWidth: ['90%', '45rem', '52.5rem'],
                 margin: '0 auto',
                 '& p': {
                   margin: ['1rem', '3rem 1.5rem 3.5rem', '1.5rem 5.75rem'],
@@ -104,31 +91,26 @@ const CreatePage = () => {
             </Box>
             <Box
               sx={{
-                margin: [
-                  '1rem 4.37rem',
-                  '1rem 4.6rem 1rem 4.6rem',
-                  '1.5rem 6.5rem 1rem',
-                ],
+                maxWidth: ['18.25rem', '38.813rem', '50.875rem'],
+                margin: '0 auto',
                 '& p': {
                   fontStyle: 'italic',
-                  display: 'inline-block',
+                  // display: 'inline-block',
                 },
                 '& p a': {
                   fontStyle: 'normal',
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
-                  letterSpacing: '1.25px',
+                  letterSpacing: 1.25,
                   color: 'primary.main',
-                  margin: ['0 0 0 8px', '0 0 0 1rem'],
+                  //  margin: ['0 0 0 8px', '0 0 0 1rem'],
                 },
               }}
             >
               <Typography variant="body1">
                 You may remove yourself from this listing at any time by
                 emailing
-              </Typography>
-              <br />
-              <Typography variant="body1">
+                <br />
                 <a href="mailto:avenueforthearts@gmail.com">
                   avenueforthearts@gmail.com
                 </a>

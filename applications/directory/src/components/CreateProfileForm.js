@@ -156,6 +156,17 @@ const formValidationSchema = Yup.object().shape({
 //   then: Yup.string().required("Please choose one of the options"),
 // }),
 
+// TODO styles https://thewebdev.info/2021/12/18/how-to-change-font-size-of-text-field-in-react-material-ui/
+const inputFieldStyles = { style: { fontSize: '1rem' } };
+
+const starSpanStyles = {
+  '& span': {
+    color: 'primary.main',
+  },
+};
+
+const labelStyles = { '& span': { fontSize: '1rem', pl: '0.5rem' } };
+
 function CreateProfileForm({
   className,
   categories = [categoriesDefaultValue],
@@ -279,39 +290,49 @@ function CreateProfileForm({
         <Card
           sx={{
             '& legend': {
-              typography: 'h5',
-              // fontSize: '1.5rem',
-              fontWeight: 'bold',
-              lineHeight: '1',
-              letterSpacing: '0.18px',
-              margin: '0 3px 1rem 8px',
+              margin: [
+                '0 4.188rem 1rem 1rem',
+                '0 0.188rem 1rem 0.5rem',
+                '0 2.375rem 1rem 0.5rem',
+              ],
             },
-
             '& p': {
-              // margin: ,
-              //typography: 'body2',
-              fontFamily: 'brandon-grotesque, sans-serif',
+              marginBottom: '0.5rem',
+              typography: 'body2',
               fontSize: '1.25rem',
-              fontWeight: 500,
               lineHeight: '1.2',
               letterSpacing: '0.15px',
-              '& span': {
-                color: 'primary.main',
-              },
+              ...starSpanStyles,
             },
           }}
           elevation={6}
         >
-          <legend>Your Info</legend>
-          <p>
+          <Typography variant="h2" component="legend">
+            Your Info
+          </Typography>
+          <Typography
+            variant="h3"
+            component="p"
+            sx={{
+              m: ['1rem 4.813rem 1rem 1rem', '1rem 0.313rem 1.5rem 0.5rem'],
+            }}
+          >
             <span>*</span>Required
-          </p>
+          </Typography>
 
           <Box>
-            <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: ['column', 'row'],
+                mt: '1.5rem',
+              }}
+            >
               <TextField
                 required
-                sx={{ width: '47%', mb: '25px', mr: '25px' }}
+                sx={{ width: ['100%', '47%'], mb: '1.56rem', mr: '1.56rem' }}
+                InputProps={inputFieldStyles}
+                InputLabelProps={inputFieldStyles}
                 id="outlined-required"
                 label="First Name"
                 name="firstName"
@@ -323,7 +344,9 @@ function CreateProfileForm({
               />
               <TextField
                 required
-                sx={{ width: '47%', mb: '25px' }}
+                sx={{ width: ['100%', '47%'], mb: '1.56rem' }}
+                InputProps={inputFieldStyles}
+                InputLabelProps={inputFieldStyles}
                 id="outlined-required"
                 label="Last Name"
                 name="lastName"
@@ -337,7 +360,9 @@ function CreateProfileForm({
             <div>
               <TextField
                 required
-                sx={{ width: '47%', mb: '25px' }}
+                sx={{ width: ['100%', '47%'], mb: '1.56rem' }}
+                InputProps={inputFieldStyles}
+                InputLabelProps={inputFieldStyles}
                 id="outlined-required"
                 label="Email Address"
                 name="email"
@@ -351,7 +376,9 @@ function CreateProfileForm({
             <div>
               <TextField
                 required
-                sx={{ width: '47%', mb: '25px' }}
+                sx={{ width: ['100%', '47%'], mb: '1.56rem' }}
+                InputProps={inputFieldStyles}
+                InputLabelProps={inputFieldStyles}
                 id="outlined-required"
                 label="In which city do you reside?"
                 name="city"
@@ -363,9 +390,17 @@ function CreateProfileForm({
               />
             </div>
           </Box>
-          {/* ????? */}
+
           <Box>
-            <Typography variant="body1">
+            <Typography
+              variant="h3"
+              component="h3"
+              sx={{
+                mt: ['1.5rem'],
+                mb: ['1.5rem'],
+                ...starSpanStyles,
+              }}
+            >
               What&apos;s the best place to find your work online? (Website,
               Behance, etc.)
               <span>*</span>
@@ -375,7 +410,13 @@ function CreateProfileForm({
               onChange={(e) => handleChangeSocial(e, values)}
             >
               <FormGroup>
-                <Box sx={{ display: 'flex', mb: '25px' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: ['column', 'row'],
+                    mb: '1.56rem',
+                  }}
+                >
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -384,12 +425,15 @@ function CreateProfileForm({
                         checked={values.website.checked}
                       />
                     }
-                    sx={{ width: '15%' }}
+                    sx={{ width: '15%', ...labelStyles }}
                     label="Website"
                   />
+                  {/* TODO - fix height */}
                   <TextField
                     id="outlined-required"
-                    sx={{ width: '50%' }}
+                    sx={{ width: ['95%', '50%'], ml: '2rem' }}
+                    InputProps={inputFieldStyles}
+                    InputLabelProps={inputFieldStyles}
                     label="Website URL"
                     onBlur={handleBlur}
                     name="website"
@@ -401,7 +445,13 @@ function CreateProfileForm({
               </FormGroup>
 
               <FormGroup>
-                <Box sx={{ display: 'flex', mb: '25px' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: ['column', 'row'],
+                    mb: '1.56rem',
+                  }}
+                >
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -410,12 +460,14 @@ function CreateProfileForm({
                         checked={values.behance.checked}
                       />
                     }
-                    sx={{ width: '15%' }}
+                    sx={{ width: '15%', ...labelStyles }}
                     label="Behance"
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: '50%' }}
+                    sx={{ width: ['95%', '50%'], ml: '2rem' }}
+                    InputProps={inputFieldStyles}
+                    InputLabelProps={inputFieldStyles}
                     label="Behance URL"
                     onBlur={handleBlur}
                     name="behance"
@@ -426,7 +478,13 @@ function CreateProfileForm({
                 </Box>
               </FormGroup>
               <FormGroup>
-                <Box sx={{ display: 'flex', mb: '25px' }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: ['column', 'row'],
+                    mb: '1.56rem',
+                  }}
+                >
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -435,12 +493,14 @@ function CreateProfileForm({
                         checked={values.other.checked}
                       />
                     }
-                    sx={{ width: '15%' }}
+                    sx={{ width: '15%', ...labelStyles }}
                     label="other"
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: '50%' }}
+                    sx={{ width: ['95%', '50%'], ml: '2rem' }}
+                    InputProps={inputFieldStyles}
+                    InputLabelProps={inputFieldStyles}
                     label="Other"
                     onBlur={handleBlur}
                     name="other"
@@ -453,10 +513,18 @@ function CreateProfileForm({
             </FormGroup>
           </Box>
           <Box>
-            <p>
+            <Typography
+              variant="h3"
+              component="h3"
+              sx={{
+                mt: ['1.5rem'],
+                mb: ['1.5rem'],
+                ...starSpanStyles,
+              }}
+            >
               What kind of artist are you? (Please list what apply)
               <span>*</span>
-            </p>
+            </Typography>
 
             <Stack>
               <Autocomplete
@@ -500,28 +568,37 @@ function CreateProfileForm({
               '& span:nth-child(2)': {
                 color: 'primary.text',
                 opacity: '0.75',
-                fontSize: '14px',
+                fontSize: '0.875rem',
                 fontWeight: '500',
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '1px',
-                ml: '15px',
+                ml: '0.938rem',
               },
               '& p:nth-child(2)': {
                 typography: 'body1',
-                fontSize: '12px',
+                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
                 mt: '0',
+                mb: '1rem',
               },
             }}
           >
-            <p>
+            <Typography
+              variant="h3"
+              component="h3"
+              sx={{
+                mt: ['1.5rem'],
+                mb: ['1.5rem'],
+                ...starSpanStyles,
+              }}
+            >
               Short description of what you do.
               <span>*</span>
               <span>1500 CHARACTERS MAX!</span>
-            </p>
+            </Typography>
             <p>
               Example: Visual artist and musician whose work explores themes of
               nature, memory, trauma and identity. Reyes primarily creates
@@ -533,7 +610,8 @@ function CreateProfileForm({
                 id="outlined-textarea"
                 label="Short description of what you do."
                 minRows={6}
-                inputProps={{ maxLength: 1500 }}
+                inputProps={{ ...inputFieldStyles, maxLength: 1500 }}
+                InputLabelProps={inputFieldStyles}
                 multiline
                 onBlur={handleBlur}
                 value={values.description}
@@ -546,11 +624,19 @@ function CreateProfileForm({
           </Box>
 
           <Box>
-            <p>
+            <Typography
+              variant="h3"
+              component="h3"
+              sx={{
+                mt: ['1.5rem'],
+                mb: ['1.5rem'],
+                ...starSpanStyles,
+              }}
+            >
               Please list up to 10 keywords that would describe your work and
               services.
               <span>*</span>
-            </p>
+            </Typography>
 
             <Stack>
               <Autocomplete
@@ -591,20 +677,28 @@ function CreateProfileForm({
             sx={{
               '& p:nth-child(2)': {
                 typography: 'body1',
-                fontSize: '12px',
+                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
                 mt: '0',
-                mb: '20px',
+                mb: '1.25rem',
               },
             }}
           >
-            <p>
+            <Typography
+              variant="h3"
+              component="h3"
+              sx={{
+                mt: ['1.5rem'],
+                mb: ['1.5rem'],
+                ...starSpanStyles,
+              }}
+            >
               Do you have skills, artistic or otherwise, for which you could be
               hired by Network visitors? If so, please list.
               <span>*</span>
-            </p>
+            </Typography>
             <p>Example: DJ, wedding photographer, translation work, welding.</p>
             <Stack>
               <Autocomplete
@@ -647,10 +741,18 @@ function CreateProfileForm({
               <img src="/images/img-newsletter.svg" alt="Evelope" />
             </Box>
             <Box sx={{ width: '75%' }}>
-              <p>
+              <Typography
+                variant="h3"
+                component="h3"
+                sx={{
+                  mt: ['1.5rem'],
+                  mb: ['1.5rem'],
+                  ...starSpanStyles,
+                }}
+              >
                 Would you like to subscribe to our monthly newsletter about
                 local art opportunities?
-              </p>
+              </Typography>
               <RadioGroup
                 row
                 aria-label="newsletter"
@@ -660,14 +762,14 @@ function CreateProfileForm({
                 <FormControlLabel
                   value="yes"
                   control={<Radio />}
-                  label="Yes!"
+                  label={<span style={{ fontSize: '1rem' }}>{'Yes!'}</span>}
                   name="subscribedToNewsletter"
                   onChange={handleChange}
                 />
                 <FormControlLabel
                   value="no"
                   control={<Radio />}
-                  label="No"
+                  label={<span style={{ fontSize: '1rem' }}>{'No'}</span>}
                   onChange={handleChange}
                   name="subscribedToNewsletter"
                 />
@@ -677,7 +779,7 @@ function CreateProfileForm({
         </Card>
         <Box
           sx={{
-            maxWidth: '782px',
+            maxWidth: '48.875rem',
             margin: '0 auto',
             display: 'flex',
             justifyContent: 'space-between',
