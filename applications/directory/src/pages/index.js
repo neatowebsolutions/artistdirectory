@@ -28,7 +28,7 @@ const HomePage = () => {
               '& p': {
                 margin: '1rem 0',
               },
-              '& p:nth-child(2)': {
+              '& p:nth-of-type(2n)': {
                 fontStyle: 'italic'
               },
             }}

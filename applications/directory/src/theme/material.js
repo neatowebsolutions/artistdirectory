@@ -125,7 +125,7 @@ theme.components.MuiButton = {
   styleOverrides: {
     root: {
       fontWeight: 'bold',
-      lineHeight: 1.14;
+      lineHeight: 1.14,
       letterSpacing: '1.25px',
       paddingLeft: '1.25rem',
       paddingRight: '1.25rem',

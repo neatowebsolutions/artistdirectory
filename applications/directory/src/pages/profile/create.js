@@ -2,6 +2,9 @@ import Head from 'next/head';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Link as MuiLink } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import { Loader } from '@artistdirectory/react-components';
+import LinearProgress from '@mui/material/LinearProgress';
 import { Layout } from '../../components';
 import CreateProfileForm from '../../components/CreateProfileForm';
 import { useCategories, useTags, useSkills } from '../../hooks';
@@ -120,11 +123,29 @@ const CreatePage = () => {
           </Box>
         </Layout.Intro>
         <Box sx={{ maxWidth: '48.875rem', margin: '0 auto' }}>
-          <CreateProfileForm
-            skills={skills}
-            tags={tags}
-            categories={categories}
-          />
+          <Loader
+            isLoading={categoriesLoading || tagsLoading || skillsLoading}
+            isError={categoriesError || tagsError || skillsError}
+            loadingComponent={() => (
+              <LinearProgress color="primary"></LinearProgress>
+            )}
+            errorComponent={() => (
+              <Alert
+                severity="error"
+                sx={{
+                  fontSize: '1.2rem',
+                }}
+              >
+                An unexpected error occurred. Please try again shortly.
+              </Alert>
+            )}
+          >
+            <CreateProfileForm
+              skills={skills}
+              tags={tags}
+              categories={categories}
+            />
+          </Loader>
         </Box>
       </Layout>
     </>

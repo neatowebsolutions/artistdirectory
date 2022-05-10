@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import IconButton from '@mui/material/IconButton';
 
-function ThumbnailError() {
+function ThumbnailError({ fileName, handleDelete }) {
   return (
     <Box sx={{ position: 'relative' }}>
       <Card
@@ -16,7 +16,7 @@ function ThumbnailError() {
           justifyContent: ' center',
           alignItems: 'center',
           border: ' 2px solid',
-          borderColor: 'secondary.main'
+          borderColor: 'secondary.main',
         }}
         elevation={2}
       >
@@ -27,7 +27,7 @@ function ThumbnailError() {
             justifyContent: 'space-evenly',
             alignItems: 'center',
             minHeight: '225px',
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
           <Box
@@ -38,14 +38,14 @@ function ThumbnailError() {
               alignItems: 'center',
               width: '100%',
               '& img:first-child': {
-                width: '115px'
+                width: '115px',
               },
               '& img:last-child': {
                 position: 'absolute',
                 height: '30px',
                 right: '10%',
-                bottom: '0'
-              }
+                bottom: '0',
+              },
             }}
           >
             <img src="/images/img-sadface.svg" alt="Sad Face" />
@@ -57,8 +57,8 @@ function ThumbnailError() {
                 margin: 0,
                 textAlign: 'center',
                 typography: 'body1',
-                fontSize: '16px'
-              }
+                fontSize: '16px',
+              },
             }}
           >
             <p>
@@ -70,6 +70,7 @@ function ThumbnailError() {
       </Card>
 
       <IconButton
+        onClick={() => handleDelete(fileName)}
         sx={{
           position: 'absolute',
           top: '-15px',
@@ -80,8 +81,8 @@ function ThumbnailError() {
           boxShadow:
             '0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 3px -2px rgba(0, 0, 0, 0.12),0 3px 4px 0 rgba(0, 0, 0, 0.14)',
           '&:hover': {
-            background: 'rgb(205, 205, 205)'
-          }
+            background: 'rgb(205, 205, 205)',
+          },
         }}
       >
         <DeleteOutlineIcon sx={{ color: 'primary.main', width: 20 }} />

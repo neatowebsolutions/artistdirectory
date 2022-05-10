@@ -1,6 +1,5 @@
-// TODO validation -  make sure at least one social link provided
-// ERROR - MUI: Unable to find the input element. It was resolved to [object HTMLTextAreaElement] while an HTMLInputElement was expected.
-
+// TODO validation ??? -  make sure at least one social link provided or delete the * for the social being required??
+// TODO - validation - make sure at least one image is provided
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
@@ -22,24 +21,6 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Upload from './Upload';
-
-// parse keywords(skills, categories, tags) list to separate existed in database from added by user
-const parseKeywords = (keywords, databaseList) => {
-  return keywords.reduce(
-    (list, item) => {
-      const found = databaseList.find(
-        (databaseItem) => databaseItem.name.toLowerCase() === item.toLowerCase()
-      );
-      if (found) {
-        list.existed.push(found._id);
-      } else {
-        list.added.push(item);
-      }
-      return list;
-    },
-    { existed: [], added: [] }
-  );
-};
 
 const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
@@ -118,8 +99,8 @@ const formValidationSchema = Yup.object().shape({
   description: Yup.string()
     .test(
       'len',
-      'Must be at least 10 characters and not longer than 1500 characters', // what is the min length?
-      (val) => val && val.length > 10 && val.length <= 1500
+      'Must be at least 50 characters and not longer than 1500 characters', // what is the min length?
+      (val) => val && val.length > 50 && val.length <= 1500
     )
     .required('Description is required'),
   categories: Yup.array()
@@ -151,10 +132,6 @@ const formValidationSchema = Yup.object().shape({
     )
     .min(1, 'Please choose at least one keyword'),
 });
-// social: Yup.string().when(["website", "behance", "other"], {
-//   is: (...fields) => fields.some((field) => field.checked !== true),
-//   then: Yup.string().required("Please choose one of the options"),
-// }),
 
 // TODO styles https://thewebdev.info/2021/12/18/how-to-change-font-size-of-text-field-in-react-material-ui/
 const inputFieldStyles = { style: { fontSize: '1rem' } };
@@ -212,10 +189,6 @@ function CreateProfileForm({
         return item;
       });
 
-      const parsedCategories = parseKeywords(allCategories, categories);
-      const parsedTags = parseKeywords(allTags, tags);
-      const parsedSkills = parseKeywords(allSkills, skills);
-
       const formData = new FormData();
       formData.append('firstName', firstName);
       formData.append('lastName', lastName);
@@ -223,9 +196,9 @@ function CreateProfileForm({
       formData.append('city', city);
       formData.append('description', description);
       formData.append('social', social);
-      formData.append('categories', parsedCategories);
-      formData.append('tags', parsedTags);
-      formData.append('skills', parsedSkills);
+      formData.append('categories', allCategories);
+      formData.append('tags', allTags);
+      formData.append('skills', allSkills);
       formData.append('files', files);
       formData.append('subscribedToNewsletter', subscribedToNewsletter);
 
@@ -280,7 +253,7 @@ function CreateProfileForm({
   };
   const handleFormReset = () => {
     setFormReset(!formReset);
-    setFiles([]);
+    // setFiles([]); TODO reset files
     handleReset();
   };
 
@@ -546,8 +519,6 @@ function CreateProfileForm({
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    minRows={2}
-                    multiline
                     label="Artist types"
                     name="categories"
                     error={errors.categories && touched.categories}
@@ -562,17 +533,7 @@ function CreateProfileForm({
 
           <Box
             sx={{
-              '& span:nth-child(2)': {
-                color: 'primary.text',
-                opacity: '0.75',
-                fontSize: '0.875rem',
-                fontWeight: '500',
-                fontStyle: 'italic',
-                lineHeight: '1.33',
-                letterSpacing: '1px',
-                marginLeft: '0.938rem',
-              },
-              '& p:nth-child(2)': {
+              '& p': {
                 typography: 'body1',
                 fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
                 fontStyle: 'italic',
@@ -583,7 +544,22 @@ function CreateProfileForm({
               },
             }}
           >
-            <Typography variant="h3" component="h3">
+            <Typography
+              variant="h3"
+              component="h3"
+              sx={{
+                '& span:nth-of-type(2n)': {
+                  color: 'primary.text',
+                  opacity: '0.75',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  fontStyle: 'italic',
+                  lineHeight: '1.33',
+                  letterSpacing: '1px',
+                  marginLeft: '0.938rem',
+                },
+              }}
+            >
               Short description of what you do.
               <span>*</span>
               <span>1500 CHARACTERS MAX!</span>
@@ -642,8 +618,6 @@ function CreateProfileForm({
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    minRows={2}
-                    multiline
                     label="My 10 Keywords"
                     name="tags"
                     error={errors.tags && touched.tags}
@@ -656,7 +630,7 @@ function CreateProfileForm({
 
           <Box
             sx={{
-              '& p:nth-child(2)': {
+              '& p': {
                 typography: 'body1',
                 fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
                 fontStyle: 'italic',
@@ -696,8 +670,6 @@ function CreateProfileForm({
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    minRows={2}
-                    multiline
                     name="skills"
                     label="My 10 Keywords"
                     error={errors.skills && touched.skills}

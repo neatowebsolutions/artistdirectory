@@ -137,12 +137,12 @@ const Search = ({ categories, tags, skills }) => {
         }}
       >
         <TextField
-          size="3.4rem"
+         // size="3.4rem"
           InputProps={{
             style: {
               fontSize: ['1rem'],
               width: '100%',
-              height: ['3rem', '4.5rem', '4.5rem', '4.5rem'],
+             height: ['3.7rem'],
             },
             startAdornment: (
               <InputAdornment position="start">

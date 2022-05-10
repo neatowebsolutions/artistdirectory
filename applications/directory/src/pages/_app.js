@@ -1,15 +1,15 @@
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { CacheProvider } from "@emotion/react";
-import { HttpClientProvider, HttpClient } from "@artistdirectory/react-hooks";
-import createEmotionCache from "../theme/createEmotionCache";
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { CacheProvider } from '@emotion/react';
+import { HttpClientProvider, HttpClient } from '@artistdirectory/react-hooks';
+import createEmotionCache from '../theme/createEmotionCache';
 
-import theme from "../theme/material";
+import theme from '../theme/material';
 
-import "../theme/index.scss";
+import '../theme/index.scss';
 
 const httpClient = new HttpClient({
-  baseUrl: process.env.DIRECTORY_API_URL 
+  baseUrl: process.env.DIRECTORY_API_URL
 });
 
 // Add the token to each request.
@@ -29,7 +29,7 @@ const clientSideEmotionCache = createEmotionCache();
 const App = ({
   Component,
   pageProps,
-  emotionCache = clientSideEmotionCache,
+  emotionCache = clientSideEmotionCache
 }) => (
   <CacheProvider value={emotionCache}>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
