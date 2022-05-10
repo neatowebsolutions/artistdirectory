@@ -17,19 +17,6 @@ html {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
-  
-  // tablet: 768, // 48rem
-  // tabletLg: 1024, // 64rem
-  // desktop: 1440 //  90rem
-  // @media only screen and (min-width: 48em) {
-  //   font-size:  1.0625rem; //70%;
-  // } //768px   --
-  // @media only screen and (min-width: 64em) {
-  //   font-size: 1.125rem//80%;
-  // } //768px   --
-  // @media only screen and (min-width: 90em) {
-  //   font-size: 1.1875rem //90%;
-  // } //768px   -
 }
 body {
   box-sizing: border-box;
@@ -80,13 +67,13 @@ body,
 //   letter-spacing: 0.15px;
 // }
 
-button {
-  text-transform: capitalize;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.14;
-  letter-spacing: 1.25px;
-}
+// button {
+//   text-transform: capitalize;
+//   font-size: 14px;
+//   font-weight: 500;
+//   line-height: 1.14;
+//   letter-spacing: 1.25px;
+// }
 
 // p {
 //   font-size: 1.25rem; // 20px
@@ -95,13 +82,6 @@ button {
 //   margin-top: 2rem;
 //   margin-top: 2rem;
 // }
-
-a {
-  font-weight: bold;
-}
-
-
-
 
 @-webkit-keyframes load8 {
   0% {

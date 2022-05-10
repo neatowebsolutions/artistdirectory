@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/typography';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import FormGroup from '@mui/material/FormGroup';
@@ -21,7 +21,7 @@ import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-//import Upload from './Upload';
+import Upload from './Upload';
 
 // parse keywords(skills, categories, tags) list to separate existed in database from added by user
 const parseKeywords = (keywords, databaseList) => {
@@ -165,7 +165,7 @@ const starSpanStyles = {
   },
 };
 
-const labelStyles = { '& span': { fontSize: '1rem', pl: '0.5rem' } };
+const labelStyles = { '& span': { fontSize: '1rem', paddingLeft: '0.5rem' } };
 
 function CreateProfileForm({
   className,
@@ -285,7 +285,7 @@ function CreateProfileForm({
   };
 
   return (
-    <div className={className}>
+    <Box className={className}>
       <form noValidate onSubmit={handleSubmit}>
         <Card
           sx={{
@@ -304,6 +304,11 @@ function CreateProfileForm({
               letterSpacing: '0.15px',
               ...starSpanStyles,
             },
+            '& h3': {
+              marginTop: ['1.5rem'],
+              marginBottom: ['1.5rem'],
+              ...starSpanStyles,
+            },
           }}
           elevation={6}
         >
@@ -314,23 +319,35 @@ function CreateProfileForm({
             variant="h3"
             component="p"
             sx={{
-              m: ['1rem 4.813rem 1rem 1rem', '1rem 0.313rem 1.5rem 0.5rem'],
+              margin: [
+                '1rem 4.813rem 1rem 1rem',
+                '1rem 0.313rem 1.5rem 0.5rem',
+              ],
             }}
           >
             <span>*</span>Required
           </Typography>
 
-          <Box>
+          <Box
+            sx={{
+              '& .MuiFormControl-root': {
+                width: ['100%', '47%'],
+                marginBottom: '1.56rem',
+              },
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: ['column', 'row'],
-                mt: '1.5rem',
+                marginTop: '1.5rem',
               }}
             >
               <TextField
                 required
-                sx={{ width: ['100%', '47%'], mb: '1.56rem', mr: '1.56rem' }}
+                sx={{
+                  marginRight: '1.56rem',
+                }}
                 InputProps={inputFieldStyles}
                 InputLabelProps={inputFieldStyles}
                 id="outlined-required"
@@ -344,7 +361,6 @@ function CreateProfileForm({
               />
               <TextField
                 required
-                sx={{ width: ['100%', '47%'], mb: '1.56rem' }}
                 InputProps={inputFieldStyles}
                 InputLabelProps={inputFieldStyles}
                 id="outlined-required"
@@ -357,10 +373,9 @@ function CreateProfileForm({
                 helperText={touched.lastName ? errors.lastName : ''}
               />
             </Box>
-            <div>
+            <Box>
               <TextField
                 required
-                sx={{ width: ['100%', '47%'], mb: '1.56rem' }}
                 InputProps={inputFieldStyles}
                 InputLabelProps={inputFieldStyles}
                 id="outlined-required"
@@ -372,11 +387,10 @@ function CreateProfileForm({
                 error={errors.email && touched.email}
                 helperText={touched.email ? errors.email : ''}
               />
-            </div>
-            <div>
+            </Box>
+            <Box>
               <TextField
                 required
-                sx={{ width: ['100%', '47%'], mb: '1.56rem' }}
                 InputProps={inputFieldStyles}
                 InputLabelProps={inputFieldStyles}
                 id="outlined-required"
@@ -388,19 +402,11 @@ function CreateProfileForm({
                 error={errors.city && touched.city}
                 helperText={touched.city ? errors.city : ''}
               />
-            </div>
+            </Box>
           </Box>
 
           <Box>
-            <Typography
-              variant="h3"
-              component="h3"
-              sx={{
-                mt: ['1.5rem'],
-                mb: ['1.5rem'],
-                ...starSpanStyles,
-              }}
-            >
+            <Typography variant="h3" component="h3">
               What&apos;s the best place to find your work online? (Website,
               Behance, etc.)
               <span>*</span>
@@ -414,7 +420,7 @@ function CreateProfileForm({
                   sx={{
                     display: 'flex',
                     flexDirection: ['column', 'row'],
-                    mb: '1.56rem',
+                    marginBottom: '1.56rem',
                   }}
                 >
                   <FormControlLabel
@@ -428,10 +434,9 @@ function CreateProfileForm({
                     sx={{ width: '15%', ...labelStyles }}
                     label="Website"
                   />
-                  {/* TODO - fix height */}
                   <TextField
                     id="outlined-required"
-                    sx={{ width: ['95%', '50%'], ml: '2rem' }}
+                    sx={{ width: ['95%', '50%'], marginLeft: '2rem' }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
                     label="Website URL"
@@ -449,7 +454,7 @@ function CreateProfileForm({
                   sx={{
                     display: 'flex',
                     flexDirection: ['column', 'row'],
-                    mb: '1.56rem',
+                    marginBottom: '1.56rem',
                   }}
                 >
                   <FormControlLabel
@@ -465,7 +470,7 @@ function CreateProfileForm({
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: ['95%', '50%'], ml: '2rem' }}
+                    sx={{ width: ['95%', '50%'], marginLeft: '2rem' }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
                     label="Behance URL"
@@ -482,7 +487,7 @@ function CreateProfileForm({
                   sx={{
                     display: 'flex',
                     flexDirection: ['column', 'row'],
-                    mb: '1.56rem',
+                    marginBottom: '1.56rem',
                   }}
                 >
                   <FormControlLabel
@@ -498,7 +503,7 @@ function CreateProfileForm({
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: ['95%', '50%'], ml: '2rem' }}
+                    sx={{ width: ['95%', '50%'], marginLeft: '2rem' }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
                     label="Other"
@@ -513,15 +518,7 @@ function CreateProfileForm({
             </FormGroup>
           </Box>
           <Box>
-            <Typography
-              variant="h3"
-              component="h3"
-              sx={{
-                mt: ['1.5rem'],
-                mb: ['1.5rem'],
-                ...starSpanStyles,
-              }}
-            >
+            <Typography variant="h3" component="h3">
               What kind of artist are you? (Please list what apply)
               <span>*</span>
             </Typography>
@@ -561,7 +558,7 @@ function CreateProfileForm({
             </Stack>
           </Box>
 
-          {/* <Upload getFiles={getFiles} files={imageFiles} /> */}
+          <Upload getFiles={getFiles} files={imageFiles} />
 
           <Box
             sx={{
@@ -573,7 +570,7 @@ function CreateProfileForm({
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '1px',
-                ml: '0.938rem',
+                marginLeft: '0.938rem',
               },
               '& p:nth-child(2)': {
                 typography: 'body1',
@@ -581,20 +578,12 @@ function CreateProfileForm({
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
-                mt: '0',
-                mb: '1rem',
+                marginTop: '0',
+                marginBottom: '1rem',
               },
             }}
           >
-            <Typography
-              variant="h3"
-              component="h3"
-              sx={{
-                mt: ['1.5rem'],
-                mb: ['1.5rem'],
-                ...starSpanStyles,
-              }}
-            >
+            <Typography variant="h3" component="h3">
               Short description of what you do.
               <span>*</span>
               <span>1500 CHARACTERS MAX!</span>
@@ -624,15 +613,7 @@ function CreateProfileForm({
           </Box>
 
           <Box>
-            <Typography
-              variant="h3"
-              component="h3"
-              sx={{
-                mt: ['1.5rem'],
-                mb: ['1.5rem'],
-                ...starSpanStyles,
-              }}
-            >
+            <Typography variant="h3" component="h3">
               Please list up to 10 keywords that would describe your work and
               services.
               <span>*</span>
@@ -681,20 +662,12 @@ function CreateProfileForm({
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
-                mt: '0',
-                mb: '1.25rem',
+                marginTop: '0',
+                marginBottom: '1.25rem',
               },
             }}
           >
-            <Typography
-              variant="h3"
-              component="h3"
-              sx={{
-                mt: ['1.5rem'],
-                mb: ['1.5rem'],
-                ...starSpanStyles,
-              }}
-            >
+            <Typography variant="h3" component="h3">
               Do you have skills, artistic or otherwise, for which you could be
               hired by Network visitors? If so, please list.
               <span>*</span>
@@ -737,19 +710,11 @@ function CreateProfileForm({
           </Box>
 
           <Box sx={{ display: 'flex' }}>
-            <Box sx={{ '& img': { mt: '2rem', mr: '2rem' } }}>
+            <Box sx={{ '& img': { marginTop: '2rem', marginRight: '2rem' } }}>
               <img src="/images/img-newsletter.svg" alt="Evelope" />
             </Box>
             <Box sx={{ width: '75%' }}>
-              <Typography
-                variant="h3"
-                component="h3"
-                sx={{
-                  mt: ['1.5rem'],
-                  mb: ['1.5rem'],
-                  ...starSpanStyles,
-                }}
-              >
+              <Typography variant="h3" component="h3">
                 Would you like to subscribe to our monthly newsletter about
                 local art opportunities?
               </Typography>
@@ -780,10 +745,9 @@ function CreateProfileForm({
         <Box
           sx={{
             maxWidth: '48.875rem',
-            margin: '0 auto',
+            margin: '2rem auto 0 auto',
             display: 'flex',
             justifyContent: 'space-between',
-            mt: '2rem',
           }}
         >
           <Button
@@ -804,7 +768,7 @@ function CreateProfileForm({
           </Button>
         </Box>
       </form>
-    </div>
+    </Box>
   );
 }
 

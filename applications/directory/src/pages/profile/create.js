@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Box from '@mui/material/Box';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { Link as MuiLink } from '@mui/material';
 import { Layout } from '../../components';
 import CreateProfileForm from '../../components/CreateProfileForm';
 import { useCategories, useTags, useSkills } from '../../hooks';
@@ -17,16 +18,22 @@ const CreatePage = () => {
       </Head>
       <Layout>
         <Layout.Intro>
-          <Box>
+          <Box
+            sx={{
+              '& div': {
+                margin: '0 auto',
+              },
+            }}
+          >
             <Box
               sx={{
-                width: "100%",
+                width: '100%',
                 '& h2': {
                   fontWeight: '900',
                   fontSize: ['0.875rem', '1.25rem', '1.5rem'],
                   textTransform: 'uppercase',
                   letterSpacing: 3.53,
-                  mb: '1.5rem',
+                  marginBottom: '1.5rem',
                 },
               }}
             >
@@ -38,7 +45,6 @@ const CreatePage = () => {
             <Box
               sx={{
                 '& h1': {
-                  //  fontSize: ['1.5rem', '3rem', '3.75rem'],
                   fontFamily: 'gira-sans, sans-serif',
                   lineHeight: ['normal', '1.17', '1.2'],
                   textTransform: 'uppercase',
@@ -53,8 +59,7 @@ const CreatePage = () => {
             </Box>
             <Box
               sx={{
-                maxWidth: ['90%', '45rem', '52.5rem'], // TODO - width is to narrow on screens less than tablet
-                margin: '0 auto',
+                maxWidth: ['90%', '45rem', '52.5rem'],
                 '& p': {
                   margin: [
                     '1.563rem 1rem 1rem',
@@ -74,7 +79,6 @@ const CreatePage = () => {
             <Box
               sx={{
                 maxWidth: ['90%', '45rem', '52.5rem'],
-                margin: '0 auto',
                 '& p': {
                   margin: ['1rem', '3rem 1.5rem 3.5rem', '1.5rem 5.75rem'],
                 },
@@ -92,10 +96,8 @@ const CreatePage = () => {
             <Box
               sx={{
                 maxWidth: ['18.25rem', '38.813rem', '50.875rem'],
-                margin: '0 auto',
                 '& p': {
                   fontStyle: 'italic',
-                  // display: 'inline-block',
                 },
                 '& p a': {
                   fontStyle: 'normal',
@@ -103,7 +105,6 @@ const CreatePage = () => {
                   fontWeight: 'bold',
                   letterSpacing: 1.25,
                   color: 'primary.main',
-                  //  margin: ['0 0 0 8px', '0 0 0 1rem'],
                 },
               }}
             >
@@ -111,14 +112,14 @@ const CreatePage = () => {
                 You may remove yourself from this listing at any time by
                 emailing
                 <br />
-                <a href="mailto:avenueforthearts@gmail.com">
+                <MuiLink href="mailto:avenueforthearts@gmail.com">
                   avenueforthearts@gmail.com
-                </a>
+                </MuiLink>
               </Typography>
             </Box>
           </Box>
         </Layout.Intro>
-        <Box sx={{ maxWidth: '782px', margin: '0 auto' }}>
+        <Box sx={{ maxWidth: '48.875rem', margin: '0 auto' }}>
           <CreateProfileForm
             skills={skills}
             tags={tags}

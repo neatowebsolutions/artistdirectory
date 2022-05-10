@@ -15,7 +15,7 @@ const renderMenuItemsList = (items) => {
       key={_id}
       value={name}
       name={name}
-      sx={{ minHeight: 0.1, p: 0.6 }}
+      sx={{ minHeight: 0.1, padding: 0.6 }}
     >
       {name}
     </MenuItem>
@@ -47,14 +47,26 @@ const Search = ({ categories, tags, skills }) => {
     <Box
       sx={{
         display: 'flex',
+        typography: 'body2',
         // maxWidth: "40rem",
         justifyContent: 'space-evenly',
         alignItems: 'baseline',
         flexDirection: ['row'],
         flexWrap: ['wrap', 'wrap', 'wrap', 'nowrap'],
+        '& .MuiInputBase-root': {
+          fontSize: '1rem',
+        },
+        '& .MuiInputLabel-root': {
+          fontSize: '1rem',
+        },
       }}
     >
-      <FormControl sx={{ m: ['0 1rem 1rem 0'], flex: ['1 100%', '1 30%'] }}>
+      <FormControl
+        sx={{
+          margin: ['0 1rem 1rem 0'],
+          flex: ['1 100%', '1 30%'],
+        }}
+      >
         <InputLabel>Categories</InputLabel>
         <Select
           label="Categories"
@@ -72,7 +84,12 @@ const Search = ({ categories, tags, skills }) => {
           {renderMenuItemsList(categories)}
         </Select>
       </FormControl>
-      <FormControl sx={{ m: ['0 1rem 1rem 0'], flex: ['1 100%', '1 30%'] }}>
+      <FormControl
+        sx={{
+          margin: ['0 1rem 1rem 0'],
+          flex: ['1 100%', '1 30%'],
+        }}
+      >
         <InputLabel>Tags</InputLabel>
         <Select
           label="Tags"
@@ -90,7 +107,12 @@ const Search = ({ categories, tags, skills }) => {
           {renderMenuItemsList(tags)}
         </Select>
       </FormControl>
-      <FormControl sx={{ m: ['0 1rem 1rem 0'], flex: ['1 100%', '1 30%'] }}>
+      <FormControl
+        sx={{
+          margin: ['0 1rem 1rem 0'],
+          flex: ['1 100%', '1 30%'],
+        }}
+      >
         <InputLabel>Hireable Skills</InputLabel>
         <Select
           label="Hireable Skills"
@@ -110,15 +132,18 @@ const Search = ({ categories, tags, skills }) => {
       </FormControl>
       <FormControl
         sx={{
-          height: '3.5rem',
-          m: ['0 1rem 1rem 0'],
+          margin: ['0 1rem 1rem 0'],
           flex: ['1 100%', '1 70%'],
         }}
       >
         <TextField
           size="3.4rem"
           InputProps={{
-            style: { fontSize: '1rem', width: '100%', height: '4.5rem' },
+            style: {
+              fontSize: ['1rem'],
+              width: '100%',
+              height: ['3rem', '4.5rem', '4.5rem', '4.5rem'],
+            },
             startAdornment: (
               <InputAdornment position="start">
                 <SearchIcon />
@@ -131,10 +156,9 @@ const Search = ({ categories, tags, skills }) => {
       </FormControl>
       <Box
         sx={{
-          m: ['0 1rem 1rem 0'],
+          margin: ['0 1rem 1rem 0'],
           flex: ['1 100%', '1 25%', '1 25%', '1 33%'],
           minHeight: 56,
-
           display: 'inline-flex',
           alignItems: 'center',
           '& button': {

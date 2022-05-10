@@ -59,13 +59,13 @@ theme.typography.h3 = {
   lineHeight: 1.2,
   letterSpacing: 0.15,
   fontStyle: 'normal',
-  
+
   // TODO
 };
 
 theme.typography.h4 = {
   fontFamily: 'brandon-grotesque, sans-serif',
-  
+
   // TODO
 };
 
@@ -106,7 +106,7 @@ theme.typography.body1 = {
 
 theme.typography.body2 = {
   fontFamily: 'brandon-grotesque, sans-serif',
-
+  fontSize: '4rem',
   // TODO
 };
 
