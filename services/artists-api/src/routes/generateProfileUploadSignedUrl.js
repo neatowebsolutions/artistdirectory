@@ -3,15 +3,13 @@ const logger = require('@artistdirectory/logger');
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 
-const {
-  AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY,
-  AWS_UPLOADS_BUCKET,
-} = process.env;
+const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_UPLOADS_BUCKET } =
+  process.env;
 
 const s3 = new AWS.S3({
   accessKeyId: AWS_ACCESS_KEY_ID,
-  secretAccessKey: AWS_SECRET_ACCESS_KEY
+  secretAccessKey: AWS_SECRET_ACCESS_KEY,
+  signatureVersion: 'v4'
 });
 
 const handler = async (event) => {
@@ -26,7 +24,7 @@ const handler = async (event) => {
     const params = {
       Bucket: AWS_UPLOADS_BUCKET,
       Key: name,
-      ContentType: mimeType,
+      ContentType: mimeType
     };
 
     // Generate and return signed URL. See https://trello.com/c/dl1YhHM0/56-refactor-uploading-to-upload-in-background-on-image-select#comment-6255922adccab9652b63ed48
@@ -34,16 +32,16 @@ const handler = async (event) => {
 
     return {
       statusCode: StatusCodes.CREATED,
-      body: JSON.stringify({ signedUrl }), //  body: JSON.stringify(signedUrl),
+      body: JSON.stringify({ signedUrl }) //  body: JSON.stringify(signedUrl),
     };
   } catch (error) {
     await logger.error(`Error generating profile upload signed URL`, error, {
-      event,
+      event
     }); // Error text??
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
     };
   }
 };
