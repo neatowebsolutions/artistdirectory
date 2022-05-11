@@ -2,6 +2,7 @@
 
 import { useDropzone } from 'react-dropzone';
 import { useState, useEffect } from 'react';
+import Typography from '@mui/material/typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import InfoIcon from '@mui/icons-material/Info';
@@ -20,7 +21,7 @@ const acceptedFileTypes = [
   'image/png',
   'image/jpg',
   'image/jpeg',
-  'image/gif'
+  'image/gif',
 ];
 
 function Upload({ getFiles, files }) {
@@ -41,7 +42,7 @@ function Upload({ getFiles, files }) {
           return false;
         }
 
-        // Do we need this check??
+        // Do we need this check?? // TODO - check if not allowed file types go throuh when dragged 
         if (!acceptedFileTypes.includes(currentFileType)) {
           setErrorMessage('This file is not allowed. Only images are allowed.');
           return false;
@@ -211,31 +212,32 @@ function Upload({ getFiles, files }) {
   return (
     <Box
       sx={{
-        '& h2.cardTitle': {
-          typography: 'body1',
-          fontSize: '20px',
-          fontWeight: '500',
+        '& h2': {
+          marginTop: ['1.5rem'],
+        },
+        '& h3': {
+          marginTop: ['1rem'],
+          marginBottom: ['.5rem'],
         },
         '& p': {
-          typography: 'body2',
-          fontSize: '20px',
-          lineHeight: '1.2',
-          letterSpacing: '0.15px',
-          '& span': {
-            color: 'primary.main',
-          },
-        },
-        '& p.example': {
           fontStyle: 'italic',
+          marginBottom: '1.5rem',
+        },
+        '& span': {
+          color: 'primary.main',
         },
       }}
     >
-      <h2 className="cardTitle">Work</h2>
-      <p className="fieldTitle">
+      <Typography variant="h2" component="h2">
+        Work
+      </Typography>
+      <Typography variant="h3" component="h3">
         Add up to 5 images of your work - up to 2mb in size
-        <span className="required">*</span>
-      </p>
-      <p className="example">At least 1 image of your work is required.</p>
+        <span>*</span>
+      </Typography>
+      <Typography variant="body1" component="p">
+        At least 1 image of your work is required.
+      </Typography>
 
       <Box
         sx={{
@@ -259,25 +261,38 @@ function Upload({ getFiles, files }) {
         <Box
           sx={{
             display: 'flex',
+            flexDirection: ['column', 'row'],
             alignItems: 'center',
             justifyContent: 'center',
             width: '100%',
             '& p': {
-              fontSize: '20px',
+              typography: 'body1',
+              fontSize: ['1rem', '1.25rem'],
               textAlign: 'center',
-              margin: '10px 15px 10px 0',
+              fontStyle: 'normal',
+              margin: '0.313rem .5rem 0.313rem 0',
             },
           }}
         >
-          <p>Drag and drop here, or</p>
-          <Button variant="contained" disableElevation>
+          <Typography variant="body1" component="p">
+            Drag and drop here, or
+          </Typography>
+          <Button
+            variant="contained"
+            disableElevation
+            sx={{
+              width: '6.625rem',
+              height: '2.25rem',
+              margin: ['0.5rem auto 0 auto', '0 0 0 1rem'],
+            }}
+          >
             Browse
           </Button>
         </Box>
       </Box>
       {/* TODO: Should user be able to close alert window?  */}
       {errorMessage && (
-        <Box sx={{ marginTop: '25px' }}>
+        <Box sx={{ marginTop: '1.56rem' }}>
           <Stack>
             <Alert
               variant="outlined"
@@ -288,7 +303,7 @@ function Upload({ getFiles, files }) {
                 border: 'solid 1px #3d748a',
                 color: 'rgba(0, 0, 0, 0.87)',
                 typography: 'body1',
-                fontSize: '16px',
+                //fontSize: '1rem',
               }}
             >
               {errorMessage}
@@ -299,11 +314,16 @@ function Upload({ getFiles, files }) {
 
       <Box
         sx={{
-          marginTop: '25px',
+          marginTop: '1.56rem',
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
-          columnGap: '20px',
-          rowGap: '25px',
+          columnGap: '1.25rem',
+          rowGap: '1.56rem',
+          // TODO correct font sizes in Thumbnail component
+          '& p': {
+            typography: 'body2',
+            fontStyle: 'normal',
+          },
         }}
       >
         {thumbs}

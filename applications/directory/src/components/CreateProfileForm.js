@@ -387,15 +387,25 @@ function CreateProfileForm({
             <FormGroup
               component="fieldset"
               onChange={(e) => handleChangeSocial(e, values)}
+              sx={{
+                '& div': {
+                  '& div': {
+                    '& div': {
+                      '& div': {
+                        display: 'flex',
+                        flexDirection: ['column', 'row'],
+                        marginBottom: '1.56rem',
+                        '& .MuiTextField-root': {
+                          justifyContent: 'center',
+                        },
+                      },
+                    },
+                  },
+                },
+              }}
             >
               <FormGroup>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: ['column', 'row'],
-                    marginBottom: '1.56rem',
-                  }}
-                >
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -409,7 +419,7 @@ function CreateProfileForm({
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: ['95%', '50%'], marginLeft: '2rem' }}
+                    sx={{ width: ['94%', '50%'], marginLeft: '2rem' }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
                     label="Website URL"
@@ -423,13 +433,7 @@ function CreateProfileForm({
               </FormGroup>
 
               <FormGroup>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: ['column', 'row'],
-                    marginBottom: '1.56rem',
-                  }}
-                >
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -443,7 +447,7 @@ function CreateProfileForm({
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: ['95%', '50%'], marginLeft: '2rem' }}
+                    sx={{ width: ['94%', '50%'], marginLeft: '2rem' }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
                     label="Behance URL"
@@ -456,13 +460,7 @@ function CreateProfileForm({
                 </Box>
               </FormGroup>
               <FormGroup>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: ['column', 'row'],
-                    marginBottom: '1.56rem',
-                  }}
-                >
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -476,7 +474,10 @@ function CreateProfileForm({
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: ['95%', '50%'], marginLeft: '2rem' }}
+                    sx={{
+                      width: ['94%', '50%'],
+                      marginLeft: '2rem',
+                    }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
                     label="Other"
@@ -719,7 +720,13 @@ function CreateProfileForm({
             maxWidth: '48.875rem',
             margin: '2rem auto 0 auto',
             display: 'flex',
-            justifyContent: 'space-between',
+            flexDirection: ['column', 'row'],
+            alignItems: 'center',
+            justifyContent: ['center', 'space-between'],
+            '& button': {
+              width: ['19.438rem', '11.063rem'],
+              marginBottom: '0.813rem',
+            },
           }}
         >
           <Button

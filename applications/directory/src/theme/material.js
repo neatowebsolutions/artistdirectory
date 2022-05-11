@@ -106,7 +106,7 @@ theme.typography.body1 = {
 
 theme.typography.body2 = {
   fontFamily: 'brandon-grotesque, sans-serif',
-  fontSize: '4rem',
+  
   // TODO
 };
 
