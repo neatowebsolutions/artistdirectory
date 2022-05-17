@@ -1,5 +1,5 @@
-// TODO validation ??? -  make sure at least one social link provided or delete the * for the social being required??
-// TODO - validation - make sure at least one image is provided
+// TODO validation -  make sure at least one social link provided or delete the * for the social being required??
+
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
@@ -71,7 +71,7 @@ const formValidationSchema = Yup.object().shape({
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
           'Enter correct url!'
         )
-        .required('Please enter behance url'), // ??????
+        .required('Please enter behance url'), // ?????? what is is? "behance url"??"
     }),
   }),
   other: Yup.object({
@@ -86,16 +86,17 @@ const formValidationSchema = Yup.object().shape({
         .required('Please enter website url'),
     }),
   }),
+
   category: Yup.object({
     checked: Yup.boolean(),
     name: Yup.string().when('checked', {
       is: true,
       then: Yup.string() // /^([a-zA-Z-]+,?\s*)+/g
         .matches(/^([a-zA-Z-, ]+)?$/g, 'Enter correct artist type!')
-        .required('Please enter artist type'), // ??????
+        .required('Please enter artist type'), // What is the correct message here
     }),
   }),
-  // what is the validation rule?
+
   description: Yup.string()
     .test(
       'len',
@@ -131,11 +132,19 @@ const formValidationSchema = Yup.object().shape({
       )
     )
     .min(1, 'Please choose at least one keyword'),
+  files: Yup.array()
+    .min(1, 'Please provide at least 1 image')
+    .test('uploaded', 'All images should be successfully uploaded', (files) => {
+      const ifUploadError = files.every((file) => !file.uploadError);
+      const ifFinishedLoading = files.every((file) => !file.loading);
+      return ifUploadError && ifFinishedLoading;
+    }),
+  // check if each image has been successfully uploaded
 });
 
-// TODO styles https://thewebdev.info/2021/12/18/how-to-change-font-size-of-text-field-in-react-material-ui/
 const inputFieldStyles = { style: { fontSize: '1rem' } };
 
+// TODO - should it be a class across the whole app?
 const starSpanStyles = {
   '& span': {
     color: 'primary.main',
@@ -184,10 +193,12 @@ function CreateProfileForm({
       } = vals;
 
       // user social links
-      const social = [website, behance, other].map((item) => {
-        delete item.checked;
-        return item;
-      });
+      const social = [website, behance, other];
+
+      const imageUrls = files.reduce((acc, { fileUrl }) => {
+        acc.push(fileUrl);
+        return acc;
+      }, []);
 
       const formData = new FormData();
       formData.append('firstName', firstName);
@@ -195,18 +206,18 @@ function CreateProfileForm({
       formData.append('email', email);
       formData.append('city', city);
       formData.append('description', description);
-      formData.append('social', social);
-      formData.append('categories', allCategories);
-      formData.append('tags', allTags);
-      formData.append('skills', allSkills);
-      formData.append('files', files);
+      formData.append('social', JSON.stringify(social));
+      formData.append('categories', JSON.stringify(allCategories));
+      formData.append('tags', JSON.stringify(allTags));
+      formData.append('skills', JSON.stringify(allSkills));
+      formData.append('images', JSON.stringify(imageUrls));
       formData.append('subscribedToNewsletter', subscribedToNewsletter);
 
       console.log([...formData]);
 
       // TODO - do something to submit data to the backend
 
-      resetForm();
+      resetForm(); // TODO - test reset form
     },
   });
 
@@ -230,30 +241,13 @@ function CreateProfileForm({
     }
   };
 
-  // block from my old version
-  // const handleCategoryChange = (e) => {
-  //   const { name, type, value, checked } = e.target;
-  //   // console.log(name, type, value, checked);
-  //   if (type === "checkbox") {
-  //     if (checked) {
-  //       setFieldValue(`${name}.checked`, checked);
-  //     }
-  //     if (name === "category") setFieldValue(name, { checked, name: "" });
-  //   } else {
-  //     setFieldValue("category", {
-  //       checked: Boolean(value),
-  //       name: value,
-  //     });
-  //   }
-  // };
-
   const getFiles = (files) => {
     setFiles(files);
     setFieldValue('files', files);
   };
   const handleFormReset = () => {
     setFormReset(!formReset);
-    // setFiles([]); TODO reset files
+    setFiles([]);
     handleReset();
   };
 
@@ -530,7 +524,12 @@ function CreateProfileForm({
             </Stack>
           </Box>
 
-          <Upload getFiles={getFiles} files={imageFiles} />
+          <Upload
+            getFiles={getFiles}
+            files={imageFiles}
+            formError={errors.files}
+            errorsNum={Object.keys(errors).length} // shows how many errors are in the object to determine if upload component should be displayed
+          />
 
           <Box
             sx={{

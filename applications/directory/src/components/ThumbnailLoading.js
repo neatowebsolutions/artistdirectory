@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import IconButton from '@mui/material/IconButton';
 
-function ThumbnailLoading() {
+function ThumbnailLoading({ fileName, handleDelete }) {
   return (
     <Box sx={{ position: 'relative' }}>
       <Card
@@ -64,6 +64,7 @@ function ThumbnailLoading() {
       </Card>
 
       <IconButton
+        onClick={() => handleDelete(fileName)}
         sx={{
           position: 'absolute',
           top: '-0.94rem',
