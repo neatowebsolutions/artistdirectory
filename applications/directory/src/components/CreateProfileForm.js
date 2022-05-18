@@ -142,7 +142,11 @@ const formValidationSchema = Yup.object().shape({
   // check if each image has been successfully uploaded
 });
 
-const inputFieldStyles = { style: { fontSize: '1rem' } };
+const inputFieldStyles = {
+  style: {
+    fontSize: '1rem',
+  },
+};
 
 // TODO - should it be a class across the whole app?
 const starSpanStyles = {
@@ -151,7 +155,11 @@ const starSpanStyles = {
   },
 };
 
-const labelStyles = { '& span': { fontSize: '1rem', paddingLeft: '0.5rem' } };
+const labelStyles = {
+  '& span': {
+    fontSize: '1rem',
+  },
+};
 
 function CreateProfileForm({
   className,
@@ -276,6 +284,9 @@ function CreateProfileForm({
               marginBottom: ['1.5rem'],
               ...starSpanStyles,
             },
+            '& label': {
+              marginLeft: ['.8rem', '.5rem'],
+            },
           }}
           elevation={6}
         >
@@ -382,19 +393,10 @@ function CreateProfileForm({
               component="fieldset"
               onChange={(e) => handleChangeSocial(e, values)}
               sx={{
-                '& div': {
-                  '& div': {
-                    '& div': {
-                      '& div': {
-                        display: 'flex',
-                        flexDirection: ['column', 'row'],
-                        marginBottom: '1.56rem',
-                        '& .MuiTextField-root': {
-                          justifyContent: 'center',
-                        },
-                      },
-                    },
-                  },
+                '& div .MuiBox-root': {
+                  marginBottom: '1.56rem',
+                  display: 'flex',
+                  flexDirection: ['column', 'row'],
                 },
               }}
             >
