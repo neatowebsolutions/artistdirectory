@@ -272,7 +272,7 @@ function CreateProfileForm({
               ],
             },
             '& p': {
-              marginBottom: '0.5rem',
+              marginBottom: '1rem',
               typography: 'body2',
               fontSize: '1.25rem',
               lineHeight: '1.2',

@@ -1,3 +1,4 @@
+// The type system - https://material.io/design/typography/the-type-system.html#applying-the-type-scale
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -132,5 +133,6 @@ theme.components.MuiButton = {
     },
   },
 };
+
 
 export default theme;
