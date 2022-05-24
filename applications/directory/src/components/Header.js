@@ -15,14 +15,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import LogoutIcon from '@mui/icons-material/Logout';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import Link from './Link';
 
 /**
- * Hook that alerts clicks outside of the passed ref
+ * Hook that alerts clicks outside of the passed ref and closes menu on click
  */
 function useOutsideAlerter(ref, setAnchorElNav) {
   useEffect(() => {
@@ -52,7 +55,7 @@ const pages = [
   { name: 'Artist Directory', url: '/artists' },
   { name: 'About', url: '/about' },
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const submenu = ['My Profile', 'Logout'];
 
 const Header = () => {
   const { getCookie, setCookie, removeCookie } = useCookies();
@@ -93,11 +96,9 @@ const Header = () => {
       position="static"
       sx={{
         //    display: 'flex', ---- by default
-
         justifyContent: 'center',
         backgroundColor: '#fff',
         color: 'inherit',
-        //color: '#464852',
         padding: 0,
         position: 'relative',
         boxShadow: 'none',
@@ -120,19 +121,10 @@ const Header = () => {
           padding: 0,
         }}
       >
-        <Toolbar
-          disableGutters
-          sx={
-            {
-              // width: '100%',
-              // justifyContent: 'center',
-            }
-          }
-        >
+        <Toolbar disableGutters>
           <Box
             sx={{
               //   backgroundColor: 'green',
-              // flexGrow: 1,
               display: ['flex', 'flex', 'none'],
             }}
           >
@@ -169,9 +161,8 @@ const Header = () => {
                   tablet: 'block',
                   laptop: 'none',
                 },
-
                 position: 'absolute',
-                top: '7.7rem',
+                top: ['6.7rem', '7.7rem'],
                 left: '0',
                 '& hr': {
                   border: '1px solid #dbdfe9',
@@ -191,7 +182,6 @@ const Header = () => {
                 '& ul': {
                   padding: 0,
                   margin: '2rem 1.5rem',
-
                   '& li': {
                     '& a': {
                       color: '#464852',
@@ -223,51 +213,51 @@ const Header = () => {
                 </ListItem>
               </MenuItem>
 
-              {user ? (
-                <>
-                  <hr />
-                  <MenuItem>
-                    <ListItem
-                      onClick={handleCloseNavMenu}
-                      component={Link}
-                      href={'/profile/user-id'} // TODO - correct path
-                    >
-                      My Profile
-                    </ListItem>
-                  </MenuItem>
-                  <MenuItem>
-                    <ListItem
-                      onClick={handleCloseNavMenu}
-                      component={Link}
-                      href={'/logout'}
-                    >
-                      Log Out
-                    </ListItem>
-                  </MenuItem>
-                </>
-              ) : (
-                <>
-                  <MenuItem>
-                    <ListItem
-                      onClick={handleCloseNavMenu}
-                      component={Link}
-                      href={'/profile/create'}
-                    >
-                      Create Your Profile
-                    </ListItem>
-                  </MenuItem>
-
-                  <hr />
-                  <MenuItem>
-                    <ListItem
-                      onClick={handleCloseNavMenu}
-                      component={Link}
-                      href={'/login'}
-                    >
-                      Log In
-                    </ListItem>
-                  </MenuItem>
-                </>
+              {user && <Divider light />}
+              {user && (
+                <MenuItem>
+                  <ListItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    href={'/profile/user-id'} // TODO - correct path
+                  >
+                    My Profile
+                  </ListItem>
+                </MenuItem>
+              )}
+              {user && (
+                <MenuItem>
+                  <ListItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    href={'/logout'}
+                  >
+                    Log Out
+                  </ListItem>
+                </MenuItem>
+              )}
+              {!user && (
+                <MenuItem>
+                  <ListItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    href={'/profile/create'}
+                  >
+                    Create Your Profile
+                  </ListItem>
+                </MenuItem>
+              )}
+              {!user && <Divider light />}
+              {!user && (
+                <MenuItem>
+                  <ListItem
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    href={'/login'}
+                  >
+                    Log In
+                  </ListItem>
+                </MenuItem>
               )}
             </Menu>
           </Box>
@@ -372,12 +362,13 @@ const Header = () => {
           {user ? (
             <Box
               sx={{
-               // backgroundColor: 'lightblue',
+                //  backgroundColor: 'lightblue',
                 flexGrow: 0,
                 color: 'primary',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                padding: 0,
               }}
             >
               <Link
@@ -418,15 +409,75 @@ const Header = () => {
                   Josephine Washington
                 </Typography>
               </Link>
-              <ArrowDropDownIcon
-                color="primary"
+              <Box
                 onClick={handleOpenUserMenu}
                 sx={{
-                  display: ['none', 'none', 'none', 'block'],
+                  display: [['none', 'none', 'none', 'flex']],
+                  alignSelf: 'stretch',
+                  alignItems: 'center',
+                  //   position: 'relative'
                 }}
-              />
+              >
+                <ArrowDropDownIcon
+                  onClick={handleOpenUserMenu}
+                  color="primary"
+                  sx={{
+                    display: ['none', 'none', 'none', 'flex'],
+                  }}
+                />
+              </Box>
+
               <Menu
-                sx={{ marginTop: '45px' }}
+                sx={{
+                  display: ['none', 'none', 'none', 'flex'],
+                  marginTop: '45px',
+                  //  background: 'rgba(0, 0, 0, .1)',
+
+                  '& .MuiMenu-paper': {
+                    //  background: 'lightyellow',
+                    borderRadius: '4px',
+                    boxShadow:
+                      '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)',
+                    border: 'solid 1px #e6e6f3',
+                    backgroundColor: '#fff',
+                    padding: 0,
+                    top: '5.4rem! important',
+                    '& ul': {
+                      padding: 0,
+                      '& li.Mui-focusVisible': {
+                        backgroundColor: 'transparent',
+                      },
+                      '& li ': {
+                        padding: '1rem 2rem',
+                        //backgroundColor: '#fff',
+                        '&:hover': {
+                          backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                        },
+                      },
+
+                      '& a': {
+                        fontSize: '0.875rem',
+                        padding: 0,
+                        lineHeight: 1.14,
+                        letterSpacing: '1.25px',
+                        textTransform: 'uppercase',
+                        textDecoration: 'none',
+                        fontWeight: 700,
+                        color: 'primary',
+                        display: 'flex',
+                        alignItems: 'center',
+                        '& svg': {
+                          //color: 'inherit',
+                          marginRight: '.5rem',
+                        },
+                      },
+                      '& hr': {
+                        margin: '0 auto',
+                        width: '75%',
+                      },
+                    },
+                  },
+                }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
@@ -441,11 +492,21 @@ const Header = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Link
+                    href="/profile/user-if"
+                    /* TODO - add correct path*/ textAlign="center"
+                  >
+                    My Profile
+                  </Link>
+                </MenuItem>
+                <Divider light />
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Link href="/logout" textAlign="center">
+                    <LogoutRoundedIcon />
+                    Log Out
+                  </Link>
+                </MenuItem>
               </Menu>
             </Box>
           ) : (
