@@ -1,5 +1,5 @@
-import useSWR from "swr";
-import { useHttpClient } from "@artistdirectory/react-hooks";
+import useSWR from 'swr';
+import { useHttpClient } from '@artistdirectory/react-hooks';
 
 const useSkills = () => {
   const { httpClient } = useHttpClient();
@@ -8,7 +8,7 @@ const useSkills = () => {
     `/skills`,
     httpClient.get.bind(httpClient),
     {
-      revalidateOnFocus: false,
+      revalidateOnFocus: false
     }
   );
   const skillsLoading = !skills && !skillsError;
@@ -16,7 +16,7 @@ const useSkills = () => {
   return {
     skills,
     skillsLoading,
-    skillsError,
+    skillsError
   };
 };
 

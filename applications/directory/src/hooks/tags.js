@@ -1,5 +1,5 @@
-import useSWR from "swr";
-import { useHttpClient } from "@artistdirectory/react-hooks";
+import useSWR from 'swr';
+import { useHttpClient } from '@artistdirectory/react-hooks';
 
 const useTags = () => {
   const { httpClient } = useHttpClient();

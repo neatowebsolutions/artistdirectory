@@ -1,9 +1,9 @@
-// TODO validation -  make sure at least one social link provided
-// ERROR - MUI: Unable to find the input element. It was resolved to [object HTMLTextAreaElement] while an HTMLInputElement was expected.
+// TODO validation -  make sure at least one social link provided or delete the * for the social being required??
 
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
+import Typography from '@mui/material/typography';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import FormGroup from '@mui/material/FormGroup';
@@ -22,24 +22,6 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Upload from './Upload';
 
-// parse keywords(skills, categories, tags) list to separate existed in database from added by user
-const parseKeywords = (keywords, databaseList) => {
-  return keywords.reduce(
-    (list, item) => {
-      const found = databaseList.find(
-        (databaseItem) => databaseItem.name.toLowerCase() === item.toLowerCase()
-      );
-      if (found) {
-        list.existed.push(found._id);
-      } else {
-        list.added.push(item);
-      }
-      return list;
-    },
-    { existed: [], added: [] }
-  );
-};
-
 const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
 const skillsDefaultValue = 'Carpentry';
@@ -57,7 +39,7 @@ const initialValues = {
   categories: [categoriesDefaultValue],
   tags: [tagsDefaultValue],
   skills: [skillsDefaultValue],
-  subscribedToNewsletter: 'yes'
+  subscribedToNewsletter: 'yes',
 };
 
 // TODO: validation to ensure user enters either website, behance or other
@@ -77,8 +59,8 @@ const formValidationSchema = Yup.object().shape({
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
           'Enter correct url!'
         )
-        .required('Please enter website url')
-    })
+        .required('Please enter website url'),
+    }),
   }),
   behance: Yup.object({
     checked: Yup.boolean(),
@@ -89,8 +71,8 @@ const formValidationSchema = Yup.object().shape({
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
           'Enter correct url!'
         )
-        .required('Please enter behance url') // ??????
-    })
+        .required('Please enter behance url'), // ?????? what is is? "behance url"??"
+    }),
   }),
   other: Yup.object({
     checked: Yup.boolean(),
@@ -101,24 +83,25 @@ const formValidationSchema = Yup.object().shape({
           /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
           'Enter correct url!'
         )
-        .required('Please enter website url')
-    })
+        .required('Please enter website url'),
+    }),
   }),
+
   category: Yup.object({
     checked: Yup.boolean(),
     name: Yup.string().when('checked', {
       is: true,
       then: Yup.string() // /^([a-zA-Z-]+,?\s*)+/g
         .matches(/^([a-zA-Z-, ]+)?$/g, 'Enter correct artist type!')
-        .required('Please enter artist type') // ??????
-    })
+        .required('Please enter artist type'), // What is the correct message here
+    }),
   }),
-  // what is the validation rule?
+
   description: Yup.string()
     .test(
       'len',
-      'Must be at least 10 characters and not longer than 1500 characters', // what is the min length?
-      (val) => val && val.length > 10 && val.length <= 1500
+      'Must be at least 50 characters and not longer than 1500 characters', // what is the min length?
+      (val) => val && val.length > 50 && val.length <= 1500
     )
     .required('Description is required'),
   categories: Yup.array()
@@ -148,18 +131,41 @@ const formValidationSchema = Yup.object().shape({
           skill.length > 3
       )
     )
-    .min(1, 'Please choose at least one keyword')
+    .min(1, 'Please choose at least one keyword'),
+  files: Yup.array()
+    .min(1, 'Please provide at least 1 image')
+    .test('uploaded', 'All images should be successfully uploaded', (files) => {
+      const ifUploadError = files.every((file) => !file.uploadError);
+      const ifFinishedLoading = files.every((file) => !file.loading);
+      return ifUploadError && ifFinishedLoading;
+    }),
+  // check if each image has been successfully uploaded
 });
-// social: Yup.string().when(["website", "behance", "other"], {
-//   is: (...fields) => fields.some((field) => field.checked !== true),
-//   then: Yup.string().required("Please choose one of the options"),
-// }),
+
+const inputFieldStyles = {
+  style: {
+    fontSize: '1rem',
+  },
+};
+
+// TODO - should it be a class across the whole app?
+const starSpanStyles = {
+  '& span': {
+    color: 'primary.main',
+  },
+};
+
+const labelStyles = {
+  '& span': {
+    fontSize: '1rem',
+  },
+};
 
 function CreateProfileForm({
   className,
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
-  skills = [skillsDefaultValue]
+  skills = [skillsDefaultValue],
 }) {
   const {
     handleBlur,
@@ -172,7 +178,7 @@ function CreateProfileForm({
     isValid,
     dirty,
     errors,
-    touched
+    touched,
   } = useFormik({
     initialValues,
     enableReinitialize: true, // lets the form to go back to initial values if reset form
@@ -191,18 +197,16 @@ function CreateProfileForm({
         subscribedToNewsletter,
         categories: allCategories,
         tags: allTags,
-        skills: allSkills
+        skills: allSkills,
       } = vals;
 
       // user social links
-      const social = [website, behance, other].map((item) => {
-        delete item.checked;
-        return item;
-      });
+      const social = [website, behance, other];
 
-      const parsedCategories = parseKeywords(allCategories, categories);
-      const parsedTags = parseKeywords(allTags, tags);
-      const parsedSkills = parseKeywords(allSkills, skills);
+      const imageUrls = files.reduce((acc, { fileUrl }) => {
+        acc.push(fileUrl);
+        return acc;
+      }, []);
 
       const formData = new FormData();
       formData.append('firstName', firstName);
@@ -210,19 +214,19 @@ function CreateProfileForm({
       formData.append('email', email);
       formData.append('city', city);
       formData.append('description', description);
-      formData.append('social', social);
-      formData.append('categories', parsedCategories);
-      formData.append('tags', parsedTags);
-      formData.append('skills', parsedSkills);
-      formData.append('files', files);
+      formData.append('social', JSON.stringify(social));
+      formData.append('categories', JSON.stringify(allCategories));
+      formData.append('tags', JSON.stringify(allTags));
+      formData.append('skills', JSON.stringify(allSkills));
+      formData.append('images', JSON.stringify(imageUrls));
       formData.append('subscribedToNewsletter', subscribedToNewsletter);
 
       console.log([...formData]);
 
       // TODO - do something to submit data to the backend
 
-      resetForm();
-    }
+      resetForm(); // TODO - test reset form
+    },
   });
 
   const [formReset, setFormReset] = useState(false);
@@ -245,23 +249,6 @@ function CreateProfileForm({
     }
   };
 
-  // block from my old version
-  // const handleCategoryChange = (e) => {
-  //   const { name, type, value, checked } = e.target;
-  //   // console.log(name, type, value, checked);
-  //   if (type === "checkbox") {
-  //     if (checked) {
-  //       setFieldValue(`${name}.checked`, checked);
-  //     }
-  //     if (name === "category") setFieldValue(name, { checked, name: "" });
-  //   } else {
-  //     setFieldValue("category", {
-  //       checked: Boolean(value),
-  //       name: value,
-  //     });
-  //   }
-  // };
-
   const getFiles = (files) => {
     setFiles(files);
     setFieldValue('files', files);
@@ -273,39 +260,74 @@ function CreateProfileForm({
   };
 
   return (
-    <div className={className}>
+    <Box className={className}>
       <form noValidate onSubmit={handleSubmit}>
         <Card
           sx={{
             '& legend': {
-              typography: 'body2',
-              fontSize: '1.5rem',
-              fontWeight: 'bold',
-              lineHeight: '1',
-              letterSpacing: '0.18px'
+              margin: [
+                '0 4.188rem 1rem 1rem',
+                '0 0.188rem 1rem 0.5rem',
+                '0 2.375rem 1rem 0.5rem',
+              ],
             },
             '& p': {
+              marginBottom: '0.5rem',
               typography: 'body2',
-              fontSize: '20px',
+              fontSize: '1.25rem',
               lineHeight: '1.2',
               letterSpacing: '0.15px',
-              '& span': {
-                color: 'primary.main'
-              }
-            }
+              ...starSpanStyles,
+            },
+            '& h3': {
+              marginTop: ['1.5rem'],
+              marginBottom: ['1.5rem'],
+              ...starSpanStyles,
+            },
+            '& label': {
+              marginLeft: ['.8rem', '.5rem'],
+            },
           }}
           elevation={6}
         >
-          <legend>Your Info</legend>
-          <p>
+          <Typography variant="h2" component="legend">
+            Your Info
+          </Typography>
+          <Typography
+            variant="h3"
+            component="p"
+            sx={{
+              margin: [
+                '1rem 4.813rem 1rem 1rem',
+                '1rem 0.313rem 1.5rem 0.5rem',
+              ],
+            }}
+          >
             <span>*</span>Required
-          </p>
+          </Typography>
 
-          <Box>
-            <Box>
+          <Box
+            sx={{
+              '& .MuiFormControl-root': {
+                width: ['100%', '47%'],
+                marginBottom: '1.56rem',
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: ['column', 'row'],
+                marginTop: '1.5rem',
+              }}
+            >
               <TextField
                 required
-                sx={{ width: '47%', mb: '25px', mr: '25px' }}
+                sx={{
+                  marginRight: '1.56rem',
+                }}
+                InputProps={inputFieldStyles}
+                InputLabelProps={inputFieldStyles}
                 id="outlined-required"
                 label="First Name"
                 name="firstName"
@@ -317,7 +339,8 @@ function CreateProfileForm({
               />
               <TextField
                 required
-                sx={{ width: '47%', mb: '25px' }}
+                InputProps={inputFieldStyles}
+                InputLabelProps={inputFieldStyles}
                 id="outlined-required"
                 label="Last Name"
                 name="lastName"
@@ -328,10 +351,11 @@ function CreateProfileForm({
                 helperText={touched.lastName ? errors.lastName : ''}
               />
             </Box>
-            <div>
+            <Box>
               <TextField
                 required
-                sx={{ width: '47%', mb: '25px' }}
+                InputProps={inputFieldStyles}
+                InputLabelProps={inputFieldStyles}
                 id="outlined-required"
                 label="Email Address"
                 name="email"
@@ -341,11 +365,12 @@ function CreateProfileForm({
                 error={errors.email && touched.email}
                 helperText={touched.email ? errors.email : ''}
               />
-            </div>
-            <div>
+            </Box>
+            <Box>
               <TextField
                 required
-                sx={{ width: '47%', mb: '25px' }}
+                InputProps={inputFieldStyles}
+                InputLabelProps={inputFieldStyles}
                 id="outlined-required"
                 label="In which city do you reside?"
                 name="city"
@@ -355,21 +380,28 @@ function CreateProfileForm({
                 error={errors.city && touched.city}
                 helperText={touched.city ? errors.city : ''}
               />
-            </div>
+            </Box>
           </Box>
 
           <Box>
-            <p>
+            <Typography variant="h3" component="h3">
               What&apos;s the best place to find your work online? (Website,
               Behance, etc.)
               <span>*</span>
-            </p>
+            </Typography>
             <FormGroup
               component="fieldset"
               onChange={(e) => handleChangeSocial(e, values)}
+              sx={{
+                '& div .MuiBox-root': {
+                  marginBottom: '1.56rem',
+                  display: 'flex',
+                  flexDirection: ['column', 'row'],
+                },
+              }}
             >
               <FormGroup>
-                <Box sx={{ display: 'flex', mb: '25px' }}>
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -378,12 +410,14 @@ function CreateProfileForm({
                         checked={values.website.checked}
                       />
                     }
-                    sx={{ width: '15%' }}
+                    sx={{ width: '15%', ...labelStyles }}
                     label="Website"
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: '50%' }}
+                    sx={{ width: ['94%', '50%'], marginLeft: '2rem' }}
+                    InputProps={inputFieldStyles}
+                    InputLabelProps={inputFieldStyles}
                     label="Website URL"
                     onBlur={handleBlur}
                     name="website"
@@ -395,7 +429,7 @@ function CreateProfileForm({
               </FormGroup>
 
               <FormGroup>
-                <Box sx={{ display: 'flex', mb: '25px' }}>
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -404,12 +438,14 @@ function CreateProfileForm({
                         checked={values.behance.checked}
                       />
                     }
-                    sx={{ width: '15%' }}
+                    sx={{ width: '15%', ...labelStyles }}
                     label="Behance"
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: '50%' }}
+                    sx={{ width: ['94%', '50%'], marginLeft: '2rem' }}
+                    InputProps={inputFieldStyles}
+                    InputLabelProps={inputFieldStyles}
                     label="Behance URL"
                     onBlur={handleBlur}
                     name="behance"
@@ -420,7 +456,7 @@ function CreateProfileForm({
                 </Box>
               </FormGroup>
               <FormGroup>
-                <Box sx={{ display: 'flex', mb: '25px' }}>
+                <Box>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -429,12 +465,17 @@ function CreateProfileForm({
                         checked={values.other.checked}
                       />
                     }
-                    sx={{ width: '15%' }}
+                    sx={{ width: '15%', ...labelStyles }}
                     label="other"
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: '50%' }}
+                    sx={{
+                      width: ['94%', '50%'],
+                      marginLeft: '2rem',
+                    }}
+                    InputProps={inputFieldStyles}
+                    InputLabelProps={inputFieldStyles}
                     label="Other"
                     onBlur={handleBlur}
                     name="other"
@@ -447,10 +488,10 @@ function CreateProfileForm({
             </FormGroup>
           </Box>
           <Box>
-            <p>
+            <Typography variant="h3" component="h3">
               What kind of artist are you? (Please list what apply)
               <span>*</span>
-            </p>
+            </Typography>
 
             <Stack>
               <Autocomplete
@@ -475,8 +516,6 @@ function CreateProfileForm({
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    minRows={2}
-                    multiline
                     label="Artist types"
                     name="categories"
                     error={errors.categories && touched.categories}
@@ -487,35 +526,46 @@ function CreateProfileForm({
             </Stack>
           </Box>
 
-          <Upload getFiles={getFiles} files={imageFiles} />
+          <Upload
+            getFiles={getFiles}
+            files={imageFiles}
+            formError={errors.files}
+            errorsNum={Object.keys(errors).length} // shows how many errors are in the object to determine if upload component should be displayed
+          />
 
           <Box
             sx={{
-              '& span:nth-child(2)': {
-                color: 'primary.text',
-                opacity: '0.75',
-                fontSize: '14px',
-                fontWeight: '500',
-                fontStyle: 'italic',
-                lineHeight: '1.33',
-                letterSpacing: '1px',
-                ml: '15px'
-              },
-              '& p:nth-child(2)': {
+              '& p': {
                 typography: 'body1',
-                fontSize: '12px',
+                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
-                mt: '0'
-              }
+                marginTop: '0',
+                marginBottom: '1rem',
+              },
             }}
           >
-            <p>
+            <Typography
+              variant="h3"
+              component="h3"
+              sx={{
+                '& span:nth-of-type(2n)': {
+                  color: 'primary.text',
+                  opacity: '0.75',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  fontStyle: 'italic',
+                  lineHeight: '1.33',
+                  letterSpacing: '1px',
+                  marginLeft: '0.938rem',
+                },
+              }}
+            >
               Short description of what you do.
               <span>*</span>
               <span>1500 CHARACTERS MAX!</span>
-            </p>
+            </Typography>
             <p>
               Example: Visual artist and musician whose work explores themes of
               nature, memory, trauma and identity. Reyes primarily creates
@@ -527,7 +577,8 @@ function CreateProfileForm({
                 id="outlined-textarea"
                 label="Short description of what you do."
                 minRows={6}
-                inputProps={{ maxLength: 1500 }}
+                inputProps={{ ...inputFieldStyles, maxLength: 1500 }}
+                InputLabelProps={inputFieldStyles}
                 multiline
                 onBlur={handleBlur}
                 value={values.description}
@@ -540,11 +591,11 @@ function CreateProfileForm({
           </Box>
 
           <Box>
-            <p>
+            <Typography variant="h3" component="h3">
               Please list up to 10 keywords that would describe your work and
               services.
               <span>*</span>
-            </p>
+            </Typography>
 
             <Stack>
               <Autocomplete
@@ -569,8 +620,6 @@ function CreateProfileForm({
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    minRows={2}
-                    multiline
                     label="My 10 Keywords"
                     name="tags"
                     error={errors.tags && touched.tags}
@@ -583,22 +632,22 @@ function CreateProfileForm({
 
           <Box
             sx={{
-              '& p:nth-child(2)': {
+              '& p': {
                 typography: 'body1',
-                fontSize: '12px',
+                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
                 fontStyle: 'italic',
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
-                mt: '0',
-                mb: '20px'
-              }
+                marginTop: '0',
+                marginBottom: '1.25rem',
+              },
             }}
           >
-            <p>
+            <Typography variant="h3" component="h3">
               Do you have skills, artistic or otherwise, for which you could be
               hired by Network visitors? If so, please list.
               <span>*</span>
-            </p>
+            </Typography>
             <p>Example: DJ, wedding photographer, translation work, welding.</p>
             <Stack>
               <Autocomplete
@@ -623,8 +672,6 @@ function CreateProfileForm({
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    minRows={2}
-                    multiline
                     name="skills"
                     label="My 10 Keywords"
                     error={errors.skills && touched.skills}
@@ -637,14 +684,14 @@ function CreateProfileForm({
           </Box>
 
           <Box sx={{ display: 'flex' }}>
-            <Box sx={{ '& img': { mt: '2rem', mr: '2rem' } }}>
+            <Box sx={{ '& img': { marginTop: '2rem', marginRight: '2rem' } }}>
               <img src="/images/img-newsletter.svg" alt="Evelope" />
             </Box>
             <Box sx={{ width: '75%' }}>
-              <p>
+              <Typography variant="h3" component="h3">
                 Would you like to subscribe to our monthly newsletter about
                 local art opportunities?
-              </p>
+              </Typography>
               <RadioGroup
                 row
                 aria-label="newsletter"
@@ -654,14 +701,14 @@ function CreateProfileForm({
                 <FormControlLabel
                   value="yes"
                   control={<Radio />}
-                  label="Yes!"
+                  label={<span style={{ fontSize: '1rem' }}>{'Yes!'}</span>}
                   name="subscribedToNewsletter"
                   onChange={handleChange}
                 />
                 <FormControlLabel
                   value="no"
                   control={<Radio />}
-                  label="No"
+                  label={<span style={{ fontSize: '1rem' }}>{'No'}</span>}
                   onChange={handleChange}
                   name="subscribedToNewsletter"
                 />
@@ -671,11 +718,16 @@ function CreateProfileForm({
         </Card>
         <Box
           sx={{
-            maxWidth: '782px',
-            margin: '0 auto',
+            maxWidth: '48.875rem',
+            margin: '2rem auto 0 auto',
             display: 'flex',
-            justifyContent: 'space-between',
-            mt: '2rem'
+            flexDirection: ['column', 'row'],
+            alignItems: 'center',
+            justifyContent: ['center', 'space-between'],
+            '& button': {
+              width: ['19.438rem', '11.063rem'],
+              marginBottom: '0.813rem',
+            },
           }}
         >
           <Button
@@ -696,12 +748,12 @@ function CreateProfileForm({
           </Button>
         </Box>
       </form>
-    </div>
+    </Box>
   );
 }
 
 CreateProfileForm.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default CreateProfileForm;

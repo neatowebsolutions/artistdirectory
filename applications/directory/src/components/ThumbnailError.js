@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import IconButton from '@mui/material/IconButton';
 
-function ThumbnailError() {
+function ThumbnailError({ fileName, handleDelete }) {
   return (
     <Box sx={{ position: 'relative' }}>
       <Card
@@ -11,12 +11,12 @@ function ThumbnailError() {
           borderRadius: '10px',
           padding: 0,
           overflow: 'unset',
-          minHeight: '225px',
+          minHeight: '14rem',
           display: 'flex',
           justifyContent: ' center',
           alignItems: 'center',
           border: ' 2px solid',
-          borderColor: 'secondary.main'
+          borderColor: 'secondary.main',
         }}
         elevation={2}
       >
@@ -26,8 +26,8 @@ function ThumbnailError() {
             flexDirection: 'column',
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            minHeight: '225px',
-            textAlign: 'center'
+            minHeight: '14rem',
+            textAlign: 'center',
           }}
         >
           <Box
@@ -38,14 +38,14 @@ function ThumbnailError() {
               alignItems: 'center',
               width: '100%',
               '& img:first-child': {
-                width: '115px'
+                width: '7.18rem',
               },
               '& img:last-child': {
                 position: 'absolute',
-                height: '30px',
+                height: '1.875rem',
                 right: '10%',
-                bottom: '0'
-              }
+                bottom: '0',
+              },
             }}
           >
             <img src="/images/img-sadface.svg" alt="Sad Face" />
@@ -54,11 +54,11 @@ function ThumbnailError() {
           <Box
             sx={{
               '& p': {
+                typography: 'body1',
                 margin: 0,
                 textAlign: 'center',
-                typography: 'body1',
-                fontSize: '16px'
-              }
+                fontSize: ['0.639rem', '0.75rem', '0.75rem', '0.75rem'],
+              },
             }}
           >
             <p>
@@ -70,21 +70,22 @@ function ThumbnailError() {
       </Card>
 
       <IconButton
+        onClick={() => handleDelete(fileName)}
         sx={{
           position: 'absolute',
-          top: '-15px',
-          right: '-15px',
-          height: '30px',
-          width: '30px',
+          top: '-0.94rem',
+          right: '-0.94rem',
+          height: '1.875rem',
+          width: '1.875rem',
           background: '#fff',
           boxShadow:
             '0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 3px -2px rgba(0, 0, 0, 0.12),0 3px 4px 0 rgba(0, 0, 0, 0.14)',
           '&:hover': {
-            background: 'rgb(205, 205, 205)'
-          }
+            background: 'rgb(205, 205, 205)',
+          },
         }}
       >
-        <DeleteOutlineIcon sx={{ color: 'primary.main', width: 20 }} />
+        <DeleteOutlineIcon sx={{ color: 'primary.main', width: '1.25rem' }} />
       </IconButton>
     </Box>
   );

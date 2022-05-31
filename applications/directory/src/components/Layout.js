@@ -11,21 +11,28 @@ const Intro = ({ children }) => (
 );
 
 const Root = ({ children }) => (
-  <Box sx={{ maxWidth: 1064, margin: '0 auto' }}>
+  <Box
+    sx={{
+      maxWidth: 1064,
+      margin: '0 auto',
+    }}
+  >
     <section>{children}</section>
   </Box>
 );
 
 Intro.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 const Layout = ({ children }) => (
   <Box
     sx={{
       maxWidth: ['90%', '90%', '90%', '1180px', '1280px'],
-      margin: '0 auto'
+      margin: '0 auto',
+      "& p": {
+     fontSize: [14, 16, 20],}
     }}
   >
     <Toolbar />
@@ -38,7 +45,7 @@ Layout.Intro = Intro;
 Layout.Root = Root;
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default Layout;

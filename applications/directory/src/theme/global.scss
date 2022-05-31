@@ -1,5 +1,13 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
 /* Reference: https://gist.github.com/hsleonis/55712b0eafc9b25f1944 */
-* {
+html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
   font-variant-ligatures: none;
@@ -9,6 +17,9 @@
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   text-shadow: rgba(0, 0, 0, 0.01) 0 0 1px;
+}
+body {
+  box-sizing: border-box;
 }
 
 html,
@@ -65,19 +76,12 @@ body,
 // }
 
 // p {
-//   font-size: 20px;
+//   font-size: 1.25rem; // 20px
 //   line-height: 1.6;
 //   letter-spacing: 0.15px;
 //   margin-top: 2rem;
 //   margin-top: 2rem;
 // }
-
-// a {
-//   font-weight: bold;
-// }
-
-
-
 
 @-webkit-keyframes load8 {
   0% {

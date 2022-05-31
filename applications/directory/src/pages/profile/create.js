@@ -1,8 +1,13 @@
-import Head from "next/head";
-import Box from "@mui/material/Box";
-import { Layout } from "../../components";
-import CreateProfileForm from "../../components/CreateProfileForm";
-import { useCategories, useTags, useSkills } from "../../hooks";
+import Head from 'next/head';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { Link as MuiLink } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import { Loader } from '@artistdirectory/react-components';
+import LinearProgress from '@mui/material/LinearProgress';
+import { Layout } from '../../components';
+import CreateProfileForm from '../../components/CreateProfileForm';
+import { useCategories, useTags, useSkills } from '../../hooks';
 
 const CreatePage = () => {
   const { categories, categoriesLoading, categoriesError } = useCategories();
@@ -18,96 +23,129 @@ const CreatePage = () => {
         <Layout.Intro>
           <Box
             sx={{
-              "& h1": {
-                typography: "body2",
-                fontSize: "3.75rem",
-                fontWeight: "bold",
-                letterSpacing: "-0.5px",
-                mt: "1.5rem",
+              '& div': {
+                margin: '0 auto',
               },
             }}
           >
             <Box
               sx={{
-                "& p": {
-                  typography: "body1",
-                  fontWeight: "900",
-                  fontSize: "24px",
-                  textTransform: "uppercase",
-                  letterSpacing: "3.53px",
-                  mb: "1.5rem",
-                  lineHeight: "1.5",
+                width: '100%',
+                '& h2': {
+                  fontWeight: '900',
+                  fontSize: ['0.875rem', '1.25rem', '1.5rem'],
+                  textTransform: 'uppercase',
+                  letterSpacing: 3.53,
+                  marginBottom: '1.5rem',
                 },
               }}
             >
-              <p>Grand Rapids Artist Directory</p>
+              <Typography variant="h2" component="h2">
+                Grand Rapids Artist Directory
+              </Typography>
+            </Box>
+
+            <Box
+              sx={{
+                '& h1': {
+                  fontFamily: 'gira-sans, sans-serif',
+                  lineHeight: ['normal', '1.17', '1.2'],
+                  textTransform: 'uppercase',
+                  color: 'primary.main',
+                  letterSpacing: [2, 3],
+                },
+              }}
+            >
+              <Typography variant="h1" component="h1">
+                Get found.
+              </Typography>
             </Box>
             <Box
               sx={{
-                color: "primary.main",
-                letterSpacing: 10,
-                "& span": {
-                  fontSize: "60px",
-                  fontWeight: "bold",
-                  lineHeight: "72px",
-                  letterSpacing: "3px",
-                  textTransform: "uppercase",
-                  color: "primary.main",
+                maxWidth: ['90%', '45rem', '52.5rem'],
+                '& p': {
+                  margin: [
+                    '1.563rem 1rem 1rem',
+                    '3.688rem 1.5rem 3rem',
+                    '2.688rem 5.75rem 1.5rem',
+                  ],
                 },
               }}
             >
-              <span>Get found.</span>
-            </Box>
-            <Box sx={{ maxWidth: 1080, margin: "0 auto" }}>
-              <p>
+              <Typography variant="body1">
                 By submitting this form you agree to have the following listed
                 in the LAN: name, profession, website, Instagram, a thumbnail
                 image of work, and a short description of your talents and
                 services.
-              </p>
+              </Typography>
             </Box>
-            <Box sx={{ maxWidth: 814, margin: "0 auto" }}>
-              <p>
+            <Box
+              sx={{
+                maxWidth: ['90%', '45rem', '52.5rem'],
+                '& p': {
+                  margin: ['1rem', '3rem 1.5rem 3.5rem', '1.5rem 5.75rem'],
+                },
+              }}
+            >
+              <Typography variant="body1">
                 We’re building a directory of the artists (art, design, music,
                 performance) in the greater Grand Rapids area, so that people
                 can discover their work all in once place. Whether you’re
                 looking to sell work, get hired for a project, or collaborate
                 with another artist, the Local Artist Network can help you reach
                 your goal.
-              </p>
+              </Typography>
             </Box>
             <Box
               sx={{
-                "& p span": {
-                  fontStyle: "italic",
+                maxWidth: ['18.25rem', '38.813rem', '50.875rem'],
+                '& p': {
+                  fontStyle: 'italic',
                 },
-                "& p a": {
-                  textTransform: "uppercase",
-                  fontWeight: "bold",
-                  letterSpacing: "1.25px",
-                  color: "primary.main",
+                '& p a': {
+                  fontStyle: 'normal',
+                  textTransform: 'uppercase',
+                  fontWeight: 'bold',
+                  letterSpacing: 1.25,
+                  color: 'primary.main',
                 },
               }}
             >
-              <p>
-                <span>
-                  You may remove yourself from this listing at any time by
-                  emailing
-                </span>
+              <Typography variant="body1">
+                You may remove yourself from this listing at any time by
+                emailing
                 <br />
-                <a href="mailto:avenueforthearts@gmail.com">
+                <MuiLink href="mailto:avenueforthearts@gmail.com">
                   avenueforthearts@gmail.com
-                </a>
-              </p>
+                </MuiLink>
+              </Typography>
             </Box>
           </Box>
         </Layout.Intro>
-        <Box sx={{ maxWidth: "782px", margin: "0 auto" }}>
-          <CreateProfileForm
-            skills={skills}
-            tags={tags}
-            categories={categories}
-          />
+        <Box sx={{ maxWidth: '48.875rem', margin: '0 auto' }}>
+          <Loader
+            isLoading={categoriesLoading || tagsLoading || skillsLoading}
+            isError={categoriesError || tagsError || skillsError}
+            loadingComponent={() => (
+              <LinearProgress color="primary"></LinearProgress>
+            )}
+            errorComponent={() => (
+              <Alert
+                severity="error"
+                sx={{
+                  fontSize: '1.2rem',
+                }}
+              >
+                An unexpected error occurred. Please try again shortly.
+              </Alert>
+            )}
+          >
+            <CreateProfileForm
+              skills={skills}
+              tags={tags}
+              categories={categories}
+            />
+          </Loader>
         </Box>
       </Layout>
     </>

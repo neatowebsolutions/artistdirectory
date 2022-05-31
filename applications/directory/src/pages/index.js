@@ -26,15 +26,21 @@ const HomePage = () => {
           <Box
             sx={{
               '& p': {
-                fontSize: '1.5rem',
-                margin: '0 auto'
-              }
+                margin: '1rem 0',
+              },
+              '& p:nth-of-type(2n)': {
+                fontStyle: 'italic'
+              },
             }}
           >
-            <p>
+            <Typography variant="body1">
               Whether you’re looking to purchase artwork, hire an artist, or
               collaborate, this is the place to start.
-            </p>
+            </Typography>
+            <Typography variant="body1">
+              Search by Type of Artist, Tags, Hireable Skills, or whatever you
+              need.
+            </Typography>
           </Box>
         </Layout.Intro>
         <Card elevation={6}>
@@ -48,7 +54,7 @@ const HomePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem'
+                  fontSize: '1.2rem',
                 }}
               >
                 An unexpected error occurred. Please try again shortly.

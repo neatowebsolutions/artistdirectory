@@ -26,11 +26,14 @@ provider:
         Resource: 'execute-api:/*/GET/health'
   environment:
     NODE_ENV: ${env:NODE_ENV, 'production'}
+    AWS_ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+    AWS_SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
     LOG_QUEUE_URL: ${ssm:/artistdirectory/${self:provider.stage}/queues/log/url, ''}
     LOG_SOURCE: 'artists-api'
     LOGS_API_URL: ${env:LOGS_API_URL, ssm:/artistdirectory/${self:provider.stage}/logs-api/url}
     MONGODB_URL_DIRECTORY: ${env:MONGODB_URL_DIRECTORY, ssm:/artistdirectory/${self:provider.stage}/database/mongodb-directory/url}
     SANDBOX: ${env:SANDBOX, ssm:/artistdirectory/${self:provider.stage}/sandbox}
+    AWS_UPLOADS_BUCKET: ${env:AWS_UPLOADS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/uploads}
 
 custom:
   serverless-offline:
@@ -70,6 +73,14 @@ functions:
     events:
       - http:
           path: /artists
+          method: post
+          authorizer: aws_iam
+  generateProfileUploadSignedUrl:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/generateProfileUploadSignedUrl.handler
+    events:
+      - http:
+          path: /uploads/signed-url/profile
           method: post
           authorizer: aws_iam
   findOneArtist:
