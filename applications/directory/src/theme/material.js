@@ -136,3 +136,21 @@ theme.components.MuiButton = {
 
 
 export default theme;
+
+
+/*
+
+const theme = createTheme({
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: 'pink',
+          color: 'red',
+          border: '1px solid #dadde9',
+        },
+      },
+    },
+  },
+});
+*/

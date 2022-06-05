@@ -4,9 +4,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useCookies } from '@artistdirectory/react-hooks';
 import { Link as MuiLink } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
+import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
+import ListItemButton from '@mui/material/ListItemButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
@@ -16,10 +18,9 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import LogoutIcon from '@mui/icons-material/Logout';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import Link from './Link';
@@ -27,7 +28,7 @@ import Link from './Link';
 /**
  * Hook that alerts clicks outside of the passed ref and closes menu on click
  */
-function useOutsideAlerter(ref, setAnchorElNav) {
+function useOutsideAlerter(ref, setAnchor) {
   useEffect(() => {
     /**
      * close menu if clicked on outside of element
@@ -38,7 +39,7 @@ function useOutsideAlerter(ref, setAnchorElNav) {
         !ref.current.contains(event.target) &&
         !event.target.closest('[aria-controls="menu-appbar"]')
       ) {
-        setAnchorElNav();
+        setAnchor(false);
       }
     }
     // Bind the event listener
@@ -55,7 +56,6 @@ const pages = [
   { name: 'Artist Directory', url: '/artists' },
   { name: 'About', url: '/about' },
 ];
-const submenu = ['My Profile', 'Logout'];
 
 const Header = () => {
   const { getCookie, setCookie, removeCookie } = useCookies();
@@ -63,33 +63,42 @@ const Header = () => {
   setCookie('authToken', 'dummy');
   //setCookie('authToken', null);
   const user = getCookie('authToken');
-  removeCookie('authToken');
+  //removeCookie('authToken');
   useEffect(() => {
     console.log(user);
   }, [user]);
 
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  // for main menu
+  const [anchorElNav, setAnchorElNav] = useState(false);
 
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, setAnchorElNav);
-
-  const handleOpenNavMenu = (event) => {
-    if (anchorElNav) {
-      setAnchorElNav(null);
-    } else setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setAnchorElNav(open);
   };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+    setAnchorElNav(false);
+  };
+
+  // for user submenu
+  const [anchorElUser, setAnchorElUser] = useState(false);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  // handle click outside menu to close menu
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef, setAnchorElNav);
 
   return (
     <AppBar
@@ -124,7 +133,6 @@ const Header = () => {
         <Toolbar disableGutters>
           <Box
             sx={{
-              //   backgroundColor: 'green',
               display: ['flex', 'flex', 'none'],
             }}
           >
@@ -133,133 +141,181 @@ const Header = () => {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              onClick={toggleDrawer(!anchorElNav)}
               color="inherit"
             >
               <MenuIcon />
             </IconButton>
-            <Menu
+
+            <Drawer
               ref={wrapperRef}
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+              anchor={'left'}
+              open={anchorElNav}
+              onClose={toggleDrawer(false)}
               sx={{
-                display: {
-                  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                top: ['7.5rem', '8rem'],
+                width: '19.313rem',
+                '& .MuiBackdrop-root': {
+                  // border: '2px solid red',
                   backdropFilter: 'blur(3px)',
-                  mobile: 'block',
-                  tablet: 'block',
-                  laptop: 'none',
-                },
-                position: 'absolute',
-                top: ['6.7rem', '7.7rem'],
-                left: '0',
-                '& hr': {
-                  border: '1px solid #dbdfe9',
-                  width: '86%',
-                  margin: '1rem auto',
+                  display: ['flex', 'flex', 'none'],
+                  top: ['7.5rem', '8rem'],
                 },
                 '& .MuiPaper-root': {
-                  top: '0 !important',
-                  left: '0 !important',
-                  minHeight: '100%',
+                  top: ['7.5rem', '8rem'],
+                  display: ['flex', 'flex', 'none'],
                   minWidth: '19.313rem',
                   padding: 0,
                   borderRadius: '0',
                   boxShadow:
                     '0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 8px 10px 1px rgba(0, 0, 0, 0.14)',
-                },
-                '& ul': {
-                  padding: 0,
-                  margin: '2rem 1.5rem',
-                  '& li': {
-                    '& a': {
-                      color: '#464852',
-                      textTransform: 'uppercase',
-                      fontSize: '0.875rem',
-                      lineHeight: 1.43,
-                      letterSpacing: '1.25px',
+                  '& ul': {
+                    padding: 0,
+                    top: 0,
+                    position: 'relative',
+                    margin: '2rem 1.5rem',
+                    '& li:not(:first-of-type)': {
+                      width: '95%',
+                      padding: '0 0 0 0.5rem',
+                      '& a': {
+                        color: '#464852',
+                        padding: '0.5rem 0 ',
+                        textTransform: 'uppercase',
+                        fontSize: '0.875rem',
+                        lineHeight: 1.43,
+                        letterSpacing: '1.25px',
+                        textDecoration: 'none',
+                      },
                     },
                   },
                 },
               }}
             >
-              <MenuItem>
-                <ListItem
-                  onClick={handleCloseNavMenu}
-                  component={Link}
-                  href={'/artists'}
-                >
-                  Artist Directory
-                </ListItem>
-              </MenuItem>
-              <MenuItem>
-                <ListItem
-                  onClick={handleCloseNavMenu}
-                  component={Link}
-                  href={'/about'}
-                >
-                  About
-                </ListItem>
-              </MenuItem>
+              <List
+                sx={{
+                  display: {
+                    mobile: 'block',
+                    tablet: 'block',
+                    laptop: 'none',
+                  },
 
-              {user && <Divider light />}
-              {user && (
-                <MenuItem>
-                  <ListItem
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href={'/profile/user-id'} // TODO - correct path
-                  >
-                    My Profile
+                  position: 'absolute',
+                  top: ['6.7rem', '7.7rem'],
+                  left: '0',
+                  '& hr': {
+                    border: '1px solid #dbdfe9',
+                    width: '95%',
+                    margin: '1.483rem 0',
+                  },
+
+                  '& .MuiPaper-root': {
+                    minHeight: '100%',
+                    minWidth: '19.313rem',
+                    padding: 0,
+                    borderRadius: '0',
+                    boxShadow:
+                      '0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 8px 10px 1px rgba(0, 0, 0, 0.14)',
+                  },
+                  '& ul': {
+                    padding: 0,
+                    position: 'relative',
+                    margin: '2rem 1.5rem',
+                    '& li:not(:first-of-type)': {
+                      width: '95%',
+                      padding: '.75rem 0 0.75rem 0.5rem',
+                      '& a': {
+                        color: '#464852',
+                        textTransform: 'uppercase',
+                        fontSize: '0.875rem',
+                        lineHeight: 1.43,
+                        letterSpacing: '1.25px',
+                        textDecoration: 'none',
+                      },
+                    },
+                  },
+                }}
+              >
+                <ListItem
+                  button
+                  component="li"
+                  onClick={toggleDrawer(false)}
+                  sx={{
+                    margin: '0 .5rem',
+                    padding: 0,
+                    width: 'auto',
+                    position: 'absolute',
+                    top: '0rem',
+                    left: '15rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    '& button': {
+                      display: 'flex',
+                    },
+                    '& span': {
+                      margin: '2px',
+                      borderRadius: '50%!important',
+                      height: '70%',
+                      top: '3px',
+                    },
+                    '&:hover': {
+                      backgroundColor: 'transparent',
+                      '@media (hover: none)': {
+                        backgroundColor: 'transparent',
+                      },
+                    },
+                  }}
+                >
+                  <IconButton>
+                    <CloseRoundedIcon fontSize="small" />
+                  </IconButton>
+                </ListItem>
+
+                <ListItem button component="li">
+                  <Link onClick={handleCloseNavMenu} href={'/artists'}>
+                    Artist Directory
+                  </Link>
+                </ListItem>
+                <ListItem button component="li">
+                  <Link onClick={handleCloseNavMenu} href={'/about'}>
+                    About
+                  </Link>
+                </ListItem>
+
+                {user && <Divider light />}
+                {user && (
+                  <ListItem button component="li">
+                    <Link
+                      onClick={handleCloseNavMenu}
+                      href={'/profile/user-id'} // TODO - correct path
+                    >
+                      My Profile
+                    </Link>
                   </ListItem>
-                </MenuItem>
-              )}
-              {user && (
-                <MenuItem>
-                  <ListItem
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href={'/logout'}
-                  >
-                    Log Out
+                )}
+                {user && (
+                  <ListItem button component="li">
+                    <Link onClick={handleCloseNavMenu} href={'/logout'}>
+                      Log Out
+                    </Link>
                   </ListItem>
-                </MenuItem>
-              )}
-              {!user && (
-                <MenuItem>
-                  <ListItem
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href={'/profile/create'}
-                  >
-                    Create Your Profile
+                )}
+                {!user && (
+                  <ListItem button component="li">
+                    <Link onClick={handleCloseNavMenu} href={'/profile/create'}>
+                      Create Your Profile
+                    </Link>
                   </ListItem>
-                </MenuItem>
-              )}
-              {!user && <Divider light />}
-              {!user && (
-                <MenuItem>
-                  <ListItem
-                    onClick={handleCloseNavMenu}
-                    component={Link}
-                    href={'/login'}
-                  >
-                    Log In
+                )}
+                {!user && <Divider light />}
+                {!user && (
+                  <ListItem button component="li">
+                    <Link onClick={handleCloseNavMenu} href={'/login'}>
+                      Log In
+                    </Link>
                   </ListItem>
-                </MenuItem>
-              )}
-            </Menu>
+                )}
+              </List>
+            </Drawer>
           </Box>
           <Box
             sx={{
@@ -268,7 +324,6 @@ const Header = () => {
               margin: '0.625rem auto 0.625rem .5rem',
               display: 'flex',
               alignItems: 'center',
-              // justifyContent: 'flex-start',
               '& a': {
                 display: 'flex',
                 '& img': {
@@ -296,34 +351,33 @@ const Header = () => {
             <List
               sx={{
                 display: 'flex',
-                //justifyContent: 'flex-end',
-                //alignItems: 'center',
                 '&:last-child': {
                   marginRight: 0,
                 },
               }}
             >
               {pages.map((page) => (
-                <ListItem
-                  key={page.name}
-                  onClick={handleCloseNavMenu}
-                  component={Link}
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginY: 1,
-                    textAlign: 'center',
-                    marginRight: '1.25rem',
-                    textDecoration: 'none',
-                    textTransform: 'uppercase',
-                    color: '#464852',
-                    fontSize: '0.875rem',
-                    lineHeight: '1.43',
-                    letterSpacing: '1.25px',
-                  }}
-                  href={page.url}
-                >
-                  {page.name}
+                <ListItem key={page.name}>
+                  <Link
+                    onClick={handleCloseNavMenu}
+                    component={Link}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      marginY: 1,
+                      textAlign: 'center',
+                      marginRight: '1.25rem',
+                      textDecoration: 'none',
+                      textTransform: 'uppercase',
+                      color: '#464852',
+                      fontSize: '0.875rem',
+                      lineHeight: '1.43',
+                      letterSpacing: '1.25px',
+                    }}
+                    href={page.url}
+                  >
+                    {page.name}
+                  </Link>
                 </ListItem>
               ))}
             </List>
@@ -415,7 +469,6 @@ const Header = () => {
                   display: [['none', 'none', 'none', 'flex']],
                   alignSelf: 'stretch',
                   alignItems: 'center',
-                  //   position: 'relative'
                 }}
               >
                 <ArrowDropDownIcon
@@ -434,7 +487,6 @@ const Header = () => {
                   //  background: 'rgba(0, 0, 0, .1)',
 
                   '& .MuiMenu-paper': {
-                    //  background: 'lightyellow',
                     borderRadius: '4px',
                     boxShadow:
                       '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)',
@@ -449,7 +501,6 @@ const Header = () => {
                       },
                       '& li ': {
                         padding: '1rem 2rem',
-                        //backgroundColor: '#fff',
                         '&:hover': {
                           backgroundColor: 'rgba(0, 0, 0, 0.04)',
                         },
@@ -467,7 +518,6 @@ const Header = () => {
                         display: 'flex',
                         alignItems: 'center',
                         '& svg': {
-                          //color: 'inherit',
                           marginRight: '.5rem',
                         },
                       },
@@ -547,82 +597,3 @@ const Header = () => {
   );
 };
 export default Header;
-
-// import Link from 'next/link';
-// import Button from '@mui/material/Button';
-// import Typography from '@mui/material/typography';
-// import Box from '@mui/material/Box';
-// import List from '@mui/material/List';
-// import ListItem from '@mui/material/ListItem';
-
-// import ControlPointIcon from '@mui/icons-material/ControlPoint';
-// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-// import classes from './Header.module.scss';
-
-// function Header() {
-//   return (
-//     <header className={classes.header}>
-//       <Box className={classes.siteBranding}>
-//         <Link href="/" className={classes.active}>
-//           <a>
-//             <img src="/images/img-logo.svg" alt="Avenue For The Arts" />
-//           </a>
-//         </Link>
-//       </Box>
-//       <nav>
-//         <List>
-//           <ListItem sx={{ display: ['none', 'none', 'block'] }}>
-//             <Link href="/" className={classes.active}>
-//               <a>Home</a>
-//             </Link>
-//           </ListItem>
-//           <ListItem sx={{ display: ['none', 'none', 'block'] }}>
-//             <Link href="/artists">
-//               <a>Artist Directory</a>
-//             </Link>
-//           </ListItem>
-//           <ListItem>
-//             <Link href="/profile/create" passHref>
-//               <Button
-//                 component="a"
-//                 color="primary"
-//                 variant="contained"
-//                 startIcon={<ControlPointIcon />}
-//                 sx={{
-//                   '&&': {
-//                     color: 'white',
-//                   },
-//                 }}
-//               >
-//                 Create Your Artist Profile
-//               </Button>
-//             </Link>
-//           </ListItem>
-//           <ListItem className={classes.profile}>
-//             <Link href="/">
-//               <a>
-//                 <img src="/images/placeholder.png" alt="placeholder" />
-//                 Josephine Washington
-//                 <ArrowDropDownIcon />
-//               </a>
-//             </Link>
-//             <List className={classes.profileSubmenu}>
-//               <ListItem>
-//                 <Link href="/profile">
-//                   <a>My Account</a>
-//                 </Link>
-//               </ListItem>
-//               <ListItem>
-//                 <Link href="/logout">
-//                   <a>Log Out</a>
-//                 </Link>
-//               </ListItem>
-//             </List>
-//           </ListItem>
-//         </List>
-//       </nav>
-//     </header>
-//   );
-// }
-
-// export default Header;

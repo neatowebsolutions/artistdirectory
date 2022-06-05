@@ -21,7 +21,9 @@ const HomePage = () => {
       <Layout>
         <Layout.Intro>
           <Typography variant="h1" component="h1">
-            Discover artists and their work, all in one place.
+            Discover artists and their work,
+            <br />
+            all in one place.
           </Typography>
           <Box
             sx={{
@@ -29,7 +31,7 @@ const HomePage = () => {
                 margin: '1rem 0',
               },
               '& p:nth-of-type(2n)': {
-                fontStyle: 'italic'
+                fontStyle: 'italic',
               },
             }}
           >
