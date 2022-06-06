@@ -2,7 +2,6 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import Header from './Header';
-import Header1 from './Header1';
 import Toolbar from './Toolbar';
 
 const Intro = ({ children }) => (
@@ -30,16 +29,13 @@ Intro.propTypes = {
 const Layout = ({ children }) => (
   <Box
     sx={{
-      maxWidth: ['90%', '90%', '90%', '1180px', '1280px'],
+      maxWidth: ['95%', '90%', '90%', '1180px', '1280px'],
       margin: '0 auto',
       "& p": {
      fontSize: [14, 16, 20],}
     }}
   >
     <Toolbar />
-    {/* <Header1 />
-    <br />
-    <br /> */}
     <Header />
     <main>{children}</main>
   </Box>

@@ -8,7 +8,6 @@ import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import ListItemButton from '@mui/material/ListItemButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Typography from '@mui/material/Typography';
@@ -64,9 +63,6 @@ const Header = () => {
   //setCookie('authToken', null);
   const user = getCookie('authToken');
   //removeCookie('authToken');
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   // for main menu
   const [anchorElNav, setAnchorElNav] = useState(false);
@@ -104,7 +100,6 @@ const Header = () => {
     <AppBar
       position="static"
       sx={{
-        //    display: 'flex', ---- by default
         justifyContent: 'center',
         backgroundColor: '#fff',
         color: 'inherit',
@@ -146,7 +141,6 @@ const Header = () => {
             >
               <MenuIcon />
             </IconButton>
-
             <Drawer
               ref={wrapperRef}
               anchor={'left'}
@@ -156,7 +150,6 @@ const Header = () => {
                 top: ['7.5rem', '8rem'],
                 width: '19.313rem',
                 '& .MuiBackdrop-root': {
-                  // border: '2px solid red',
                   backdropFilter: 'blur(3px)',
                   display: ['flex', 'flex', 'none'],
                   top: ['7.5rem', '8rem'],
@@ -166,7 +159,6 @@ const Header = () => {
                   display: ['flex', 'flex', 'none'],
                   minWidth: '19.313rem',
                   padding: 0,
-                  borderRadius: '0',
                   boxShadow:
                     '0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 8px 10px 1px rgba(0, 0, 0, 0.14)',
                   '& ul': {
@@ -198,7 +190,6 @@ const Header = () => {
                     tablet: 'block',
                     laptop: 'none',
                   },
-
                   position: 'absolute',
                   top: ['6.7rem', '7.7rem'],
                   left: '0',
@@ -207,7 +198,6 @@ const Header = () => {
                     width: '95%',
                     margin: '1.483rem 0',
                   },
-
                   '& .MuiPaper-root': {
                     minHeight: '100%',
                     minWidth: '19.313rem',
@@ -319,8 +309,6 @@ const Header = () => {
           </Box>
           <Box
             sx={{
-              // width: '25%',
-              //  flex: ['1 25%', '1 15%'],
               margin: '0.625rem auto 0.625rem .5rem',
               display: 'flex',
               alignItems: 'center',
@@ -329,7 +317,6 @@ const Header = () => {
                 '& img': {
                   height: ['2.125rem', '3.625rem'],
                   width: ['7.813rem', '13.438rem', '13.438rem'],
-                  //  width: '50%',
                   borderRadius: '4px',
                   marginRight: ['1.25rem', '1.5'],
                 },
@@ -343,8 +330,6 @@ const Header = () => {
 
           <Box
             sx={{
-              //  backgroundColor: 'pink',
-              //   flexGrow: 1,
               display: ['none', 'none', 'flex'],
             }}
           >
@@ -385,9 +370,6 @@ const Header = () => {
           {!user && (
             <Box
               sx={{
-                // flex: '1 35%',
-                // width: '50%',
-                //  marginLeft: 'auto',
                 marginRight: '1.25rem',
               }}
             >
@@ -416,7 +398,6 @@ const Header = () => {
           {user ? (
             <Box
               sx={{
-                //  backgroundColor: 'lightblue',
                 flexGrow: 0,
                 color: 'primary',
                 display: 'flex',
@@ -442,7 +423,7 @@ const Header = () => {
                   alt="User's name"
                   src="/images/placeholder.png"
                   sx={{
-                    margin: '0.5rem 1.25rem 0.5rem 0',
+                    margin: ['0', '0.5rem 1.25rem 0.5rem 0'],
                     borderRadius: '0.625rem',
                     width: '3.125rem',
                     height: '3.125rem',
@@ -484,8 +465,6 @@ const Header = () => {
                 sx={{
                   display: ['none', 'none', 'none', 'flex'],
                   marginTop: '45px',
-                  //  background: 'rgba(0, 0, 0, .1)',
-
                   '& .MuiMenu-paper': {
                     borderRadius: '4px',
                     boxShadow:
@@ -544,7 +523,7 @@ const Header = () => {
               >
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Link
-                    href="/profile/user-if"
+                    href="/profile/user-id"
                     /* TODO - add correct path*/ textAlign="center"
                   >
                     My Profile
@@ -562,7 +541,6 @@ const Header = () => {
           ) : (
             <Box
               sx={{
-                //  flex: '1 10%',
                 minWidth: '5.625rem',
                 display: ['none', 'flex'],
                 justifyContent: 'center',
@@ -571,7 +549,6 @@ const Header = () => {
             >
               <Button
                 component="a"
-                // color="primary"
                 href="/login"
                 variant="outlined"
                 sx={{
