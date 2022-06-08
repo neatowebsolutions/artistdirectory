@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useCookies } from '@artistdirectory/react-hooks';
+import { useRouter } from 'next/router';
 import { Link as MuiLink } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Drawer from '@mui/material/Drawer';
@@ -56,6 +57,38 @@ const pages = [
   { name: 'About', url: '/about' },
 ];
 
+const NavLink = ({ href, children, onClick, isTopNav = false }) => {
+  // isTopNav used to style only top nav links
+  const router = useRouter();
+  let active;
+  if (isTopNav) {
+    const re = new RegExp(`(^(${href}$)|(^(${href})\/(.+)?$))`);
+    active = router.asPath.match(re);
+    active = active && active[0].includes(href);
+  }
+  return (
+    <Link
+      onClick={onClick}
+      href={href}
+      sx={{
+        color: active ? '#be2926' : '#464852',
+        borderBottom: active ? '3px solid #be2926' : 'none',
+        paddingBottom: active ? [null, null, '0.375rem', '0.5rem'] : '0',
+        fontWeight: active ? '500' : 'normal',
+        textDecoration: 'none',
+        textAlign: 'center',
+        marginRight: '1.25rem',
+        textTransform: 'uppercase',
+        fontSize: '0.875rem',
+        lineHeight: '1.43',
+        letterSpacing: '1.25px',
+      }}
+    >
+      {children}
+    </Link>
+  );
+};
+
 const Header = () => {
   const { getCookie, setCookie, removeCookie } = useCookies();
 
@@ -66,28 +99,15 @@ const Header = () => {
 
   // for main menu
   const [anchorElNav, setAnchorElNav] = useState(false);
-
-  const toggleDrawer = (open) => (event) => {
-    if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
-    ) {
-      return;
-    }
-    setAnchorElNav(open);
-  };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(false);
   };
 
   // for user submenu
   const [anchorElUser, setAnchorElUser] = useState(false);
-
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -123,6 +143,7 @@ const Header = () => {
       <Container
         sx={{
           padding: 0,
+          textTransform: 'uppercase',
         }}
       >
         <Toolbar disableGutters>
@@ -136,7 +157,10 @@ const Header = () => {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={toggleDrawer(!anchorElNav)}
+              onClick={() => {
+                console.log('clicked');
+                setAnchorElNav(!anchorElNav);
+              }}
               color="inherit"
             >
               <MenuIcon />
@@ -145,96 +169,52 @@ const Header = () => {
               ref={wrapperRef}
               anchor={'left'}
               open={anchorElNav}
-              onClose={toggleDrawer(false)}
+              onClose={() => setAnchorElNav(false)}
               sx={{
-                top: ['7.5rem', '8rem'],
-                width: '19.313rem',
+                display: ['flex', 'flex', 'none'],
+                minHeight: '100%',
+                top: ['6.8rem', '8rem'],
                 '& .MuiBackdrop-root': {
                   backdropFilter: 'blur(3px)',
-                  display: ['flex', 'flex', 'none'],
-                  top: ['7.5rem', '8rem'],
+                  top: ['6.8rem', '8rem'],
                 },
                 '& .MuiPaper-root': {
-                  top: ['7.5rem', '8rem'],
-                  display: ['flex', 'flex', 'none'],
+                  top: ['6.8rem', '8rem'],
                   minWidth: '19.313rem',
                   padding: 0,
                   boxShadow:
                     '0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 8px 10px 1px rgba(0, 0, 0, 0.14)',
-                  '& ul': {
-                    padding: 0,
-                    top: 0,
-                    position: 'relative',
-                    margin: '2rem 1.5rem',
-                    '& li:not(:first-of-type)': {
-                      width: '95%',
-                      padding: '0 0 0 0.5rem',
-                      '& a': {
-                        color: '#464852',
-                        padding: '0.5rem 0 ',
-                        textTransform: 'uppercase',
-                        fontSize: '0.875rem',
-                        lineHeight: 1.43,
-                        letterSpacing: '1.25px',
-                        textDecoration: 'none',
-                      },
-                    },
-                  },
                 },
               }}
             >
               <List
                 sx={{
-                  display: {
-                    mobile: 'block',
-                    tablet: 'block',
-                    laptop: 'none',
-                  },
-                  position: 'absolute',
-                  top: ['6.7rem', '7.7rem'],
+                  position: 'relative',
+                  top: 0,
                   left: '0',
+                  margin: '2rem 1.5rem',
+                  padding: '0',
+                  '& li:not(:first-of-type)': {
+                    width: '95%',
+                    padding: '.75rem 0 .75rem 0.5rem',
+                  },
                   '& hr': {
                     border: '1px solid #dbdfe9',
                     width: '95%',
-                    margin: '1.483rem 0',
-                  },
-                  '& .MuiPaper-root': {
-                    minHeight: '100%',
-                    minWidth: '19.313rem',
-                    padding: 0,
-                    borderRadius: '0',
-                    boxShadow:
-                      '0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 8px 10px 1px rgba(0, 0, 0, 0.14)',
-                  },
-                  '& ul': {
-                    padding: 0,
-                    position: 'relative',
-                    margin: '2rem 1.5rem',
-                    '& li:not(:first-of-type)': {
-                      width: '95%',
-                      padding: '.75rem 0 0.75rem 0.5rem',
-                      '& a': {
-                        color: '#464852',
-                        textTransform: 'uppercase',
-                        fontSize: '0.875rem',
-                        lineHeight: 1.43,
-                        letterSpacing: '1.25px',
-                        textDecoration: 'none',
-                      },
-                    },
+                    margin: '.8rem 0',
                   },
                 }}
               >
                 <ListItem
                   button
                   component="li"
-                  onClick={toggleDrawer(false)}
+                  onClick={() => setAnchorElNav(false)}
                   sx={{
                     margin: '0 .5rem',
                     padding: 0,
                     width: 'auto',
                     position: 'absolute',
-                    top: '0rem',
+                    top: '0.2rem',
                     left: '15rem',
                     display: 'flex',
                     alignItems: 'center',
@@ -261,47 +241,50 @@ const Header = () => {
                 </ListItem>
 
                 <ListItem button component="li">
-                  <Link onClick={handleCloseNavMenu} href={'/artists'}>
+                  <NavLink onClick={handleCloseNavMenu} href={'/artists'}>
                     Artist Directory
-                  </Link>
+                  </NavLink>
                 </ListItem>
                 <ListItem button component="li">
-                  <Link onClick={handleCloseNavMenu} href={'/about'}>
+                  <NavLink onClick={handleCloseNavMenu} href={'/about'}>
                     About
-                  </Link>
+                  </NavLink>
                 </ListItem>
 
                 {user && <Divider light />}
                 {user && (
                   <ListItem button component="li">
-                    <Link
+                    <NavLink
                       onClick={handleCloseNavMenu}
                       href={'/profile/user-id'} // TODO - correct path
                     >
                       My Profile
-                    </Link>
+                    </NavLink>
                   </ListItem>
                 )}
                 {user && (
                   <ListItem button component="li">
-                    <Link onClick={handleCloseNavMenu} href={'/logout'}>
+                    <NavLink onClick={handleCloseNavMenu} href={'/logout'}>
                       Log Out
-                    </Link>
+                    </NavLink>
                   </ListItem>
                 )}
                 {!user && (
                   <ListItem button component="li">
-                    <Link onClick={handleCloseNavMenu} href={'/profile/create'}>
+                    <NavLink
+                      onClick={handleCloseNavMenu}
+                      href={'/profile/create/'}
+                    >
                       Create Your Profile
-                    </Link>
+                    </NavLink>
                   </ListItem>
                 )}
                 {!user && <Divider light />}
                 {!user && (
                   <ListItem button component="li">
-                    <Link onClick={handleCloseNavMenu} href={'/login'}>
+                    <NavLink onClick={handleCloseNavMenu} href={'/login'}>
                       Log In
-                    </Link>
+                    </NavLink>
                   </ListItem>
                 )}
               </List>
@@ -312,7 +295,11 @@ const Header = () => {
               margin: '0.625rem auto 0.625rem .5rem',
               display: 'flex',
               alignItems: 'center',
-              '& a': {
+            }}
+          >
+            <MuiLink
+              href="/"
+              sx={{
                 display: 'flex',
                 '& img': {
                   height: ['2.125rem', '3.625rem'],
@@ -320,10 +307,8 @@ const Header = () => {
                   borderRadius: '4px',
                   marginRight: ['1.25rem', '1.5'],
                 },
-              },
-            }}
-          >
-            <MuiLink href="/">
+              }}
+            >
               <img src="/images/img-logo.svg" alt="Avenue For The Arts" />
             </MuiLink>
           </Box>
@@ -343,26 +328,14 @@ const Header = () => {
             >
               {pages.map((page) => (
                 <ListItem key={page.name}>
-                  <Link
+                  <NavLink
                     onClick={handleCloseNavMenu}
                     component={Link}
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      marginY: 1,
-                      textAlign: 'center',
-                      marginRight: '1.25rem',
-                      textDecoration: 'none',
-                      textTransform: 'uppercase',
-                      color: '#464852',
-                      fontSize: '0.875rem',
-                      lineHeight: '1.43',
-                      letterSpacing: '1.25px',
-                    }}
+                    isTopNav={true}
                     href={page.url}
                   >
                     {page.name}
-                  </Link>
+                  </NavLink>
                 </ListItem>
               ))}
             </List>
@@ -381,7 +354,7 @@ const Header = () => {
                 startIcon={<ControlPointIcon />}
                 sx={{
                   textDecoration: 'none',
-                  textTransform: 'uppercase',
+                  // textTransform: 'uppercase',
                   fontSize: '0.875rem',
                   fontWeight: '500',
                   lineHeight: '1.14',
@@ -435,8 +408,6 @@ const Header = () => {
                   sx={{
                     display: ['none', 'block'],
                     margin: '0.5rem 1.25rem 0.5rem 0',
-                    lineHeight: 1.25,
-                    letterSpacing: '1.25px',
                     textTransform: 'uppercase',
                     fontWeight: 'bold',
                   }}
@@ -450,6 +421,7 @@ const Header = () => {
                   display: [['none', 'none', 'none', 'flex']],
                   alignSelf: 'stretch',
                   alignItems: 'center',
+                  cursor: 'pointer',
                 }}
               >
                 <ArrowDropDownIcon
@@ -472,7 +444,7 @@ const Header = () => {
                     border: 'solid 1px #e6e6f3',
                     backgroundColor: '#fff',
                     padding: 0,
-                    top: '5.4rem! important',
+                    top: '4.6rem! important',
                     '& ul': {
                       padding: 0,
                       '& li.Mui-focusVisible': {
@@ -558,7 +530,7 @@ const Header = () => {
                   fontSize: '0.875rem',
                   fontWeight: '500',
                   lineHeight: '1.14',
-                  letterSpacing: '1.25px',
+                  //    letterSpacing: '1.25px',
                   minHeight: '2.25rem',
                   width: '100%',
                   padding: '0.625rem 0',

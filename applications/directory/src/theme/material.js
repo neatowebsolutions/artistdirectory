@@ -15,6 +15,7 @@ const theme = createTheme({
     primary: {
       main: '#be2926',
       text: 'rgba(0, 0, 0, 0.87)',
+      // footer color - 'rgba(190, 41, 38, 0.1)',
     },
     secondary: {
       main: '#8a9918',
@@ -107,7 +108,7 @@ theme.typography.body1 = {
 
 theme.typography.body2 = {
   fontFamily: 'brandon-grotesque, sans-serif',
-  
+
   // TODO
 };
 
@@ -134,9 +135,7 @@ theme.components.MuiButton = {
   },
 };
 
-
 export default theme;
-
 
 /*
 
@@ -153,4 +152,11 @@ const theme = createTheme({
     },
   },
 });
+
+
+
+
+  transition:
+                   'opacity cubic-bezier(0.4, 0, 0.2, 1) 6000ms  width cubic-bezier(0.4, 0, 0.2, 1) 6000ms background-color cubic-bezier(0.4, 0, 0.2, 1) 6000ms !important',
+
 */
