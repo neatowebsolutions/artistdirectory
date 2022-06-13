@@ -44,7 +44,7 @@ const Layout = ({ children }) => (
       },
     }}
   >
-    <Toolbar />
+    {/* <Toolbar /> */}
     <Header />
     <main>{children}</main>
     <Footer />

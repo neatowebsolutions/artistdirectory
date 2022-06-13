@@ -2,6 +2,10 @@ import Link from 'next/link';
 
 import Typography from '@mui/material/typography';
 import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import { Link as MuiLink } from '@mui/material';
+import Divider from '@mui/material/Divider';
 
 function Footer() {
   return (
@@ -9,16 +13,47 @@ function Footer() {
       <Box
         sx={{
           display: 'flex',
+          flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
           width: '100vw',
-          height: '2.5rem',
+          //   height: '2.5rem',
           position: 'relative',
           left: 'calc(-50vw + 50%)',
           backgroundColor: 'rgba(190, 41, 38, 0.1)',
-          // margin: '0 -50rem'
+          '& div': {
+            margin: ['.8rem'],
+          },
         }}
       >
+        <Box>
+          <List
+            sx={{
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            <ListItem
+              sx={{
+                padding: 0,
+              }}
+            >
+              <MuiLink
+                href="https://www.avenueforthearts.co/about" // TODO  - correct path
+                sx={{
+                  textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  color: 'primary.main',
+                  fontWeight: '600',
+                  letterSpacing: '1.25px',
+                }}
+              >
+                Contact Us
+              </MuiLink>
+            </ListItem>
+          </List>
+        </Box>
+        <Divider light sx={{ width: ['80%', '50%'] }} />
         <Box>
           <Typography
             variant="p"
