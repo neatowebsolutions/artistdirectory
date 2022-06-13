@@ -13,8 +13,9 @@ function Toolbar() {
           margin: 0,
           padding: 0,
           '& li': {
-            margin: '0.625rem',
+            margin: '0.625rem 0',
             width: 'auto',
+            padding: '0.5rem 0',
             '& a': {
               fontSize: '0.75rem',
               lineHeight: 1.33,
