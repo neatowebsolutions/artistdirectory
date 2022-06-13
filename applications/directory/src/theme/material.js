@@ -126,6 +126,8 @@ theme.components.MuiButton = {
   },
   styleOverrides: {
     root: {
+      height: '2.25rem',
+      fontFamily: 'gira-sans, sans-serif',
       fontWeight: 'bold',
       lineHeight: 1.14,
       letterSpacing: '1.25px',

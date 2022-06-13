@@ -1,5 +1,3 @@
-// TODO - how to add class .active -   /* '& .active': { color: '#be2926',  borderBottom: '2px solid #be2926', paddingBottom: '0.625rem',   }*/
-
 import { useState, useEffect, useRef } from 'react';
 import { useCookies } from '@artistdirectory/react-hooks';
 import { useRouter } from 'next/router';
@@ -60,7 +58,7 @@ const pages = [
 const NavLink = ({ href, children, onClick, isTopNav = false }) => {
   // isTopNav used to style only top nav links
   const router = useRouter();
-  let active;
+  let active = false;
   if (isTopNav) {
     const re = new RegExp(`(^(${href}$)|(^(${href})\/(.+)?$))`);
     active = router.asPath.match(re);
@@ -71,8 +69,9 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
       onClick={onClick}
       href={href}
       sx={{
-        color: active ? '#be2926' : '#464852',
-        borderBottom: active ? '3px solid #be2926' : 'none',
+        color: active ? 'primary' : '#464852', // TODO Should this color go to material.js?
+        borderBottom: active ? '3px solid' : 'none',
+        borderColor: active ? 'primary' : 'none',
         paddingBottom: active ? [null, null, '0.375rem', '0.5rem'] : '0',
         fontWeight: active ? '500' : 'normal',
         textDecoration: 'none',
@@ -92,10 +91,10 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
 const Header = () => {
   const { getCookie, setCookie, removeCookie } = useCookies();
 
-  setCookie('authToken', 'dummy');
+  //setCookie('authToken', 'dummy');
   //setCookie('authToken', null);
   const user = getCookie('authToken');
-  //removeCookie('authToken');
+  removeCookie('authToken');
 
   // for main menu
   const [anchorElNav, setAnchorElNav] = useState(false);
@@ -144,6 +143,9 @@ const Header = () => {
         sx={{
           padding: 0,
           textTransform: 'uppercase',
+          textDecoration: 'none',
+          lineHeight: '1.14',
+          letterSpacing: '1.25px',
         }}
       >
         <Toolbar disableGutters>
@@ -157,11 +159,11 @@ const Header = () => {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={() => {
-                console.log('clicked');
-                setAnchorElNav(!anchorElNav);
-              }}
+              onClick={() => setAnchorElNav(!anchorElNav)}
               color="inherit"
+              sx={{
+                padding: 0,
+              }}
             >
               <MenuIcon />
             </IconButton>
@@ -218,9 +220,6 @@ const Header = () => {
                     left: '15rem',
                     display: 'flex',
                     alignItems: 'center',
-                    '& button': {
-                      display: 'flex',
-                    },
                     '& span': {
                       margin: '2px',
                       borderRadius: '50%!important',
@@ -235,7 +234,7 @@ const Header = () => {
                     },
                   }}
                 >
-                  <IconButton>
+                  <IconButton sx={{ display: 'flex' }}>
                     <CloseRoundedIcon fontSize="small" />
                   </IconButton>
                 </ListItem>
@@ -305,7 +304,7 @@ const Header = () => {
                   height: ['2.125rem', '3.625rem'],
                   width: ['7.813rem', '13.438rem', '13.438rem'],
                   borderRadius: '4px',
-                  marginRight: ['1.25rem', '1.5'],
+                  marginRight: ['1rem', '1.5'],
                 },
               }}
             >
@@ -322,12 +321,18 @@ const Header = () => {
               sx={{
                 display: 'flex',
                 '&:last-child': {
-                  marginRight: 0,
+                  //  marginRight: 0,
                 },
               }}
             >
               {pages.map((page) => (
-                <ListItem key={page.name}>
+                <ListItem
+                  key={page.name}
+                  sx={{
+                    justifyContent: 'center',
+                    padding: '0.5rem 0.5rem',
+                  }}
+                >
                   <NavLink
                     onClick={handleCloseNavMenu}
                     component={Link}
@@ -343,7 +348,7 @@ const Header = () => {
           {!user && (
             <Box
               sx={{
-                marginRight: '1.25rem',
+                marginRight: ['.5rem', '1rem'],
               }}
             >
               <Button
@@ -353,21 +358,16 @@ const Header = () => {
                 variant="contained"
                 startIcon={<ControlPointIcon />}
                 sx={{
-                  textDecoration: 'none',
-                  // textTransform: 'uppercase',
-                  fontSize: '0.875rem',
                   fontWeight: '500',
-                  lineHeight: '1.14',
-                  letterSpacing: '1.25px',
-                  minHeight: '2.25rem',
-                  padding: ' 0.375rem 1.125rem',
+                  fontSize: ['0.75rem', '0.875rem'],
+                  padding: ['0.5rem 0.375rem', '1.125rem 1.125rem'],
+                  letterSpacing: ['1.07px', '1.25px'],
                 }}
               >
                 Create Your Artist Profile
               </Button>
             </Box>
           )}
-
           {user ? (
             <Box
               sx={{
@@ -515,7 +515,6 @@ const Header = () => {
               sx={{
                 minWidth: '5.625rem',
                 display: ['none', 'flex'],
-                justifyContent: 'center',
                 marginRight: 0,
               }}
             >
@@ -524,16 +523,10 @@ const Header = () => {
                 href="/login"
                 variant="outlined"
                 sx={{
-                  flex: 1,
-                  textDecoration: 'none',
-                  textTransform: 'uppercase',
                   fontSize: '0.875rem',
-                  fontWeight: '500',
-                  lineHeight: '1.14',
-                  //    letterSpacing: '1.25px',
-                  minHeight: '2.25rem',
                   width: '100%',
                   padding: '0.625rem 0',
+                  border: 'solid 1px rgba(0, 0, 0, 0.12)',
                 }}
               >
                 Log In
