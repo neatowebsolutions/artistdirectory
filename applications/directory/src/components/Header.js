@@ -52,18 +52,20 @@ function useOutsideAlerter(ref, setAnchor) {
 const pages = [
   { name: 'Home', url: '/' },
   { name: 'Artist Directory', url: '/artists' },
-  { name: 'About', url: '/about' },
+  { name: 'About', url: '/about' }
 ];
 
 const NavLink = ({ href, children, onClick, isTopNav = false }) => {
   // isTopNav used to style only top nav links
   const router = useRouter();
   let active = false;
+
   if (isTopNav) {
     const re = new RegExp(`(^(${href}$)|(^(${href})\/(.+)?$))`);
     active = router.asPath.match(re);
     active = active && active[0].includes(href);
   }
+
   return (
     <Link
       onClick={onClick}
@@ -80,7 +82,7 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
         textTransform: 'uppercase',
         fontSize: '0.875rem',
         lineHeight: '1.43',
-        letterSpacing: '1.25px',
+        letterSpacing: '1.25px'
       }}
     >
       {children}
@@ -91,8 +93,8 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
 const Header = () => {
   const { getCookie, setCookie, removeCookie } = useCookies();
 
-  //setCookie('authToken', 'dummy');
-  //setCookie('authToken', null);
+  // setCookie('authToken', 'dummy');
+  // setCookie('authToken', null);
   const user = getCookie('authToken');
   removeCookie('authToken');
 
@@ -135,8 +137,8 @@ const Header = () => {
           width: '100vw',
           marginLeft: '-50vw',
           boxShadow:
-            '0 -2px 0 0 rgba(0, 0, 0, 0.1), 0 2px 0 0 rgba(0, 0, 0, 0.1)',
-        },
+            '0 -2px 0 0 rgba(0, 0, 0, 0.1), 0 2px 0 0 rgba(0, 0, 0, 0.1)'
+        }
       }}
     >
       <Container
@@ -145,13 +147,14 @@ const Header = () => {
           textTransform: 'uppercase',
           textDecoration: 'none',
           lineHeight: '1.14',
-          letterSpacing: '1.25px',
+          letterSpacing: '1.25px'
         }}
       >
         <Toolbar disableGutters>
           <Box
             sx={{
               display: ['flex', 'flex', 'none'],
+              paddingX: [1, 1, 0]
             }}
           >
             <IconButton
@@ -162,7 +165,7 @@ const Header = () => {
               onClick={() => setAnchorElNav(!anchorElNav)}
               color="inherit"
               sx={{
-                padding: 0,
+                padding: 0
               }}
             >
               <MenuIcon />
@@ -178,15 +181,15 @@ const Header = () => {
                 top: ['6.8rem', '8rem'],
                 '& .MuiBackdrop-root': {
                   backdropFilter: 'blur(3px)',
-                  top: ['6.8rem', '8rem'],
+                  top: ['6.8rem', '8rem']
                 },
                 '& .MuiPaper-root': {
                   top: ['6.8rem', '8rem'],
                   minWidth: '19.313rem',
                   padding: 0,
                   boxShadow:
-                    '0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 8px 10px 1px rgba(0, 0, 0, 0.14)',
-                },
+                    '0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 8px 10px 1px rgba(0, 0, 0, 0.14)'
+                }
               }}
             >
               <List
@@ -198,13 +201,13 @@ const Header = () => {
                   padding: '0',
                   '& li:not(:first-of-type)': {
                     width: '95%',
-                    padding: '.75rem 0 .75rem 0.5rem',
+                    padding: '.75rem 0 .75rem 0.5rem'
                   },
                   '& hr': {
                     border: '1px solid #dbdfe9',
                     width: '95%',
-                    margin: '.8rem 0',
-                  },
+                    margin: '.8rem 0'
+                  }
                 }}
               >
                 <ListItem
@@ -224,14 +227,14 @@ const Header = () => {
                       margin: '2px',
                       borderRadius: '50%!important',
                       height: '70%',
-                      top: '3px',
+                      top: '3px'
                     },
                     '&:hover': {
                       backgroundColor: 'transparent',
                       '@media (hover: none)': {
-                        backgroundColor: 'transparent',
-                      },
-                    },
+                        backgroundColor: 'transparent'
+                      }
+                    }
                   }}
                 >
                   <IconButton sx={{ display: 'flex' }}>
@@ -293,28 +296,32 @@ const Header = () => {
             sx={{
               margin: '0.625rem auto 0.625rem .5rem',
               display: 'flex',
-              alignItems: 'center',
+              alignItems: 'center'
             }}
           >
             <MuiLink
               href="/"
               sx={{
-                display: 'flex',
-                '& img': {
-                  height: ['2.125rem', '3.625rem'],
-                  width: ['7.813rem', '13.438rem', '13.438rem'],
-                  borderRadius: '4px',
-                  marginRight: ['1rem', '1.5'],
-                },
+                display: 'flex'
               }}
             >
-              <img src="/images/img-logo.svg" alt="Avenue For The Arts" />
+              <Box
+                component="img"
+                src="/images/img-logo.svg"
+                alt="Avenue For The Arts"
+                sx={{
+                  width: ['7.812rem', '13.438rem'],
+                  borderRadius: '4px',
+                  marginLeft: [0, 1, -1],
+                  marginRight: [2, 3]
+                }}
+              />
             </MuiLink>
           </Box>
 
           <Box
             sx={{
-              display: ['none', 'none', 'flex'],
+              display: ['none', 'none', 'flex']
             }}
           >
             <List
@@ -322,7 +329,7 @@ const Header = () => {
                 display: 'flex',
                 '&:last-child': {
                   //  marginRight: 0,
-                },
+                }
               }}
             >
               {pages.map((page) => (
@@ -330,7 +337,7 @@ const Header = () => {
                   key={page.name}
                   sx={{
                     justifyContent: 'center',
-                    padding: '0.5rem 0.5rem',
+                    padding: '0.5rem 0.5rem'
                   }}
                 >
                   <NavLink
@@ -348,7 +355,7 @@ const Header = () => {
           {!user && (
             <Box
               sx={{
-                marginRight: ['.5rem', '1rem'],
+                marginRight: ['.5rem', '1rem']
               }}
             >
               <Button
@@ -358,10 +365,13 @@ const Header = () => {
                 variant="contained"
                 startIcon={<ControlPointIcon />}
                 sx={{
-                  fontWeight: '500',
+                  fontWeight: 600,
                   fontSize: ['0.75rem', '0.875rem'],
-                  padding: ['0.5rem 0.375rem', '1.125rem 1.125rem'],
+                  paddingLeft: [1, 2.5],
+                  paddingRight: [1, 2.5],
+                  paddingY: 0,
                   letterSpacing: ['1.07px', '1.25px'],
+                  whiteSpace: ['normal', 'nowrap', 'nowrap', 'nowrap']
                 }}
               >
                 Create Your Artist Profile
@@ -376,7 +386,7 @@ const Header = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding: 0,
+                padding: 0
               }}
             >
               <Link
@@ -388,8 +398,8 @@ const Header = () => {
                   alignItems: 'center',
                   textDecoration: 'none',
                   '& p': {
-                    fontSize: ['1rem', '1rem', '1rem', '1rem'], // to override media query font size
-                  },
+                    fontSize: ['1rem', '1rem', '1rem', '1rem'] // to override media query font size
+                  }
                 }}
               >
                 <Avatar
@@ -399,7 +409,7 @@ const Header = () => {
                     margin: ['0', '0.5rem 1.25rem 0.5rem 0'],
                     borderRadius: '0.625rem',
                     width: '3.125rem',
-                    height: '3.125rem',
+                    height: '3.125rem'
                   }}
                 />
                 <Typography
@@ -409,7 +419,7 @@ const Header = () => {
                     display: ['none', 'block'],
                     margin: '0.5rem 1.25rem 0.5rem 0',
                     textTransform: 'uppercase',
-                    fontWeight: 'bold',
+                    fontWeight: 'bold'
                   }}
                 >
                   Josephine Washington
@@ -421,14 +431,14 @@ const Header = () => {
                   display: [['none', 'none', 'none', 'flex']],
                   alignSelf: 'stretch',
                   alignItems: 'center',
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }}
               >
                 <ArrowDropDownIcon
                   onClick={handleOpenUserMenu}
                   color="primary"
                   sx={{
-                    display: ['none', 'none', 'none', 'flex'],
+                    display: ['none', 'none', 'none', 'flex']
                   }}
                 />
               </Box>
@@ -448,13 +458,13 @@ const Header = () => {
                     '& ul': {
                       padding: 0,
                       '& li.Mui-focusVisible': {
-                        backgroundColor: 'transparent',
+                        backgroundColor: 'transparent'
                       },
                       '& li ': {
                         padding: '1rem 2rem',
                         '&:hover': {
-                          backgroundColor: 'rgba(0, 0, 0, 0.04)',
-                        },
+                          backgroundColor: 'rgba(0, 0, 0, 0.04)'
+                        }
                       },
 
                       '& a': {
@@ -469,26 +479,26 @@ const Header = () => {
                         display: 'flex',
                         alignItems: 'center',
                         '& svg': {
-                          marginRight: '.5rem',
-                        },
+                          marginRight: '.5rem'
+                        }
                       },
                       '& hr': {
                         margin: '0 auto',
-                        width: '75%',
-                      },
-                    },
-                  },
+                        width: '75%'
+                      }
+                    }
+                  }
                 }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'right',
+                  horizontal: 'right'
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
@@ -496,7 +506,7 @@ const Header = () => {
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Link
                     href="/profile/user-id"
-                    /* TODO - add correct path*/ textAlign="center"
+                    /* TODO - add correct path */ textAlign="center"
                   >
                     My Profile
                   </Link>
@@ -515,7 +525,7 @@ const Header = () => {
               sx={{
                 minWidth: '5.625rem',
                 display: ['none', 'flex'],
-                marginRight: 0,
+                marginRight: 0
               }}
             >
               <Button
@@ -526,7 +536,7 @@ const Header = () => {
                   fontSize: '0.875rem',
                   width: '100%',
                   padding: '0.625rem 0',
-                  border: 'solid 1px rgba(0, 0, 0, 0.12)',
+                  border: 'solid 1px rgba(0, 0, 0, 0.12)'
                 }}
               >
                 Log In
