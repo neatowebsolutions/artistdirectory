@@ -29,7 +29,7 @@ Intro.propTypes = {
 const Layout = ({ children }) => (
   <Box
     sx={{
-      maxWidth: ['90%', '90%', '90%', '1180px', '1280px'],
+      maxWidth: ['95%', '95%', '95%', '1180px', '1280px'],
       margin: '0 auto',
       "& p": {
      fontSize: [14, 16, 20],}
