@@ -20,6 +20,7 @@ html {
 }
 body {
   box-sizing: border-box;
+  position: relative;
 }
 
 html,
@@ -27,8 +28,6 @@ body,
 #__next {
   min-height: 100wv;
 }
-
-
 
 // h1 {
 //   font-size: 96px;

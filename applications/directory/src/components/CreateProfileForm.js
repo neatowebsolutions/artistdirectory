@@ -1,5 +1,5 @@
 // TODO validation -  make sure at least one social link provided or delete the * for the social being required??
-
+// TODO - change marginLeft for input social on mobile
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
@@ -272,7 +272,7 @@ function CreateProfileForm({
               ],
             },
             '& p': {
-              marginBottom: '0.5rem',
+              marginBottom: '1rem',
               typography: 'body2',
               fontSize: '1.25rem',
               lineHeight: '1.2',
