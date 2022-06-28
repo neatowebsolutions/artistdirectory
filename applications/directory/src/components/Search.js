@@ -1,3 +1,6 @@
+
+// TODO - fix font size in dropdown windows
+
 import { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';

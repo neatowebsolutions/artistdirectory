@@ -15,7 +15,7 @@ const Root = ({ children }) => (
   <Box
     sx={{
       maxWidth: 1064,
-      margin: '0 auto',
+      margin: '0 auto'
     }}
   >
     <section>{children}</section>
@@ -24,7 +24,7 @@ const Root = ({ children }) => (
 
 Intro.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 const Layout = ({ children }) => (
@@ -33,15 +33,14 @@ const Layout = ({ children }) => (
       display: 'flex',
       flexDirection: 'column',
       minHeight: '100vh',
-
       maxWidth: ['90%', '90%', '90%', '1180px', '1280px'],
       margin: '0 auto',
       '& main': {
-        flex: 1,
+        flex: 1
       },
       '& p': {
-        fontSize: [14, 16, 20],
-      },
+        fontSize: [14, 16, 20]
+      }
     }}
   >
     {/* <Toolbar /> */}
@@ -55,7 +54,7 @@ Layout.Intro = Intro;
 Layout.Root = Root;
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export default Layout;

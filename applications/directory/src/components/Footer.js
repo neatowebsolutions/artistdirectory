@@ -22,46 +22,29 @@ function Footer() {
           left: 'calc(-50vw + 50%)',
           backgroundColor: 'rgba(190, 41, 38, 0.1)',
           '& div': {
-            margin: ['.8rem'],
-          },
+            margin: ['.8rem']
+          }
         }}
       >
-        <Box>
-          <List
-            sx={{
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            <ListItem
-              sx={{
-                padding: 0,
-              }}
-            >
-              <MuiLink
-                href="https://www.avenueforthearts.co/about" // TODO  - correct path
-                sx={{
-                  textTransform: 'uppercase',
-                  textDecoration: 'none',
-                  color: 'primary.main',
-                  fontWeight: '600',
-                  letterSpacing: '1.25px',
-                }}
-              >
-                Contact Us
-              </MuiLink>
-            </ListItem>
-          </List>
-        </Box>
-        <Divider light sx={{ width: ['80%', '50%'] }} />
         <Box>
           <Typography
             variant="p"
             sx={{
-              fontSize: ['0.875rem', '0.875rem', '0.875rem', '0.875rem'],
+              fontSize: ['0.875rem', '0.875rem', '0.875rem', '0.875rem']
             }}
           >
             © Copyright 2021 Avenue for the Arts
+            <MuiLink
+              href="https://www.avenueforthearts.co/about" // TODO  - correct path
+              sx={{
+                textDecoration: 'none',
+                color: 'primary.main',
+                fontWeight: '600',
+                letterSpacing: '1.25px'
+              }}
+            >
+              Contact Us
+            </MuiLink>
           </Typography>
         </Box>
 
