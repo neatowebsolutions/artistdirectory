@@ -16,7 +16,7 @@ function ThumbnailLoading({ fileName, handleDelete }) {
           justifyContent: ' center',
           alignItems: 'center',
           border: ' 2px solid',
-          borderColor: 'secondary.main',
+          borderColor: 'secondary.main'
         }}
         elevation={2}
       >
@@ -26,7 +26,7 @@ function ThumbnailLoading({ fileName, handleDelete }) {
             flexDirection: 'column',
             justifyContent: 'space-evenly',
             alignItems: 'center',
-            minHeight: '14rem',
+            minHeight: '14rem'
           }}
         >
           <Box
@@ -44,8 +44,8 @@ function ThumbnailLoading({ fileName, handleDelete }) {
               '&:after': {
                 borderRadius: '50%',
                 width: '7em',
-                height: '7em',
-              },
+                height: '7em'
+              }
             }}
           ></Box>
           <Box
@@ -54,8 +54,8 @@ function ThumbnailLoading({ fileName, handleDelete }) {
                 typography: 'body1',
                 margin: 0,
                 textAlign: 'center',
-                fontSize: ['0.639rem', '0.75rem', '0.75rem', '0.75rem'],
-              },
+                fontSize: ['0.639rem', '0.75rem', '0.75rem', '0.75rem']
+              }
             }}
           >
             <p>Uploading, give us a second…</p>
@@ -75,8 +75,8 @@ function ThumbnailLoading({ fileName, handleDelete }) {
           boxShadow:
             '0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 3px -2px rgba(0, 0, 0, 0.12),0 3px 4px 0 rgba(0, 0, 0, 0.14)',
           '&:hover': {
-            background: 'rgb(205, 205, 205)',
-          },
+            background: 'rgb(205, 205, 205)'
+          }
         }}
       >
         <DeleteOutlineIcon sx={{ color: 'primary.main', width: '1.25rem' }} />

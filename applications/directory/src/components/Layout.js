@@ -14,7 +14,7 @@ const Root = ({ children }) => (
   <Box
     sx={{
       maxWidth: 1064,
-      margin: '0 auto',
+      margin: '0 auto'
     }}
   >
     <section>{children}</section>
@@ -23,7 +23,7 @@ const Root = ({ children }) => (
 
 Intro.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 const Layout = ({ children }) => (
@@ -31,8 +31,9 @@ const Layout = ({ children }) => (
     sx={{
       maxWidth: ['95%', '95%', '95%', '1180px', '1280px'],
       margin: '0 auto',
-      "& p": {
-     fontSize: [14, 16, 20],}
+      '& p': {
+        fontSize: [14, 16, 20]
+      }
     }}
   >
     <Toolbar />
@@ -45,7 +46,7 @@ Layout.Intro = Intro;
 Layout.Root = Root;
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export default Layout;

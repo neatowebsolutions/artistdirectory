@@ -24,8 +24,8 @@ const CreatePage = () => {
           <Box
             sx={{
               '& div': {
-                margin: '0 auto',
-              },
+                margin: '0 auto'
+              }
             }}
           >
             <Box
@@ -36,8 +36,8 @@ const CreatePage = () => {
                   fontSize: ['0.875rem', '1.25rem', '1.5rem'],
                   textTransform: 'uppercase',
                   letterSpacing: 3.53,
-                  marginBottom: '1.5rem',
-                },
+                  marginBottom: '1.5rem'
+                }
               }}
             >
               <Typography variant="h2" component="h2">
@@ -52,8 +52,8 @@ const CreatePage = () => {
                   lineHeight: ['normal', '1.17', '1.2'],
                   textTransform: 'uppercase',
                   color: 'primary.main',
-                  letterSpacing: [2, 3],
-                },
+                  letterSpacing: [2, 3]
+                }
               }}
             >
               <Typography variant="h1" component="h1">
@@ -67,9 +67,9 @@ const CreatePage = () => {
                   margin: [
                     '1.563rem 1rem 1rem',
                     '3.688rem 1.5rem 3rem',
-                    '2.688rem 5.75rem 1.5rem',
-                  ],
-                },
+                    '2.688rem 5.75rem 1.5rem'
+                  ]
+                }
               }}
             >
               <Typography variant="body1">
@@ -83,8 +83,8 @@ const CreatePage = () => {
               sx={{
                 maxWidth: ['90%', '45rem', '52.5rem'],
                 '& p': {
-                  margin: ['1rem', '3rem 1.5rem 3.5rem', '1.5rem 5.75rem'],
-                },
+                  margin: ['1rem', '3rem 1.5rem 3.5rem', '1.5rem 5.75rem']
+                }
               }}
             >
               <Typography variant="body1">
@@ -100,15 +100,15 @@ const CreatePage = () => {
               sx={{
                 maxWidth: ['18.25rem', '38.813rem', '50.875rem'],
                 '& p': {
-                  fontStyle: 'italic',
+                  fontStyle: 'italic'
                 },
                 '& p a': {
                   fontStyle: 'normal',
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
                   letterSpacing: 1.25,
-                  color: 'primary.main',
-                },
+                  color: 'primary.main'
+                }
               }}
             >
               <Typography variant="body1">
@@ -133,7 +133,7 @@ const CreatePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.2rem'
                 }}
               >
                 An unexpected error occurred. Please try again shortly.

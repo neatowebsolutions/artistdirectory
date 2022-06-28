@@ -28,9 +28,9 @@ function Thumbnail({ preview, handleDelete, fileName }) {
             height: '100%',
             objectFit: 'cover',
             // atl styling
-            fontSize: '0.875rem', 
-            margin: '0 1rem',
-          },
+            fontSize: '0.875rem',
+            margin: '0 1rem'
+          }
         }}
         elevation={2}
       >
@@ -49,8 +49,8 @@ function Thumbnail({ preview, handleDelete, fileName }) {
           boxShadow:
             '0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 3px -2px rgba(0, 0, 0, 0.12),0 3px 4px 0 rgba(0, 0, 0, 0.14)',
           '&:hover': {
-            background: 'rgb(205, 205, 205)',
-          },
+            background: 'rgb(205, 205, 205)'
+          }
         }}
       >
         <DeleteOutlineIcon sx={{ color: 'primary.main', width: '1.25rem' }} />
