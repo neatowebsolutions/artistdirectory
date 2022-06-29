@@ -37,6 +37,7 @@ provider:
 
 custom:
   serverless-offline:
+    host: 0.0.0.0
     httpPort: ${env:ARTISTS_API_PORT, 3000}
     lambdaPort: 5000
   customDomain:
