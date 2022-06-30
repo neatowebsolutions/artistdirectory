@@ -1,12 +1,10 @@
 import useSWR from 'swr';
-import { useHttpClient } from '@artistdirectory/react-hooks';
+import fetcher from './fetcher';
 
 const useCategories = () => {
-  const { httpClient } = useHttpClient();
-
   const { data: categories, error: categoriesError } = useSWR(
     `/categories`,
-    httpClient.get.bind(httpClient),
+    fetcher,
     {
       revalidateOnFocus: false
     }
