@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Head from 'next/head';
 import Link from 'next/link';
-import HttpClient from '@artistdirectory/http-client';
+import HttpClient from '@artistdirectory/gateway-http-client';
 import { sortBy } from 'lodash';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';

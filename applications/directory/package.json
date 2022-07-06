@@ -9,7 +9,7 @@
   "author": "Chad Johnson <chad@neatowebsolutions.com>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@artistdirectory/http-client": "0.0.0",
+    "@artistdirectory/gateway-http-client": "0.0.0",
     "@artistdirectory/react-components": "0.0.0",
     "@artistdirectory/react-hooks": "0.0.0",
     "@emotion/react": "^11.5.0",
