@@ -65,11 +65,6 @@ functions:
           path: /artists
           method: post
           cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
   findOneArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findOneArtist.handler
@@ -78,11 +73,6 @@ functions:
           path: /artists/{artistId}
           method: get
           cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
   findArtists:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findArtists.handler
@@ -91,11 +81,6 @@ functions:
           path: /artists
           method: get
           cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
   updateArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/updateArtist.handler
@@ -104,24 +89,11 @@ functions:
           path: /artists/{artistId}
           method: put
           cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
-  createProduct:
-    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/createProduct.handler
-    events:
-      - http:
-          path: /products
-          method: post
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
   generateProfileUploadSignedUrl:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/generateProfileUploadSignedUrl.handler
@@ -130,50 +102,6 @@ functions:
           path: /uploads/signed-url/profile
           method: post
           cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
-  deleteProduct:
-    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/deleteProduct.handler
-    events:
-      - http:
-          path: /products/{productId}
-          method: delete
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
-  findOneProduct:
-    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/findOneProduct.handler
-    events:
-      - http:
-          path: /products/{productId}
-          method: get
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
-  findProducts:
-    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/findProducts.handler
-    events:
-      - http:
-          path: /products
-          method: get
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
   findCategories:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findCategories.handler
@@ -182,24 +110,6 @@ functions:
           path: /categories
           method: get
           cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
-  updateProduct:
-    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/updateProduct.handler
-    events:
-      - http:
-          path: /products/{productId}
-          method: put
-          cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
   createTag:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/createTag.handler
@@ -208,11 +118,11 @@ functions:
           path: /tags
           method: post
           cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
   findTags:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findTags.handler
@@ -221,11 +131,6 @@ functions:
           path: /tags
           method: get
           cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
   findSkills:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findSkills.handler
@@ -234,11 +139,6 @@ functions:
           path: /skills
           method: get
           cors: true
-          # authorizer:
-          #   name: authorizer
-          #   type: request
-          #   identitySource: method.request.header.Authorization
-          #   resultTtlInSeconds: 0
 plugins:
   - serverless-offline
   - serverless-plugin-monorepo
