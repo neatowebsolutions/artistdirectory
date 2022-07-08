@@ -17,7 +17,7 @@ class HttpClient {
       () => controller.abort(),
       this.defaultTimeout || options.timeout
     );
-    const config = this.requestInterceptor({
+    const config = await this.requestInterceptor({
       ...this.defaultHeaders,
       ...options,
       signal: controller.signal
@@ -43,7 +43,7 @@ class HttpClient {
       () => controller.abort(),
       this.defaultTimeout || options.timeout
     );
-    const config = this.requestInterceptor({
+    const config = await this.requestInterceptor({
       ...this.defaultHeaders,
       ...options,
       signal: controller.signal
@@ -70,7 +70,7 @@ class HttpClient {
       () => controller.abort(),
       this.defaultTimeout || options.timeout
     );
-    const config = this.requestInterceptor({
+    const config = await this.requestInterceptor({
       ...this.defaultHeaders,
       ...options,
       signal: controller.signal
@@ -97,7 +97,7 @@ class HttpClient {
       () => controller.abort(),
       this.defaultTimeout || options.timeout
     );
-    const config = this.requestInterceptor({
+    const config = await this.requestInterceptor({
       ...this.defaultHeaders,
       ...options,
       signal: controller.signal
