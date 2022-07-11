@@ -5,7 +5,7 @@ const {
   ReasonPhrases,
   getReasonPhrase
 } = require('http-status-codes');
-const HttpClient = require('@artistdirectory/gateway-http-client').default;
+const HttpClient = require('@artistdirectory/gateway-http-client');
 
 const { ARTISTS_API_URL } = process.env;
 

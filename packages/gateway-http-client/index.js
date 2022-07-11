@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { aws4Interceptor } from 'aws4-axios';
+const axios = require('axios');
+const { aws4Interceptor } = require('aws4-axios');
 
 const { AWS_REGION } = process.env;
 
@@ -61,4 +61,4 @@ class HttpClient {
   }
 }
 
-export default HttpClient;
+module.exports = HttpClient;
