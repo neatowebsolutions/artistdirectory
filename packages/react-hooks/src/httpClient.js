@@ -18,7 +18,7 @@ class HttpClient {
       this.defaultTimeout || options.timeout
     );
     const config = await this.requestInterceptor({
-      ...this.defaultHeaders,
+      headers: this.defaultHeaders,
       ...options,
       signal: controller.signal
     });
@@ -44,7 +44,7 @@ class HttpClient {
       this.defaultTimeout || options.timeout
     );
     const config = await this.requestInterceptor({
-      ...this.defaultHeaders,
+      headers: this.defaultHeaders,
       ...options,
       signal: controller.signal
     });
@@ -71,7 +71,7 @@ class HttpClient {
       this.defaultTimeout || options.timeout
     );
     const config = await this.requestInterceptor({
-      ...this.defaultHeaders,
+      headers: this.defaultHeaders,
       ...options,
       signal: controller.signal
     });
@@ -98,7 +98,7 @@ class HttpClient {
       this.defaultTimeout || options.timeout
     );
     const config = await this.requestInterceptor({
-      ...this.defaultHeaders,
+      headers: this.defaultHeaders,
       ...options,
       signal: controller.signal
     });
