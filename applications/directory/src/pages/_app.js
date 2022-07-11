@@ -13,6 +13,7 @@ const httpRequestInterceptor = (config) => {
   const token = sessionStorage.authToken;
 
   if (token) {
+    config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
   }
 
