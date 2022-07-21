@@ -1,7 +1,7 @@
 {
   "name": "@artistdirectory/gateway-http-client",
   "version": "0.0.0",
-  "main": "dist/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/neatowebsolutions/artistdirectory.git"
