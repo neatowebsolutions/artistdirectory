@@ -1,0 +1,19 @@
+{
+  "name": "@artistdirectory/email-client",
+  "version": "0.0.0",
+  "description": "Email client.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artistdirectory/artistdirectory.git"
+  },
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/artistdirectory/artistdirectory/tree/master/packages/email-client",
+  "dependencies": {
+    "aws-sdk": "^2.1032.0"
+  },
+  "scripts": {
+    "format": "eslint --fix index.js",
+    "lint": "eslint index.js"
+  }
+}
