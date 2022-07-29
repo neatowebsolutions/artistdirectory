@@ -23,6 +23,7 @@ const CreatePage = () => {
         <Layout.Intro>
           <Box
             sx={{
+              marginTop: ['1.5rem', '2.563rem', '2.688rem'],
               '& div': {
                 margin: '0 auto',
               },
@@ -36,7 +37,7 @@ const CreatePage = () => {
                   fontSize: ['0.875rem', '1.25rem', '1.5rem'],
                   textTransform: 'uppercase',
                   letterSpacing: 3.53,
-                  marginBottom: '1.5rem',
+                  marginBottom: ['1.063rem', '1.625rem', '1.5rem'],
                 },
               }}
             >
@@ -62,10 +63,10 @@ const CreatePage = () => {
             </Box>
             <Box
               sx={{
-                maxWidth: ['90%', '45rem', '52.5rem'],
+                maxWidth: ['96%', '45rem', '52.5rem'],
                 '& p': {
                   margin: [
-                    '1.563rem 1rem 1rem',
+                    '1.563rem 0rem 1rem 0rem',
                     '3.688rem 1.5rem 3rem',
                     '2.688rem 5.75rem 1.5rem',
                   ],
@@ -83,7 +84,7 @@ const CreatePage = () => {
               sx={{
                 maxWidth: ['90%', '45rem', '52.5rem'],
                 '& p': {
-                  margin: ['1rem', '3rem 1.5rem 3.5rem', '1.5rem 5.75rem'],
+                  margin: ['1rem 0rem', '3rem 1.5rem 3.5rem', '1.5rem 5.75rem'],
                 },
               }}
             >
@@ -101,28 +102,35 @@ const CreatePage = () => {
                 maxWidth: ['18.25rem', '38.813rem', '50.875rem'],
                 '& p': {
                   fontStyle: 'italic',
-                },
-                '& p a': {
-                  fontStyle: 'normal',
-                  textTransform: 'uppercase',
-                  fontWeight: 'bold',
-                  letterSpacing: 1.25,
-                  color: 'primary.main',
+                  marginBottom: '1rem',
                 },
               }}
             >
               <Typography variant="body1">
                 You may remove yourself from this listing at any time by
                 emailing
-                <br />
-                <MuiLink href="mailto:avenueforthearts@gmail.com">
-                  avenueforthearts@gmail.com
-                </MuiLink>
               </Typography>
+              <MuiLink
+                sx={{
+                  fontStyle: 'normal',
+                  textTransform: 'uppercase',
+                  fontWeight: 'bold',
+                  letterSpacing: 1.25,
+                  color: 'primary.main',
+                }}
+                href="mailto:avenueforthearts@gmail.com"
+              >
+                avenueforthearts@gmail.com
+              </MuiLink>
             </Box>
           </Box>
         </Layout.Intro>
-        <Box sx={{ maxWidth: '48.875rem', margin: '0 auto' }}>
+        <Box
+          sx={{
+            maxWidth: '48.875rem',
+            margin: ['2rem auto 0', '4.125rem auto 0', '3.5rem auto 0'],
+          }}
+        >
           <Loader
             isLoading={categoriesLoading || tagsLoading || skillsLoading}
             isError={categoriesError || tagsError || skillsError}

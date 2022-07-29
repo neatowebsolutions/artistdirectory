@@ -9,7 +9,7 @@ const { aws4Interceptor } = require('aws4-axios');
 const HttpClient = require('@artistdirectory/http-client').default;
 
 const { AWS_REGION, ARTISTS_API_URL } = process.env;
-
+console.log('===============================')
 const httpClient = new HttpClient({
   baseUrl: ARTISTS_API_URL
 });

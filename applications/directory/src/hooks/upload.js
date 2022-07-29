@@ -26,7 +26,6 @@ const useUpload = () => {
         method: 'PUT',
         body,
       });
-
       return { response };
     } catch (error) {
       return {

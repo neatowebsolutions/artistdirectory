@@ -20,29 +20,31 @@ const HomePage = () => {
       </Head>
       <Layout>
         <Layout.Intro>
-          <Typography variant="h1" component="h1">
-            Discover artists and their work,
-            <br />
-            all in one place.
-          </Typography>
-          <Box
-            sx={{
-              '& p': {
-                margin: '1rem 0',
-              },
-              '& p:nth-of-type(2n)': {
-                fontStyle: 'italic',
-              },
-            }}
-          >
-            <Typography variant="body1">
-              Whether you’re looking to purchase artwork, hire an artist, or
-              collaborate, this is the place to start.
+          <Box sx={{ marginTop: ['1rem', '3.5rem'] }}>
+            <Typography variant="h1" component="h1">
+              Discover artists and their work,
+              <br />
+              all in one place.
             </Typography>
-            <Typography variant="body1">
-              Search by Type of Artist, Tags, Hireable Skills, or whatever you
-              need.
-            </Typography>
+            <Box
+              sx={{
+                '& p': {
+                  margin: '1rem 0',
+                },
+                '& p:nth-of-type(2n)': {
+                  fontStyle: 'italic',
+                },
+              }}
+            >
+              <Typography variant="body1">
+                Whether you’re looking to purchase artwork, hire an artist, or
+                collaborate, this is the place to start.
+              </Typography>
+              <Typography variant="body1">
+                Search by Type of Artist, Tags, Hireable Skills, or whatever you
+                need.
+              </Typography>
+            </Box>
           </Box>
         </Layout.Intro>
         <Card elevation={6}>

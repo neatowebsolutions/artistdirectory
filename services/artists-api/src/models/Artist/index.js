@@ -1,42 +1,34 @@
+// TODO: change social to an array
+// TODO add: approved: { type: Boolean, default: false, required: true },
+
 const mongoose = require('mongoose');
 const mongodbClient = require('../mongodbClient');
 
 let Artist = null;
 
 const schemaOptions = {
-  timestamps: true
+  timestamps: true,
 };
 const schema = new mongoose.Schema(
   {
+    approveStatus: {
+      type: String,
+      enum: ['approved', 'rejected', 'pending'],
+      default: 'pending',
+    },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, unique: true, required: true },
+    password: { type: String, required: false },
+    profileImageUrl: { type: String, required: false },
     city: { type: String, required: true },
-    social: { type: mongoose.Schema.Types.Mixed, required: true },
+    social: [{ type: mongoose.Schema.Types.Mixed, required: false }],
     description: { type: String, required: true },
-    categories: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
-        required: true
-      }
-    ],
-    tags: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tag',
-        required: true
-      }
-    ],
-    skills: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Skill',
-        required: true
-      }
-    ],
-    photoUrls: [{ type: String, required: true }],
-    subscribedToNewsletter: { type: Boolean, required: true }
+    categories: [{ type: String, required: true }],
+    tags: [{ type: String, required: true }],
+    skills: [{ type: String, required: true }],
+    images: [{ type: String, required: true }],
+    subscribedToNewsletter: { type: Boolean, required: true },
   },
   schemaOptions
 );

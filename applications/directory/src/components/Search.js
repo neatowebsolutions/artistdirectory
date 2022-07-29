@@ -1,4 +1,3 @@
-
 // TODO - fix font size in dropdown windows
 
 import { useState } from 'react';
@@ -13,16 +12,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
 
 const renderMenuItemsList = (items) => {
-  return items.map(({ _id, name }) => (
-    <MenuItem
+  return items.map(({ _id, name }) => {
+    console.log(_id);
+   return  <MenuItem
       key={_id}
       value={name}
       name={name}
       sx={{ minHeight: 0.1, padding: 0.6 }}
     >
       {name}
-    </MenuItem>
-  ));
+    </MenuItem>;
+  });
 };
 
 const Search = ({ categories, tags, skills }) => {
@@ -140,12 +140,12 @@ const Search = ({ categories, tags, skills }) => {
         }}
       >
         <TextField
-         // size="3.4rem"
+          // size="3.4rem"
           InputProps={{
             style: {
               fontSize: ['1rem'],
               width: '100%',
-             height: ['3.7rem'],
+              height: ['3.7rem'],
             },
             startAdornment: (
               <InputAdornment position="start">

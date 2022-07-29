@@ -6,7 +6,7 @@ const { v4: uuidv4 } = require('uuid');
 const {
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY,
-  AWS_UPLOADS_BUCKET,
+  UPLOADS_BUCKET,
 } = process.env;
 
 const s3 = new AWS.S3({
@@ -25,8 +25,8 @@ const handler = async (event) => {
     const { mimeType } = JSON.parse(event.body);
     const fileName = `${uuidv4()}.${mimeType.split('/')[1]}`; // TODO Improve how we get file extension
     const params = {
-      Bucket: AWS_UPLOADS_BUCKET,
-      Key: fileName,
+      Bucket: UPLOADS_BUCKET,
+      Key: `profile/${fileName}`,
       ContentType: mimeType,
     };
 

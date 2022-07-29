@@ -1,7 +1,7 @@
 // TODO - make dropzone only accept one file at a time??
 import { useDropzone } from 'react-dropzone';
 import { useState } from 'react';
-import Typography from '@mui/material/typography';
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import InfoIcon from '@mui/icons-material/Info';
@@ -69,7 +69,7 @@ function Upload({ getFiles, files, formError, errorsNum }) {
           // find the number of uploaded files
           const uploadedImagesNum = files.reduce((acc, { uploaded }) => {
             if (uploaded) {
-              return acc + 1;
+              return acc++;
             }
             return acc;
           }, 0);
@@ -97,7 +97,7 @@ function Upload({ getFiles, files, formError, errorsNum }) {
             };
           });
 
-          // delete duplicates from files 
+          // delete duplicates from files
           const noneDuplicate = files.filter(({ file: { name } }) => {
             const res = parsedFiles.find((item) => name === item.file.name);
             return res?.file.name !== name;
@@ -113,7 +113,8 @@ function Upload({ getFiles, files, formError, errorsNum }) {
               return {
                 ...item,
                 signedUrl: data?.signedUrl,
-                fileUrl: data && `${baseUrl}${data.fileName}`,
+                //fileUrl: data && `${baseUrl}${data.fileName}`,
+                fileName: data?.fileName,
                 signedUrlError: error,
               };
             });
@@ -126,9 +127,9 @@ function Upload({ getFiles, files, formError, errorsNum }) {
           const uploadFiles = (filesArray) => {
             const promises = filesArray.map(async (item) => {
               const { file, signedUrl } = item;
-
               if (signedUrl) {
                 const { response, error } = await uploadFile(signedUrl, file);
+                console.log(error)
                 return {
                   ...item,
                   file: Object.assign(file, {

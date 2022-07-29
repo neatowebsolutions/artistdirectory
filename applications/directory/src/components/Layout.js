@@ -5,7 +5,7 @@ import Header from './Header';
 import Toolbar from './Toolbar';
 
 const Intro = ({ children }) => (
-  <Box sx={{ textAlign: 'center', margin: '2.5rem auto' }}>
+  <Box sx={{ textAlign: 'center', margin: '0rem auto' }}>
     <section>{children}</section>
   </Box>
 );

@@ -1,9 +1,10 @@
 // TODO validation -  make sure at least one social link provided or delete the * for the social being required??
 // TODO - change marginLeft for input social on mobile
 import { useState } from 'react';
+import { useHttpClient } from '@artistdirectory/react-hooks';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
-import Typography from '@mui/material/typography';
+import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import FormGroup from '@mui/material/FormGroup';
@@ -21,6 +22,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Upload from './Upload';
+import { useEmailValidate } from '../hooks';
 
 const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
@@ -31,116 +33,27 @@ const initialValues = {
   lastName: '',
   email: '',
   city: '',
-  description: '',
   website: { checked: true, name: 'website', url: '' },
   behance: { checked: false, name: 'behance', url: '' },
   other: { checked: false, name: 'other', url: '' },
-  files: [],
+  description: '',
   categories: [categoriesDefaultValue],
   tags: [tagsDefaultValue],
   skills: [skillsDefaultValue],
+  files: [],
   subscribedToNewsletter: 'yes',
 };
 
+const keywordsValidate = (keywords) =>
+  keywords.every(
+    (keyword) =>
+      /^([a-zA-Z- ]+)?$/g.test(keyword) &&
+      keyword.length < 30 &&
+      keyword.length > 3
+  );
+
 // TODO: validation to ensure user enters either website, behance or other
-const formValidationSchema = Yup.object().shape({
-  firstName: Yup.string().required('First name is required'),
-  lastName: Yup.string().required('Last name is required'),
-  city: Yup.string().required('City is required'),
-  email: Yup.string()
-    .email('Please provide a valid email address.')
-    .required('Please enter your email address.'),
-  website: Yup.object({
-    checked: Yup.boolean(),
-    url: Yup.string().when('checked', {
-      is: true,
-      then: Yup.string()
-        .matches(
-          /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          'Enter correct url!'
-        )
-        .required('Please enter website url'),
-    }),
-  }),
-  behance: Yup.object({
-    checked: Yup.boolean(),
-    url: Yup.string().when('checked', {
-      is: true,
-      then: Yup.string()
-        .matches(
-          /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          'Enter correct url!'
-        )
-        .required('Please enter behance url'), // ?????? what is is? "behance url"??"
-    }),
-  }),
-  other: Yup.object({
-    checked: Yup.boolean(),
-    url: Yup.string().when('checked', {
-      is: true,
-      then: Yup.string()
-        .matches(
-          /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          'Enter correct url!'
-        )
-        .required('Please enter website url'),
-    }),
-  }),
-
-  category: Yup.object({
-    checked: Yup.boolean(),
-    name: Yup.string().when('checked', {
-      is: true,
-      then: Yup.string() // /^([a-zA-Z-]+,?\s*)+/g
-        .matches(/^([a-zA-Z-, ]+)?$/g, 'Enter correct artist type!')
-        .required('Please enter artist type'), // What is the correct message here
-    }),
-  }),
-
-  description: Yup.string()
-    .test(
-      'len',
-      'Must be at least 50 characters and not longer than 1500 characters', // what is the min length?
-      (val) => val && val.length > 50 && val.length <= 1500
-    )
-    .required('Description is required'),
-  categories: Yup.array()
-    .test('categories', 'Enter valid artist type', (categories) =>
-      categories.every(
-        (category) =>
-          /^([a-zA-Z- ]+)?$/g.test(category) &&
-          category.length < 30 &&
-          category.length > 3
-      )
-    )
-    .min(1, 'Please provide at least one artist type'),
-  tags: Yup.array()
-    .test('tags', 'Enter valid keyword', (tags) =>
-      tags.every(
-        (tag) =>
-          /^([a-zA-Z- ]+)?$/g.test(tag) && tag.length < 30 && tag.length > 3
-      )
-    )
-    .min(1, 'Please choose at least one keyword'),
-  skills: Yup.array()
-    .test('skills', 'Enter valid keyword', (skills) =>
-      skills.every(
-        (skill) =>
-          /^([a-zA-Z- ]+)?$/g.test(skill) &&
-          skill.length < 30 &&
-          skill.length > 3
-      )
-    )
-    .min(1, 'Please choose at least one keyword'),
-  files: Yup.array()
-    .min(1, 'Please provide at least 1 image')
-    .test('uploaded', 'All images should be successfully uploaded', (files) => {
-      const ifUploadError = files.every((file) => !file.uploadError);
-      const ifFinishedLoading = files.every((file) => !file.loading);
-      return ifUploadError && ifFinishedLoading;
-    }),
-  // check if each image has been successfully uploaded
-});
+//const formValidationSchema =
 
 const inputFieldStyles = {
   style: {
@@ -162,11 +75,16 @@ const labelStyles = {
 };
 
 function CreateProfileForm({
-  className,
+  className, // DELETE
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
   skills = [skillsDefaultValue],
 }) {
+  const { httpClient } = useHttpClient();
+  const { ifEmailExists } = useEmailValidate();
+  const [ifValidEmail, setIfValidEmail] = useState('');
+
+  // formik
   const {
     handleBlur,
     handleChange,
@@ -178,54 +96,149 @@ function CreateProfileForm({
     isValid,
     dirty,
     errors,
+    //setFieldError,
     touched,
   } = useFormik({
     initialValues,
     enableReinitialize: true, // lets the form to go back to initial values if reset form
-    validationSchema: formValidationSchema,
-    onSubmit: (vals) => {
+    validationSchema: Yup.object().shape({
+      firstName: Yup.string().required('First name is required'),
+      lastName: Yup.string().required('Last name is required'),
+      city: Yup.string().required('City is required'),
+      email: Yup.string()
+        .email('Please provide a valid email address.')
+        .test('email', ifValidEmail, () => ifValidEmail === '')
+        .required('Please enter your email address.'),
+      website: Yup.object({
+        checked: Yup.boolean(),
+        url: Yup.string().when('checked', {
+          is: true,
+          then: Yup.string()
+            .matches(
+              /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+              'Enter correct url!'
+            )
+            .required('Please enter website url'),
+        }),
+      }),
+      behance: Yup.object({
+        checked: Yup.boolean(),
+        url: Yup.string().when('checked', {
+          is: true,
+          then: Yup.string()
+            .matches(
+              /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+              'Enter correct url!'
+            )
+            .required('Please enter behance url'), // ?????? what is is? "behance url"??"
+        }),
+      }),
+      other: Yup.object({
+        checked: Yup.boolean(),
+        url: Yup.string().when('checked', {
+          is: true,
+          then: Yup.string()
+            .matches(
+              /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+              'Enter correct url!'
+            )
+            .required('Please enter website url'),
+        }),
+      }),
+      description: Yup.string()
+        .test(
+          'len',
+          'Must be at least 50 characters and not longer than 1500 characters', // what is the min length?
+          (val) => val && val.length > 50 && val.length <= 1500
+        )
+        .required('Description is required'),
+      categories: Yup.array()
+        .test('categories', 'Enter valid artist type', (cts) =>
+          keywordsValidate(cts)
+        )
+        .min(1, 'Please provide at least one artist type'),
+      tags: Yup.array()
+        .test('tags', 'Enter valid keyword', (tgs) => keywordsValidate(tgs))
+        .min(1, 'Please choose at least one keyword'),
+      skills: Yup.array()
+        .test('skills', 'Enter valid keyword', (skls) => keywordsValidate(skls))
+        .min(1, 'Please choose at least one keyword'),
+      files: Yup.array()
+        .min(1, 'Please provide at least 1 image')
+        .test(
+          'uploaded',
+          'All images should be successfully uploaded',
+          (files) => {
+            const ifUploadError = files.every((file) => !file.uploadError);
+            const ifFinishedLoading = files.every((file) => !file.loading);
+            return ifUploadError && ifFinishedLoading;
+          }
+        ),
+      // check if each image has been successfully uploaded
+    }),
+    onSubmit: async (vals) => {
       const {
         firstName,
         lastName,
         email,
         city,
-        description,
         website,
         behance,
         other,
-        files,
-        subscribedToNewsletter,
+        description,
         categories: allCategories,
         tags: allTags,
         skills: allSkills,
+        files,
+        subscribedToNewsletter,
       } = vals;
 
       // user social links
       const social = [website, behance, other];
 
-      const imageUrls = files.reduce((acc, { fileUrl }) => {
-        acc.push(fileUrl);
+      console.log({files})
+      const images = files.reduce((acc, { fileName }) => {
+        acc.push(fileName);
         return acc;
       }, []);
 
-      const formData = new FormData();
-      formData.append('firstName', firstName);
-      formData.append('lastName', lastName);
-      formData.append('email', email);
-      formData.append('city', city);
-      formData.append('description', description);
-      formData.append('social', JSON.stringify(social));
-      formData.append('categories', JSON.stringify(allCategories));
-      formData.append('tags', JSON.stringify(allTags));
-      formData.append('skills', JSON.stringify(allSkills));
-      formData.append('images', JSON.stringify(imageUrls));
-      formData.append('subscribedToNewsletter', subscribedToNewsletter);
+      // convert 'yes'/'no' to boolean
+      const subscribedToNewsletterParsed = subscribedToNewsletter === 'yes';
 
-      console.log([...formData]);
+      // const formData = new FormData();
+      // formData.append('firstName', firstName);
+      // formData.append('lastName', lastName);
+      // formData.append('email', email);
+      // formData.append('city', city);
+      // formData.append('social', JSON.stringify(social));
+      // formData.append('description', description);
+      // formData.append('categories', JSON.stringify(allCategories));
+      // formData.append('tags', JSON.stringify(allTags));
+      // formData.append('skills', JSON.stringify(allSkills));
+      // formData.append('imageUrls', JSON.stringify(imageUrls));
+      // formData.append('subscribedToNewsletter', subscribedToNewsletterParsed);
+      // console.log([...formData]);
 
+      const data = {
+        firstName,
+        lastName,
+        email,
+        city,
+        social,
+        description,
+        categories: allCategories,
+        tags: allTags,
+        skills: allSkills,
+        images,
+        subscribedToNewsletter: subscribedToNewsletterParsed,
+      };
+
+      console.log(data);
       // TODO - do something to submit data to the backend
+      await httpClient.post('/artists', data);
 
-      resetForm(); // TODO - test reset form
+      //resetForm(); // TODO - test reset form
+      //setFiles([]); // delete files
     },
   });
 
@@ -264,6 +277,7 @@ function CreateProfileForm({
       <form noValidate onSubmit={handleSubmit}>
         <Card
           sx={{
+            padding: ['1.5rem 1rem', '1.5rem', '2rem'],
             '& legend': {
               margin: [
                 '0 4.188rem 1rem 1rem',
@@ -285,7 +299,10 @@ function CreateProfileForm({
               ...starSpanStyles,
             },
             '& label': {
-              marginLeft: ['.8rem', '.5rem'],
+              marginLeft: ['0rem', '.5rem'],
+            },
+            '& .MuiInputLabel-shrink': {
+              marginLeft: ['0.9rem', '.5rem'],
             },
           }}
           elevation={6}
@@ -305,12 +322,11 @@ function CreateProfileForm({
           >
             <span>*</span>Required
           </Typography>
-
           <Box
             sx={{
               '& .MuiFormControl-root': {
                 width: ['100%', '47%'],
-                marginBottom: '1.56rem',
+                marginBottom: '2.25rem',
               },
             }}
           >
@@ -360,7 +376,22 @@ function CreateProfileForm({
                 label="Email Address"
                 name="email"
                 onChange={handleChange}
-                onBlur={handleBlur}
+                onBlur={async (e) => {
+                  if (values.email) {
+                    const isValidEmail = await ifEmailExists(values.email);
+                    if (isValidEmail.validEmail) {
+                      await setIfValidEmail('');
+                    } else {
+                      const notValidEmail = isValidEmail.error?.includes('403')
+                        ? 'Email is in use. Choose different email'
+                        : 'Server error. Fail to verify email';
+                      await setIfValidEmail(notValidEmail);
+                    }
+                  } else {
+                    await setIfValidEmail('');
+                  }
+                  handleBlur(e);
+                }}
                 value={values.email}
                 error={errors.email && touched.email}
                 helperText={touched.email ? errors.email : ''}
@@ -382,7 +413,6 @@ function CreateProfileForm({
               />
             </Box>
           </Box>
-
           <Box>
             <Typography variant="h3" component="h3">
               What&apos;s the best place to find your work online? (Website,
@@ -415,7 +445,10 @@ function CreateProfileForm({
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: ['94%', '50%'], marginLeft: '2rem' }}
+                    sx={{
+                      width: ['calc(100% - 2.7rem)', '50%'],
+                      marginLeft: ['2.7rem', '2rem'],
+                    }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
                     label="Website URL"
@@ -443,7 +476,10 @@ function CreateProfileForm({
                   />
                   <TextField
                     id="outlined-required"
-                    sx={{ width: ['94%', '50%'], marginLeft: '2rem' }}
+                    sx={{
+                      width: ['calc(100% - 2.7rem)', '50%'],
+                      marginLeft: ['2.7rem', '2rem'],
+                    }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
                     label="Behance URL"
@@ -471,8 +507,8 @@ function CreateProfileForm({
                   <TextField
                     id="outlined-required"
                     sx={{
-                      width: ['94%', '50%'],
-                      marginLeft: '2rem',
+                      width: ['calc(100% - 2.7rem)', '50%'],
+                      marginLeft: ['2.7rem', '2rem'],
                     }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
@@ -487,6 +523,7 @@ function CreateProfileForm({
               </FormGroup>
             </FormGroup>
           </Box>
+
           <Box>
             <Typography variant="h3" component="h3">
               What kind of artist are you? (Please list what apply)
@@ -525,14 +562,12 @@ function CreateProfileForm({
               />
             </Stack>
           </Box>
-
           <Upload
             getFiles={getFiles}
             files={imageFiles}
             formError={errors.files}
             errorsNum={Object.keys(errors).length} // shows how many errors are in the object to determine if upload component should be displayed
           />
-
           <Box
             sx={{
               '& p': {
@@ -589,7 +624,6 @@ function CreateProfileForm({
               />
             </FormControl>
           </Box>
-
           <Box>
             <Typography variant="h3" component="h3">
               Please list up to 10 keywords that would describe your work and
@@ -629,7 +663,6 @@ function CreateProfileForm({
               />
             </Stack>
           </Box>
-
           <Box
             sx={{
               '& p': {
@@ -682,7 +715,6 @@ function CreateProfileForm({
               />
             </Stack>
           </Box>
-
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ '& img': { marginTop: '2rem', marginRight: '2rem' } }}>
               <img src="/images/img-newsletter.svg" alt="Evelope" />

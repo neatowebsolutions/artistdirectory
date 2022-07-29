@@ -131,8 +131,8 @@ theme.components.MuiButton = {
       fontWeight: 'bold',
       lineHeight: 1.14,
       letterSpacing: '1.25px',
-      paddingLeft: '1.25rem',
-      paddingRight: '1.25rem',
+      paddingLeft: '1rem',
+      paddingRight: '1rem',
     },
   },
 };

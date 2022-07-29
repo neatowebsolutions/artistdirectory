@@ -9,7 +9,6 @@ const { aws4Interceptor } = require('aws4-axios');
 const HttpClient = require('@artistdirectory/http-client').default;
 
 const { AWS_REGION, ARTISTS_API_URL } = process.env;
-
 const httpClient = new HttpClient({
   baseUrl: ARTISTS_API_URL,
 });
@@ -30,12 +29,17 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    const data = JSON.parse(event.body);
+    const { email } = event.pathParameters;
+    const artist = await httpClient.get(`/profile/email-validity/${email}`);
 
-    const artist = await httpClient.post(`/artists`, data);
+    if (artist) {
+      return {
+        statusCode: StatusCodes.FORBIDDEN,
+        body: JSON.stringify('email is in use'),
+      };
+    }
     return {
-      statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(artist),
+      statusCode: StatusCodes.OK,
     };
   } catch (error) {
     if (error.response && error.response.status) {
