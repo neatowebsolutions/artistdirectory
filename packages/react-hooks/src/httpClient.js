@@ -8,7 +8,7 @@ class HttpClient {
       'Content-Type': 'application/json'
     };
     this.defaultTimeout = 10 * 1000;
-    this.requestInterceptor = requestInterceptor;
+    this.requestInterceptor = requestInterceptor || ((config) => config);
   }
 
   async get(url, options = {}) {
@@ -141,8 +141,7 @@ HttpClientProvider.propTypes = {
 };
 
 HttpClientProvider.defaultProps = {
-  baseUrl: '',
-  requestInterceptor: () => {}
+  baseUrl: ''
 };
 
 const useHttpClient = () => useContext(HttpClientContext);
