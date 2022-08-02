@@ -8,7 +8,7 @@ class HttpClient {
       'Content-Type': 'application/json'
     };
     this.defaultTimeout = 10 * 1000;
-    this.requestInterceptor = requestInterceptor;
+    this.requestInterceptor = requestInterceptor || ((config) => config);
   }
 
   async get(url, options = {}) {
@@ -26,14 +26,15 @@ class HttpClient {
       method: 'GET',
       headers: config.headers
     });
-    const responseValue = response.ok ? response.json() : response.text();
 
     clearTimeout(timeout);
 
     if (response.ok) {
-      return responseValue;
+      if (response.status !== 204) {
+        return await response.json();
+      }
     } else {
-      throw new Error(responseValue);
+      throw new Error(await response.text());
     }
   }
 
@@ -53,14 +54,15 @@ class HttpClient {
       headers: config.headers,
       body: data && JSON.stringify(data)
     });
-    const responseValue = response.ok ? response.json() : response.text();
 
     clearTimeout(timeout);
 
     if (response.ok) {
-      return responseValue;
+      if (response.status !== 204) {
+        return await response.json();
+      }
     } else {
-      throw new Error(responseValue);
+      throw new Error(await response.text());
     }
   }
 
@@ -80,14 +82,15 @@ class HttpClient {
       headers: config.headers,
       body: data && JSON.stringify(data)
     });
-    const responseValue = response.ok ? response.json() : response.text();
 
     clearTimeout(timeout);
 
     if (response.ok) {
-      return responseValue;
+      if (response.status !== 204) {
+        return await response.json();
+      }
     } else {
-      throw new Error(responseValue);
+      throw new Error(await response.text());
     }
   }
 
@@ -106,14 +109,15 @@ class HttpClient {
       method: 'DELETE',
       headers: config.headers
     });
-    const responseValue = response.ok ? response.json() : response.text();
 
     clearTimeout(timeout);
 
     if (response.ok) {
-      return responseValue;
+      if (response.status !== 204) {
+        return await response.json();
+      }
     } else {
-      throw new Error(responseValue);
+      throw new Error(await response.text());
     }
   }
 }
@@ -137,8 +141,7 @@ HttpClientProvider.propTypes = {
 };
 
 HttpClientProvider.defaultProps = {
-  baseUrl: '',
-  requestInterceptor: () => {}
+  baseUrl: ''
 };
 
 const useHttpClient = () => useContext(HttpClientContext);
