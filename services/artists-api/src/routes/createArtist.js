@@ -2,6 +2,7 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
 const AWS = require('aws-sdk');
 const slugify = require('slugify');
+const emailClient = require('@artistdirectory/email-client');
 const mongodbClient = require('../models/mongodbClient');
 const models = require('../models');
 
@@ -10,6 +11,7 @@ const {
   AWS_SECRET_ACCESS_KEY,
   UPLOADS_BUCKET,
   ASSETS_BUCKET,
+  ADMIN_EMAIL,
 } = process.env;
 
 // TODO - what is the url and where it comes from ENV?
@@ -89,6 +91,12 @@ const handler = async (event, context) => {
 
     try {
       await artist.validate();
+      await emailClient.enqueue({
+        to: ADMIN_EMAIL,
+        from: 'noreply@artistdirectory.com',
+        subject: 'New artist profile ready for review',
+        body: 'TODO',
+      });
     } catch (error) {
       console.log(error);
       return {

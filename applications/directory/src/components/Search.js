@@ -41,10 +41,10 @@ const Search = ({ categories, tags, skills }) => {
       sx: {
         padding: 2,
         '& .MuiList-padding': {
-          padding: 0,
-        },
-      },
-    },
+          padding: 0
+        }
+      }
+    }
   };
   return (
     <Box
@@ -57,17 +57,17 @@ const Search = ({ categories, tags, skills }) => {
         flexDirection: ['row'],
         flexWrap: ['wrap', 'wrap', 'wrap', 'nowrap'],
         '& .MuiInputBase-root': {
-          fontSize: '1rem',
+          fontSize: '1rem'
         },
         '& .MuiInputLabel-root': {
-          fontSize: '1rem',
-        },
+          fontSize: '1rem'
+        }
       }}
     >
       <FormControl
         sx={{
           margin: ['0 1rem 1rem 0'],
-          flex: ['1 100%', '1 30%'],
+          flex: ['1 100%', '1 30%']
         }}
       >
         <InputLabel>Categories</InputLabel>
@@ -78,8 +78,8 @@ const Search = ({ categories, tags, skills }) => {
           onChange={onCategoryChange}
           sx={{
             '& svg': {
-              color: 'primary.main',
-            },
+              color: 'primary.main'
+            }
           }}
           autoWidth
           MenuProps={selectMenuProps}
@@ -90,7 +90,7 @@ const Search = ({ categories, tags, skills }) => {
       <FormControl
         sx={{
           margin: ['0 1rem 1rem 0'],
-          flex: ['1 100%', '1 30%'],
+          flex: ['1 100%', '1 30%']
         }}
       >
         <InputLabel>Tags</InputLabel>
@@ -101,8 +101,8 @@ const Search = ({ categories, tags, skills }) => {
           onChange={onTagChange}
           sx={{
             '& svg': {
-              color: 'primary.main',
-            },
+              color: 'primary.main'
+            }
           }}
           autoWidth
           MenuProps={selectMenuProps}
@@ -113,7 +113,7 @@ const Search = ({ categories, tags, skills }) => {
       <FormControl
         sx={{
           margin: ['0 1rem 1rem 0'],
-          flex: ['1 100%', '1 30%'],
+          flex: ['1 100%', '1 30%']
         }}
       >
         <InputLabel>Hireable Skills</InputLabel>
@@ -124,8 +124,8 @@ const Search = ({ categories, tags, skills }) => {
           onChange={onSkillChange}
           sx={{
             '& svg': {
-              color: 'primary.main',
-            },
+              color: 'primary.main'
+            }
           }}
           autoWidth
           MenuProps={selectMenuProps}
@@ -136,7 +136,7 @@ const Search = ({ categories, tags, skills }) => {
       <FormControl
         sx={{
           margin: ['0 1rem 1rem 0'],
-          flex: ['1 100%', '1 70%'],
+          flex: ['1 100%', '1 70%']
         }}
       >
         <TextField
@@ -151,7 +151,7 @@ const Search = ({ categories, tags, skills }) => {
               <InputAdornment position="start">
                 <SearchIcon />
               </InputAdornment>
-            ),
+            )
           }}
           variant="outlined"
           placeholder="Search for artists, writers, musicians, etc."
@@ -165,8 +165,8 @@ const Search = ({ categories, tags, skills }) => {
           display: 'inline-flex',
           alignItems: 'center',
           '& button': {
-            height: '2.25rem',
-          },
+            height: '2.25rem'
+          }
         }}
       >
         <Button fullWidth variant="contained">

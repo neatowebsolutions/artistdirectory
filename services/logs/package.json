@@ -27,7 +27,6 @@
     "saslprep": "^1.0.3"
   },
   "devDependencies": {
-    "aws-sdk": "^2.1116.0",
     "nodemon": "^2.0.7",
     "serverless": "^2.43.1",
     "serverless-domain-manager": "git+https://github.com/neatowebsolutions/serverless-domain-manager.git#166aff6a8bcb09047e344e1fd6d67638bbfaeaed",

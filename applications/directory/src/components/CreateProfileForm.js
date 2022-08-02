@@ -196,7 +196,7 @@ function CreateProfileForm({
       // user social links
       const social = [website, behance, other];
 
-      console.log({files})
+      console.log({ files });
       const images = files.reduce((acc, { fileName }) => {
         acc.push(fileName);
         return acc;
@@ -379,12 +379,14 @@ function CreateProfileForm({
                 onBlur={async (e) => {
                   if (values.email) {
                     const isValidEmail = await ifEmailExists(values.email);
+                    // if email is valid set error message to empty string or populate with proper error message
                     if (isValidEmail.validEmail) {
                       await setIfValidEmail('');
                     } else {
-                      const notValidEmail = isValidEmail.error?.includes('403')
-                        ? 'Email is in use. Choose different email'
-                        : 'Server error. Fail to verify email';
+                      const notValidEmail =
+                        !isValidEmail.validEmail && !isValidEmail.error
+                          ? 'Email is in use. Choose different email'
+                          : 'Server error. Fail to verify email';
                       await setIfValidEmail(notValidEmail);
                     }
                   } else {

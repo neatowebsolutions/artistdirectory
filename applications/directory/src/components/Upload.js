@@ -113,7 +113,7 @@ function Upload({ getFiles, files, formError, errorsNum }) {
               return {
                 ...item,
                 signedUrl: data?.signedUrl,
-                //fileUrl: data && `${baseUrl}${data.fileName}`,
+                // fileUrl: data && `${baseUrl}${data.fileName}`,
                 fileName: data?.fileName,
                 signedUrlError: error,
               };
@@ -129,7 +129,7 @@ function Upload({ getFiles, files, formError, errorsNum }) {
               const { file, signedUrl } = item;
               if (signedUrl) {
                 const { response, error } = await uploadFile(signedUrl, file);
-                console.log(error)
+                console.log(error);
                 return {
                   ...item,
                   file: Object.assign(file, {

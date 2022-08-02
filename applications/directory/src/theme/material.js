@@ -10,7 +10,7 @@ const theme = createTheme({
       desktop: 1440,
     },
   },
-  //spacing: [0, 4, 8, 16, 24, 32, 64],
+  // spacing: [0, 4, 8, 16, 24, 32, 64],
   palette: {
     primary: {
       main: '#be2926',
@@ -88,7 +88,7 @@ theme.typography.h6 = {
 theme.typography.body1 = {
   fontFamily: 'gira-sans, sans-serif',
   fontSize: '0.875rem',
-  fontWeight: 'normal', //500,
+  fontWeight: 'normal', // 500,
   lineHeight: 1.43,
   letterSpacing: 'normal',
   [theme.breakpoints.up('tablet')]: {

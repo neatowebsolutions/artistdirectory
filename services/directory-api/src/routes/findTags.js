@@ -5,21 +5,13 @@ const {
   ReasonPhrases,
   getReasonPhrase
 } = require('http-status-codes');
-const { aws4Interceptor } = require('aws4-axios');
-const HttpClient = require('@artistdirectory/http-client').default;
+const HttpClient = require('@artistdirectory/gateway-http-client');
 
-const { AWS_REGION, ARTISTS_API_URL } = process.env;
-console.log('===============================')
+const { ARTISTS_API_URL } = process.env;
+
 const httpClient = new HttpClient({
   baseUrl: ARTISTS_API_URL
 });
-
-httpClient.addRequestInterceptor(
-  aws4Interceptor({
-    region: AWS_REGION,
-    service: 'execute-api'
-  })
-);
 
 const handler = middy(async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;

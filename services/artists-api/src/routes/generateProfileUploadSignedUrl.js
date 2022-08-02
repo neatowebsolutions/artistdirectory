@@ -12,7 +12,7 @@ const {
 const s3 = new AWS.S3({
   accessKeyId: AWS_ACCESS_KEY_ID,
   secretAccessKey: AWS_SECRET_ACCESS_KEY,
-  signatureVersion: 'v4',
+  signatureVersion: 'v4'
 });
 
 const handler = async (event) => {
@@ -35,16 +35,16 @@ const handler = async (event) => {
 
     return {
       statusCode: StatusCodes.CREATED,
-      body: JSON.stringify({ signedUrl, fileName }), //  body: JSON.stringify(signedUrl),
+      body: JSON.stringify({ signedUrl, fileName }) //  body: JSON.stringify(signedUrl),
     };
   } catch (error) {
     await logger.error(`Error generating profile upload signed URL`, error, {
-      event,
+      event
     }); // Error text??
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
     };
   }
 };

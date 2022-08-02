@@ -25,7 +25,7 @@ const Link = forwardRef(({ href, children, ...props }, ref) => {
 
 Link.propTypes = {
   href: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 export default Link;

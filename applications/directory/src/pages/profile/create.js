@@ -25,8 +25,8 @@ const CreatePage = () => {
             sx={{
               marginTop: ['1.5rem', '2.563rem', '2.688rem'],
               '& div': {
-                margin: '0 auto',
-              },
+                margin: '0 auto'
+              }
             }}
           >
             <Box
@@ -53,8 +53,8 @@ const CreatePage = () => {
                   lineHeight: ['normal', '1.17', '1.2'],
                   textTransform: 'uppercase',
                   color: 'primary.main',
-                  letterSpacing: [2, 3],
-                },
+                  letterSpacing: [2, 3]
+                }
               }}
             >
               <Typography variant="h1" component="h1">
@@ -68,9 +68,9 @@ const CreatePage = () => {
                   margin: [
                     '1.563rem 0rem 1rem 0rem',
                     '3.688rem 1.5rem 3rem',
-                    '2.688rem 5.75rem 1.5rem',
-                  ],
-                },
+                    '2.688rem 5.75rem 1.5rem'
+                  ]
+                }
               }}
             >
               <Typography variant="body1">
@@ -141,7 +141,7 @@ const CreatePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.2rem'
                 }}
               >
                 An unexpected error occurred. Please try again shortly.

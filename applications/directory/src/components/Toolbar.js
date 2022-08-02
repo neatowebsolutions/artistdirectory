@@ -23,10 +23,10 @@ function Toolbar() {
               textTransform: 'uppercase',
               textDecoration: 'none',
               color: 'primary.main',
-              fontWeight: 'bold',
-            },
-          },
-        },
+              fontWeight: 'bold'
+            }
+          }
+        }
       }}
     >
       <List>

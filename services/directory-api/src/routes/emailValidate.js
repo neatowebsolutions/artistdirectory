@@ -5,20 +5,13 @@ const {
   ReasonPhrases,
   getReasonPhrase,
 } = require('http-status-codes');
-const { aws4Interceptor } = require('aws4-axios');
-const HttpClient = require('@artistdirectory/http-client').default;
 
-const { AWS_REGION, ARTISTS_API_URL } = process.env;
+const HttpClient = require('@artistdirectory/gateway-http-client');
+
+const { ARTISTS_API_URL } = process.env;
 const httpClient = new HttpClient({
   baseUrl: ARTISTS_API_URL,
 });
-
-httpClient.addRequestInterceptor(
-  aws4Interceptor({
-    region: AWS_REGION,
-    service: 'execute-api',
-  })
-);
 
 const handler = middy(async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -30,16 +23,12 @@ const handler = middy(async (event, context) => {
 
   try {
     const { email } = event.pathParameters;
-    const artist = await httpClient.get(`/profile/email-validity/${email}`);
-
-    if (artist) {
-      return {
-        statusCode: StatusCodes.FORBIDDEN,
-        body: JSON.stringify('email is in use'),
-      };
-    }
+    const foundArtist = await httpClient.get(
+      `/profile/email-validity/${email}`
+    );
     return {
       statusCode: StatusCodes.OK,
+      body: JSON.stringify(foundArtist),
     };
   } catch (error) {
     if (error.response && error.response.status) {

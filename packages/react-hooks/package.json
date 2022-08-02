@@ -10,8 +10,7 @@
   "license": "UNLICENSED",
   "author": "Chad Johnson <chad@neatowebsolutions.com>",
   "dependencies": {
-    "@artistdirectory/http-client": "0.0.0",
-    "axios": "^0.21.1",
+    "@artistdirectory/gateway-http-client": "0.0.0",
     "luxon": "^1.27.0",
     "querystringify": "^2.2.0",
     "universal-cookie": "^4.0.4"

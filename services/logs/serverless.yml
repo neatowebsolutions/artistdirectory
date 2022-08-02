@@ -20,6 +20,7 @@ provider:
 
 custom:
   serverless-offline:
+    host: 0.0.0.0
     httpPort: ${env:LOGS_API_PORT, 3003}
     lambdaPort: 5003
   customDomain:

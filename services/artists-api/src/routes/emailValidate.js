@@ -19,12 +19,13 @@ const handler = async (event, context) => {
     const artist = await Artist.findOne({ email });
     if (artist) {
       return {
-        statusCode: StatusCodes.FORBIDDEN,
-        body: ReasonPhrases.FORBIDDEN,
+        statusCode: StatusCodes.OK,
+        body: JSON.stringify(true),
       };
     }
     return {
       statusCode: StatusCodes.OK,
+      body: JSON.stringify(false),
     };
   } catch (error) {
     await logger.error(`Error retrieving artist`, error, { event });

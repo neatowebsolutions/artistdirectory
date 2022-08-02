@@ -9,11 +9,11 @@ const useUpload = () => {
       const data = await httpClient.post(url, { mimeType });
 
       return {
-        data,
+        data
       };
     } catch (error) {
       return {
-        error: error.message,
+        error: error.message
       };
     }
   };
@@ -24,19 +24,19 @@ const useUpload = () => {
     try {
       const response = await fetch(signedUrl, {
         method: 'PUT',
-        body,
+        body
       });
       return { response };
     } catch (error) {
       return {
-        error: error.message,
+        error: error.message
       };
     }
   };
 
   return {
     getSignedProfileUrl,
-    uploadFile,
+    uploadFile
   };
 };
 

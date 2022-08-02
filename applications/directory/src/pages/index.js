@@ -58,7 +58,7 @@ const HomePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.2rem'
                 }}
               >
                 An unexpected error occurred. Please try again shortly.

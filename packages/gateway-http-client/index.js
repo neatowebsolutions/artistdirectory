@@ -1,4 +1,7 @@
-import axios from 'axios';
+const axios = require('axios');
+const { aws4Interceptor } = require('aws4-axios');
+
+const { AWS_REGION } = process.env;
 
 class HttpClient {
   constructor({ baseUrl, ...options }) {
@@ -20,6 +23,13 @@ class HttpClient {
       ...client.defaults,
       ...options
     };
+
+    client.interceptors.request.use(
+      aws4Interceptor({
+        region: AWS_REGION,
+        service: 'execute-api'
+      })
+    );
 
     this.client = client;
   }
@@ -51,4 +61,4 @@ class HttpClient {
   }
 }
 
-export default HttpClient;
+module.exports = HttpClient;
