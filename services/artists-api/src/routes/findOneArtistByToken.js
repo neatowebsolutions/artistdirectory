@@ -14,12 +14,20 @@ const handler = async (event, context) => {
   }
 
   try {
-    const { email } = event.pathParameters;
+    const { reviewToken } = event.pathParameters;
     const Artist = await models.get('Artist');
-    const artist = await Artist.findOne({ email });
+    const artist = await Artist.findOne({ reviewToken });
+
+    if (!artist) {
+      return {
+        statusCode: StatusCodes.NOT_FOUND,
+        body: ReasonPhrases.NOT_FOUND,
+      };
+    }
+
     return {
       statusCode: StatusCodes.OK,
-      body: artist ? JSON.stringify(true) : JSON.stringify(false),
+      body: JSON.stringify(artist),
     };
   } catch (error) {
     await logger.error(`Error retrieving artist`, error, { event });

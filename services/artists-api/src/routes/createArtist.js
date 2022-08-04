@@ -1,5 +1,7 @@
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
+const { randomBytes } = require('crypto');
+const { promisify } = require('util');
 const AWS = require('aws-sdk');
 const slugify = require('slugify');
 const emailClient = require('@artistdirectory/email-client');
@@ -9,6 +11,7 @@ const models = require('../models');
 const {
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY,
+  DIRECTORY_API_URL,
   UPLOADS_BUCKET,
   ASSETS_BUCKET,
   ADMIN_EMAIL,
@@ -51,7 +54,16 @@ const handler = async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    const { skills, tags, categories, social, images } = data;
+    const {
+      skills,
+      tags,
+      categories,
+      social,
+      images,
+      email,
+      firstName,
+      lastName,
+    } = data;
 
     const Skill = await models.get('Skill');
     const Tag = await models.get('Tag');
@@ -75,7 +87,10 @@ const handler = async (event, context) => {
       getCategories,
     ]);
 
-    console.log('============artist api============');
+    // use node promisify function to return a promise using randomBytes function
+    const randomBytesPromisified = promisify(randomBytes);
+    // generate token
+    const reviewToken = (await randomBytesPromisified(20)).toString('hex');
 
     const dataParsed = {
       ...data,
@@ -84,6 +99,7 @@ const handler = async (event, context) => {
       skills: skillsParsed,
       tags: tagsParsed,
       categories: categoriesParsed,
+      reviewToken,
     };
 
     const Artist = await models.get('Artist');
@@ -91,11 +107,22 @@ const handler = async (event, context) => {
 
     try {
       await artist.validate();
+      // send email to admin to initiate artist profile review
       await emailClient.enqueue({
         to: ADMIN_EMAIL,
         from: 'noreply@artistdirectory.com',
         subject: 'New artist profile ready for review',
-        body: 'TODO',
+        body: `
+        <html>
+          <body>
+              <div style="text-align: center;">
+                <h1>Hello!</h1>
+                <p style="font-weight: 600">A new Artist has just created their profile. Follow this link to review - <a href="${DIRECTORY_API_URL}/profile/${reviewToken}/review">ArtistDirectory</a>!</p>
+                <p style="font-weight: 700">Thank you!</p>
+              </div>
+          </body>
+        </html>
+        `,
       });
     } catch (error) {
       console.log(error);
@@ -125,9 +152,6 @@ const handler = async (event, context) => {
 
       await copyImages(data.images);
     } catch (error) {
-      console.log(
-        '=================================error coping to the other bucket=========='
-      );
       console.log(error);
       // TODO - ?? should we return a server error here  - return { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,  };*/
     }

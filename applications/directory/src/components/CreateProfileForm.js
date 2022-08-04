@@ -196,7 +196,6 @@ function CreateProfileForm({
       // user social links
       const social = [website, behance, other];
 
-      console.log({ files });
       const images = files.reduce((acc, { fileName }) => {
         acc.push(fileName);
         return acc;

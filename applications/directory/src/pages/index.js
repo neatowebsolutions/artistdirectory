@@ -12,6 +12,7 @@ const HomePage = () => {
   const { categories, categoriesLoading, categoriesError } = useCategories();
   const { tags, tagsLoading, tagsError } = useTags();
   const { skills, skillsLoading, skillsError } = useSkills();
+  
 
   return (
     <>

@@ -86,6 +86,14 @@ functions:
           path: /artists/{artistId}
           method: get
           cors: true
+  findOneArtistByToken:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findOneArtistByToken.handler
+    events:
+      - http:
+          path: /artists/token/{reviewToken}
+          method: get
+          cors: true
   findArtists:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findArtists.handler

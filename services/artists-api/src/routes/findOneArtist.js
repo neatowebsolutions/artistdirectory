@@ -17,7 +17,7 @@ const handler = async (event, context) => {
     const { artistId } = event.pathParameters;
     const Artist = await models.get('Artist');
     const artist = await Artist.findById(artistId);
-
+    // TODO no .populate needed since we store arrays of values and not object IDs
     await artist
       .populate('categories')
       .populate('tags')
@@ -27,20 +27,20 @@ const handler = async (event, context) => {
     if (!artist) {
       return {
         statusCode: StatusCodes.NOT_FOUND,
-        body: ReasonPhrases.NOT_FOUND
+        body: ReasonPhrases.NOT_FOUND,
       };
     }
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify(artist)
+      body: JSON.stringify(artist),
     };
   } catch (error) {
     await logger.error(`Error retrieving artist`, error, { event });
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
     };
   }
 };

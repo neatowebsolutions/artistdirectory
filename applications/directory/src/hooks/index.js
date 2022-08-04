@@ -5,3 +5,4 @@ export { default as useTags } from './tags';
 export { default as useSkills } from './skills';
 export { default as useUpload } from './upload';
 export { default as useEmailValidate } from './emailValidate';
+export { default as useArtistByToken } from './artistByToken';

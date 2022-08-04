@@ -8,6 +8,7 @@ const {
 const HttpClient = require('@artistdirectory/gateway-http-client');
 
 const { ARTISTS_API_URL } = process.env;
+
 const httpClient = new HttpClient({
   baseUrl: ARTISTS_API_URL,
 });
@@ -21,14 +22,12 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    const { email } = event.pathParameters;
-    const foundArtist = await httpClient.get(
-      `/profile/email-validity/${email}`
-    );
+    const { reviewToken } = event.pathParameters;
+    const artist = await httpClient.get(`/artists/token/${reviewToken}`);
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify(foundArtist),
+      body: JSON.stringify(artist),
     };
   } catch (error) {
     if (error.response && error.response.status) {

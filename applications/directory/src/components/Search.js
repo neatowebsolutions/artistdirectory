@@ -13,7 +13,6 @@ import Button from '@mui/material/Button';
 
 const renderMenuItemsList = (items) => {
   return items.map(({ _id, name }) => {
-    console.log(_id);
    return  <MenuItem
       key={_id}
       value={name}

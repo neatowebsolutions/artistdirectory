@@ -4,7 +4,8 @@ import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
-function ProfileDetails() {
+function ProfileDetails(artist) {
+  console.log(artist)
   return (
     <Card>
       <Box

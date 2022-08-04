@@ -14,7 +14,7 @@ import ThumbnailLoading from './ThumbnailLoading';
 
 const maxFilesNumber = 5;
 const imageMaxSize = 2097152;
-const baseUrl = 'https://assets.artistdirectory.co/profile/';
+//const baseUrl = 'https://assets.artistdirectory.co/profile/';
 const acceptedFileTypes = [
   'image/x-png',
   'image/png',
