@@ -1,9 +1,8 @@
 import useSWR from 'swr';
 import { useHttpClient } from '@artistdirectory/react-hooks';
 
-const useArtistByToken = async (token) => {
+const useArtistByToken = (token) => {
   const { httpClient } = useHttpClient();
-
   const { data: artist, error } = useSWR(
     `/artists/token/${token}`,
     httpClient.get.bind(httpClient),
@@ -11,11 +10,13 @@ const useArtistByToken = async (token) => {
       revalidateOnFocus: false,
     }
   );
-  console.log(artist);
 
+  //console.log(artist);
+  const artistLoading = !artist && !error;
   return {
     artist,
     error,
+    artistLoading,
   };
 };
 

@@ -12,7 +12,7 @@ const handler = async (event, context) => {
     await new Promise((resolve) => setTimeout(resolve, 25));
     return 'Lambda is warm!';
   }
-
+  
   try {
     const { reviewToken } = event.pathParameters;
     const Artist = await models.get('Artist');

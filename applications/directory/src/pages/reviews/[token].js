@@ -1,22 +1,40 @@
-import { useEffect } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Head from 'next/head';
+import { Loader } from '@artistdirectory/react-components';
+import Alert from '@mui/material/Alert';
+import LinearProgress from '@mui/material/LinearProgress';
 import { useRouter } from 'next/router';
 import { useArtistByToken } from '../../hooks';
 import ProfileDetails from '../../components/ProfileDetails';
+import PersonalDetails from '../../components/PersonalDetails';
+import ProfileReview from '../../components/ProfileReview';
+import WorkExamples from '../../components/WorkExamples';
 import { Layout } from '../../components';
-//import EditProfileTabs from '../../components/EditProfileTabs';
 
 const ProfileReviewPage = () => {
   const router = useRouter();
-  const { artist, error } = useArtistByToken(router.query.token);
-  
+  const { artist, error, artistLoading } = useArtistByToken(router.query.token);
   console.log(artist);
+  const {
+    firstName,
+    lastName,
+    email,
+    social,
+    description,
+    skills,
+    tags,
+    categories,
+    images,
+    createdAt,
+  } = artist || {};
+  const date = new Date(createdAt);
+  const memberSince = date.getFullYear();
+
   return (
     <>
       <Head>
-        <title>My Profile</title>
+        <title>New Artist Profile</title>
       </Head>
       <Layout>
         <Layout.Root>
@@ -46,37 +64,53 @@ const ProfileReviewPage = () => {
               },
             }}
           >
-            <h1>My Profile </h1>
-            <nav>
-              <ul>
-                <li>
-                  <Button variant="text">Cancel Changes</Button>
-                </li>
-                <li>
-                  <Button variant="contained" disableElevation>
-                    Save Changes
-                  </Button>
-                </li>
-              </ul>
-            </nav>
+            <h1>
+              {artistLoading
+                ? 'Artist Profile'
+                : `${firstName} ${lastName}'s Profile`}
+            </h1>
           </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start',
-            }}
+          <Loader
+            isLoading={artistLoading}
+            isError={error}
+            loadingComponent={() => (
+              <LinearProgress color="primary"></LinearProgress>
+            )}
+            errorComponent={() => (
+              <Alert
+                severity="error"
+                sx={{
+                  fontSize: '1.2rem',
+                }}
+              >
+                An unexpected error occurred. Please try again shortly.
+              </Alert>
+            )}
           >
-            <Box sx={{ flex: 1, mr: '5%' }}>
-              <ProfileDetails />
-              profile details
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+              }}
+            >
+              <Box sx={{ flex: 1, mr: '5%' }}>
+                <ProfileDetails
+                  artist={{ firstName, lastName, email, social, memberSince }}
+                />
+              </Box>
+
+              <Box sx={{ flex: 3 }}>
+                <PersonalDetails
+                  artist={{ firstName, description, skills, categories }}
+                />
+                <WorkExamples images={images} />
+              </Box>
             </Box>
-            <Box sx={{ flex: 3 }}>
-              {/* <EditProfileTabs /> */}
-              profile edit tabs
+            <Box>
+              <ProfileReview />
             </Box>
-          </Box>
+          </Loader>
         </Layout.Root>
       </Layout>
     </>

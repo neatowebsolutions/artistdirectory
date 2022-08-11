@@ -12,7 +12,6 @@ const HomePage = () => {
   const { categories, categoriesLoading, categoriesError } = useCategories();
   const { tags, tagsLoading, tagsError } = useTags();
   const { skills, skillsLoading, skillsError } = useSkills();
-  
 
   return (
     <>
@@ -59,7 +58,7 @@ const HomePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem'
+                  fontSize: '1.2rem',
                 }}
               >
                 An unexpected error occurred. Please try again shortly.
