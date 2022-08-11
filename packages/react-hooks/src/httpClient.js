@@ -146,4 +146,4 @@ HttpClientProvider.defaultProps = {
 
 const useHttpClient = () => useContext(HttpClientContext);
 
-export { HttpClientProvider, HttpClient, useHttpClient };
+export { HttpClientProvider, useHttpClient };

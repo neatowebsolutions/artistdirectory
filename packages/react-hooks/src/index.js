@@ -1,4 +1,4 @@
-export { HttpClientProvider, HttpClient, useHttpClient } from './httpClient';
+export { HttpClientProvider, useHttpClient } from './httpClient';
 
 export { default as useCookies } from './cookies';
 export { default as useDateTime } from './dateTime';
