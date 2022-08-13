@@ -16,6 +16,8 @@ const ProfileReviewPage = () => {
   const router = useRouter();
   const { artist, error, artistLoading } = useArtistByToken(router.query.token);
   console.log(artist);
+  console.log(error); // TODO handle the scenario when an artist is not found byt the token
+
   const {
     firstName,
     lastName,
@@ -65,7 +67,7 @@ const ProfileReviewPage = () => {
             }}
           >
             <h1>
-              {artistLoading
+              {artistLoading || error
                 ? 'Artist Profile'
                 : `${firstName} ${lastName}'s Profile`}
             </h1>
@@ -108,7 +110,7 @@ const ProfileReviewPage = () => {
               </Box>
             </Box>
             <Box>
-              <ProfileReview />
+              <ProfileReview reviewToken={router.query.token} />
             </Box>
           </Loader>
         </Layout.Root>

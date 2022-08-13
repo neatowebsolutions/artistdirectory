@@ -31,7 +31,7 @@ module.exports = {
           cacheCompression: false,
           cacheDirectory: true
         }
-      }
+      },
     ]
   },
   plugins: [

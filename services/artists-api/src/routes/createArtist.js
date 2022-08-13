@@ -14,11 +14,9 @@ const {
   DIRECTORY_API_URL,
   UPLOADS_BUCKET,
   ASSETS_BUCKET,
+  ASSETS_URL,
   ADMIN_EMAIL,
 } = process.env;
-
-// TODO - what is the url and where it comes from ENV?
-const baseUrl = 'https://assets.artistdirectory.co';
 
 const s3 = new AWS.S3({
   accessKeyId: AWS_ACCESS_KEY_ID,
@@ -76,7 +74,7 @@ const handler = async (event, context) => {
       })
       .filter((item) => item.url);
 
-    const imageUrls = images.map((image) => `${baseUrl}/profile/${image}`); // TODO - correct the URL
+    const imageUrls = images.map((image) => `${ASSETS_URL}/profile/${image}`); // TODO - correct the URL
     const getSkills = await getKeywords(Skill, skills);
     const getTags = await getKeywords(Tag, tags);
     const getCategories = await getKeywords(Category, categories);

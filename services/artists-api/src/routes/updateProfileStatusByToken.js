@@ -14,15 +14,16 @@ const handler = async (event, context) => {
   }
 
   try {
-    const { artistId } = event.pathParameters;
+    const { reviewToken } = event.pathParameters;
     const Artist = await models.get('Artist');
-    const artist = await Artist.findById(artistId);
-    // TODO no .populate needed since we store arrays of values and not object IDs
-    // await artist
-    //   .populate('categories')
-    //   .populate('tags')
-    //   .populate('skills')
-    //   .execPopulate();
+    const { approveStatus } = JSON.parse(event.body);
+    const artist = await Artist.findOneAndUpdate(
+      { reviewToken },
+      { approveStatus },
+      {
+        new: true,
+      }
+    );
 
     if (!artist) {
       return {
@@ -30,6 +31,11 @@ const handler = async (event, context) => {
         body: ReasonPhrases.NOT_FOUND,
       };
     }
+
+    await artist.save();
+    await logger.info(`Artist profile status updated (${artist.toString()})`, {
+      approveStatus,
+    });
 
     return {
       statusCode: StatusCodes.OK,
