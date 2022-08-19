@@ -21,13 +21,13 @@ class HttpClient {
 
     client.defaults = {
       ...client.defaults,
-      ...options
+      ...options,
     };
 
     client.interceptors.request.use(
       aws4Interceptor({
         region: AWS_REGION,
-        service: 'execute-api'
+        service: 'execute-api',
       })
     );
 
@@ -46,6 +46,10 @@ class HttpClient {
 
   async post(url, data = null, options = {}) {
     return this.request('POST', url, data, options);
+  }
+
+  async patch(url, data, options = {}) {
+    return this.request('PATCH', url, data, options);
   }
 
   async put(url, data, options = {}) {

@@ -5,12 +5,12 @@ import { Loader } from '@artistdirectory/react-components';
 import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useRouter } from 'next/router';
-import { useArtistByToken } from '../../hooks';
-import ProfileDetails from '../../components/ProfileDetails';
-import PersonalDetails from '../../components/PersonalDetails';
-import ProfileReview from '../../components/ProfileReview';
-import WorkExamples from '../../components/WorkExamples';
-import { Layout } from '../../components';
+import { useArtistByToken } from '../../../hooks';
+import ProfileDetails from '../../../components/ProfileDetails';
+import PersonalDetails from '../../../components/PersonalDetails';
+import ProfileReview from '../../../components/ProfileReview';
+import WorkExamples from '../../../components/WorkExamples';
+import { Layout } from '../../../components';
 
 const ProfileReviewPage = () => {
   const router = useRouter();
@@ -104,7 +104,7 @@ const ProfileReviewPage = () => {
 
               <Box sx={{ flex: 3 }}>
                 <PersonalDetails
-                  artist={{ firstName, description, skills, categories }}
+                  artist={{ firstName, description, skills, tags, categories }}
                 />
                 <WorkExamples images={images} />
               </Box>

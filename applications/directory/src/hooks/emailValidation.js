@@ -1,6 +1,6 @@
 import { useHttpClient } from '@artistdirectory/react-hooks';
 
-const useEmailValidate = () => {
+const useEmailValidation = () => {
   const { httpClient } = useHttpClient();
 
   const ifEmailExists = async (email) => {
@@ -23,4 +23,4 @@ const useEmailValidate = () => {
   };
 };
 
-export default useEmailValidate;
+export default useEmailValidation;

@@ -114,8 +114,8 @@ functions:
     handler: src/routes/updateProfileStatusByToken.handler
     events:
       - http:
-          path: /artists/token/{reviewToken}/update
-          method: put
+          path: /reviews/token/{reviewToken}
+          method: patch
           authorizer: aws_iam
   findArtists:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}

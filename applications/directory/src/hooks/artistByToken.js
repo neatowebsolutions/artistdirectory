@@ -10,9 +10,8 @@ const useArtistByToken = (token) => {
       revalidateOnFocus: false,
     }
   );
-
-  //console.log(artist);
   const artistLoading = !artist && !error;
+
   return {
     artist,
     error,

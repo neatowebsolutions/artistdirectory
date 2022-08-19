@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useHttpClient } from '@artistdirectory/react-hooks';
 import Box from '@mui/material/Box';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'; // CreateProfileForm.propTypes = {className: PropTypes.string,} TODO - are we going to use classes at any point?
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
@@ -22,7 +22,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Upload from './Upload';
-import { useEmailValidate } from '../hooks';
+import { useEmailValidation } from '../hooks';
 
 const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
@@ -52,9 +52,6 @@ const keywordsValidate = (keywords) =>
       keyword.length > 3
   );
 
-// TODO: validation to ensure user enters either website, behance or other
-//const formValidationSchema =
-
 const inputFieldStyles = {
   style: {
     fontSize: '1rem',
@@ -75,13 +72,12 @@ const labelStyles = {
 };
 
 function CreateProfileForm({
-  className, // DELETE
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
   skills = [skillsDefaultValue],
 }) {
   const { httpClient } = useHttpClient();
-  const { ifEmailExists } = useEmailValidate();
+  const { ifEmailExists } = useEmailValidation();
   const [ifValidEmail, setIfValidEmail] = useState('');
 
   // formik
@@ -174,7 +170,6 @@ function CreateProfileForm({
             return ifUploadError && ifFinishedLoading;
           }
         ),
-      // check if each image has been successfully uploaded
     }),
     onSubmit: async (vals) => {
       const {
@@ -204,20 +199,6 @@ function CreateProfileForm({
       // convert 'yes'/'no' to boolean
       const subscribedToNewsletterParsed = subscribedToNewsletter === 'yes';
 
-      // const formData = new FormData();
-      // formData.append('firstName', firstName);
-      // formData.append('lastName', lastName);
-      // formData.append('email', email);
-      // formData.append('city', city);
-      // formData.append('social', JSON.stringify(social));
-      // formData.append('description', description);
-      // formData.append('categories', JSON.stringify(allCategories));
-      // formData.append('tags', JSON.stringify(allTags));
-      // formData.append('skills', JSON.stringify(allSkills));
-      // formData.append('imageUrls', JSON.stringify(imageUrls));
-      // formData.append('subscribedToNewsletter', subscribedToNewsletterParsed);
-      // console.log([...formData]);
-
       const data = {
         firstName,
         lastName,
@@ -233,11 +214,12 @@ function CreateProfileForm({
       };
 
       console.log(data);
-      // TODO - do something to submit data to the backend
+      
       await httpClient.post('/artists', data);
 
       //resetForm(); // TODO - test reset form
       //setFiles([]); // delete files
+      // TODO - navigate to other page
     },
   });
 
@@ -272,7 +254,7 @@ function CreateProfileForm({
   };
 
   return (
-    <Box className={className}>
+    <Box>
       <form noValidate onSubmit={handleSubmit}>
         <Card
           sx={{
@@ -784,9 +766,5 @@ function CreateProfileForm({
     </Box>
   );
 }
-
-CreateProfileForm.propTypes = {
-  className: PropTypes.string,
-};
 
 export default CreateProfileForm;

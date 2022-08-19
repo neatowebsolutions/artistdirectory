@@ -27,9 +27,8 @@ const socialIcons = {
   // ),
   other: <AltRouteIcon />,
 };
-function ProfileDetails({
-  artist: { firstName, lastName, email, social, memberSince },
-}) {
+const ProfileDetails = ({ artist }) => {
+  const { firstName, lastName, email, social, memberSince } = artist;
   return (
     <Card>
       <Box
@@ -127,7 +126,7 @@ function ProfileDetails({
           <MuiLink
             sx={{
               fontStyle: 'normal',
-             // fontWeight: 'bold', // does not work without important!
+              // fontWeight: 'bold', // does not work without important!
               letterSpacing: 1.25,
               color: 'primary.main',
             }}
@@ -138,8 +137,8 @@ function ProfileDetails({
         </Box>
 
         {social.length > 0 &&
-          social.map(({ name, url }) => (
-            <Box key={`${name}-${url}`} sx={{ mb: '10px' }}>
+          social.map(({ name, url }, index) => (
+            <Box key={index} sx={{ mb: '10px' }}>
               <Box
                 sx={{
                   display: 'flex',
@@ -174,6 +173,6 @@ function ProfileDetails({
       </Box>
     </Card>
   );
-}
+};
 
 export default ProfileDetails;

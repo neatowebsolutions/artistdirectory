@@ -1,6 +1,5 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useHttpClient } from '@artistdirectory/react-hooks';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -13,6 +12,7 @@ import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Button } from '@mui/material';
+import { useReviewProfile } from '../hooks';
 
 const inputFieldStyles = {
   style: {
@@ -20,8 +20,8 @@ const inputFieldStyles = {
   },
 };
 
-function ProfileReview({ reviewToken }) {
-  const { httpClient } = useHttpClient();
+const ProfileReview = ({ reviewToken }) => {
+  const { reviewArtistProfile } = useReviewProfile();
 
   // formik
   const {
@@ -38,13 +38,13 @@ function ProfileReview({ reviewToken }) {
     touched,
   } = useFormik({
     initialValues: {
-      reasons: '',
+      rejectionReason: '',
       approveStatus: 'approved',
     },
     enableReinitialize: true, // lets the form to go back to initial values if reset form
     validationSchema: Yup.object().shape({
       approveStatus: Yup.string(),
-      reasons: Yup.string().when('approveStatus', {
+      rejectionReason: Yup.string().when('approveStatus', {
         is: (val) => val === 'rejected',
         then: Yup.string()
           .test(
@@ -56,14 +56,9 @@ function ProfileReview({ reviewToken }) {
       }),
     }),
     onSubmit: async (vals) => {
-      console.log(vals);
-
-      const artist = await httpClient.put(
-        `/artists/token/${reviewToken}/update`,
-        vals
-      );
-      console.log(artist);
+      const artist = await reviewArtistProfile(reviewToken, vals);
       //resetForm(); // TODO - test reset form
+      // TODO - navigate to thank you page/review complete
     },
   });
 
@@ -77,7 +72,7 @@ function ProfileReview({ reviewToken }) {
             </Typography>
             <RadioGroup
               row
-              aria-label="approve-status"
+              aria-label="Approval status"
               name="row-radio-buttons-group"
               value={values.approveStatus}
             >
@@ -143,11 +138,13 @@ function ProfileReview({ reviewToken }) {
                     InputLabelProps={inputFieldStyles}
                     multiline
                     onBlur={handleBlur}
-                    value={values.reasons}
-                    name="reasons"
+                    value={values.rejectionReason}
+                    name="rejectionReason"
                     onChange={handleChange}
-                    error={errors.reasons && touched.reasons} // ??
-                    helperText={touched.reasons ? errors.reasons : ''} // ??
+                    error={errors.rejectionReason && touched.rejectionReason}
+                    helperText={
+                      touched.rejectionReason ? errors.rejectionReason : ''
+                    }
                   />
                 </FormControl>
               </Box>
@@ -188,6 +185,6 @@ function ProfileReview({ reviewToken }) {
       </Card>
     </Box>
   );
-}
+};
 
 export default ProfileReview;

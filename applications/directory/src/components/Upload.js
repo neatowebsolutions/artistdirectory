@@ -23,7 +23,7 @@ const acceptedFileTypes = [
   'image/gif',
 ];
 
-function Upload({ getFiles, files, formError, errorsNum }) {
+const Upload = ({ getFiles, files, formError, errorsNum }) => {
   const [errorMessage, setErrorMessage] = useState(false);
   const { getSignedProfileUrl, uploadFile } = useUpload();
 
@@ -302,6 +302,6 @@ function Upload({ getFiles, files, formError, errorsNum }) {
       </Box>
     </Box>
   );
-}
+};
 
 export default Upload;

@@ -1,7 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
-const { randomBytes } = require('crypto');
-const { promisify } = require('util');
+const generateToken = require('./../utilities/generateToken');
 const AWS = require('aws-sdk');
 const slugify = require('slugify');
 const emailClient = require('@artistdirectory/email-client');
@@ -52,16 +51,7 @@ const handler = async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    const {
-      skills,
-      tags,
-      categories,
-      social,
-      images,
-      email,
-      firstName,
-      lastName,
-    } = data;
+    const { skills, tags, categories, social, images } = data;
 
     const Skill = await models.get('Skill');
     const Tag = await models.get('Tag');
@@ -85,10 +75,7 @@ const handler = async (event, context) => {
       getCategories,
     ]);
 
-    // use node promisify function to return a promise using randomBytes function
-    const randomBytesPromisified = promisify(randomBytes);
-    // generate token
-    const reviewToken = (await randomBytesPromisified(20)).toString('hex');
+    const reviewToken = await generateToken();
 
     const dataParsed = {
       ...data,
@@ -159,7 +146,6 @@ const handler = async (event, context) => {
       body: JSON.stringify(artist),
     };
   } catch (error) {
-    console.log('=========ERROR CREATING ARTIST=============');
     await logger.error(`Error creating artist`, error, { event });
 
     return {

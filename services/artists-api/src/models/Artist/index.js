@@ -16,7 +16,14 @@ const schema = new mongoose.Schema(
       enum: ['approved', 'rejected', 'pending'],
       default: 'pending',
     },
-    reviewToken: { type: String, unique: true, required: true }, // TODO does it it unique option?
+    reviewToken: { type: String, unique: true, required: true }, // TODO does it have to have unique option?
+    editProfileToken: { type: String, unique: true }, // TODO does it have to have unique option?
+    rejectionReasons: [
+      {
+        type: String,
+        required: false //function () {return this.approveStatus === 'rejected'; },
+      },
+    ],
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     email: { type: String, unique: true, required: true },

@@ -5,7 +5,7 @@ class HttpClient {
   constructor({ baseUrl, requestInterceptor }) {
     this.baseUrl = baseUrl;
     this.defaultHeaders = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
     this.defaultTimeout = 10 * 1000;
     this.requestInterceptor = requestInterceptor || ((config) => config);
@@ -20,11 +20,11 @@ class HttpClient {
     const config = await this.requestInterceptor({
       headers: this.defaultHeaders,
       ...options,
-      signal: controller.signal
+      signal: controller.signal,
     });
     const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'GET',
-      headers: config.headers
+      headers: config.headers,
     });
 
     clearTimeout(timeout);
@@ -47,12 +47,12 @@ class HttpClient {
     const config = await this.requestInterceptor({
       headers: this.defaultHeaders,
       ...options,
-      signal: controller.signal
+      signal: controller.signal,
     });
     const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'POST',
       headers: config.headers,
-      body: data && JSON.stringify(data)
+      body: data && JSON.stringify(data),
     });
 
     clearTimeout(timeout);
@@ -75,12 +75,40 @@ class HttpClient {
     const config = await this.requestInterceptor({
       headers: this.defaultHeaders,
       ...options,
-      signal: controller.signal
+      signal: controller.signal,
     });
     const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'PUT',
       headers: config.headers,
-      body: data && JSON.stringify(data)
+      body: data && JSON.stringify(data),
+    });
+
+    clearTimeout(timeout);
+
+    if (response.ok) {
+      if (response.status !== 204) {
+        return await response.json();
+      }
+    } else {
+      throw new Error(await response.text());
+    }
+  }
+
+  async patch(url, data, options = {}) {
+    const controller = new AbortController();
+    const timeout = setTimeout(
+      () => controller.abort(),
+      this.defaultTimeout || options.timeout
+    );
+    const config = await this.requestInterceptor({
+      headers: this.defaultHeaders,
+      ...options,
+      signal: controller.signal,
+    });
+    const response = await fetch(`${this.baseUrl}${url}`, {
+      method: 'PATCH',
+      headers: config.headers,
+      body: data && JSON.stringify(data),
     });
 
     clearTimeout(timeout);
@@ -103,11 +131,11 @@ class HttpClient {
     const config = await this.requestInterceptor({
       headers: this.defaultHeaders,
       ...options,
-      signal: controller.signal
+      signal: controller.signal,
     });
     const response = await fetch(`${this.baseUrl}${url}`, {
       method: 'DELETE',
-      headers: config.headers
+      headers: config.headers,
     });
 
     clearTimeout(timeout);
@@ -137,11 +165,11 @@ const HttpClientProvider = ({ baseUrl, requestInterceptor, children }) => {
 HttpClientProvider.propTypes = {
   baseUrl: PropTypes.string,
   requestInterceptor: PropTypes.func,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 HttpClientProvider.defaultProps = {
-  baseUrl: ''
+  baseUrl: '',
 };
 
 const useHttpClient = () => useContext(HttpClientContext);

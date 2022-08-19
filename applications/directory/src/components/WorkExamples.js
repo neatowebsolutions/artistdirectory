@@ -12,9 +12,9 @@ function WorkExamples({ images }) {
     >
       <h2>Work Examples</h2>
       <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
-        {images.map((image) => (
+        {images.map((image, index) => (
           <Card
-            key={image}
+            key={index}
             sx={{
               minHeight: '14rem',
               display: 'flex',

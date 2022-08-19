@@ -24,8 +24,8 @@ const handler = middy(async (event, context) => {
   try {
     const { reviewToken } = event.pathParameters;
     const data = JSON.parse(event.body);
-    const updatedArtist = await httpClient.put(
-      `/artists/token/${reviewToken}/update`,
+    const updatedArtist = await httpClient.patch(
+      `/reviews/token/${reviewToken}`,
       data
     );
     return {

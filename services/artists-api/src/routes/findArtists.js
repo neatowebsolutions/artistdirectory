@@ -16,8 +16,7 @@ const handler = async (event, context) => {
   try {
     const Artist = await models.get('Artist');
     const artists = await Artist.find({});
-    console.log('=============');
-    console.log(artists);
+   
     // await Promise.all(
     //   artists.map(async (artist) => {
     //     await artist
