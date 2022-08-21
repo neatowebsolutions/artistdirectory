@@ -39,12 +39,12 @@ const ProfileReview = ({ reviewToken }) => {
   } = useFormik({
     initialValues: {
       rejectionReason: '',
-      approveStatus: 'approved',
+      approvalStatus: 'approved',
     },
     enableReinitialize: true, // lets the form to go back to initial values if reset form
     validationSchema: Yup.object().shape({
-      approveStatus: Yup.string(),
-      rejectionReason: Yup.string().when('approveStatus', {
+      approvalStatus: Yup.string(),
+      rejectionReason: Yup.string().when('approvalStatus', {
         is: (val) => val === 'rejected',
         then: Yup.string()
           .test(
@@ -74,13 +74,13 @@ const ProfileReview = ({ reviewToken }) => {
               row
               aria-label="Approval status"
               name="row-radio-buttons-group"
-              value={values.approveStatus}
+              value={values.approvalStatus}
             >
               <FormControlLabel
                 value="approved"
                 control={<Radio />}
                 label={<span style={{ fontSize: '1rem' }}>{'Approve!'}</span>}
-                name="approveStatus"
+                name="approvalStatus"
                 onChange={handleChange}
               />
               <FormControlLabel
@@ -88,13 +88,13 @@ const ProfileReview = ({ reviewToken }) => {
                 control={<Radio />}
                 label={<span style={{ fontSize: '1rem' }}>{'Reject!'}</span>}
                 onChange={handleChange}
-                name="approveStatus"
+                name="approvalStatus"
               />
             </RadioGroup>
           </Box>
 
-          {values.approveStatus === 'rejected' && (
-            <Fade in={values.approveStatus === 'rejected'}>
+          {values.approvalStatus === 'rejected' && (
+            <Fade in={values.approvalStatus === 'rejected'}>
               <Box
                 sx={{
                   '& p': {

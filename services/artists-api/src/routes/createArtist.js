@@ -8,35 +8,29 @@ const mongodbClient = require('../models/mongodbClient');
 const models = require('../models');
 
 const {
-  AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY,
   DIRECTORY_API_URL,
   UPLOADS_BUCKET,
   ASSETS_BUCKET,
   ASSETS_URL,
-  ADMIN_EMAIL,
+  ADMIN_EMAIL
 } = process.env;
 
-const s3 = new AWS.S3({
-  accessKeyId: AWS_ACCESS_KEY_ID,
-  secretAccessKey: AWS_SECRET_ACCESS_KEY,
-  signatureVersion: 'v4',
-});
+const s3 = new AWS.S3();
 
-const getKeywords = (model, keywords) => {
+const getKeywords = async (model, keywords) => {
   const promises = keywords.map(async (keyword) => {
     const lowerCaseKeyword = keyword.toLowerCase();
     const existing = await model.findOne({ name: lowerCaseKeyword });
     if (!existing) {
       const newKeyword = await model.create({
         name: lowerCaseKeyword,
-        slug: slugify(lowerCaseKeyword),
+        slug: slugify(lowerCaseKeyword)
       });
       return newKeyword.name;
     }
     return existing.name;
   });
-  return Promise.all(promises);
+  return await Promise.all(promises);
 };
 
 const handler = async (event, context) => {
@@ -57,6 +51,12 @@ const handler = async (event, context) => {
     const Tag = await models.get('Tag');
     const Category = await models.get('Category');
 
+    const [skillsParsed, tagsParsed, categoriesParsed] = await Promise.all([
+      getKeywords(Skill, skills),
+      getKeywords(Tag, tags),
+      getKeywords(Category, categories)
+    ]);
+
     const socialParsed = social
       .map((item) => {
         delete item.checked;
@@ -65,15 +65,9 @@ const handler = async (event, context) => {
       .filter((item) => item.url);
 
     const imageUrls = images.map((image) => `${ASSETS_URL}/profile/${image}`); // TODO - correct the URL
-    const getSkills = await getKeywords(Skill, skills);
-    const getTags = await getKeywords(Tag, tags);
-    const getCategories = await getKeywords(Category, categories);
-
-    const [skillsParsed, tagsParsed, categoriesParsed] = await Promise.all([
-      getSkills,
-      getTags,
-      getCategories,
-    ]);
+    // const getSkills = await getKeywords(Skill, skills);
+    // const getTags = await getKeywords(Tag, tags);
+    // const getCategories = await getKeywords(Category, categories);
 
     const reviewToken = await generateToken();
 
@@ -84,7 +78,7 @@ const handler = async (event, context) => {
       skills: skillsParsed,
       tags: tagsParsed,
       categories: categoriesParsed,
-      reviewToken,
+      reviewToken
     };
 
     const Artist = await models.get('Artist');
@@ -107,13 +101,13 @@ const handler = async (event, context) => {
               </div>
           </body>
         </html>
-        `,
+        `
       });
     } catch (error) {
       console.log(error);
       return {
         statusCode: StatusCodes.BAD_REQUEST,
-        body: ReasonPhrases.BAD_REQUEST,
+        body: ReasonPhrases.BAD_REQUEST
       };
     }
 
@@ -127,7 +121,7 @@ const handler = async (event, context) => {
           const params = {
             Bucket: ASSETS_BUCKET,
             CopySource: encodeURI(`${UPLOADS_BUCKET}/profile/${image}`),
-            Key: `profile/${image}`,
+            Key: `profile/${image}`
           };
 
           return await s3.copyObject(params).promise(); // docs - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#copyObject-property
@@ -143,14 +137,14 @@ const handler = async (event, context) => {
 
     return {
       statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(artist),
+      body: JSON.stringify(artist)
     };
   } catch (error) {
     await logger.error(`Error creating artist`, error, { event });
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
     };
   }
 };

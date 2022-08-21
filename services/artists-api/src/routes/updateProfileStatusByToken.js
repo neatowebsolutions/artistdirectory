@@ -20,7 +20,7 @@ const handler = async (event, context) => {
   try {
     const { reviewToken } = event.pathParameters;
     const Artist = await models.get('Artist');
-    const { approveStatus, rejectionReason } = JSON.parse(event.body);
+    const { approvalStatus, rejectionReason } = JSON.parse(event.body);
 
     // generate token for url for editing artist profile if rejected
     const editProfileToken = await generateToken();
@@ -29,10 +29,10 @@ const handler = async (event, context) => {
       [
         {
           $set: {
-            approveStatus,
+            approvalStatus,
             editProfileToken: {
               $cond: {
-                if: approveStatus === 'rejected',
+                if: approvalStatus === 'rejected',
                 then: editProfileToken,
                 else: '',
               },
@@ -44,7 +44,7 @@ const handler = async (event, context) => {
         new: true,
       }
     );
-    if (approveStatus === 'rejected') {
+    if (approvalStatus === 'rejected') {
       artist.rejectionReasons.push(rejectionReason);
     }
 
@@ -63,7 +63,7 @@ const handler = async (event, context) => {
       from: 'noreply@artistdirectory.com', // TODO admin's email or noreply?
       subject: 'Your artist profile has been reviewed',
       body:
-        approveStatus === 'approved'
+        approvalStatus === 'approved'
           ? `
           <html>
             <body>
@@ -95,7 +95,7 @@ const handler = async (event, context) => {
 
     await artist.save();
     await logger.info(`Artist profile status updated (${artist.toString()})`, {
-      approveStatus,
+      approvalStatus,
     });
 
     return {

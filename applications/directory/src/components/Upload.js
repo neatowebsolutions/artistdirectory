@@ -129,7 +129,6 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
               const { file, signedUrl } = item;
               if (signedUrl) {
                 const { response, error } = await uploadFile(signedUrl, file);
-                console.log(error);
                 return {
                   ...item,
                   file: Object.assign(file, {

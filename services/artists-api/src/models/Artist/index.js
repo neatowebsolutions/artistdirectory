@@ -11,7 +11,7 @@ const schemaOptions = {
 };
 const schema = new mongoose.Schema(
   {
-    approveStatus: {
+    approvalStatus: {
       type: String,
       enum: ['approved', 'rejected', 'pending'],
       default: 'pending',
@@ -21,7 +21,7 @@ const schema = new mongoose.Schema(
     rejectionReasons: [
       {
         type: String,
-        required: false //function () {return this.approveStatus === 'rejected'; },
+        required: false //function () {return this.approvalStatus === 'rejected'; },
       },
     ],
     firstName: { type: String, required: true },

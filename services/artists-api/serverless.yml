@@ -35,6 +35,7 @@ provider:
     SANDBOX: ${env:SANDBOX, ssm:/artistdirectory/${self:provider.stage}/sandbox}
     UPLOADS_BUCKET: ${env:UPLOADS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/uploads}
     ASSETS_BUCKET: ${env:ASSETS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/assets}
+    ASSETS_URL: ${env:ASSETS_URL, ssm:/artistdirectory/${self:provider.stage}/assets/url}
 
 custom:
   serverless-offline:

@@ -4,8 +4,8 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
-const renderDetailsList = (list, title) => (
-  <Box sx={{ flex: 1, mr: '20px' }}>
+const renderDetailsList = (list, title, i) => (
+  <Box sx={{ flex: 1, mr: '20px' }} key={i}>
     <Box
       sx={{
         display: 'flex',
@@ -59,7 +59,7 @@ const PersonalDetails = ({ artist }) => {
           borderBottom: 'solid 1px rgba(0, 0, 0, 0.1)',
         }}
       >
-        {keyWordsList.map(({ list, title }) => renderDetailsList(list, title))}
+        {keyWordsList.map(({ list, title }, index) => renderDetailsList(list, title, index))}
       </Box>
       <Box
         sx={{
