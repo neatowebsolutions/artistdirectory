@@ -7,7 +7,7 @@ function WorkExamples({ images }) {
   return (
     <Card
       sx={{
-        '& h2': { typography: 'body1', fontSize: '20px', fontWeight: '500' },
+        '& h2': { typography: 'body1', fontSize: '20px', fontWeight: '500' }
       }}
     >
       <h2>Work Examples</h2>
@@ -28,12 +28,12 @@ function WorkExamples({ images }) {
                 objectFit: 'cover',
                 // atl styling
                 fontSize: '0.875rem',
-                margin: '0 1rem',
-              },
+                margin: '0 1rem'
+              }
             }}
             elevation={2}
           >
-            <img src={image} alt='work-example' />
+            <img src={image} alt="work-example" />
           </Card>
         ))}
       </Box>

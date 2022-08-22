@@ -9,6 +9,8 @@ import { Layout } from '../../components';
 import CreateProfileForm from '../../components/CreateProfileForm';
 import { useCategories, useTags, useSkills } from '../../hooks';
 
+const { CONTACT_EMAIL } = process.env;
+
 const CreatePage = () => {
   const { categories, categoriesLoading, categoriesError } = useCategories();
   const { skills, skillsLoading, skillsError } = useSkills();
@@ -37,8 +39,8 @@ const CreatePage = () => {
                   fontSize: ['0.875rem', '1.25rem', '1.5rem'],
                   textTransform: 'uppercase',
                   letterSpacing: 3.53,
-                  marginBottom: ['1.063rem', '1.625rem', '1.5rem'],
-                },
+                  marginBottom: ['1.063rem', '1.625rem', '1.5rem']
+                }
               }}
             >
               <Typography variant="h2" component="h2">
@@ -84,8 +86,8 @@ const CreatePage = () => {
               sx={{
                 maxWidth: ['90%', '45rem', '52.5rem'],
                 '& p': {
-                  margin: ['1rem 0rem', '3rem 1.5rem 3.5rem', '1.5rem 5.75rem'],
-                },
+                  margin: ['1rem 0rem', '3rem 1.5rem 3.5rem', '1.5rem 5.75rem']
+                }
               }}
             >
               <Typography variant="body1">
@@ -102,8 +104,8 @@ const CreatePage = () => {
                 maxWidth: ['18.25rem', '38.813rem', '50.875rem'],
                 '& p': {
                   fontStyle: 'italic',
-                  marginBottom: '1rem',
-                },
+                  marginBottom: '1rem'
+                }
               }}
             >
               <Typography variant="body1">
@@ -116,11 +118,11 @@ const CreatePage = () => {
                   textTransform: 'uppercase',
                   fontWeight: 'bold',
                   letterSpacing: 1.25,
-                  color: 'primary.main',
+                  color: 'primary.main'
                 }}
-                href="mailto:avenueforthearts@gmail.com"
+                href={`mailto:${CONTACT_EMAIL}`}
               >
-                avenueforthearts@gmail.com
+                {CONTACT_EMAIL}
               </MuiLink>
             </Box>
           </Box>
@@ -128,7 +130,7 @@ const CreatePage = () => {
         <Box
           sx={{
             maxWidth: '48.875rem',
-            margin: ['2rem auto 0', '4.125rem auto 0', '3.5rem auto 0'],
+            margin: ['2rem auto 0', '4.125rem auto 0', '3.5rem auto 0']
           }}
         >
           <Loader

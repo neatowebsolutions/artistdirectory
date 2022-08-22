@@ -8,7 +8,6 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LanguageIcon from '@mui/icons-material/Language';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import { ReactComponent as BehanceIcon } from '../../public/images/img-behance.svg';
-//import  BehanceIcon from '../../public/images/img-behance.svg';
 import Link from './Link';
 
 const displayUrlReg = /http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/;
@@ -25,10 +24,20 @@ const socialIcons = {
   //     ></path>
   //   </SvgIcon>
   // ),
-  other: <AltRouteIcon />,
+  other: <AltRouteIcon />
 };
-const ProfileDetails = ({ artist }) => {
-  const { firstName, lastName, email, social, memberSince } = artist;
+
+//TODO - find a way to hide the edit button for review (it should be taken care of when working on login functionality ),  temporarily solution here
+const ProfileDetails = ({ artist, isLoggedIn = false }) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    profileImageUrl,
+    social,
+    memberSince
+  } = artist;
+
   return (
     <Card>
       <Box
@@ -41,11 +50,11 @@ const ProfileDetails = ({ artist }) => {
           '& img': {
             height: '100%',
             width: '100%',
-            objectFit: 'cover',
-          },
+            objectFit: 'cover'
+          }
         }}
       >
-        <img src="/images/placeholder.png" alt="Placeholder" />
+        <img src={profileImageUrl} alt="Profile" />
       </Box>
       <Box
         sx={{
@@ -55,35 +64,37 @@ const ProfileDetails = ({ artist }) => {
             fontSize: '16px',
             fontWeight: 'bold',
             margin: '0 0 10px 0',
-            color: 'rgba(0, 0, 0, 0.5)',
+            color: 'rgba(0, 0, 0, 0.5)'
           },
           '& h3': {
             fontSize: '22px',
             fontWeight: 'bold',
-            margin: '10px 0 5px 0',
-          },
+            margin: '10px 0 5px 0'
+          }
         }}
       >
         <h3>
           {firstName} {lastName}
         </h3>
         <h4>Member Since {memberSince}</h4>
-        {/* TODO - how to hide the edit button for review */}
-        <Button
-          sx={{ textAlign: 'center', mb: '10px' }}
-          variant="text"
-          startIcon={<EditIcon />}
-          disableElevation
-        >
-          Edit Profile Picture
-        </Button>
+
+        {isLoggedIn && (
+          <Button
+            sx={{ textAlign: 'center', mb: '10px' }}
+            variant="text"
+            startIcon={<EditIcon />}
+            disableElevation
+          >
+            Edit Profile Picture
+          </Button>
+        )}
       </Box>
       <Box
         sx={{
           '& h3': {
             fontSize: '22px',
             fontWeight: 'bold',
-            margin: '10px 0 5px 0',
+            margin: '10px 0 5px 0'
           },
           '& a': {
             margin: '0',
@@ -92,8 +103,8 @@ const ProfileDetails = ({ artist }) => {
             lineHeight: '1.5',
             letterSpacing: '0.15px',
             color: 'primary.text',
-            textDecoration: 'none',
-          },
+            textDecoration: 'none'
+          }
         }}
       >
         <h3>Contact Details</h3>
@@ -110,15 +121,15 @@ const ProfileDetails = ({ artist }) => {
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
                 mt: '1px',
-                color: 'rgba(0, 0, 0, 0.5)',
-              },
+                color: 'rgba(0, 0, 0, 0.5)'
+              }
             }}
           >
             <MailOutlineIcon
               sx={{
                 fontSize: 18,
                 marginRight: '5px',
-                color: 'primary.main',
+                color: 'primary.main'
               }}
             />
             <span>Email</span>
@@ -126,9 +137,8 @@ const ProfileDetails = ({ artist }) => {
           <MuiLink
             sx={{
               fontStyle: 'normal',
-              // fontWeight: 'bold', // does not work without important!
               letterSpacing: 1.25,
-              color: 'primary.main',
+              color: 'primary.main'
             }}
             href={`mailto:${email}`}
           >
@@ -153,15 +163,15 @@ const ProfileDetails = ({ artist }) => {
                     mt: '1px',
                     color: 'rgba(0, 0, 0, 0.5)',
                     '&:first-letter': {
-                      textTransform: 'capitalize',
+                      textTransform: 'capitalize'
                     },
                     '& svg': {
                       fontSize: 20,
                       fontWeight: 'bold',
                       marginRight: '5px',
-                      color: 'primary.main',
-                    },
-                  },
+                      color: 'primary.main'
+                    }
+                  }
                 }}
               >
                 <span>{socialIcons[name]}</span>

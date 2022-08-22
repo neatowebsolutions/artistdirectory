@@ -64,10 +64,7 @@ const handler = async (event, context) => {
       })
       .filter((item) => item.url);
 
-    const imageUrls = images.map((image) => `${ASSETS_URL}/profile/${image}`); // TODO - correct the URL
-    // const getSkills = await getKeywords(Skill, skills);
-    // const getTags = await getKeywords(Tag, tags);
-    // const getCategories = await getKeywords(Category, categories);
+    const imageUrls = images.map((image) => `${ASSETS_URL}/profile/${image}`);
 
     const reviewToken = await generateToken();
 

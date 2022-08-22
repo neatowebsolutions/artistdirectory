@@ -1,5 +1,7 @@
 // TODO validation -  make sure at least one social link provided or delete the * for the social being required??
 // TODO - change marginLeft for input social on mobile
+// TODO reduce font size in prop-downs
+
 import { useState } from 'react';
 import { useHttpClient } from '@artistdirectory/react-hooks';
 import Box from '@mui/material/Box';
@@ -41,7 +43,7 @@ const initialValues = {
   tags: [tagsDefaultValue],
   skills: [skillsDefaultValue],
   files: [],
-  subscribedToNewsletter: 'yes',
+  subscribedToNewsletter: 'yes'
 };
 
 const keywordsValidate = (keywords) =>
@@ -54,27 +56,27 @@ const keywordsValidate = (keywords) =>
 
 const inputFieldStyles = {
   style: {
-    fontSize: '1rem',
-  },
+    fontSize: '1rem'
+  }
 };
 
 // TODO - should it be a class across the whole app?
 const starSpanStyles = {
   '& span': {
-    color: 'primary.main',
-  },
+    color: 'primary.main'
+  }
 };
 
 const labelStyles = {
   '& span': {
-    fontSize: '1rem',
-  },
+    fontSize: '1rem'
+  }
 };
 
 function CreateProfileForm({
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
-  skills = [skillsDefaultValue],
+  skills = [skillsDefaultValue]
 }) {
   const { httpClient } = useHttpClient();
   const { ifEmailExists } = useEmailValidation();
@@ -93,7 +95,7 @@ function CreateProfileForm({
     dirty,
     errors,
     //setFieldError,
-    touched,
+    touched
   } = useFormik({
     initialValues,
     enableReinitialize: true, // lets the form to go back to initial values if reset form
@@ -114,8 +116,8 @@ function CreateProfileForm({
               /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
               'Enter correct url!'
             )
-            .required('Please enter website url'),
-        }),
+            .required('Please enter website url')
+        })
       }),
       behance: Yup.object({
         checked: Yup.boolean(),
@@ -126,8 +128,8 @@ function CreateProfileForm({
               /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
               'Enter correct url!'
             )
-            .required('Please enter behance url'), // ?????? what is is? "behance url"??"
-        }),
+            .required('Please enter behance url') // ?????? what is is? "behance url"??"
+        })
       }),
       other: Yup.object({
         checked: Yup.boolean(),
@@ -138,8 +140,8 @@ function CreateProfileForm({
               /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
               'Enter correct url!'
             )
-            .required('Please enter website url'),
-        }),
+            .required('Please enter website url')
+        })
       }),
       description: Yup.string()
         .test(
@@ -169,7 +171,7 @@ function CreateProfileForm({
             const ifFinishedLoading = files.every((file) => !file.loading);
             return ifUploadError && ifFinishedLoading;
           }
-        ),
+        )
     }),
     onSubmit: async (vals) => {
       const {
@@ -185,7 +187,7 @@ function CreateProfileForm({
         tags: allTags,
         skills: allSkills,
         files,
-        subscribedToNewsletter,
+        subscribedToNewsletter
       } = vals;
 
       // user social links
@@ -210,17 +212,17 @@ function CreateProfileForm({
         tags: allTags,
         skills: allSkills,
         images,
-        subscribedToNewsletter: subscribedToNewsletterParsed,
+        subscribedToNewsletter: subscribedToNewsletterParsed
       };
 
       console.log(data);
-      
+
       await httpClient.post('/artists', data);
 
       //resetForm(); // TODO - test reset form
       //setFiles([]); // delete files
       // TODO - navigate to other page
-    },
+    }
   });
 
   const [formReset, setFormReset] = useState(false);
@@ -263,8 +265,8 @@ function CreateProfileForm({
               margin: [
                 '0 4.188rem 1rem 1rem',
                 '0 0.188rem 1rem 0.5rem',
-                '0 2.375rem 1rem 0.5rem',
-              ],
+                '0 2.375rem 1rem 0.5rem'
+              ]
             },
             '& p': {
               marginBottom: '1rem',
@@ -272,19 +274,19 @@ function CreateProfileForm({
               fontSize: '1.25rem',
               lineHeight: '1.2',
               letterSpacing: '0.15px',
-              ...starSpanStyles,
+              ...starSpanStyles
             },
             '& h3': {
               marginTop: ['1.5rem'],
               marginBottom: ['1.5rem'],
-              ...starSpanStyles,
+              ...starSpanStyles
             },
             '& label': {
-              marginLeft: ['0rem', '.5rem'],
+              marginLeft: ['0rem', '.5rem']
             },
             '& .MuiInputLabel-shrink': {
-              marginLeft: ['0.9rem', '.5rem'],
-            },
+              marginLeft: ['0.9rem', '.5rem']
+            }
           }}
           elevation={6}
         >
@@ -295,10 +297,7 @@ function CreateProfileForm({
             variant="h3"
             component="p"
             sx={{
-              margin: [
-                '1rem 4.813rem 1rem 1rem',
-                '1rem 0.313rem 1.5rem 0.5rem',
-              ],
+              margin: ['1rem 4.813rem 1rem 1rem', '1rem 0.313rem 1.5rem 0.5rem']
             }}
           >
             <span>*</span>Required
@@ -307,21 +306,21 @@ function CreateProfileForm({
             sx={{
               '& .MuiFormControl-root': {
                 width: ['100%', '47%'],
-                marginBottom: '2.25rem',
-              },
+                marginBottom: '2.25rem'
+              }
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: ['column', 'row'],
-                marginTop: '1.5rem',
+                marginTop: '1.5rem'
               }}
             >
               <TextField
                 required
                 sx={{
-                  marginRight: '1.56rem',
+                  marginRight: '1.56rem'
                 }}
                 InputProps={inputFieldStyles}
                 InputLabelProps={inputFieldStyles}
@@ -409,8 +408,8 @@ function CreateProfileForm({
                 '& div .MuiBox-root': {
                   marginBottom: '1.56rem',
                   display: 'flex',
-                  flexDirection: ['column', 'row'],
-                },
+                  flexDirection: ['column', 'row']
+                }
               }}
             >
               <FormGroup>
@@ -430,7 +429,7 @@ function CreateProfileForm({
                     id="outlined-required"
                     sx={{
                       width: ['calc(100% - 2.7rem)', '50%'],
-                      marginLeft: ['2.7rem', '2rem'],
+                      marginLeft: ['2.7rem', '2rem']
                     }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
@@ -461,7 +460,7 @@ function CreateProfileForm({
                     id="outlined-required"
                     sx={{
                       width: ['calc(100% - 2.7rem)', '50%'],
-                      marginLeft: ['2.7rem', '2rem'],
+                      marginLeft: ['2.7rem', '2rem']
                     }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
@@ -491,7 +490,7 @@ function CreateProfileForm({
                     id="outlined-required"
                     sx={{
                       width: ['calc(100% - 2.7rem)', '50%'],
-                      marginLeft: ['2.7rem', '2rem'],
+                      marginLeft: ['2.7rem', '2rem']
                     }}
                     InputProps={inputFieldStyles}
                     InputLabelProps={inputFieldStyles}
@@ -560,8 +559,8 @@ function CreateProfileForm({
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
                 marginTop: '0',
-                marginBottom: '1rem',
-              },
+                marginBottom: '1rem'
+              }
             }}
           >
             <Typography
@@ -576,8 +575,8 @@ function CreateProfileForm({
                   fontStyle: 'italic',
                   lineHeight: '1.33',
                   letterSpacing: '1px',
-                  marginLeft: '0.938rem',
-                },
+                  marginLeft: '0.938rem'
+                }
               }}
             >
               Short description of what you do.
@@ -655,8 +654,8 @@ function CreateProfileForm({
                 lineHeight: '1.33',
                 letterSpacing: '0.4px',
                 marginTop: '0',
-                marginBottom: '1.25rem',
-              },
+                marginBottom: '1.25rem'
+              }
             }}
           >
             <Typography variant="h3" component="h3">
@@ -741,8 +740,8 @@ function CreateProfileForm({
             justifyContent: ['center', 'space-between'],
             '& button': {
               width: ['19.438rem', '11.063rem'],
-              marginBottom: '0.813rem',
-            },
+              marginBottom: '0.813rem'
+            }
           }}
         >
           <Button

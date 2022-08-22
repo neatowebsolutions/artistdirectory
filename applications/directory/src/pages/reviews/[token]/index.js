@@ -1,34 +1,30 @@
-import Button from '@mui/material/Button';
+// TODO handle the scenario when an artist is not found byt the token (show not found page)
 import Box from '@mui/material/Box';
 import Head from 'next/head';
 import { Loader } from '@artistdirectory/react-components';
 import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useRouter } from 'next/router';
-import { useArtistByToken } from '../../../hooks';
+import { useReview } from '../../../hooks';
 import ProfileDetails from '../../../components/ProfileDetails';
 import PersonalDetails from '../../../components/PersonalDetails';
 import ProfileReview from '../../../components/ProfileReview';
 import WorkExamples from '../../../components/WorkExamples';
 import { Layout } from '../../../components';
 
-const ProfileReviewPage = () => {
-  const router = useRouter();
-  const { artist, error, artistLoading } = useArtistByToken(router.query.token);
-  console.log(artist);
-  console.log(error); // TODO handle the scenario when an artist is not found byt the token
-
+const ProfileReviewPage = ({ token }) => {
+  const { artist, error, artistLoading, updateReview } = useReview(token);
   const {
     firstName,
     lastName,
     email,
     social,
+    profileImageUrl,
     description,
     skills,
     tags,
     categories,
     images,
-    createdAt,
+    createdAt
   } = artist || {};
   const date = new Date(createdAt);
   const memberSince = date.getFullYear();
@@ -46,24 +42,8 @@ const ProfileReviewPage = () => {
               alignItems: 'center',
               justifyContent: 'space-between',
               '& h1': {
-                fontSize: '2.2rem',
-              },
-              '& nav': {
-                '& ul': {
-                  margin: 0,
-                  padding: 0,
-                  listStyle: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  '& li': {
-                    mr: '20px',
-                    '&:last-child': {
-                      mr: '0',
-                    },
-                  },
-                },
-              },
+                fontSize: '2.2rem'
+              }
             }}
           >
             <h1>
@@ -82,7 +62,7 @@ const ProfileReviewPage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.2rem'
                 }}
               >
                 An unexpected error occurred. Please try again shortly.
@@ -92,13 +72,21 @@ const ProfileReviewPage = () => {
             <Box
               sx={{
                 display: 'flex',
+                flex: '100%',
                 justifyContent: 'space-between',
-                alignItems: 'flex-start',
+                alignItems: 'flex-start'
               }}
             >
               <Box sx={{ flex: 1, mr: '5%' }}>
                 <ProfileDetails
-                  artist={{ firstName, lastName, email, social, memberSince }}
+                  artist={{
+                    firstName,
+                    lastName,
+                    email,
+                    social,
+                    profileImageUrl,
+                    memberSince
+                  }}
                 />
               </Box>
 
@@ -110,7 +98,7 @@ const ProfileReviewPage = () => {
               </Box>
             </Box>
             <Box>
-              <ProfileReview reviewToken={router.query.token} />
+              <ProfileReview onSubmit={updateReview} />
             </Box>
           </Loader>
         </Layout.Root>
@@ -119,12 +107,11 @@ const ProfileReviewPage = () => {
   );
 };
 
-// export async function getServerSideProps(context) {
-//   const { token } = context.params;
-
-//   return {
-//     props: { token }
-//   };
-// }
+export async function getServerSideProps(context) {
+  const { token } = context.params;
+  return {
+    props: { token }
+  };
+}
 
 export default ProfileReviewPage;

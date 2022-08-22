@@ -2,7 +2,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const zlib = require('zlib');
 
-const { NODE_ENV, ASSETS_URL, DIRECTORY_API_URL } = process.env;
+const { NODE_ENV, ASSETS_URL, DIRECTORY_API_URL, CONTACT_EMAIL } = process.env;
 const dev = NODE_ENV !== 'production';
 
 module.exports = {
@@ -50,6 +50,7 @@ module.exports = {
   webpack5: true,
   crossOrigin: 'anonymous',
   env: {
-    DIRECTORY_API_URL
+    DIRECTORY_API_URL,
+    CONTACT_EMAIL
   }
 };

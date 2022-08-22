@@ -12,16 +12,15 @@ import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Button } from '@mui/material';
-import { useReviewProfile } from '../hooks';
+
 
 const inputFieldStyles = {
   style: {
-    fontSize: '1rem',
-  },
+    fontSize: '1rem'
+  }
 };
 
-const ProfileReview = ({ reviewToken }) => {
-  const { reviewArtistProfile } = useReviewProfile();
+const ProfileReview = ({ onSubmit }) => {
 
   // formik
   const {
@@ -29,17 +28,15 @@ const ProfileReview = ({ reviewToken }) => {
     handleChange,
     handleSubmit,
     handleReset,
-    setFieldValue,
     resetForm,
     values,
     isValid,
-    dirty,
     errors,
-    touched,
+    touched
   } = useFormik({
     initialValues: {
       rejectionReason: '',
-      approvalStatus: 'approved',
+      approvalStatus: 'approved'
     },
     enableReinitialize: true, // lets the form to go back to initial values if reset form
     validationSchema: Yup.object().shape({
@@ -52,14 +49,14 @@ const ProfileReview = ({ reviewToken }) => {
             'Must be at least 50 characters and not longer than 1500 characters', // what is the min length?
             (val) => val && val.length > 50 && val.length <= 1500
           )
-          .required('Description is required'),
-      }),
+          .required('Description is required')
+      })
     }),
     onSubmit: async (vals) => {
-      const artist = await reviewArtistProfile(reviewToken, vals);
-      //resetForm(); // TODO - test reset form
+      await onSubmit(vals);
+      resetForm();
       // TODO - navigate to thank you page/review complete
-    },
+    }
   });
 
   return (
@@ -104,8 +101,8 @@ const ProfileReview = ({ reviewToken }) => {
                     lineHeight: '1.33',
                     letterSpacing: '0.4px',
                     marginTop: '0',
-                    marginBottom: '1rem',
-                  },
+                    marginBottom: '1rem'
+                  }
                 }}
               >
                 <Typography
@@ -120,8 +117,8 @@ const ProfileReview = ({ reviewToken }) => {
                       fontStyle: 'italic',
                       lineHeight: '1.33',
                       letterSpacing: '1px',
-                      marginLeft: '0.938rem',
-                    },
+                      marginLeft: '0.938rem'
+                    }
                   }}
                 >
                   State your reasons for rejection.
@@ -160,8 +157,8 @@ const ProfileReview = ({ reviewToken }) => {
               justifyContent: ['center', 'space-between'],
               '& button': {
                 width: ['19.438rem', '11.063rem'],
-                marginBottom: '0.813rem',
-              },
+                marginBottom: '0.813rem'
+              }
             }}
           >
             <Button
