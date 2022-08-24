@@ -47,6 +47,7 @@ const handler = async (event, context) => {
     const data = JSON.parse(event.body);
     const { skills, tags, categories, social, images } = data;
 
+    console.log(data);
     const Skill = await models.get('Skill');
     const Tag = await models.get('Tag');
     const Category = await models.get('Category');

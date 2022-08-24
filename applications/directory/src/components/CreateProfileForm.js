@@ -1,9 +1,10 @@
 // TODO validation -  make sure at least one social link provided or delete the * for the social being required??
 // TODO - change marginLeft for input social on mobile
-// TODO reduce font size in prop-downs
+// TODO reduce font size in prop-downs (n bigger screen)?
 
 import { useState } from 'react';
 import { useHttpClient } from '@artistdirectory/react-hooks';
+import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types'; // CreateProfileForm.propTypes = {className: PropTypes.string,} TODO - are we going to use classes at any point?
 import Typography from '@mui/material/Typography';
@@ -78,6 +79,7 @@ function CreateProfileForm({
   tags = [tagsDefaultValue],
   skills = [skillsDefaultValue]
 }) {
+  const router = useRouter();
   const { httpClient } = useHttpClient();
   const { ifEmailExists } = useEmailValidation();
   const [ifValidEmail, setIfValidEmail] = useState('');
@@ -222,6 +224,7 @@ function CreateProfileForm({
       //resetForm(); // TODO - test reset form
       //setFiles([]); // delete files
       // TODO - navigate to other page
+     
     }
   });
 

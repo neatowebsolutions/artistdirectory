@@ -34,14 +34,14 @@ const handler = async (event, context) => {
               $cond: {
                 if: approvalStatus === 'rejected',
                 then: editProfileToken,
-                else: '',
-              },
-            },
-          },
-        },
+                else: null
+              }
+            }
+          }
+        }
       ],
       {
-        new: true,
+        new: true
       }
     );
     if (approvalStatus === 'rejected') {
@@ -51,7 +51,7 @@ const handler = async (event, context) => {
     if (!artist) {
       return {
         statusCode: StatusCodes.NOT_FOUND,
-        body: ReasonPhrases.NOT_FOUND,
+        body: ReasonPhrases.NOT_FOUND
       };
     }
 
@@ -90,24 +90,24 @@ const handler = async (event, context) => {
               </div>
           </body>
         </html>
-  `,
+  `
     });
 
     await artist.save();
     await logger.info(`Artist profile status updated (${artist.toString()})`, {
-      approvalStatus,
+      approvalStatus
     });
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify(artist),
+      body: JSON.stringify(artist)
     };
   } catch (error) {
     await logger.error(`Error retrieving artist`, error, { event });
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
     };
   }
 };

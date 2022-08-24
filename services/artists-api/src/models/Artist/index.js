@@ -8,15 +8,20 @@ let Artist = null;
 const schemaOptions = {
   timestamps: true
 };
+
 const schema = new mongoose.Schema(
   {
     approvalStatus: {
       type: String,
       enum: ['approved', 'rejected', 'pending'],
-      default: 'pending'
+      default: 'pending',
+      required: true
     },
     reviewToken: { type: String, unique: true, required: true }, // TODO does it have to have unique option?
-    editProfileToken: { type: String, required: false }, // TODO does it have to have unique option?
+    editProfileToken: {
+      type: String,
+      required: false
+    },
     rejectionReasons: [
       {
         type: String,
@@ -32,7 +37,7 @@ const schema = new mongoose.Schema(
     profileImageUrl: {
       type: String,
       required: false,
-      default: `${ASSETS_URL}/default-images/default0_human_icon.png`
+      default: `${ASSETS_URL}/default-images/default1_human_icon.png`
     },
     city: { type: String, required: true },
     social: [{ type: mongoose.Schema.Types.Mixed, required: false }],
@@ -45,6 +50,8 @@ const schema = new mongoose.Schema(
   },
   schemaOptions
 );
+
+schema.index({ editProfileToken: 1 }, { unique: true, sparse: true });
 
 Artist = mongodbClient.connection.model('Artist', schema);
 
