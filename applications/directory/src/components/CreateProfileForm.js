@@ -3,7 +3,6 @@
 // TODO reduce font size in prop-downs (n bigger screen)?
 
 import { useState } from 'react';
-import { useHttpClient } from '@artistdirectory/react-hooks';
 import { useRouter } from 'next/router';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types'; // CreateProfileForm.propTypes = {className: PropTypes.string,} TODO - are we going to use classes at any point?
@@ -25,7 +24,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Upload from './Upload';
-import { useEmailValidation } from '../hooks';
+import { useEmailValidation, useCreateArtist } from '../hooks';
 
 const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
@@ -74,13 +73,14 @@ const labelStyles = {
   }
 };
 
-function CreateProfileForm({
+const CreateProfileForm = ({
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
   skills = [skillsDefaultValue]
-}) {
+}) => {
   const router = useRouter();
-  const { httpClient } = useHttpClient();
+  
+  const { createArtist } = useCreateArtist();
   const { ifEmailExists } = useEmailValidation();
   const [ifValidEmail, setIfValidEmail] = useState('');
 
@@ -217,14 +217,17 @@ function CreateProfileForm({
         subscribedToNewsletter: subscribedToNewsletterParsed
       };
 
-      console.log(data);
-
-      await httpClient.post('/artists', data);
-
+      //await httpClient.post('/artists', data);
+      await createArtist(data);
+      console.log(response);
       //resetForm(); // TODO - test reset form
       //setFiles([]); // delete files
       // TODO - navigate to other page
-     
+      // redirect to a thank-you page is the artist created successfully
+      router.push({
+        pathname: '/profile/thank-you',
+        query: { message: 'some info' }
+      });
     }
   });
 
@@ -767,6 +770,6 @@ function CreateProfileForm({
       </form>
     </Box>
   );
-}
+};
 
 export default CreateProfileForm;
