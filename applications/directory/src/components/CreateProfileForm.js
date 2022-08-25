@@ -79,10 +79,11 @@ const CreateProfileForm = ({
   skills = [skillsDefaultValue]
 }) => {
   const router = useRouter();
-  
   const { createArtist } = useCreateArtist();
   const { ifEmailExists } = useEmailValidation();
   const [ifValidEmail, setIfValidEmail] = useState('');
+  const [formReset, setFormReset] = useState(false);
+  const [imageFiles, setFiles] = useState(initialValues.files);
 
   // formik
   const {
@@ -94,9 +95,9 @@ const CreateProfileForm = ({
     resetForm,
     values,
     isValid,
+    isSubmitting,
     dirty,
     errors,
-    //setFieldError,
     touched
   } = useFormik({
     initialValues,
@@ -217,22 +218,18 @@ const CreateProfileForm = ({
         subscribedToNewsletter: subscribedToNewsletterParsed
       };
 
-      //await httpClient.post('/artists', data);
-      await createArtist(data);
-      console.log(response);
-      //resetForm(); // TODO - test reset form
-      //setFiles([]); // delete files
+      await createArtist(data); // TODO - use try-catch to display an error if profile was not created 
+
+      resetForm(); // TODO - test reset form
+      setFiles([]); // delete files
       // TODO - navigate to other page
       // redirect to a thank-you page is the artist created successfully
       router.push({
-        pathname: '/profile/thank-you',
+        pathname: `/profile/thank-you`,
         query: { message: 'some info' }
       });
     }
   });
-
-  const [formReset, setFormReset] = useState(false);
-  const [imageFiles, setFiles] = useState(initialValues.files);
 
   const handleChangeSocial = (e) => {
     const { value, name, type, checked } = e.target;
@@ -752,7 +749,7 @@ const CreateProfileForm = ({
         >
           <Button
             type="submit"
-            disabled={!isValid || !dirty}
+            disabled={!isValid || !dirty || isSubmitting}
             variant="contained"
             startIcon={<SendIcon />}
           >

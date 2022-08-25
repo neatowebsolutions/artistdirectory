@@ -44,7 +44,6 @@ module.exports = {
 
   // Prefix URL for all static assets. Disable prefixing in dev mode as this breaks mobile testing.
   assetPrefix: dev ? '' : `${ASSETS_URL}/directory`,
-
   target: 'serverless',
   trailingSlash: true,
   webpack5: true,

@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 // import Thumbnail from './Thumbnail';
 
 function WorkExamples({ images }) {
-  console.log(images);
   return (
     <Card
       sx={{

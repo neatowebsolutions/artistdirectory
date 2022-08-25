@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const mongodbClient = require('../mongodbClient');
-
+const rejectProfile = require('./rejectProfile');
+const approveProfile = require('./approveProfile');
 const { ASSETS_URL } = process.env;
 
 let Artist = null;
@@ -17,7 +18,7 @@ const schema = new mongoose.Schema(
       default: 'pending',
       required: true
     },
-    reviewToken: { type: String, unique: true, required: true }, // TODO does it have to have unique option?
+    reviewToken: { type: String, unique: true, required: true },
     editProfileToken: {
       type: String,
       required: false
@@ -25,7 +26,7 @@ const schema = new mongoose.Schema(
     rejectionReasons: [
       {
         type: String,
-        function() {
+        required() {
           return this.approvalStatus === 'rejected';
         }
       }
@@ -51,6 +52,15 @@ const schema = new mongoose.Schema(
   schemaOptions
 );
 
+schema.methods.approveProfile = function () {
+  return approveProfile(this);
+};
+
+schema.methods.rejectProfile = function (rejectionReason) {
+  return rejectProfile(this, rejectionReason);
+};
+
+// create indexes
 schema.index({ editProfileToken: 1 }, { unique: true, sparse: true });
 
 Artist = mongodbClient.connection.model('Artist', schema);

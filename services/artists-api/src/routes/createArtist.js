@@ -46,8 +46,6 @@ const handler = async (event, context) => {
   try {
     const data = JSON.parse(event.body);
     const { skills, tags, categories, social, images } = data;
-
-    console.log(data);
     const Skill = await models.get('Skill');
     const Tag = await models.get('Tag');
     const Category = await models.get('Category');
@@ -113,25 +111,21 @@ const handler = async (event, context) => {
     await logger.info(`Artist created (${artist.toString()})`, { data });
 
     // copy images from uploads_bucket to assets_bucket
-    try {
-      const copyImages = (imagesArray) => {
-        const copiedImages = imagesArray.map(async (image) => {
-          const params = {
-            Bucket: ASSETS_BUCKET,
-            CopySource: encodeURI(`${UPLOADS_BUCKET}/profile/${image}`),
-            Key: `profile/${image}`
-          };
 
-          return await s3.copyObject(params).promise(); // docs - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#copyObject-property
-        });
-        return Promise.all(copiedImages);
-      };
+    const copyImages = (imagesArray) => {
+      const copiedImages = imagesArray.map(async (image) => {
+        const params = {
+          Bucket: ASSETS_BUCKET,
+          CopySource: encodeURI(`${UPLOADS_BUCKET}/profile/${image}`),
+          Key: `profile/${image}`
+        };
 
-      await copyImages(data.images);
-    } catch (error) {
-      console.log(error);
-      // TODO - ?? should we return a server error here  - return { statusCode: StatusCodes.INTERNAL_SERVER_ERROR, body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,  };*/
-    }
+        return await s3.copyObject(params).promise(); // docs - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#copyObject-property
+      });
+      return Promise.all(copiedImages);
+    };
+
+    await copyImages(data.images);
 
     return {
       statusCode: StatusCodes.CREATED,

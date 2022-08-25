@@ -1,23 +1,15 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Head from 'next/head';
-//import { Loader } from '@artistdirectory/react-components';
 import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useRouter } from 'next/router';
-//import { useArtistByToken } from '../../hooks';
-//import ProfileDetails from '../../components/ProfileDetails';
-//import PersonalDetails from '../../components/PersonalDetails';
-//import ProfileReview from '../../components/ProfileReview';
-//import WorkExamples from '../../components/WorkExamples';
 import { Layout } from '../../../components';
 
 const ProfileReviewEditPage = () => {
   const router = useRouter();
- // const { artist, error, artistLoading } = useArtistByToken(router.query.token);
-  //console.log(artist);
- // console.log(error); // TODO handle the scenario when an artist is not found byt the token
-console.log(router.query)
+  // TODO handle the scenario when an artist is not found byt the token
+  console.log(router.query);
   return (
     <>
       <Head>
@@ -31,7 +23,7 @@ console.log(router.query)
               alignItems: 'center',
               justifyContent: 'space-between',
               '& h1': {
-                fontSize: '2.2rem',
+                fontSize: '2.2rem'
               },
               '& nav': {
                 '& ul': {
@@ -44,11 +36,11 @@ console.log(router.query)
                   '& li': {
                     mr: '20px',
                     '&:last-child': {
-                      mr: '0',
-                    },
-                  },
-                },
-              },
+                      mr: '0'
+                    }
+                  }
+                }
+              }
             }}
           >
             <h1>Edit artist profile</h1>
@@ -58,21 +50,15 @@ console.log(router.query)
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: 'flex-start',
+              alignItems: 'flex-start'
             }}
-          >some form</Box>
+          >
+            some form
+          </Box>
         </Layout.Root>
       </Layout>
     </>
   );
 };
-
-// export async function getServerSideProps(context) {
-//   const { token } = context.params;
-
-//   return {
-//     props: { token }
-//   };
-// }
 
 export default ProfileReviewEditPage;
