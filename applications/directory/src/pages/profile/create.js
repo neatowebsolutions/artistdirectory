@@ -145,6 +145,7 @@ const CreatePage = () => {
                 sx={{
                   fontSize: '1.2rem'
                 }}
+                elevation={4}
               >
                 An unexpected error occurred. Please try again shortly.
               </Alert>

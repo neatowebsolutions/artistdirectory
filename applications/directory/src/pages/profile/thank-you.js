@@ -5,8 +5,8 @@ import ThankYou from '../../components/ThankYou';
 import { Layout } from '../../components';
 
 const ThankYouPage = () => {
-  const router = useRouter();
-  console.log(router);
+  const { query } = useRouter();
+
   return (
     <>
       <Head>
@@ -22,7 +22,7 @@ const ThankYouPage = () => {
               flexDirection: ['column', 'column', 'row', 'row', 'row']
             }}
           >
-            <ThankYou />
+            <ThankYou name={query.name} />
           </Box>
         </Layout.Root>
       </Layout>

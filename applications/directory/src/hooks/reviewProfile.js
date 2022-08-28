@@ -5,22 +5,19 @@ const useReviewProfile = () => {
 
   const reviewArtistProfile = async (reviewToken, values) => {
     try {
-      const artist = await httpClient.patch(
-        `/reviews/token/${reviewToken}`,
-        values
-      );
+      await httpClient.patch(`/reviews/token/${reviewToken}`, values);
       return {
-        artist,
+        data: 'Profile reviewed successfully'
       };
     } catch (error) {
       return {
-        error: error.message,
+        error: error.message
       };
     }
   };
 
   return {
-    reviewArtistProfile,
+    reviewArtistProfile
   };
 };
 

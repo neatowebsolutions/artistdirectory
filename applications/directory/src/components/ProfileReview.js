@@ -12,7 +12,7 @@ import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Button } from '@mui/material';
-
+import router from 'next/router';
 
 const inputFieldStyles = {
   style: {
@@ -21,7 +21,6 @@ const inputFieldStyles = {
 };
 
 const ProfileReview = ({ onSubmit }) => {
-
   // formik
   const {
     handleBlur,
@@ -53,8 +52,16 @@ const ProfileReview = ({ onSubmit }) => {
       })
     }),
     onSubmit: async (vals) => {
-      await onSubmit(vals);
-      resetForm();
+      try {
+        await onSubmit(vals);
+        resetForm();
+        //TODO create a route for 'review finished', rethink url for users to edit their profile after rejection before the account has been created
+        router.push('/reviews/');
+      } catch (error) {
+        console.log(error);
+        //TODO - display alert
+      }
+
       // TODO - navigate to thank you page/review complete
     }
   });

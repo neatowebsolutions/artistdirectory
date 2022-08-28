@@ -1,6 +1,6 @@
 import Card from '@mui/material/Card';
 
-function ThankYou() {
+const ThankYou = ({ name }) => {
   return (
     <Card
       sx={{
@@ -41,10 +41,10 @@ function ThankYou() {
       <p className="grad">Grand Rapids Artist Directory</p>
       <p className="get-found">Get Found.</p>
       <img src="" alt="" />
-      <p className="thanks">Thanks, Zachary!</p>
+      <p className="thanks">Thanks, {name}!</p>
       <p className="profile">Your profile has been submitted for review!</p>
     </Card>
   );
-}
+};
 
 export default ThankYou;

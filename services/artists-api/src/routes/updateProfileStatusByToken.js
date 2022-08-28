@@ -25,7 +25,7 @@ const handler = async (event, context) => {
       },
       {
         new: true
-      }
+      }// no need to return updated artist in our case
     );
 
     if (approvalStatus === 'rejected') {
@@ -40,8 +40,6 @@ const handler = async (event, context) => {
         body: ReasonPhrases.NOT_FOUND
       };
     }
-
-    //await artist.save();
 
     await logger.info(`Artist profile status updated (${artist.toString()})`, {
       approvalStatus
