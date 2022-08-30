@@ -1,10 +1,10 @@
 // TODO validation -  make sure at least one social link provided or delete the * for the social being required??
-// TODO - need a fix: brief moment after the form is submitted the SUBMIT button becomes active again before 'thank-you' page opens
 // TODO - change marginLeft for input social on mobile
-// TODO reduce font size in prop-downs (n bigger screen)?
+// TODO reduce font size in drop-downs (bigger screen)?
 
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { useFormik } from 'formik';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types'; // CreateProfileForm.propTypes = {className: PropTypes.string,} TODO - are we going to use classes at any point?
@@ -23,7 +23,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Upload from './Upload';
 import { useEmailValidation, useCreateArtist } from '../hooks';
@@ -86,7 +85,7 @@ const CreateProfileForm = ({
   const [ifValidEmail, setIfValidEmail] = useState('');
   const [formReset, setFormReset] = useState(false);
   const [imageFiles, setFiles] = useState(initialValues.files);
-  const [submitError, setSubmitError] = useState('');
+  const [submissionError, setSubmissionError] = useState('');
   // get the element to scroll into view if displayed
   const alertElement = useRef();
 
@@ -224,17 +223,16 @@ const CreateProfileForm = ({
       };
       try {
         await createArtist(data);
-        resetForm(); // TODO - test reset form
-        setFiles([]); // delete files
-        setSubmitError('');
-
         // redirect to a thank-you page if the artist created successfully
         router.push({
           pathname: `/profile/thank-you/`,
           query: { name: firstName }
         });
+        resetForm(); // TODO - test reset form
+        setFiles([]); // delete files
+        setSubmissionError('');
       } catch (error) {
-        setSubmitError(
+        setSubmissionError(
           'An unexpected error occurred. Please try again to submit your form shortly.'
         );
         alertElement.current.scrollIntoView({
@@ -274,7 +272,7 @@ const CreateProfileForm = ({
 
   return (
     <Box>
-      {submitError && (
+      {submissionError && (
         <Alert
           ref={alertElement}
           id={'#alert'}
@@ -285,7 +283,7 @@ const CreateProfileForm = ({
           }}
           elevation={4}
         >
-          {submitError}
+          {submissionError}
         </Alert>
       )}
       <form noValidate onSubmit={handleSubmit}>

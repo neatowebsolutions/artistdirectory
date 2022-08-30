@@ -1,14 +1,15 @@
+import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Head from 'next/head';
 import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useRouter } from 'next/router';
+import CreateProfileForm from '../../../components/CreateProfileForm';
 import { Layout } from '../../../components';
 
 const ProfileReviewEditPage = () => {
   const router = useRouter();
-  // TODO handle the scenario when an artist is not found byt the token
+  // TODO handle the scenario when an artist is not found byt the token (not found page)
   console.log(router.query);
   return (
     <>
@@ -53,7 +54,7 @@ const ProfileReviewEditPage = () => {
               alignItems: 'flex-start'
             }}
           >
-            some form
+            <CreateProfileForm />
           </Box>
         </Layout.Root>
       </Layout>

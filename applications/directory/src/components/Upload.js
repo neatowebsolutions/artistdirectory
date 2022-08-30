@@ -14,13 +14,13 @@ import ThumbnailLoading from './ThumbnailLoading';
 
 const maxFilesNumber = 5;
 const imageMaxSize = 2097152;
-//const baseUrl = 'https://assets.artistdirectory.co/profile/';
+
 const acceptedFileTypes = [
   'image/x-png',
   'image/png',
   'image/jpg',
   'image/jpeg',
-  'image/gif',
+  'image/gif'
 ];
 
 const Upload = ({ getFiles, files, formError, errorsNum }) => {
@@ -93,7 +93,7 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
             return {
               file,
               loading: true, // for displaying loading state of the chosen image
-              uploadError: false, //  for displaying error if upload fails
+              uploadError: false //  for displaying error if upload fails
             };
           });
 
@@ -115,7 +115,7 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
                 signedUrl: data?.signedUrl,
                 // fileUrl: data && `${baseUrl}${data.fileName}`,
                 fileName: data?.fileName,
-                signedUrlError: error,
+                signedUrlError: error
               };
             });
             return Promise.all(promises);
@@ -132,11 +132,11 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
                 return {
                   ...item,
                   file: Object.assign(file, {
-                    preview: URL.createObjectURL(file),
+                    preview: URL.createObjectURL(file)
                   }),
                   uploaded: response && response.ok,
                   loading: false,
-                  uploadError: error,
+                  uploadError: error
                 };
               }
               return item;
@@ -149,7 +149,7 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
           await getFiles([...noneDuplicate, ...uploadedImageUrls]);
         }
       }
-    },
+    }
   });
 
   const handleFileDelete = (fileName) => {
@@ -189,19 +189,19 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
     <Box
       sx={{
         '& h2': {
-          marginTop: ['1.5rem'],
+          marginTop: ['1.5rem']
         },
         '& h3': {
           marginTop: ['1rem'],
-          marginBottom: ['.5rem'],
+          marginBottom: ['.5rem']
         },
         '& p': {
           fontStyle: 'italic',
-          marginBottom: '1.5rem',
+          marginBottom: '1.5rem'
         },
         '& span': {
-          color: 'primary.main',
-        },
+          color: 'primary.main'
+        }
       }}
     >
       <Typography variant="h2" component="h2">
@@ -226,7 +226,7 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
           flexDirection: 'column',
           justifyContent: 'space-evenly',
           alignItems: 'center',
-          textAlign: 'center',
+          textAlign: 'center'
         }}
         {...getRootProps({ className: 'dropzone' })}
       >
@@ -246,8 +246,8 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
               fontSize: ['1rem', '1.25rem'],
               textAlign: 'center',
               fontStyle: 'normal',
-              margin: '0.313rem .5rem 0.313rem 0',
-            },
+              margin: '0.313rem .5rem 0.313rem 0'
+            }
           }}
         >
           <Typography variant="body1" component="p">
@@ -259,7 +259,7 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
             sx={{
               width: '6.625rem',
               height: '2.25rem',
-              margin: ['0.5rem auto 0 auto', '0 0 0 1rem'],
+              margin: ['0.5rem auto 0 auto', '0 0 0 1rem']
             }}
           >
             Browse
@@ -279,7 +279,7 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
                 border: 'solid 1px #3d748a',
                 color: 'rgba(0, 0, 0, 0.87)',
                 typography: 'body1',
-                fontSize: ['.875rem', '.875rem', '.875rem', '.875rem'],
+                fontSize: ['.875rem', '.875rem', '.875rem', '.875rem']
               }}
             >
               {errorMessage || formError}
@@ -287,14 +287,13 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
           </Stack>
         </Box>
       )}
-
       <Box
         sx={{
           marginTop: '1.56rem',
           display: 'grid',
           gridTemplateColumns: ['repeat(2, 1fr)', 'repeat(3, 1fr)'],
           columnGap: '1.25rem',
-          rowGap: '1.56rem',
+          rowGap: '1.56rem'
         }}
       >
         {thumbs}

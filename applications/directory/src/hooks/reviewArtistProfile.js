@@ -15,17 +15,13 @@ const useReview = (token) => {
 
   const updateReview = async (values) => {
     try {
-      const updatedArtist = await httpClient.patch(
-        `/reviews/token/${token}`,
-        values
-      );
+      await httpClient.patch(`/reviews/token/${token}`, values);
       return {
-        updatedArtist
+        data: 'Artist profile reviewed successfully'
       };
     } catch (err) {
-      return {
-        error: err.message
-      };
+      console.log(err);
+      throw new Error('Server error reviewing artist profile');
     }
   };
 

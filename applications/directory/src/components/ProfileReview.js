@@ -1,7 +1,9 @@
+import { useState, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import Card from '@mui/material/Card';
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Typography from '@mui/material/Typography';
@@ -21,6 +23,8 @@ const inputFieldStyles = {
 };
 
 const ProfileReview = ({ onSubmit }) => {
+  const [submissionError, setSubmissionError] = useState('');
+  const alertElement = useRef();
   // formik
   const {
     handleBlur,
@@ -29,6 +33,7 @@ const ProfileReview = ({ onSubmit }) => {
     handleReset,
     resetForm,
     values,
+    isSubmitting,
     isValid,
     errors,
     touched
@@ -54,20 +59,38 @@ const ProfileReview = ({ onSubmit }) => {
     onSubmit: async (vals) => {
       try {
         await onSubmit(vals);
+        router.push('/reviews/review-complete');
         resetForm();
-        //TODO create a route for 'review finished', rethink url for users to edit their profile after rejection before the account has been created
-        router.push('/reviews/');
+        setSubmissionError('');
       } catch (error) {
-        console.log(error);
-        //TODO - display alert
-      }
+        setSubmissionError(
+          'An unexpected error occurred. Please try again to submit your review shortly.'
+        );
 
-      // TODO - navigate to thank you page/review complete
+        alertElement.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
     }
   });
 
   return (
     <Box>
+      {submissionError && (
+        <Alert
+          ref={alertElement}
+          id={'#alert'}
+          severity="error"
+          sx={{
+            fontSize: '1.2rem',
+            marginBottom: '2rem'
+          }}
+          elevation={4}
+        >
+          {submissionError}
+        </Alert>
+      )}
       <Card elevation={2}>
         <form noValidate onSubmit={handleSubmit}>
           <Box sx={{ width: '75%' }}>
@@ -170,7 +193,7 @@ const ProfileReview = ({ onSubmit }) => {
           >
             <Button
               type="submit"
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
               variant="contained"
               startIcon={<SendIcon />}
             >

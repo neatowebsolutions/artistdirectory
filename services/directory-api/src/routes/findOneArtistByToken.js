@@ -3,14 +3,14 @@ const cors = require('@middy/http-cors');
 const {
   StatusCodes,
   ReasonPhrases,
-  getReasonPhrase,
+  getReasonPhrase
 } = require('http-status-codes');
 const HttpClient = require('@artistdirectory/gateway-http-client');
 
 const { ARTISTS_API_URL } = process.env;
 
 const httpClient = new HttpClient({
-  baseUrl: ARTISTS_API_URL,
+  baseUrl: ARTISTS_API_URL
 });
 
 const handler = middy(async (event, context) => {
@@ -23,11 +23,12 @@ const handler = middy(async (event, context) => {
 
   try {
     const { reviewToken } = event.pathParameters;
+
     const artist = await httpClient.get(`/artists/token/${reviewToken}`);
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify(artist),
+      body: JSON.stringify(artist)
     };
   } catch (error) {
     if (error.response && error.response.status) {
@@ -35,13 +36,13 @@ const handler = middy(async (event, context) => {
         statusCode: error.response.status,
         body:
           JSON.stringify(error.response.data) ||
-          getReasonPhrase(error.response.status),
+          getReasonPhrase(error.response.status)
       };
     }
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
     };
   }
 });
