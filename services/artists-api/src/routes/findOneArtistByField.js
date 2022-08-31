@@ -14,10 +14,11 @@ const handler = async (event, context) => {
   }
 
   try {
-    const { reviewToken } = event.pathParameters;
-    
+    const { field, value } = event.pathParameters;
+    console.log('===============');
+    console.log({ [field]: value });
     const Artist = await models.get('Artist');
-    const artist = await Artist.findOne({ reviewToken });
+    const artist = await Artist.findOne({ [field]: value });
 
     if (!artist) {
       return {

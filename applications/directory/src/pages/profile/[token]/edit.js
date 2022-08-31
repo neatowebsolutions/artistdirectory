@@ -6,11 +6,14 @@ import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
 import CreateProfileForm from '../../../components/CreateProfileForm';
 import { Layout } from '../../../components';
-
+import { useEditProfile } from '../../../hooks';
 const ProfileReviewEditPage = () => {
   const router = useRouter();
   // TODO handle the scenario when an artist is not found byt the token (not found page)
   console.log(router.query);
+  const { artist, error, artistLoading } = useEditProfile(router.query.token);
+  console.log(artist);
+  console.log(error);
   return (
     <>
       <Head>

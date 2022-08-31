@@ -22,9 +22,9 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    const { reviewToken } = event.pathParameters;
+    const { field, value } = event.pathParameters;
 
-    const artist = await httpClient.get(`/artists/token/${reviewToken}`);
+    const artist = await httpClient.get(`/artists/${field}/${value}`);
 
     return {
       statusCode: StatusCodes.OK,

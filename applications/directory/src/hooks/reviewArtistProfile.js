@@ -5,7 +5,7 @@ const useReview = (token) => {
   const { httpClient } = useHttpClient();
 
   const { data: artist, error } = useSWR(
-    `/artists/token/${token}`,
+    `/artists/reviewToken/${token}`,
     httpClient.get.bind(httpClient),
     {
       revalidateOnFocus: false
@@ -20,7 +20,6 @@ const useReview = (token) => {
         data: 'Artist profile reviewed successfully'
       };
     } catch (err) {
-      console.log(err);
       throw new Error('Server error reviewing artist profile');
     }
   };

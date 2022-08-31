@@ -86,12 +86,12 @@ functions:
           path: /artists/{artistId}
           method: get
           cors: true
-  findOneArtistByToken:
+  findOneArtistByField:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/findOneArtistByToken.handler
+    handler: src/routes/findOneArtistByField.handler
     events:
       - http:
-          path: /artists/token/{reviewToken}
+          path: /artists/{field}/{value}
           method: get
           cors: true
   updateProfileStatusByToken:
