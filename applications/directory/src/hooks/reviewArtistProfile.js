@@ -5,23 +5,17 @@ const useReview = (token) => {
   const { httpClient } = useHttpClient();
 
   const { data: artist, error } = useSWR(
-    `/artists/reviewToken/${token}`,
+    `/artists/review-token/${token}`,
     httpClient.get.bind(httpClient),
     {
       revalidateOnFocus: false
     }
   );
+
   const artistLoading = !artist && !error;
 
   const updateReview = async (values) => {
-    try {
-      await httpClient.patch(`/reviews/token/${token}`, values);
-      return {
-        data: 'Artist profile reviewed successfully'
-      };
-    } catch (err) {
-      throw new Error('Server error reviewing artist profile');
-    }
+    return await httpClient.patch(`/reviews/token/${token}`, values);
   };
 
   return {

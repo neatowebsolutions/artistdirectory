@@ -15,8 +15,6 @@ const handler = async (event, context) => {
 
   try {
     const { field, value } = event.pathParameters;
-    console.log('===============');
-    console.log({ [field]: value });
     const Artist = await models.get('Artist');
     const artist = await Artist.findOne({ [field]: value });
 

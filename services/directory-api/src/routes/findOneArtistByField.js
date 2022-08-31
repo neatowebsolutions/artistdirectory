@@ -24,7 +24,17 @@ const handler = middy(async (event, context) => {
   try {
     const { field, value } = event.pathParameters;
 
-    const artist = await httpClient.get(`/artists/${field}/${value}`);
+    const fieldMap = {
+      'review-token': 'reviewToken',
+      'edit-profile-token': 'editProfileToken'
+    };
+    const mappedField = fieldMap[field];
+
+    if (!mappedField) {
+      throw new Error(`Invalid field ${field}`);
+    }
+
+    const artist = await httpClient.get(`/artists/${mappedField}/${value}`);
 
     return {
       statusCode: StatusCodes.OK,
