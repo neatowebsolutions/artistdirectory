@@ -32,6 +32,7 @@ const ProfileReview = ({ onSubmit }) => {
     handleSubmit,
     handleReset,
     resetForm,
+    dirty,
     values,
     isSubmitting,
     isValid,
@@ -80,7 +81,6 @@ const ProfileReview = ({ onSubmit }) => {
       {submissionError && (
         <Alert
           ref={alertElement}
-          id={'#alert'}
           severity="error"
           sx={{
             fontSize: '1.2rem',
@@ -193,7 +193,7 @@ const ProfileReview = ({ onSubmit }) => {
           >
             <Button
               type="submit"
-              disabled={!isValid || isSubmitting}
+              disabled={!isValid || !dirty || isSubmitting}
               variant="contained"
               startIcon={<SendIcon />}
             >

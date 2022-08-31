@@ -275,7 +275,6 @@ const CreateProfileForm = ({
       {submissionError && (
         <Alert
           ref={alertElement}
-          id={'#alert'}
           severity="error"
           sx={{
             fontSize: '1.2rem',

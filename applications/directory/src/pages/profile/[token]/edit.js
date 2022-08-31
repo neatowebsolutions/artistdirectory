@@ -11,9 +11,11 @@ const ProfileReviewEditPage = () => {
   const router = useRouter();
   // TODO handle the scenario when an artist is not found byt the token (not found page)
   console.log(router.query);
-  const { artist, error, artistLoading } = useEditProfile(router.query.token);
+  const { artist, artistError, artistLoading } = useEditProfile(
+    router.query.token
+  );
   console.log(artist);
-  console.log(error);
+  
   return (
     <>
       <Head>

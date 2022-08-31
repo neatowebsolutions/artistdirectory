@@ -8,9 +8,9 @@ const rejectProfile = async (artist, rejectionReason) => {
   const editProfileToken = await generateToken();
   artist.editProfileToken = editProfileToken;
   artist.rejectionReasons.push(rejectionReason);
-  await artist.markModified('rejectionReasons');
-  // send email to the artist about profile review decision
+  await artist.markModified('rejectionReasons'); // https://sarav.co/understanding-markModified-in-mongoose
 
+  // send email to the artist about profile review decision
   await emailClient.enqueue({
     to: email,
     from: ADMIN_EMAIL,
