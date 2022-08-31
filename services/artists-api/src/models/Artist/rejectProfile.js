@@ -10,6 +10,7 @@ const rejectProfile = async (artist, rejectionReason) => {
   artist.rejectionReasons.push(rejectionReason);
   await artist.markModified('rejectionReasons');
   // send email to the artist about profile review decision
+
   await emailClient.enqueue({
     to: email,
     from: ADMIN_EMAIL,
@@ -23,7 +24,7 @@ const rejectProfile = async (artist, rejectionReason) => {
                   <p>Unfortunately your artist profile does not comply with our policies.
                   We had to reject your profile creating request for the following reasons:
                   ${rejectionReason}.
-                  Follow this link to edit your profile - <a href="${DIRECTORY_API_URL}/reviews/${editProfileToken}/edit">${firstName} ${lastName}'s artist profile</a>!</p>
+                  Follow this link to edit your profile - <a href="${DIRECTORY_API_URL}/profile/${editProfileToken}/edit">${firstName} ${lastName}'s artist profile</a>!</p>
                   <p style="font-weight: 700">Thank you!</p>
                 </div>
             </body>

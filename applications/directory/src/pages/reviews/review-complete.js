@@ -1,12 +1,9 @@
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
-import ThankYou from '../../components/ThankYou';
+import ProfileReviewComplete from '../../components/ProfileReviewComplete';
 import { Layout } from '../../components';
 
-const ThankYouPage = () => {
-  const { query } = useRouter();
-
+const ProfileReviewCompletePage = () => {
   return (
     <>
       <Head>
@@ -22,7 +19,7 @@ const ThankYouPage = () => {
               flexDirection: ['column', 'column', 'row', 'row', 'row']
             }}
           >
-            <ThankYou name={query.name} />
+            <ProfileReviewComplete />
           </Box>
         </Layout.Root>
       </Layout>
@@ -30,4 +27,4 @@ const ThankYouPage = () => {
   );
 };
 
-export default ThankYouPage;
+export default ProfileReviewCompletePage;

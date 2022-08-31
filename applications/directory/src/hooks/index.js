@@ -5,6 +5,6 @@ export { default as useTags } from './tags';
 export { default as useSkills } from './skills';
 export { default as useUpload } from './upload';
 export { default as useEmailValidation } from './emailValidation';
-export { default as useArtistByToken } from './reviewArtistProfile';
 export { default as useReview } from './reviewArtistProfile';
 export { default as useCreateArtist } from './createArtist';
+export { default as useEditProfile } from './editArtistProfile';

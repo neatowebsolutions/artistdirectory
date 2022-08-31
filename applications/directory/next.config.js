@@ -41,7 +41,6 @@ module.exports = {
 
     return config;
   },
-
   // Prefix URL for all static assets. Disable prefixing in dev mode as this breaks mobile testing.
   assetPrefix: dev ? '' : `${ASSETS_URL}/directory`,
   target: 'serverless',

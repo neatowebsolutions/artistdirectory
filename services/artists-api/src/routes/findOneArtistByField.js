@@ -12,29 +12,31 @@ const handler = async (event, context) => {
     await new Promise((resolve) => setTimeout(resolve, 25));
     return 'Lambda is warm!';
   }
-  
+
   try {
-    const { reviewToken } = event.pathParameters;
+    const { field, value } = event.pathParameters;
+    console.log('===============');
+    console.log({ [field]: value });
     const Artist = await models.get('Artist');
-    const artist = await Artist.findOne({ reviewToken });
+    const artist = await Artist.findOne({ [field]: value });
 
     if (!artist) {
       return {
         statusCode: StatusCodes.NOT_FOUND,
-        body: ReasonPhrases.NOT_FOUND,
+        body: ReasonPhrases.NOT_FOUND
       };
     }
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify(artist),
+      body: JSON.stringify(artist)
     };
   } catch (error) {
     await logger.error(`Error retrieving artist`, error, { event });
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
     };
   }
 };

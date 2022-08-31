@@ -10,9 +10,7 @@ const useCreateArtist = () => {
         data: 'Artist has been created'
       };
     } catch (error) {
-      return {
-        error: error.message
-      };
+      throw new Error(error);
     }
   };
 
