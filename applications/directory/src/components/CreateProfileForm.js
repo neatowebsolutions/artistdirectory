@@ -31,20 +31,78 @@ const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
 const skillsDefaultValue = 'Carpentry';
 
-const initialValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  city: '',
-  website: { checked: true, name: 'website', url: '' },
-  behance: { checked: false, name: 'behance', url: '' },
-  other: { checked: false, name: 'other', url: '' },
-  description: '',
-  categories: [categoriesDefaultValue],
-  tags: [tagsDefaultValue],
-  skills: [skillsDefaultValue],
-  files: [],
-  subscribedToNewsletter: 'yes'
+// convert artist data from backend to the values to be excepted by the form's "initial values"
+const parseArtist = (artist) => {
+  // check if artist is an empty object
+  if (Object.keys(artist).length === 0) {
+    return false;
+  }
+
+  const {
+    firstName,
+    lastName,
+    email,
+    city,
+    description,
+    categories,
+    social,
+    tags,
+    skills,
+    images
+  } = artist;
+
+  // parse images array to shape them into the form Upload component uses them to upload new images
+  const parsedImages = images.map((image) => {
+    const imageName = image.split('/').at(-1); // returns last array value which is a file name
+    return {
+      fileName: imageName,
+      file: { name: imageName, preview: image },
+      uploadError: undefined,
+      signedUrlError: undefined,
+      uploaded: true,
+      loading: false
+    };
+  });
+
+  // convert social to object
+  const parsedExistingSocial = social.reduce((list, item) => {
+    return {
+      ...list,
+      [item.name]: {
+        name: item.name,
+        url: item.url,
+        checked: Boolean(item.url)
+      }
+    };
+  }, {});
+
+  // create list of social like initial values for the form
+  const socialInitialValues = {
+    website: { checked: true, name: 'website', url: '' },
+    behance: { checked: false, name: 'behance', url: '' },
+    other: { checked: false, name: 'other', url: '' }
+  };
+
+  // parsedExistingSocial  overrides initial values with the values from the db and create an array of all 3 social to use in the form
+  const socialParsed = { ...socialInitialValues, ...parsedExistingSocial };
+
+  // convert from boolean values to yes/no strings
+  const subscribedToNewsletter = artist.subscribedToNewsletter ? 'yes' : 'no';
+
+  const existingArtist = {
+    firstName,
+    lastName,
+    email,
+    city,
+    description,
+    categories,
+    tags,
+    skills,
+    files: parsedImages,
+    ...socialParsed,
+    subscribedToNewsletter
+  };
+  return existingArtist;
 };
 
 const keywordsValidate = (keywords) =>
@@ -77,9 +135,27 @@ const labelStyles = {
 const CreateProfileForm = ({
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
-  skills = [skillsDefaultValue]
+  skills = [skillsDefaultValue],
+  artist = {}
 }) => {
   const router = useRouter();
+
+  const initialValues = parseArtist(artist) || {
+    firstName: '',
+    lastName: '',
+    email: '',
+    city: '',
+    website: { checked: true, name: 'website', url: '' },
+    behance: { checked: false, name: 'behance', url: '' },
+    other: { checked: false, name: 'other', url: '' },
+    description: '',
+    categories: [categoriesDefaultValue],
+    tags: [tagsDefaultValue],
+    skills: [skillsDefaultValue],
+    files: [],
+    subscribedToNewsletter: 'yes'
+  };
+
   const { createArtist } = useCreateArtist();
   const { ifEmailExists } = useEmailValidation();
   const [ifValidEmail, setIfValidEmail] = useState('');
@@ -222,10 +298,16 @@ const CreateProfileForm = ({
         subscribedToNewsletter: subscribedToNewsletterParsed
       };
       try {
-        await createArtist(data);
+        if (Object.keys(artist).length !== 0) {
+          console.log(data);
+          // TODO - send data to backend and update the artist
+        } else {
+          await createArtist(data);
+        }
+
         // redirect to a thank-you page if the artist created successfully
         router.push({
-          pathname: `/profile/thank-you/`,
+          pathname: `/profile/thank-you/`, // TODO modify thank you page to make it work for a new artist and after editing profile??
           query: { name: firstName }
         });
         resetForm(); // TODO - test reset form
