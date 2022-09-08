@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import { Layout } from '../../components';
 
@@ -16,55 +17,78 @@ const ThankYouPage = () => {
         <Layout.Root>
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: ['center', 'start', 'start', 'start', 'start'],
-              flexDirection: ['column', 'column', 'row', 'row', 'row']
+              marginTop: ['1.5rem', '2.5rem', '2.6rem', '4.188rem']
             }}
           >
             <Card
               sx={{
-                mr: ['0', '5%'],
-                mb: ['5%', '0'],
-                flex: 1,
                 textAlign: 'center',
-                width: '100%',
-                '& p': {
-                  margin: '1rem 0'
-                },
-                '& .grad': {
-                  textTransform: 'uppercase',
-                  fontSize: '1.25rem',
-                  fontWeight: 'bold',
-                  letterSpacing: '3px'
-                },
-                '& .get-found': {
-                  textTransform: 'uppercase',
-                  color: 'secondary.main',
-                  fontWeight: 'bold',
-                  letterSpacing: '3px'
-                },
-                '& .thanks': {
-                  typography: 'body2',
-                  fontSize: '2.12rem',
-                  color: 'secondary.secondary',
-                  fontWeight: 'bold'
-                },
-                '& .profile': {
-                  color: 'secondary.secondary',
-                  fontSize: '1.5rem',
-                  fontWeight: '500'
-                }
+                width: ['100%', '80%', '70%'],
+                margin: '0 auto'
               }}
               elevation={6}
             >
-              <p className="grad">Grand Rapids Artist Directory</p>
-              <p className="get-found">Get Found.</p>
-              <img src="" alt="" />
-              <p className="thanks">Thanks, {query.name}!</p>
-              <p className="profile">
-                Your profile has been submitted for review!
-              </p>
+              <Typography
+                variant="h2"
+                component="h2"
+                sx={{
+                  fontWeight: '900',
+                  fontSize: ['0.875rem', '1.25rem', '1.5rem'],
+                  textTransform: 'uppercase',
+                  letterSpacing: 3.53,
+                  marginBottom: ['1.063rem', '1.625rem', '1.5rem']
+                }}
+              >
+                Grand Rapids Artist Directory
+              </Typography>
+              <Box>
+                <Typography
+                  variant="h2"
+                  component="h2"
+                  sx={{
+                    fontFamily: 'gira-sans, sans-serif',
+                    lineHeight: ['normal', '1.17', '1.2'],
+                    textTransform: 'uppercase',
+                    color: 'success.main',
+                    letterSpacing: [2, 3]
+                  }}
+                >
+                  Get found.
+                </Typography>
+              </Box>
+              <Box>
+                <Box
+                  component="img"
+                  src="/images/img-success.svg"
+                  alt="Success"
+                  sx={{
+                    width: ['4rem', '5rem', '9rem'],
+                    marginTop: ['1rem', '1.5rem', '2.6rem'],
+                    marginBottom: ['1rem', '1.3rem']
+                  }}
+                />
+                <Typography
+                  variant="h3"
+                  component="h3"
+                  sx={{
+                    color: 'secondary.secondary',
+                    fontWeight: 'bold',
+                    margin: 'margin: 1.375rem 0 0.813rem'
+                  }}
+                >
+                  Thanks, {query.name}!
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    color: 'secondary.secondary',
+                    fontWeight: '500',
+                    margin: '0.813rem 0 0'
+                  }}
+                >
+                  Your profile has been submitted for review!
+                </Typography>
+              </Box>
             </Card>
           </Box>
         </Layout.Root>
