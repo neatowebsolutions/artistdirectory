@@ -1,6 +1,7 @@
 // TODO handle the scenario when an artist is not found byt the token (show not found page)
 import Box from '@mui/material/Box';
 import Head from 'next/head';
+import Typography from '@mui/material/Typography';
 import { Loader } from '@artistdirectory/react-components';
 import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
@@ -26,6 +27,7 @@ const ProfileReviewPage = ({ token }) => {
     images,
     createdAt
   } = artist || {};
+  console.log(social)
   const date = new Date(createdAt);
   const memberSince = date.getFullYear();
 
@@ -39,18 +41,20 @@ const ProfileReviewPage = ({ token }) => {
           <Box
             sx={{
               display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              '& h1': {
-                fontSize: '2.2rem'
-              }
+              justifyContent: 'center',
+              width: ['90%'],
+              margin: ['1.5rem auto', '2.563rem auto', '2.688rem auto']
             }}
           >
-            <h1>
+            <Typography
+              variant="h1"
+              component="h1"
+              sx={{ textAlign: 'center', letterSpacing: 2 }}
+            >
               {artistLoading || error
                 ? 'Artist Profile'
                 : `${firstName} ${lastName}'s Profile`}
-            </h1>
+            </Typography>
           </Box>
           <Loader
             isLoading={artistLoading}
@@ -72,12 +76,13 @@ const ProfileReviewPage = ({ token }) => {
             <Box
               sx={{
                 display: 'flex',
-                flex: '100%',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start'
+                flexDirection: ['column', 'row'],
+                justifyContent: 'space-between'
               }}
             >
-              <Box sx={{ flex: 1, mr: '5%' }}>
+              <Box
+                sx={{ flex: 1, marginRight: ['0', '5%'], marginBottom: '5%' }}
+              >
                 <ProfileDetails
                   artist={{
                     firstName,

@@ -307,6 +307,7 @@ const CreateProfileForm = ({
             '& h3': {
               marginTop: ['1.5rem'],
               marginBottom: ['1.5rem'],
+              fontSize: ['1.25rem'],
               ...starSpanStyles
             },
             '& label': {

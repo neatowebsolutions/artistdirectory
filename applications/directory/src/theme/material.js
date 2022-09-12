@@ -80,8 +80,8 @@ theme.typography.h3 = {
 };
 
 theme.typography.h4 = {
-  fontFamily: 'brandon-grotesque, sans-serif'
-
+  fontFamily: 'brandon-grotesque, sans-serif',
+  fontSize: '1rem'
   // TODO
 };
 

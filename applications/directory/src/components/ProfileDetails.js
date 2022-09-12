@@ -1,4 +1,5 @@
 import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
@@ -37,20 +38,22 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
     social,
     memberSince
   } = artist;
-
+console.log(social)
   return (
     <Card>
       <Box
         sx={{
-          width: '150px',
-          height: '150px',
-          margin: '0 auto',
+          width: '10rem',
+          height: '10rem',
+          margin: ['0rem auto'],
           borderRadius: '4px',
-          overflow: 'hidden',
           '& img': {
-            height: '100%',
             width: '100%',
-            objectFit: 'cover'
+            height: '100%',
+            objectFit: 'cover',
+            // atl styling
+            fontSize: '0.875rem',
+            margin: '0 1rem'
           }
         }}
       >
@@ -59,24 +62,34 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
       <Box
         sx={{
           borderBottom: 'solid 1px rgba(0, 0, 0, 0.1)',
-          textAlign: 'center',
-          '& h4': {
-            fontSize: '16px',
-            fontWeight: 'bold',
-            margin: '0 0 10px 0',
-            color: 'rgba(0, 0, 0, 0.5)'
-          },
-          '& h3': {
-            fontSize: '22px',
-            fontWeight: 'bold',
-            margin: '10px 0 5px 0'
-          }
+          marginBottom: '1.425rem',
+          textAlign: 'center'
         }}
       >
-        <h3>
+        <Typography
+          variant="h2"
+          component="h2"
+          sx={{
+            textAlign: 'center',
+            fontSize: ['1.375rem'],
+            fontFamily: 'gira-sans, sans-serif',
+            margin: '0.375rem'
+          }}
+        >
           {firstName} {lastName}
-        </h3>
-        <h4>Member Since {memberSince}</h4>
+        </Typography>
+        <Typography
+          variant="h4"
+          component="h3"
+          sx={{
+            fontFamily: 'gira-sans, sans-serif',
+            fontWeight: 'bold',
+            color: 'rgba(0, 0, 0, 0.5)',
+            marginBottom: '1.39rem'
+          }}
+        >
+          Member Since {memberSince}
+        </Typography>
 
         {isLoggedIn && (
           <Button
@@ -91,11 +104,6 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
       </Box>
       <Box
         sx={{
-          '& h3': {
-            fontSize: '22px',
-            fontWeight: 'bold',
-            margin: '10px 0 5px 0'
-          },
           '& a': {
             margin: '0',
             fontSize: '16px',
@@ -107,7 +115,18 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
           }
         }}
       >
-        <h3>Contact Details</h3>
+        <Typography
+          variant="h3"
+          component="h3"
+          sx={{
+            fontFamily: 'gira-sans, sans-serif',
+            fontSize: ['1.25rem'],
+            fontWeight: 'bold',
+            marginBottom: '5px'
+          }}
+        >
+          Contact Details
+        </Typography>
         <Box sx={{ mb: '10px' }}>
           <Box
             sx={{
