@@ -27,7 +27,7 @@ const ProfileReviewPage = ({ token }) => {
     images,
     createdAt
   } = artist || {};
-  console.log(social)
+
   const date = new Date(createdAt);
   const memberSince = date.getFullYear();
 
@@ -49,7 +49,11 @@ const ProfileReviewPage = ({ token }) => {
             <Typography
               variant="h1"
               component="h1"
-              sx={{ textAlign: 'center', letterSpacing: 2 }}
+              sx={{
+                fontFamily: 'gira-sans, sans-serif',
+                textAlign: 'center',
+                letterSpacing: 2
+              }}
             >
               {artistLoading || error
                 ? 'Artist Profile'

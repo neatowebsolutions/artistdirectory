@@ -82,6 +82,7 @@ const handler = async (event, context) => {
 
     try {
       await artist.validate();
+
       // send email to admin to initiate artist profile review
       await emailClient.enqueue({
         to: ADMIN_EMAIL,
@@ -111,7 +112,6 @@ const handler = async (event, context) => {
     await logger.info(`Artist created (${artist.toString()})`, { data });
 
     // copy images from uploads_bucket to assets_bucket
-
     const copyImages = (imagesArray) => {
       const copiedImages = imagesArray.map(async (image) => {
         const params = {
