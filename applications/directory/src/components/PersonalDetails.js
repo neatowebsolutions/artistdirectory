@@ -68,7 +68,8 @@ const PersonalDetails = ({ artist }) => {
     <Card
       sx={{
         marginBottom: '3.125rem',
-        color: 'text.primary'
+        color: 'text.primary',
+        boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)'
       }}
     >
       <Typography

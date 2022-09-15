@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Alert from '@mui/material/Alert';
+import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -77,7 +78,7 @@ const ProfileReview = ({ onSubmit }) => {
   });
 
   return (
-    <Box>
+    <Box sx={{ marginBottom: '3.125rem' }}>
       {submissionError && (
         <Alert
           ref={alertElement}
@@ -91,33 +92,65 @@ const ProfileReview = ({ onSubmit }) => {
           {submissionError}
         </Alert>
       )}
-      <Card elevation={2}>
+      <Card
+        elevation={2}
+        sx={{
+          width: ['auto', '80%'],
+          margin: '0 auto',
+          boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)'
+        }}
+      >
         <form noValidate onSubmit={handleSubmit}>
-          <Box sx={{ width: '75%' }}>
-            <Typography variant="h3" component="h3">
+          <Box sx={{ marginBottom: '0.875rem' }}>
+            <Typography
+              variant="h2"
+              sx={{
+                fontSize: '1.25rem',
+                fontFamily: 'gira-sans, sans-serif',
+                fontWeight: 500,
+                marginBottom: '0.875rem',
+                textAlign: 'center'
+              }}
+            >
               Choose what do you want to do with the artist profile:
             </Typography>
-            <RadioGroup
-              row
-              aria-label="Approval status"
-              name="row-radio-buttons-group"
-              value={values.approvalStatus}
+
+            <Box
+              sx={{
+                marginBottom: '0.875rem'
+              }}
             >
-              <FormControlLabel
-                value="approved"
-                control={<Radio />}
-                label={<span style={{ fontSize: '1rem' }}>{'Approve!'}</span>}
-                name="approvalStatus"
-                onChange={handleChange}
-              />
-              <FormControlLabel
-                value="rejected"
-                control={<Radio />}
-                label={<span style={{ fontSize: '1rem' }}>{'Reject!'}</span>}
-                onChange={handleChange}
-                name="approvalStatus"
-              />
-            </RadioGroup>
+              <RadioGroup
+                row
+                aria-label="Approval status"
+                name="row-radio-buttons-group"
+                value={values.approvalStatus}
+                sx={{
+                  display: 'flex',
+                  width: '80%',
+                  margin: '0 auto',
+                  '& label': {
+                    flex: 1
+                  }
+                }}
+              >
+                <FormControlLabel
+                  value="approved"
+                  control={<Radio />}
+                  label={<span style={{ fontSize: '1rem' }}>{'Approve!'}</span>}
+                  name="approvalStatus"
+                  onChange={handleChange}
+                />
+                <FormControlLabel
+                  value="rejected"
+                  control={<Radio />}
+                  label={<span style={{ fontSize: '1rem' }}>{'Reject!'}</span>}
+                  onChange={handleChange}
+                  name="approvalStatus"
+                />
+              </RadioGroup>
+            </Box>
+            {/* <Divider light /> */}
           </Box>
 
           {values.approvalStatus === 'rejected' && (
@@ -139,10 +172,16 @@ const ProfileReview = ({ onSubmit }) => {
                   variant="h3"
                   component="h3"
                   sx={{
+                    fontFamily: 'gira-sans, sans-serif',
+                    fontSize: ['1.25rem'],
+                    fontWeight: '500',
+                    marginBottom: '1.5rem',
+                    marginTop: '2rem',
+                    textAlign: 'center',
                     '& span:nth-of-type(2n)': {
                       color: 'primary.text',
                       opacity: '0.75',
-                      fontSize: '0.875rem',
+                      fontSize: ['0.875rem'],
                       fontWeight: '500',
                       fontStyle: 'italic',
                       lineHeight: '1.33',
@@ -184,7 +223,7 @@ const ProfileReview = ({ onSubmit }) => {
               display: 'flex',
               flexDirection: ['column', 'row'],
               alignItems: 'center',
-              justifyContent: ['center', 'space-between'],
+              justifyContent: ['center', 'space-between', 'space-around'],
               '& button': {
                 width: ['19.438rem', '11.063rem'],
                 marginBottom: '0.813rem'
@@ -193,7 +232,7 @@ const ProfileReview = ({ onSubmit }) => {
           >
             <Button
               type="submit"
-              disabled={!isValid || !dirty || isSubmitting}
+              disabled={!isValid || !dirty || isSubmitting} // TODO - delete !isDirty because it disables the button for approve cases
               variant="contained"
               startIcon={<SendIcon />}
             >

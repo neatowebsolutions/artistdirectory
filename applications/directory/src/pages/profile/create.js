@@ -33,17 +33,20 @@ const CreatePage = () => {
           >
             <Box
               sx={{
-                width: '100%',
-                '& h2': {
+                width: '100%'
+              }}
+            >
+              <Typography
+                variant="h2"
+                component="h2"
+                sx={{
                   fontWeight: '900',
                   fontSize: ['0.875rem', '1.25rem', '1.5rem'],
                   textTransform: 'uppercase',
                   letterSpacing: 3.53,
                   marginBottom: ['1.063rem', '1.625rem', '1.5rem']
-                }
-              }}
-            >
-              <Typography variant="h2" component="h2">
+                }}
+              >
                 Grand Rapids Artist Directory
               </Typography>
             </Box>

@@ -36,7 +36,7 @@ const ProfileReviewPage = ({ token }) => {
       <Head>
         <title>New Artist Profile</title>
       </Head>
-      <Layout>
+      <Layout >
         <Layout.Root>
           <Box
             sx={{

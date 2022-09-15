@@ -40,7 +40,9 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
   } = artist;
 
   return (
-    <Card>
+    <Card
+      sx={{ boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)' }}
+    >
       <Box
         sx={{
           width: '10rem',
