@@ -4,7 +4,7 @@ import NextLink from 'next/link';
 import { Link as MuiLink } from '@mui/material';
 
 const Link = forwardRef(({ href, children, ...props }, ref) => {
-  const isExternal = href.match(/^https?:/);
+  const isExternal = href.match(/^https?:/); // TODO - make url that starts with www. external as well??
 
   if (isExternal) {
     return (

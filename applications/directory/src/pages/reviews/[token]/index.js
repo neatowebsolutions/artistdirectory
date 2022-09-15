@@ -50,6 +50,7 @@ const ProfileReviewPage = ({ token }) => {
               variant="h1"
               component="h1"
               sx={{
+                fontSize: ['1.5rem', '2rem', '2rem', '2.5rem'],
                 fontFamily: 'gira-sans, sans-serif',
                 textAlign: 'center',
                 letterSpacing: 2

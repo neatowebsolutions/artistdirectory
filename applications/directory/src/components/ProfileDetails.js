@@ -38,7 +38,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
     social,
     memberSince
   } = artist;
-  console.log(social);
+
   return (
     <Card>
       <Box
@@ -118,7 +118,8 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
             fontFamily: 'gira-sans, sans-serif',
             fontSize: ['1.25rem'],
             fontWeight: 'bold',
-            marginBottom: '1rem'
+            marginBottom: '1rem',
+            textAlign: ['center', 'left']
           }}
         >
           Contact Details
@@ -127,6 +128,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
           <Box
             sx={{
               display: 'flex',
+              justifyContent: ['center', 'flex-start'],
               alignItems: 'center'
             }}
           >
@@ -151,7 +153,12 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
             </Box>
           </Box>
           <MuiLink
-            sx={{ color: 'text.secondary', fontSize: '1rem' }}
+            sx={{
+              color: 'text.secondary',
+              fontSize: '1rem',
+              display: 'block',
+              textAlign: ['center', 'left']
+            }}
             href={`mailto:${email}`}
           >
             {email}
@@ -165,6 +172,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: ['center', 'flex-start'],
                   '& span': {
                     '& svg': {
                       fontSize: 20,
@@ -197,8 +205,11 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
                   '& a': {
                     fontSize: '1rem',
                     fontWeight: 500,
-                    borderBottom: 1,
-                    borderColor: 'primary.main'
+                    textDecoration: 'underline',
+                    //borderBottom: 1,
+                    //borderColor: 'primary.main',
+                    display: 'flex',
+                    justifyContent: ['center', 'flex-start']
                   }
                 }}
               >
