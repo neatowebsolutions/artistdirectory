@@ -23,6 +23,9 @@ const theme = createTheme({
     },
     success: {
       main: '#7f8d16'
+    },
+    text: {
+      secondary: 'rgba(0, 0, 0, 0.6)'
     }
   }
 });

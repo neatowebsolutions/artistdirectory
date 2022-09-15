@@ -38,7 +38,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
     social,
     memberSince
   } = artist;
-console.log(social)
+  console.log(social);
   return (
     <Card>
       <Box
@@ -93,7 +93,7 @@ console.log(social)
 
         {isLoggedIn && (
           <Button
-            sx={{ textAlign: 'center', mb: '10px' }}
+            sx={{ textAlign: 'center', marginBottom: '0.625rem' }}
             variant="text"
             startIcon={<EditIcon />}
             disableElevation
@@ -105,12 +105,8 @@ console.log(social)
       <Box
         sx={{
           '& a': {
-            margin: '0',
-            fontSize: '16px',
-            fontWeight: 'normal',
             lineHeight: '1.5',
             letterSpacing: '0.15px',
-            color: 'primary.text',
             textDecoration: 'none'
           }
         }}
@@ -122,43 +118,40 @@ console.log(social)
             fontFamily: 'gira-sans, sans-serif',
             fontSize: ['1.25rem'],
             fontWeight: 'bold',
-            marginBottom: '5px'
+            marginBottom: '1rem'
           }}
         >
           Contact Details
         </Typography>
-        <Box sx={{ mb: '10px' }}>
+        <Box sx={{ marginBottom: '1.25rem' }}>
           <Box
             sx={{
               display: 'flex',
-              alignItems: 'center',
-              '& span': {
-                fontSize: '12px',
-                fontWeight: '500',
-                fontStretch: 'normal',
-                fontStyle: 'normal',
-                lineHeight: '1.33',
-                letterSpacing: '0.4px',
-                mt: '1px',
-                color: 'rgba(0, 0, 0, 0.5)'
-              }
+              alignItems: 'center'
             }}
           >
             <MailOutlineIcon
               sx={{
-                fontSize: 18,
                 marginRight: '5px',
                 color: 'primary.main'
               }}
             />
-            <span>Email</span>
+            <Box
+              component="span"
+              typography="body1"
+              sx={{
+                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+                fontWeight: '500',
+                lineHeight: '1.33',
+                letterSpacing: '0.4px',
+                color: 'text.secondary'
+              }}
+            >
+              Email
+            </Box>
           </Box>
           <MuiLink
-            sx={{
-              fontStyle: 'normal',
-              letterSpacing: 1.25,
-              color: 'primary.main'
-            }}
+            sx={{ color: 'text.secondary', fontSize: '1rem' }}
             href={`mailto:${email}`}
           >
             {email}
@@ -167,23 +160,12 @@ console.log(social)
 
         {social.length > 0 &&
           social.map(({ name, url }, index) => (
-            <Box key={index} sx={{ mb: '10px' }}>
+            <Box key={index} sx={{ marginTop: '1rem' }}>
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
                   '& span': {
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    fontStretch: 'normal',
-                    fontStyle: 'normal',
-                    lineHeight: '1.33',
-                    letterSpacing: '0.4px',
-                    mt: '1px',
-                    color: 'rgba(0, 0, 0, 0.5)',
-                    '&:first-letter': {
-                      textTransform: 'capitalize'
-                    },
                     '& svg': {
                       fontSize: 20,
                       fontWeight: 'bold',
@@ -193,10 +175,35 @@ console.log(social)
                   }
                 }}
               >
-                <span>{socialIcons[name]}</span>
-                <span>{name}</span>
+                <Box component="span">{socialIcons[name]}</Box>
+                <Box
+                  component="span"
+                  sx={{
+                    fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+                    fontWeight: '500',
+                    lineHeight: '1.33',
+                    letterSpacing: '0.4px',
+                    color: 'text.secondary',
+                    '&:first-letter': {
+                      textTransform: 'capitalize'
+                    }
+                  }}
+                >
+                  {name}
+                </Box>
               </Box>
-              <Link href={url}>{url.replace(displayUrlReg, '')}</Link>
+              <Box
+                sx={{
+                  '& a': {
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    borderBottom: 1,
+                    borderColor: 'primary.main'
+                  }
+                }}
+              >
+                <Link href={url}>{url.replace(displayUrlReg, '')}</Link>
+              </Box>
             </Box>
           ))}
       </Box>
