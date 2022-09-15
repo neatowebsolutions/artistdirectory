@@ -20,7 +20,9 @@ const ProfileReviewEditPage = ({ token }) => {
   const { categories, categoriesLoading, categoriesError } = useCategories();
   const { skills, skillsLoading, skillsError } = useSkills();
   const { tags, tagsLoading, tagsError } = useTags();
-
+  const loading =
+    categoriesLoading || tagsLoading || skillsLoading || artistLoading;
+  const error = categoriesError || tagsError || skillsError || artistError;
   return (
     <>
       <Head>
@@ -59,15 +61,8 @@ const ProfileReviewEditPage = ({ token }) => {
 
           <Card elevation={6}>
             <Loader
-              isLoading={
-                categoriesLoading ||
-                tagsLoading ||
-                skillsLoading ||
-                artistLoading
-              }
-              isError={
-                categoriesError || tagsError || skillsError || artistError
-              }
+              isLoading={loading}
+              isError={error}
               loadingComponent={() => (
                 <LinearProgress color="primary"></LinearProgress>
               )}

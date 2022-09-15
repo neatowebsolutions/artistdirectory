@@ -145,7 +145,6 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
           };
 
           const uploadedImageUrls = await uploadFiles(filesToUpload);
-          console.log(uploadedImageUrls);
           await getFiles([...noneDuplicate, ...uploadedImageUrls]);
         }
       }

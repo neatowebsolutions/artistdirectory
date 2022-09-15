@@ -56,13 +56,6 @@ const handler = async (event, context) => {
       getKeywords(Category, categories)
     ]);
 
-    const socialParsed = social
-      .map((item) => {
-        delete item.checked;
-        return item;
-      })
-      .filter((item) => item.url);
-
     const imageUrls = images.map((image) => `${ASSETS_URL}/profile/${image}`);
 
     const reviewToken = await generateToken();
@@ -70,7 +63,7 @@ const handler = async (event, context) => {
     const dataParsed = {
       ...data,
       images: imageUrls,
-      social: socialParsed,
+      social,
       skills: skillsParsed,
       tags: tagsParsed,
       categories: categoriesParsed,
@@ -111,7 +104,6 @@ const handler = async (event, context) => {
     await logger.info(`Artist created (${artist.toString()})`, { data });
 
     // copy images from uploads_bucket to assets_bucket
-
     const copyImages = (imagesArray) => {
       const copiedImages = imagesArray.map(async (image) => {
         const params = {
