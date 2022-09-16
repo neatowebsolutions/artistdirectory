@@ -2,12 +2,12 @@
 // TODO - change marginLeft for input social on mobile
 // TODO reduce font size in drop-downs (bigger screen)?
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
-import PropTypes from 'prop-types'; // CreateProfileForm.propTypes = {className: PropTypes.string,} TODO - are we going to use classes at any point?
+import PropTypes from 'prop-types'; // CreateProfileForm.propTypes = {className: PropTypes.string,} TODO - are we going to use classes?
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
@@ -31,20 +31,80 @@ const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
 const skillsDefaultValue = 'Carpentry';
 
-const initialValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  city: '',
-  website: { checked: true, name: 'website', url: '' },
-  behance: { checked: false, name: 'behance', url: '' },
-  other: { checked: false, name: 'other', url: '' },
-  description: '',
-  categories: [categoriesDefaultValue],
-  tags: [tagsDefaultValue],
-  skills: [skillsDefaultValue],
-  files: [],
-  subscribedToNewsletter: 'yes'
+// TODO - this function will go to a different file as a helper function because most likely it will be used in other components
+// convert artist data from backend to the values to be excepted by the form's "initial values"
+const parseArtist = (artist) => {
+  // check if artist is an empty object
+  if (Object.keys(artist).length === 0) {
+    return false;
+  }
+
+  const {
+    firstName,
+    lastName,
+    email,
+    city,
+    description,
+    categories,
+    social,
+    tags,
+    skills,
+    images
+  } = artist;
+
+  // parse images array to shape them into the form Upload component uses them to upload new images
+  const parsedImages = images.map((image) => {
+    const imageName = image.split('/').at(-1); // returns last array value which is a file name
+    return {
+      fileName: imageName,
+      file: { name: imageName, preview: image },
+      uploadError: undefined,
+      signedUrlError: undefined,
+      uploaded: true,
+      loading: false
+    };
+  });
+
+  // convert social to object
+  const parsedExistingSocial = social.reduce((list, item) => {
+    return {
+      ...list,
+      [item.name]: {
+        name: item.name,
+        url: item.url,
+        checked: Boolean(item.url)
+      }
+    };
+  }, {});
+
+  // create list of social like initial values for the form
+  const socialInitialValues = {
+    website: { checked: true, name: 'website', url: '' },
+    behance: { checked: false, name: 'behance', url: '' },
+    other: { checked: false, name: 'other', url: '' }
+  };
+
+  // parsedExistingSocial  overrides initial values with the values from the db and create an array of all 3 social to use in the form
+  const socialParsed = { ...socialInitialValues, ...parsedExistingSocial };
+
+  // convert from boolean values to yes/no strings
+  const subscribedToNewsletter = artist.subscribedToNewsletter ? 'yes' : 'no';
+
+  const existingArtist = {
+    firstName,
+    lastName,
+    email,
+    city,
+    description,
+    categories,
+    tags,
+    skills,
+    files: parsedImages,
+    ...socialParsed,
+    subscribedToNewsletter
+  };
+
+  return existingArtist;
 };
 
 const keywordsValidate = (keywords) =>
@@ -77,15 +137,37 @@ const labelStyles = {
 const CreateProfileForm = ({
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
-  skills = [skillsDefaultValue]
+  skills = [skillsDefaultValue],
+  artist = {}
 }) => {
   const router = useRouter();
+
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    email: artist ? artist.email : '',
+    city: '',
+    website: { checked: true, name: 'website', url: '' },
+    behance: { checked: false, name: 'behance', url: '' },
+    other: { checked: false, name: 'other', url: '' },
+    description: '',
+    categories: [categoriesDefaultValue],
+    tags: [tagsDefaultValue],
+    skills: [skillsDefaultValue],
+    files: [],
+    subscribedToNewsletter: 'yes'
+  };
+  const parsedArtist = parseArtist(artist);
+
   const { createArtist } = useCreateArtist();
   const { ifEmailExists } = useEmailValidation();
   const [ifValidEmail, setIfValidEmail] = useState('');
   const [formReset, setFormReset] = useState(false);
-  const [imageFiles, setFiles] = useState(initialValues.files);
+  const [imageFiles, setFiles] = useState(
+    parsedArtist.files || initialValues.files
+  );
   const [submissionError, setSubmissionError] = useState('');
+
   // get the element to scroll into view if displayed
   const alertElement = useRef();
 
@@ -94,8 +176,9 @@ const CreateProfileForm = ({
     handleBlur,
     handleChange,
     handleSubmit,
-    handleReset,
     setFieldValue,
+    setValues,
+    setTouched,
     resetForm,
     values,
     isValid,
@@ -104,7 +187,7 @@ const CreateProfileForm = ({
     errors,
     touched
   } = useFormik({
-    initialValues,
+    initialValues: parsedArtist || initialValues,
     enableReinitialize: true, // lets the form to go back to initial values if reset form
     validationSchema: Yup.object().shape({
       firstName: Yup.string().required('First name is required'),
@@ -198,12 +281,15 @@ const CreateProfileForm = ({
       } = vals;
 
       // user social links
-      const social = [website, behance, other];
+      // create deep array copy to not effect original form values when deleting "checked" property
+      const social = JSON.parse(JSON.stringify([website, behance, other]))
+        .map((item) => {
+          delete item.checked;
+          return item;
+        })
+        .filter((item) => item.url);
 
-      const images = files.reduce((acc, { fileName }) => {
-        acc.push(fileName);
-        return acc;
-      }, []);
+      const images = files.map(({ fileName }) => fileName);
 
       // convert 'yes'/'no' to boolean
       const subscribedToNewsletterParsed = subscribedToNewsletter === 'yes';
@@ -222,13 +308,19 @@ const CreateProfileForm = ({
         subscribedToNewsletter: subscribedToNewsletterParsed
       };
       try {
-        await createArtist(data);
+        if (Object.keys(artist).length !== 0) {
+          console.log(data);
+          // TODO - send data to backend and update the artist
+        } else {
+          await createArtist(data);
+        }
+
         // redirect to a thank-you page if the artist created successfully
         router.push({
-          pathname: `/profile/thank-you/`,
+          pathname: `/profile/thank-you/`, // TODO modify thank you page to make it work for a new artist and after editing profile??
           query: { name: firstName }
         });
-        resetForm(); // TODO - test reset form
+        resetForm();
         setFiles([]); // delete files
         setSubmissionError('');
       } catch (error) {
@@ -267,7 +359,9 @@ const CreateProfileForm = ({
   const handleFormReset = () => {
     setFormReset(!formReset);
     setFiles([]);
-    handleReset();
+    // works for both reset form for new artist and form for editing existing artist whose profile was rejected
+    setValues({ ...initialValues });
+    setTouched({}, false);
   };
 
   return (
@@ -383,6 +477,7 @@ const CreateProfileForm = ({
                 id="outlined-required"
                 label="Email Address"
                 name="email"
+                disabled={Boolean(parsedArtist)} // the field is disabled if an artist editing the form after initial profile rejection
                 onChange={handleChange}
                 onBlur={async (e) => {
                   if (values.email) {
@@ -404,7 +499,11 @@ const CreateProfileForm = ({
                 }}
                 value={values.email}
                 error={errors.email && touched.email}
-                helperText={touched.email ? errors.email : ''}
+                helperText={
+                  touched.email
+                    ? errors.email
+                    : (parsedArtist && 'Email cannot be changed!') || ''
+                }
               />
             </Box>
             <Box>

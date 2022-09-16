@@ -29,11 +29,11 @@ const HomePage = () => {
             <Box
               sx={{
                 '& p': {
-                  margin: '1rem 0',
+                  margin: '1rem 0'
                 },
                 '& p:nth-of-type(2n)': {
-                  fontStyle: 'italic',
-                },
+                  fontStyle: 'italic'
+                }
               }}
             >
               <Typography variant="body1">
@@ -58,7 +58,7 @@ const HomePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.2rem'
                 }}
                 elevation={4}
               >

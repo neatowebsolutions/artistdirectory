@@ -17,7 +17,7 @@ const handler = async (event, context) => {
     const { field, value } = event.pathParameters;
     const Artist = await models.get('Artist');
     const artist = await Artist.findOne({ [field]: value });
-
+    
     if (!artist) {
       return {
         statusCode: StatusCodes.NOT_FOUND,
