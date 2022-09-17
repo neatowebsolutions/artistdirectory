@@ -97,7 +97,7 @@ const ProfileReview = ({ onSubmit }) => {
         sx={{
           width: ['auto', '80%'],
           margin: '0 auto',
-          boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)'
+          boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)' // the same shadow as in a few other places
         }}
       >
         <form noValidate onSubmit={handleSubmit}>
@@ -105,6 +105,7 @@ const ProfileReview = ({ onSubmit }) => {
             <Typography
               variant="h2"
               sx={{
+                // these h2 styles are the same for 4 more headers (2 in this component and 2 in 2 other components)
                 fontSize: '1.25rem',
                 fontFamily: 'gira-sans, sans-serif',
                 fontWeight: 500,
@@ -117,7 +118,7 @@ const ProfileReview = ({ onSubmit }) => {
 
             <Box
               sx={{
-                marginBottom: '0.875rem'
+                marginBottom: '0.875rem' // this margin is all over the place on the review page (at least 5 different places)
               }}
             >
               <RadioGroup
@@ -158,6 +159,7 @@ const ProfileReview = ({ onSubmit }) => {
               <Box
                 sx={{
                   '& p': {
+                    // styling error message
                     typography: 'body1',
                     fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
                     fontStyle: 'italic',
@@ -177,8 +179,14 @@ const ProfileReview = ({ onSubmit }) => {
                     fontWeight: '500',
                     marginBottom: '1.5rem',
                     marginTop: '2rem',
-                    textAlign: 'center',
-                    '& span:nth-of-type(2n)': {
+                    textAlign: 'center'
+                  }}
+                >
+                  State your reasons for rejection.
+                  <Box component="span">*</Box>
+                  <Box
+                    component="span"
+                    sx={{
                       color: 'primary.text',
                       opacity: '0.75',
                       fontSize: ['0.875rem'],
@@ -187,12 +195,10 @@ const ProfileReview = ({ onSubmit }) => {
                       lineHeight: '1.33',
                       letterSpacing: '1px',
                       marginLeft: '0.938rem'
-                    }
-                  }}
-                >
-                  State your reasons for rejection.
-                  <span>*</span>
-                  <span>1500 CHARACTERS MAX!</span>
+                    }}
+                  >
+                    1500 CHARACTERS MAX!
+                  </Box>
                 </Typography>
 
                 <FormControl fullWidth>

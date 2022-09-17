@@ -15,7 +15,7 @@ const displayUrlReg = /http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/;
 
 const socialIcons = {
   website: <LanguageIcon />,
-  behance: <SvgIcon component={BehanceIcon} />,
+  behance: <SvgIcon component={BehanceIcon} />, // TODO - it does not show the icon
   // behance: (
   //   <SvgIcon>
   //     {' '}
@@ -28,7 +28,7 @@ const socialIcons = {
   other: <AltRouteIcon />
 };
 
-//TODO - find a way to hide the edit button for review (it should be taken care of when working on login functionality ),  temporarily solution here
+//TODO - find a way to hide the edit button for review (it should be taken care of when working on auth functionality ),  temporarily solution here
 const ProfileDetails = ({ artist, isLoggedIn = false }) => {
   const {
     firstName,
@@ -41,7 +41,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
 
   return (
     <Card
-      sx={{ boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)' }}
+      sx={{ boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)' }} // TODO - we use this box shadow for 4 boxes just on this page. I am not sure about other boxes all over the designs, have not checked them all but i do know there are other box shadows on different pages. why are they all not the same...
     >
       <Box
         sx={{
@@ -74,7 +74,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
           sx={{
             textAlign: 'center',
             fontSize: ['1.375rem'],
-            fontFamily: 'gira-sans, sans-serif',
+            fontFamily: 'gira-sans, sans-serif', // TODO - this component and ProfileDetails, WorkExamples use this fontFamily while all headers in MUI and many other pages are 'brandon-grotesque, sans-serif' for headers,
             margin: '0.375rem'
           }}
         >
@@ -174,18 +174,22 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: ['center', 'flex-start'],
-                  '& span': {
+                  justifyContent: ['center', 'flex-start']
+                }}
+              >
+                <Box
+                  component="span"
+                  sx={{
                     '& svg': {
                       fontSize: 20,
                       fontWeight: 'bold',
                       marginRight: '5px',
                       color: 'primary.main'
                     }
-                  }
-                }}
-              >
-                <Box component="span">{socialIcons[name]}</Box>
+                  }}
+                >
+                  {socialIcons[name]}
+                </Box>
                 <Box
                   component="span"
                   sx={{
@@ -194,9 +198,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
                     lineHeight: '1.33',
                     letterSpacing: '0.4px',
                     color: 'text.secondary',
-                    '&:first-letter': {
-                      textTransform: 'capitalize'
-                    }
+                    textTransform: 'capitalize'
                   }}
                 >
                   {name}
@@ -208,8 +210,6 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
                     fontSize: '1rem',
                     fontWeight: 500,
                     textDecoration: 'underline',
-                    //borderBottom: 1,
-                    //borderColor: 'primary.main',
                     display: 'flex',
                     justifyContent: ['center', 'flex-start']
                   }

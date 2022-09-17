@@ -39,12 +39,12 @@ const renderDetailsList = (list, title, i) => (
               width: 'auto',
               padding: '0 0.406rem',
               lineHeight: '1.5',
-              letterSpacing: '0.15px',
+              letterSpacing: '0.15px'
             }}
           >
             <ListItemText
               primary={item}
-              primaryTypographyProps={{ fontSize: ['1rem'], lineHeight: '1.5' }}
+              primaryTypographyProps={{ fontSize: ['1rem'], lineHeight: '1.5' }} // using this prop is the only way to change font properties
               sx={{
                 textTransform: 'capitalize'
               }}
@@ -96,18 +96,7 @@ const PersonalDetails = ({ artist }) => {
           renderDetailsList(list, title, index)
         )}
       </Box>
-      <Box
-        sx={{
-          '& p': {
-            margin: '1rem 0',
-            fontSize: '16px',
-            lineHeight: '1.5',
-            letterSpacing: '0.15px',
-            wordBreak: 'break-word',
-            textAlign: 'justify'
-          }
-        }}
-      >
+      <Box>
         <Typography
           variant="h2"
           sx={{
@@ -119,7 +108,18 @@ const PersonalDetails = ({ artist }) => {
         >
           About {firstName}
         </Typography>
-        <Typography variant="p" component="p">
+        <Typography
+          variant="p"
+          component="p"
+          sx={{
+            margin: '1rem 0',
+            fontSize: '1rem',
+            lineHeight: '1.5',
+            letterSpacing: '0.15px',
+            wordBreak: 'break-word',
+            textAlign: 'justify'
+          }}
+        >
           {description}
         </Typography>
       </Box>
