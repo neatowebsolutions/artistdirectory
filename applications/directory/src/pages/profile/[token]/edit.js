@@ -1,6 +1,6 @@
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Head from 'next/head';
+import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import Card from '@mui/material/Card';
 import { Loader } from '@artistdirectory/react-components';
@@ -34,29 +34,16 @@ const ProfileReviewEditPage = ({ token }) => {
             sx={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
-              '& h1': {
-                fontSize: '2.2rem'
-              },
-              '& nav': {
-                '& ul': {
-                  margin: 0,
-                  padding: 0,
-                  listStyle: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  '& li': {
-                    mr: '20px',
-                    '&:last-child': {
-                      mr: '0'
-                    }
-                  }
-                }
-              }
+              justifyContent: 'center'
             }}
           >
-            <h1>Edit artist profile</h1>
+            <Typography
+              variant="h1"
+              component="h1"
+              sx={{ textAlign: 'center' }}
+            >
+              Edit artist profile
+            </Typography>
           </Box>
 
           <Card elevation={6}>
