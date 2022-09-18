@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Head from 'next/head';
 import Alert from '@mui/material/Alert';
@@ -26,31 +27,19 @@ const ProfileReviewEditPage = () => {
             sx={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'space-between',
-              '& h1': {
-                fontSize: '2.2rem'
-              },
-              '& nav': {
-                '& ul': {
-                  margin: 0,
-                  padding: 0,
-                  listStyle: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'flex-end',
-                  '& li': {
-                    mr: '20px',
-                    '&:last-child': {
-                      mr: '0'
-                    }
-                  }
-                }
-              }
+              justifyContent: 'center',
+              marginBottom: ['2rem', '3.5rem'],
+              marginTop: ['1rem', '2.5rem']
             }}
           >
-            <h1>Edit artist profile</h1>
+            <Typography variant="h1">Edit artist profile</Typography>
           </Box>
-
+          {/* TODO - checkout styles in create profile page <Box
+          sx={{
+            maxWidth: '48.875rem',
+            margin: ['2rem auto 0', '4.125rem auto 0', '3.5rem auto 0']
+          }}
+        > */}
           <Box
             sx={{
               display: 'flex',
