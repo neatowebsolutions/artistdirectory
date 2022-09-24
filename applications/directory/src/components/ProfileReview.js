@@ -23,6 +23,8 @@ const inputFieldStyles = {
   }
 };
 
+const marginBottomStyles = { marginBottom: '0.875rem' };
+
 const ProfileReview = ({ onSubmit }) => {
   const [submissionError, setSubmissionError] = useState('');
   const alertElement = useRef();
@@ -101,7 +103,7 @@ const ProfileReview = ({ onSubmit }) => {
         }}
       >
         <form noValidate onSubmit={handleSubmit}>
-          <Box sx={{ marginBottom: '0.875rem' }}>
+          <Box sx={marginBottomStyles}>
             <Typography
               variant="h2"
               sx={{
@@ -109,18 +111,14 @@ const ProfileReview = ({ onSubmit }) => {
                 fontSize: '1.25rem',
                 fontFamily: 'gira-sans, sans-serif',
                 fontWeight: 500,
-                marginBottom: '0.875rem',
-                textAlign: 'center'
+                textAlign: 'center',
+                ...marginBottomStyles
               }}
             >
               Choose what do you want to do with the artist profile:
             </Typography>
 
-            <Box
-              sx={{
-                marginBottom: '0.875rem' // this margin is all over the place on the review page (at least 5 different places)
-              }}
-            >
+            <Box sx={marginBottomStyles}>
               <RadioGroup
                 row
                 aria-label="Approval status"
@@ -158,8 +156,8 @@ const ProfileReview = ({ onSubmit }) => {
             <Fade in={values.approvalStatus === 'rejected'}>
               <Box
                 sx={{
-                  '& p': {
-                    // styling error message
+                  // styling error message
+                  '& .MuiFormHelperText-root': {
                     typography: 'body1',
                     fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
                     fontStyle: 'italic',
@@ -238,7 +236,7 @@ const ProfileReview = ({ onSubmit }) => {
           >
             <Button
               type="submit"
-              disabled={!isValid || !dirty || isSubmitting} // TODO - delete !isDirty because it disables the button for approve cases
+              disabled={!isValid || !dirty || isSubmitting}
               variant="contained"
               startIcon={<SendIcon />}
             >

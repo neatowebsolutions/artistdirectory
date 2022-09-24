@@ -1,5 +1,6 @@
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
+import Icon from '@mui/material/Icon';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
@@ -17,6 +18,11 @@ const socialIcons = {
   website: <LanguageIcon />,
   behance: <SvgIcon component={BehanceIcon} />, // TODO - it does not show the icon
   // behance: (
+  //   <Icon sx={{ '& img': { marginBottom: '0.4rem', marginRight: '2rem' } }}>
+  //     <img src="/images/img-behance.svg" alt="" />
+  //   </Icon>
+  // ),
+  // behance: (
   //   <SvgIcon>
   //     {' '}
   //     <path
@@ -28,7 +34,24 @@ const socialIcons = {
   other: <AltRouteIcon />
 };
 
-//TODO - find a way to hide the edit button for review (it should be taken care of when working on auth functionality ),  temporarily solution here
+const labelStyles = {
+  fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+  fontWeight: 500,
+  lineHeight: '1.33',
+  letterSpacing: '0.4px',
+  color: 'text.secondary',
+  textTransform: 'capitalize'
+};
+
+const linkStyles = {
+  display: 'flex',
+  justifyContent: ['center', 'flex-start'],
+  fontSize: '1rem',
+  lineHeight: '1.5',
+  letterSpacing: '0.15px'
+};
+
+//TODO - hide the edit button for review (it should be taken care of when working on auth functionality ),  temporarily solution here
 const ProfileDetails = ({ artist, isLoggedIn = false }) => {
   const {
     firstName,
@@ -60,6 +83,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
         }}
       >
         <img src={profileImageUrl} alt="Profile" />
+        {/* <BehanceIcon /> */}
       </Box>
       <Box
         sx={{
@@ -104,15 +128,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
           </Button>
         )}
       </Box>
-      <Box
-        sx={{
-          '& a': {
-            lineHeight: '1.5',
-            letterSpacing: '0.15px',
-            textDecoration: 'none'
-          }
-        }}
-      >
+      <Box>
         <Typography
           variant="h3"
           component="h3"
@@ -140,26 +156,15 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
                 color: 'primary.main'
               }}
             />
-            <Box
-              component="span"
-              typography="body1"
-              sx={{
-                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
-                fontWeight: '500',
-                lineHeight: '1.33',
-                letterSpacing: '0.4px',
-                color: 'text.secondary'
-              }}
-            >
+            <Box component="span" typography="body1" sx={labelStyles}>
               Email
             </Box>
           </Box>
           <MuiLink
             sx={{
-              color: 'text.secondary',
-              fontSize: '1rem',
-              display: 'block',
-              textAlign: ['center', 'left']
+              ...linkStyles,
+              textDecoration: 'none',
+              color: 'text.secondary'
             }}
             href={`mailto:${email}`}
           >
@@ -190,32 +195,20 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
                 >
                   {socialIcons[name]}
                 </Box>
-                <Box
-                  component="span"
-                  sx={{
-                    fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
-                    fontWeight: '500',
-                    lineHeight: '1.33',
-                    letterSpacing: '0.4px',
-                    color: 'text.secondary',
-                    textTransform: 'capitalize'
-                  }}
-                >
+                <Box component="span" sx={labelStyles}>
                   {name}
                 </Box>
               </Box>
-              <Box
-                sx={{
-                  '& a': {
-                    fontSize: '1rem',
-                    fontWeight: 500,
-                    textDecoration: 'underline',
-                    display: 'flex',
-                    justifyContent: ['center', 'flex-start']
-                  }
-                }}
-              >
-                <Link href={url}>{url.replace(displayUrlReg, '')}</Link>
+              <Box>
+                <Link
+                  href={url}
+                  sx={{
+                    ...linkStyles,
+                    fontWeight: 500
+                  }}
+                >
+                  {url.replace(displayUrlReg, '')}{' '}
+                </Link>
               </Box>
             </Box>
           ))}

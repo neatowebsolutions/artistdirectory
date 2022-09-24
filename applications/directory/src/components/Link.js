@@ -1,6 +1,7 @@
 import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import NextLink from 'next/link';
+import Box from '@mui/material/Box';
 import { Link as MuiLink } from '@mui/material';
 
 const Link = forwardRef(({ href, children, ...props }, ref) => {
@@ -8,9 +9,9 @@ const Link = forwardRef(({ href, children, ...props }, ref) => {
 
   if (isExternal) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+      <Box href={href} target="_blank" rel="noopener noreferrer" {...props}>
         {children}
-      </a>
+      </Box>
     );
   }
 
