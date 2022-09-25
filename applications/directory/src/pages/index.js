@@ -13,6 +13,9 @@ const HomePage = () => {
   const { tags, tagsLoading, tagsError } = useTags();
   const { skills, skillsLoading, skillsError } = useSkills();
 
+  const isLoading = !!(categoriesLoading || tagsLoading || skillsLoading);
+  const isError = !!(categoriesError || tagsError || skillsError);
+
   return (
     <>
       <Head>
@@ -29,11 +32,11 @@ const HomePage = () => {
             <Box
               sx={{
                 '& p': {
-                  margin: '1rem 0',
+                  margin: '1rem 0'
                 },
                 '& p:nth-of-type(2n)': {
-                  fontStyle: 'italic',
-                },
+                  fontStyle: 'italic'
+                }
               }}
             >
               <Typography variant="body1">
@@ -49,8 +52,8 @@ const HomePage = () => {
         </Layout.Intro>
         <Card elevation={6}>
           <Loader
-            isLoading={categoriesLoading || tagsLoading || skillsLoading}
-            isError={categoriesError || tagsError || skillsError}
+            isLoading={isLoading}
+            isError={isError}
             loadingComponent={() => (
               <LinearProgress color="primary"></LinearProgress>
             )}
@@ -58,7 +61,7 @@ const HomePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.2rem'
                 }}
                 elevation={4}
               >
