@@ -37,13 +37,14 @@ module.exports = {
           minRatio: 0.8
         })
       );
-
-      // Add support for .svg files.
-      config.module.rules.push({
-        test: /\.svg$/,
-        use: ['@svgr/webpack']
-      });
     }
+
+    // Add support for .svg files.
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack']
+    });
+
     return config;
   },
   // Prefix URL for all static assets. Disable prefixing in dev mode as this breaks mobile testing.

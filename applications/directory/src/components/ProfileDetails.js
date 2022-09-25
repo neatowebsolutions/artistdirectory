@@ -9,7 +9,7 @@ import { Link as MuiLink } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LanguageIcon from '@mui/icons-material/Language';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
-import { ReactComponent as BehanceIcon } from '../../public/images/img-behance.svg';
+import BehanceIcon from '../icons/behance.svg';
 import Link from './Link';
 
 const displayUrlReg = /http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/;
@@ -51,16 +51,10 @@ const linkStyles = {
   letterSpacing: '0.15px'
 };
 
-//TODO - hide the edit button for review (it should be taken care of when working on auth functionality ),  temporarily solution here
+// TODO - hide the edit button for review (it should be taken care of when working on auth functionality ),  temporarily solution here
 const ProfileDetails = ({ artist, isLoggedIn = false }) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    profileImageUrl,
-    social,
-    memberSince
-  } = artist;
+  const { firstName, lastName, email, profileImageUrl, social, memberSince } =
+    artist;
 
   return (
     <Card
