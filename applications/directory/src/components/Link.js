@@ -9,7 +9,13 @@ const Link = forwardRef(({ href, children, ...props }, ref) => {
 
   if (isExternal) {
     return (
-      <Box href={href} target="_blank" rel="noopener noreferrer" {...props}>
+      <Box
+        component="a"
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...props}
+      >
         {children}
       </Box>
     );
