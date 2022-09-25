@@ -1,4 +1,6 @@
 import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
+import Icon from '@mui/material/Icon';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,14 +9,19 @@ import { Link as MuiLink } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LanguageIcon from '@mui/icons-material/Language';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
-import { ReactComponent as BehanceIcon } from '../../public/images/img-behance.svg';
+import BehanceIcon from '../icons/behance.svg';
 import Link from './Link';
 
 const displayUrlReg = /http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/;
 
 const socialIcons = {
   website: <LanguageIcon />,
-  behance: <SvgIcon component={BehanceIcon} />,
+  behance: <SvgIcon component={BehanceIcon} />, // TODO - it does not show the icon
+  // behance: (
+  //   <Icon sx={{ '& img': { marginBottom: '0.4rem', marginRight: '2rem' } }}>
+  //     <img src="/images/img-behance.svg" alt="" />
+  //   </Icon>
+  // ),
   // behance: (
   //   <SvgIcon>
   //     {' '}
@@ -27,60 +34,86 @@ const socialIcons = {
   other: <AltRouteIcon />
 };
 
-//TODO - find a way to hide the edit button for review (it should be taken care of when working on login functionality ),  temporarily solution here
+const labelStyles = {
+  fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+  fontWeight: 500,
+  lineHeight: '1.33',
+  letterSpacing: '0.4px',
+  color: 'text.secondary',
+  textTransform: 'capitalize'
+};
+
+const linkStyles = {
+  display: 'flex',
+  justifyContent: ['center', 'flex-start'],
+  fontSize: '1rem',
+  lineHeight: '1.5',
+  letterSpacing: '0.15px'
+};
+
+// TODO - hide the edit button for review (it should be taken care of when working on auth functionality ),  temporarily solution here
 const ProfileDetails = ({ artist, isLoggedIn = false }) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    profileImageUrl,
-    social,
-    memberSince
-  } = artist;
+  const { firstName, lastName, email, profileImageUrl, social, memberSince } =
+    artist;
 
   return (
-    <Card>
+    <Card
+      sx={{ boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)' }} // TODO - we use this box shadow for 4 boxes just on this page. I am not sure about other boxes all over the designs, have not checked them all but i do know there are other box shadows on different pages. why are they all not the same...
+    >
       <Box
         sx={{
-          width: '150px',
-          height: '150px',
-          margin: '0 auto',
+          width: '10rem',
+          height: '10rem',
+          margin: ['0rem auto'],
           borderRadius: '4px',
-          overflow: 'hidden',
           '& img': {
-            height: '100%',
             width: '100%',
-            objectFit: 'cover'
+            height: '100%',
+            objectFit: 'cover',
+            // atl styling
+            fontSize: '0.875rem',
+            margin: '0 1rem'
           }
         }}
       >
         <img src={profileImageUrl} alt="Profile" />
+        {/* <BehanceIcon /> */}
       </Box>
       <Box
         sx={{
           borderBottom: 'solid 1px rgba(0, 0, 0, 0.1)',
-          textAlign: 'center',
-          '& h4': {
-            fontSize: '16px',
-            fontWeight: 'bold',
-            margin: '0 0 10px 0',
-            color: 'rgba(0, 0, 0, 0.5)'
-          },
-          '& h3': {
-            fontSize: '22px',
-            fontWeight: 'bold',
-            margin: '10px 0 5px 0'
-          }
+          marginBottom: '1.425rem',
+          textAlign: 'center'
         }}
       >
-        <h3>
+        <Typography
+          variant="h2"
+          component="h2"
+          sx={{
+            textAlign: 'center',
+            fontSize: ['1.375rem'],
+            fontFamily: 'gira-sans, sans-serif', // TODO - this component and ProfileDetails, WorkExamples use this fontFamily while all headers in MUI and many other pages are 'brandon-grotesque, sans-serif' for headers,
+            margin: '0.375rem'
+          }}
+        >
           {firstName} {lastName}
-        </h3>
-        <h4>Member Since {memberSince}</h4>
+        </Typography>
+        <Typography
+          variant="h4"
+          component="h3"
+          sx={{
+            fontFamily: 'gira-sans, sans-serif',
+            fontWeight: 'bold',
+            color: 'rgba(0, 0, 0, 0.5)',
+            marginBottom: '1.39rem'
+          }}
+        >
+          Member Since {memberSince}
+        </Typography>
 
         {isLoggedIn && (
           <Button
-            sx={{ textAlign: 'center', mb: '10px' }}
+            sx={{ textAlign: 'center', marginBottom: '0.625rem' }}
             variant="text"
             startIcon={<EditIcon />}
             disableElevation
@@ -89,56 +122,43 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
           </Button>
         )}
       </Box>
-      <Box
-        sx={{
-          '& h3': {
-            fontSize: '22px',
+      <Box>
+        <Typography
+          variant="h3"
+          component="h3"
+          sx={{
+            fontFamily: 'gira-sans, sans-serif',
+            fontSize: ['1.25rem'],
             fontWeight: 'bold',
-            margin: '10px 0 5px 0'
-          },
-          '& a': {
-            margin: '0',
-            fontSize: '16px',
-            fontWeight: 'normal',
-            lineHeight: '1.5',
-            letterSpacing: '0.15px',
-            color: 'primary.text',
-            textDecoration: 'none'
-          }
-        }}
-      >
-        <h3>Contact Details</h3>
-        <Box sx={{ mb: '10px' }}>
+            marginBottom: '1rem',
+            textAlign: ['center', 'left']
+          }}
+        >
+          Contact Details
+        </Typography>
+        <Box sx={{ marginBottom: '1.25rem' }}>
           <Box
             sx={{
               display: 'flex',
-              alignItems: 'center',
-              '& span': {
-                fontSize: '12px',
-                fontWeight: '500',
-                fontStretch: 'normal',
-                fontStyle: 'normal',
-                lineHeight: '1.33',
-                letterSpacing: '0.4px',
-                mt: '1px',
-                color: 'rgba(0, 0, 0, 0.5)'
-              }
+              justifyContent: ['center', 'flex-start'],
+              alignItems: 'center'
             }}
           >
             <MailOutlineIcon
               sx={{
-                fontSize: 18,
                 marginRight: '5px',
                 color: 'primary.main'
               }}
             />
-            <span>Email</span>
+            <Box component="span" typography="body1" sx={labelStyles}>
+              Email
+            </Box>
           </Box>
           <MuiLink
             sx={{
-              fontStyle: 'normal',
-              letterSpacing: 1.25,
-              color: 'primary.main'
+              ...linkStyles,
+              textDecoration: 'none',
+              color: 'text.secondary'
             }}
             href={`mailto:${email}`}
           >
@@ -148,36 +168,42 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
 
         {social.length > 0 &&
           social.map(({ name, url }, index) => (
-            <Box key={index} sx={{ mb: '10px' }}>
+            <Box key={index} sx={{ marginTop: '1rem' }}>
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  '& span': {
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    fontStretch: 'normal',
-                    fontStyle: 'normal',
-                    lineHeight: '1.33',
-                    letterSpacing: '0.4px',
-                    mt: '1px',
-                    color: 'rgba(0, 0, 0, 0.5)',
-                    '&:first-letter': {
-                      textTransform: 'capitalize'
-                    },
+                  justifyContent: ['center', 'flex-start']
+                }}
+              >
+                <Box
+                  component="span"
+                  sx={{
                     '& svg': {
                       fontSize: 20,
                       fontWeight: 'bold',
                       marginRight: '5px',
                       color: 'primary.main'
                     }
-                  }
-                }}
-              >
-                <span>{socialIcons[name]}</span>
-                <span>{name}</span>
+                  }}
+                >
+                  {socialIcons[name]}
+                </Box>
+                <Box component="span" sx={labelStyles}>
+                  {name}
+                </Box>
               </Box>
-              <Link href={url}>{url.replace(displayUrlReg, '')}</Link>
+              <Box>
+                <Link
+                  href={url}
+                  sx={{
+                    ...linkStyles,
+                    fontWeight: 500
+                  }}
+                >
+                  {url.replace(displayUrlReg, '')}{' '}
+                </Link>
+              </Box>
             </Box>
           ))}
       </Box>

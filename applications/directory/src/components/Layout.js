@@ -29,16 +29,32 @@ Intro.propTypes = {
 const Layout = ({ children }) => (
   <Box
     sx={{
-      maxWidth: ['95%', '95%', '95%', '1180px', '1280px'],
-      margin: '0 auto',
-      '& p': {
-        fontSize: [14, 16, 20]
-      }
+      display: 'flex',
+      flexDirection: 'column',
+      overflowX: 'hidden'
     }}
   >
-    <Toolbar />
-    <Header />
-    <main>{children}</main>
+    <Box>
+      <Toolbar />
+      <Header />
+    </Box>
+
+    <Box
+      component="main"
+      sx={{
+        backgroundColor: '#fcfcfc',
+        marginTop: '3px'
+      }}
+    >
+      <Box
+        sx={{
+          maxWidth: ['95%', '95%', '95%', '1180px', '1280px'],
+          margin: ' 0 auto'
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
   </Box>
 );
 

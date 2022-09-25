@@ -15,10 +15,10 @@ module.exports = {
     filename: 'index.js',
     libraryTarget: 'umd',
     globalObject: 'this',
-    publicPath: '/',
+    publicPath: '/'
   },
   cache: {
-    type: 'filesystem',
+    type: 'filesystem'
   },
   module: {
     rules: [
@@ -29,29 +29,25 @@ module.exports = {
         loader: 'babel-loader',
         options: {
           cacheCompression: false,
-          cacheDirectory: true,
-        },
+          cacheDirectory: true
+        }
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.svg$/,
-        use: ['@svgr/webpack', 'url-loader'],
-      },
-    ],
+        use: ['style-loader', 'css-loader']
+      }
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    dev && new ESLintPlugin({ cache: true }),
+    dev && new ESLintPlugin({ cache: true })
   ].filter(Boolean),
   stats: 'errors-warnings',
   externals: [
     '@artistdirectory/react-hooks',
     'prop-types',
     'react',
-    'react-dom',
-  ],
+    'react-dom'
+  ]
 };

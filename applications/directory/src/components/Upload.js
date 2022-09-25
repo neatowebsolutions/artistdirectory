@@ -185,32 +185,36 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
   });
 
   return (
-    <Box
-      sx={{
-        '& h2': {
-          marginTop: ['1.5rem']
-        },
-        '& h3': {
-          marginTop: ['1rem'],
-          marginBottom: ['.5rem']
-        },
-        '& p': {
-          fontStyle: 'italic',
-          marginBottom: '1.5rem'
-        },
-        '& span': {
-          color: 'primary.main'
-        }
-      }}
-    >
-      <Typography variant="h2" component="h2">
+    <Box>
+      <Typography variant="h2" component="h2" sx={{ marginTop: ['1.5rem'] }}>
         Work
       </Typography>
-      <Typography variant="h3" component="h3">
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{
+          marginTop: ['1rem'],
+          marginBottom: ['.5rem'],
+          fontSize: ['1.25rem']
+        }}
+      >
         Add up to 5 images of your work - up to 2mb in size
-        <span>*</span>
+        <Box component="span" sx={{ color: 'primary.main' }}>
+          *
+        </Box>
       </Typography>
-      <Typography variant="body1" component="p">
+      <Typography
+        variant="body1"
+        component="p"
+        sx={{
+          fontStyle: 'italic',
+          marginBottom: '1.5rem',
+          fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+          lineHeight: '1.33',
+          letterSpacing: '0.4px',
+          marginTop: '0'
+        }}
+      >
         At least 1 image of your work is required.
       </Typography>
 
@@ -239,17 +243,20 @@ const Upload = ({ getFiles, files, formError, errorsNum }) => {
             flexDirection: ['column', 'row'],
             alignItems: 'center',
             justifyContent: 'center',
-            width: '100%',
-            '& p': {
+            width: '100%'
+          }}
+        >
+          <Typography
+            variant="body1"
+            component="p"
+            sx={{
               typography: 'body1',
               fontSize: ['1rem', '1.25rem'],
               textAlign: 'center',
               fontStyle: 'normal',
               margin: '0.313rem .5rem 0.313rem 0'
-            }
-          }}
-        >
-          <Typography variant="body1" component="p">
+            }}
+          >
             Drag and drop here, or
           </Typography>
           <Button

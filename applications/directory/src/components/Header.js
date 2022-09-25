@@ -124,7 +124,7 @@ const Header = () => {
         justifyContent: 'center',
         backgroundColor: '#fff',
         color: 'inherit',
-        padding: 0,
+        padding: ['0 1rem', '0 1.5rem'],
         position: 'relative',
         boxShadow: 'none',
         '&::before': {

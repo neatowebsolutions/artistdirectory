@@ -107,6 +107,12 @@ const parseArtist = (artist) => {
   return existingArtist;
 };
 
+const socialList = [
+  { name: 'website', label: 'Website URL' },
+  { name: 'behance', label: 'Behance URL' },
+  { name: 'other', label: 'Other' }
+];
+
 const keywordsValidate = (keywords) =>
   keywords.every(
     (keyword) =>
@@ -117,21 +123,38 @@ const keywordsValidate = (keywords) =>
 
 const inputFieldStyles = {
   style: {
-    fontSize: '1rem'
+    fontSize: '1rem',
+    '& :firstLetter': {
+      textTransform: 'capitalize'
+    }
   }
 };
 
-// TODO - should it be a class across the whole app?
-const starSpanStyles = {
-  '& span': {
-    color: 'primary.main'
-  }
+const StarSpan = ({ children }) => (
+  <Box component="span" sx={{ color: 'primary.main' }}>
+    {children}
+  </Box>
+);
+
+const h3Styles = {
+  marginTop: ['1.5rem'],
+  marginBottom: ['1.5rem'],
+  fontSize: ['1.25rem']
 };
 
-const labelStyles = {
-  '& span': {
-    fontSize: '1rem'
-  }
+const buttonStyles = {
+  width: ['19.438rem', '11.063rem'],
+  marginBottom: '0.813rem'
+};
+
+const pExampleStyles = {
+  typography: 'body1',
+  fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+  fontStyle: 'italic',
+  lineHeight: '1.33',
+  letterSpacing: '0.4px',
+  marginTop: '0',
+  marginBottom: '1rem'
 };
 
 const CreateProfileForm = ({
@@ -383,46 +406,51 @@ const CreateProfileForm = ({
         <Card
           sx={{
             padding: ['1.5rem 1rem', '1.5rem', '2rem'],
-            '& legend': {
+            '& label': {
+              marginLeft: ['0rem', '.5rem'],
+              fontSize: '1rem'
+            },
+            '& .MuiInputLabel-shrink': {
+              marginLeft: ['.1rem', '.4rem']
+            },
+            // error messages styling
+            '& .MuiFormHelperText-root': {
+              typography: 'body1',
+              fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+              fontStyle: 'italic'
+            }
+          }}
+          elevation={6}
+        >
+          <Typography
+            variant="h2"
+            component="legend"
+            sx={{
               margin: [
                 '0 4.188rem 1rem 1rem',
                 '0 0.188rem 1rem 0.5rem',
                 '0 2.375rem 1rem 0.5rem'
               ]
-            },
-            '& p': {
+            }}
+          >
+            Your Info
+          </Typography>
+          <Typography
+            component="h3"
+            sx={{
+              margin: [
+                '1rem 4.813rem 1rem 1rem',
+                '1rem 0.313rem 1.5rem 0.5rem'
+              ],
               marginBottom: '1rem',
               typography: 'body2',
               fontSize: '1.25rem',
               lineHeight: '1.2',
-              letterSpacing: '0.15px',
-              ...starSpanStyles
-            },
-            '& h3': {
-              marginTop: ['1.5rem'],
-              marginBottom: ['1.5rem'],
-              ...starSpanStyles
-            },
-            '& label': {
-              marginLeft: ['0rem', '.5rem']
-            },
-            '& .MuiInputLabel-shrink': {
-              marginLeft: ['0.9rem', '.5rem']
-            }
-          }}
-          elevation={6}
-        >
-          <Typography variant="h2" component="legend">
-            Your Info
-          </Typography>
-          <Typography
-            variant="h3"
-            component="p"
-            sx={{
-              margin: ['1rem 4.813rem 1rem 1rem', '1rem 0.313rem 1.5rem 0.5rem']
+              letterSpacing: '0.15px'
             }}
           >
-            <span>*</span>Required
+            <StarSpan>*</StarSpan>
+            Required
           </Typography>
           <Box
             sx={{
@@ -523,120 +551,69 @@ const CreateProfileForm = ({
             </Box>
           </Box>
           <Box>
-            <Typography variant="h3" component="h3">
+            <Typography variant="h3" component="h3" sx={h3Styles}>
               What&apos;s the best place to find your work online? (Website,
               Behance, etc.)
-              <span>*</span>
+              <StarSpan>*</StarSpan>
             </Typography>
             <FormGroup
               component="fieldset"
               onChange={(e) => handleChangeSocial(e, values)}
-              sx={{
-                '& div .MuiBox-root': {
-                  marginBottom: '1.56rem',
-                  display: 'flex',
-                  flexDirection: ['column', 'row']
-                }
-              }}
             >
-              <FormGroup>
-                <Box>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="website"
-                        value="website"
-                        checked={values.website.checked}
-                      />
+              {socialList.map(({ name, label }, index) => (
+                <FormGroup
+                  sx={{
+                    '& .MuiBox-root': {
+                      marginBottom: '1.56rem',
+                      display: 'flex',
+                      flexDirection: ['column', 'row']
                     }
-                    sx={{ width: '15%', ...labelStyles }}
-                    label="Website"
-                  />
-                  <TextField
-                    id="outlined-required"
-                    sx={{
-                      width: ['calc(100% - 2.7rem)', '50%'],
-                      marginLeft: ['2.7rem', '2rem']
-                    }}
-                    InputProps={inputFieldStyles}
-                    InputLabelProps={inputFieldStyles}
-                    label="Website URL"
-                    onBlur={handleBlur}
-                    name="website"
-                    value={values.website.url}
-                    error={errors.website && touched.website}
-                    helperText={touched.website ? errors.website?.url : ''} // ??
-                  />
-                </Box>
-              </FormGroup>
-
-              <FormGroup>
-                <Box>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="behance"
-                        value="behance"
-                        checked={values.behance.checked}
-                      />
-                    }
-                    sx={{ width: '15%', ...labelStyles }}
-                    label="Behance"
-                  />
-                  <TextField
-                    id="outlined-required"
-                    sx={{
-                      width: ['calc(100% - 2.7rem)', '50%'],
-                      marginLeft: ['2.7rem', '2rem']
-                    }}
-                    InputProps={inputFieldStyles}
-                    InputLabelProps={inputFieldStyles}
-                    label="Behance URL"
-                    onBlur={handleBlur}
-                    name="behance"
-                    value={values.behance.url}
-                    error={errors.behance && touched.behance}
-                    helperText={touched.behance ? errors.behance?.url : ''} // ??
-                  />
-                </Box>
-              </FormGroup>
-              <FormGroup>
-                <Box>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="other"
-                        value="other"
-                        checked={values.other.checked}
-                      />
-                    }
-                    sx={{ width: '15%', ...labelStyles }}
-                    label="other"
-                  />
-                  <TextField
-                    id="outlined-required"
-                    sx={{
-                      width: ['calc(100% - 2.7rem)', '50%'],
-                      marginLeft: ['2.7rem', '2rem']
-                    }}
-                    InputProps={inputFieldStyles}
-                    InputLabelProps={inputFieldStyles}
-                    label="Other"
-                    onBlur={handleBlur}
-                    name="other"
-                    value={values.other.url}
-                    error={errors.other?.url && touched.other}
-                    helperText={touched.other ? errors.other?.url : ''} // ??
-                  />
-                </Box>
-              </FormGroup>
+                  }}
+                  key={index}
+                >
+                  <Box>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name={name}
+                          value={name}
+                          checked={values[name].checked}
+                        />
+                      }
+                      sx={{
+                        width: '15%',
+                        '& span': {
+                          fontSize: '1rem',
+                          textTransform: 'capitalize'
+                        }
+                      }}
+                      label={name}
+                    />
+                    <TextField
+                      id="outlined-required"
+                      sx={{
+                        width: ['calc(100% - 2.7rem)', '50%'],
+                        marginLeft: ['2.7rem', '2rem']
+                      }}
+                      InputProps={inputFieldStyles}
+                      InputLabelProps={inputFieldStyles}
+                      label={label}
+                      onBlur={handleBlur}
+                      name={name}
+                      value={values[name].url}
+                      error={errors[name]?.url && touched[name]}
+                      helperText={touched[name] ? errors[name]?.url : ''}
+                    />
+                  </Box>
+                </FormGroup>
+              ))}
             </FormGroup>
           </Box>
 
           <Box>
-            <Typography variant="h3" component="h3">
+            <Typography variant="h3" component="h3" sx={h3Styles}>
               What kind of artist are you? (Please list what apply)
-              <span>*</span>
+              <StarSpan>*</StarSpan>
             </Typography>
 
             <Stack>
@@ -677,24 +654,13 @@ const CreateProfileForm = ({
             formError={errors.files}
             errorsNum={Object.keys(errors).length} // shows how many errors are in the object to determine if upload component should be displayed
           />
-          <Box
-            sx={{
-              '& p': {
-                typography: 'body1',
-                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
-                fontStyle: 'italic',
-                lineHeight: '1.33',
-                letterSpacing: '0.4px',
-                marginTop: '0',
-                marginBottom: '1rem'
-              }
-            }}
-          >
-            <Typography
-              variant="h3"
-              component="h3"
-              sx={{
-                '& span:nth-of-type(2n)': {
+          <Box>
+            <Typography variant="h3" component="h3" sx={h3Styles}>
+              Short description of what you do.
+              <StarSpan>*</StarSpan>
+              <Box
+                component="span"
+                sx={{
                   color: 'primary.text',
                   opacity: '0.75',
                   fontSize: '0.875rem',
@@ -703,19 +669,17 @@ const CreateProfileForm = ({
                   lineHeight: '1.33',
                   letterSpacing: '1px',
                   marginLeft: '0.938rem'
-                }
-              }}
-            >
-              Short description of what you do.
-              <span>*</span>
-              <span>1500 CHARACTERS MAX!</span>
+                }}
+              >
+                1500 CHARACTERS MAX!
+              </Box>
             </Typography>
-            <p>
+            <Typography component="p" sx={pExampleStyles}>
               Example: Visual artist and musician whose work explores themes of
               nature, memory, trauma and identity. Reyes primarily creates
               participatory work that utilizes found objects and sounds of
               nature.
-            </p>
+            </Typography>
             <FormControl fullWidth>
               <TextField
                 id="outlined-textarea"
@@ -728,16 +692,16 @@ const CreateProfileForm = ({
                 value={values.description}
                 name="description"
                 onChange={handleChange}
-                error={errors.description && touched.description} // ??
-                helperText={touched.description ? errors.description : ''} // ??
+                error={errors.description && touched.description}
+                helperText={touched.description ? errors.description : ''}
               />
             </FormControl>
           </Box>
           <Box>
-            <Typography variant="h3" component="h3">
+            <Typography variant="h3" component="h3" sx={h3Styles}>
               Please list up to 10 keywords that would describe your work and
               services.
-              <span>*</span>
+              <StarSpan>*</StarSpan>
             </Typography>
 
             <Stack>
@@ -772,25 +736,15 @@ const CreateProfileForm = ({
               />
             </Stack>
           </Box>
-          <Box
-            sx={{
-              '& p': {
-                typography: 'body1',
-                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
-                fontStyle: 'italic',
-                lineHeight: '1.33',
-                letterSpacing: '0.4px',
-                marginTop: '0',
-                marginBottom: '1.25rem'
-              }
-            }}
-          >
-            <Typography variant="h3" component="h3">
+          <Box>
+            <Typography variant="h3" component="h3" sx={h3Styles}>
               Do you have skills, artistic or otherwise, for which you could be
               hired by Network visitors? If so, please list.
-              <span>*</span>
+              <StarSpan>*</StarSpan>
             </Typography>
-            <p>Example: DJ, wedding photographer, translation work, welding.</p>
+            <Typography component="p" sx={pExampleStyles}>
+              Example: DJ, wedding photographer, translation work, welding.
+            </Typography>
             <Stack>
               <Autocomplete
                 key={formReset}
@@ -817,8 +771,7 @@ const CreateProfileForm = ({
                     name="skills"
                     label="My 10 Keywords"
                     error={errors.skills && touched.skills}
-                    // touched={touched.skills} // ??
-                    helperText={touched.skills ? errors.skills : ''} // ??∂
+                    helperText={touched.skills ? errors.skills : ''}
                   />
                 )}
               />
@@ -826,10 +779,11 @@ const CreateProfileForm = ({
           </Box>
           <Box sx={{ display: 'flex' }}>
             <Box sx={{ '& img': { marginTop: '2rem', marginRight: '2rem' } }}>
+              {/* TODO make it svg icon */}
               <img src="/images/img-newsletter.svg" alt="Evelope" />
             </Box>
             <Box sx={{ width: '75%' }}>
-              <Typography variant="h3" component="h3">
+              <Typography variant="h3" component="h3" sx={h3Styles}>
                 Would you like to subscribe to our monthly newsletter about
                 local art opportunities?
               </Typography>
@@ -864,11 +818,7 @@ const CreateProfileForm = ({
             display: 'flex',
             flexDirection: ['column', 'row'],
             alignItems: 'center',
-            justifyContent: ['center', 'space-between'],
-            '& button': {
-              width: ['19.438rem', '11.063rem'],
-              marginBottom: '0.813rem'
-            }
+            justifyContent: ['center', 'space-between']
           }}
         >
           <Button
@@ -876,6 +826,7 @@ const CreateProfileForm = ({
             disabled={!isValid || !dirty || isSubmitting}
             variant="contained"
             startIcon={<SendIcon />}
+            sx={buttonStyles}
           >
             Submit Form
           </Button>
@@ -884,6 +835,7 @@ const CreateProfileForm = ({
             variant="outlined"
             startIcon={<DeleteOutlineIcon />}
             onClick={handleFormReset}
+            sx={buttonStyles}
           >
             Clear Form
           </Button>

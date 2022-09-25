@@ -75,6 +75,7 @@ const handler = async (event, context) => {
 
     try {
       await artist.validate();
+
       // send email to admin to initiate artist profile review
       await emailClient.enqueue({
         to: ADMIN_EMAIL,

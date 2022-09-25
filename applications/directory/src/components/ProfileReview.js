@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Alert from '@mui/material/Alert';
+import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -21,6 +22,8 @@ const inputFieldStyles = {
     fontSize: '1rem'
   }
 };
+
+const marginBottomStyles = { marginBottom: '0.875rem' };
 
 const ProfileReview = ({ onSubmit }) => {
   const [submissionError, setSubmissionError] = useState('');
@@ -77,7 +80,7 @@ const ProfileReview = ({ onSubmit }) => {
   });
 
   return (
-    <Box>
+    <Box sx={{ marginBottom: '3.125rem' }}>
       {submissionError && (
         <Alert
           ref={alertElement}
@@ -91,40 +94,70 @@ const ProfileReview = ({ onSubmit }) => {
           {submissionError}
         </Alert>
       )}
-      <Card elevation={2}>
+      <Card
+        elevation={2}
+        sx={{
+          width: ['auto', '80%'],
+          margin: '0 auto',
+          boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)' // the same shadow as in a few other places
+        }}
+      >
         <form noValidate onSubmit={handleSubmit}>
-          <Box sx={{ width: '75%' }}>
-            <Typography variant="h3" component="h3">
+          <Box sx={marginBottomStyles}>
+            <Typography
+              variant="h2"
+              sx={{
+                // these h2 styles are the same for 4 more headers (2 in this component and 2 in 2 other components)
+                fontSize: '1.25rem',
+                fontFamily: 'gira-sans, sans-serif',
+                fontWeight: 500,
+                textAlign: 'center',
+                ...marginBottomStyles
+              }}
+            >
               Choose what do you want to do with the artist profile:
             </Typography>
-            <RadioGroup
-              row
-              aria-label="Approval status"
-              name="row-radio-buttons-group"
-              value={values.approvalStatus}
-            >
-              <FormControlLabel
-                value="approved"
-                control={<Radio />}
-                label={<span style={{ fontSize: '1rem' }}>{'Approve!'}</span>}
-                name="approvalStatus"
-                onChange={handleChange}
-              />
-              <FormControlLabel
-                value="rejected"
-                control={<Radio />}
-                label={<span style={{ fontSize: '1rem' }}>{'Reject!'}</span>}
-                onChange={handleChange}
-                name="approvalStatus"
-              />
-            </RadioGroup>
+
+            <Box sx={marginBottomStyles}>
+              <RadioGroup
+                row
+                aria-label="Approval status"
+                name="row-radio-buttons-group"
+                value={values.approvalStatus}
+                sx={{
+                  display: 'flex',
+                  width: '80%',
+                  margin: '0 auto',
+                  '& label': {
+                    flex: 1
+                  }
+                }}
+              >
+                <FormControlLabel
+                  value="approved"
+                  control={<Radio />}
+                  label={<span style={{ fontSize: '1rem' }}>{'Approve!'}</span>}
+                  name="approvalStatus"
+                  onChange={handleChange}
+                />
+                <FormControlLabel
+                  value="rejected"
+                  control={<Radio />}
+                  label={<span style={{ fontSize: '1rem' }}>{'Reject!'}</span>}
+                  onChange={handleChange}
+                  name="approvalStatus"
+                />
+              </RadioGroup>
+            </Box>
+            {/* <Divider light /> */}
           </Box>
 
           {values.approvalStatus === 'rejected' && (
             <Fade in={values.approvalStatus === 'rejected'}>
               <Box
                 sx={{
-                  '& p': {
+                  // styling error message
+                  '& .MuiFormHelperText-root': {
                     typography: 'body1',
                     fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
                     fontStyle: 'italic',
@@ -139,21 +172,31 @@ const ProfileReview = ({ onSubmit }) => {
                   variant="h3"
                   component="h3"
                   sx={{
-                    '& span:nth-of-type(2n)': {
+                    fontFamily: 'gira-sans, sans-serif',
+                    fontSize: ['1.25rem'],
+                    fontWeight: '500',
+                    marginBottom: '1.5rem',
+                    marginTop: '2rem',
+                    textAlign: 'center'
+                  }}
+                >
+                  State your reasons for rejection.
+                  <Box component="span">*</Box>
+                  <Box
+                    component="span"
+                    sx={{
                       color: 'primary.text',
                       opacity: '0.75',
-                      fontSize: '0.875rem',
+                      fontSize: ['0.875rem'],
                       fontWeight: '500',
                       fontStyle: 'italic',
                       lineHeight: '1.33',
                       letterSpacing: '1px',
                       marginLeft: '0.938rem'
-                    }
-                  }}
-                >
-                  State your reasons for rejection.
-                  <span>*</span>
-                  <span>1500 CHARACTERS MAX!</span>
+                    }}
+                  >
+                    1500 CHARACTERS MAX!
+                  </Box>
                 </Typography>
 
                 <FormControl fullWidth>
@@ -184,7 +227,7 @@ const ProfileReview = ({ onSubmit }) => {
               display: 'flex',
               flexDirection: ['column', 'row'],
               alignItems: 'center',
-              justifyContent: ['center', 'space-between'],
+              justifyContent: ['center', 'space-between', 'space-around'],
               '& button': {
                 width: ['19.438rem', '11.063rem'],
                 marginBottom: '0.813rem'

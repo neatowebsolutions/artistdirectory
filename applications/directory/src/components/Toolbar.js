@@ -8,15 +8,20 @@ function Toolbar() {
     <Box
       sx={{
         display: 'flex',
-        justifyContent: 'flex-end',
-        '& ul': {
-          margin: 0,
-          padding: 0,
-          '& li': {
+        justifyContent: 'flex-end'
+      }}
+    >
+      <List sx={{ margin: 0, padding: 0 }}>
+        <ListItem
+          sx={{
             margin: '0.625rem 0',
             width: 'auto',
-            padding: '0.5rem 0',
-            '& a': {
+            padding: ['0.5rem 1rem', '0.5rem 1.5rem']
+          }}
+        >
+          <Link
+            href="https://www.avenueforthearts.co/about"
+            sx={{
               fontSize: '0.75rem',
               lineHeight: 1.33,
               letterSpacing: '1.25px',
@@ -24,14 +29,10 @@ function Toolbar() {
               textDecoration: 'none',
               color: 'primary.main',
               fontWeight: 'bold'
-            }
-          }
-        }
-      }}
-    >
-      <List>
-        <ListItem>
-          <Link href="https://www.avenueforthearts.co/about">Contact Us</Link>
+            }}
+          >
+            Contact Us
+          </Link>
         </ListItem>
       </List>
     </Box>
