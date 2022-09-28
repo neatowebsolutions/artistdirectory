@@ -16,7 +16,9 @@ const displayUrlReg = /http(s)?(:)?(\/\/)?|(\/\/)?(www\.)?/;
 
 const socialIcons = {
   website: <LanguageIcon />,
-  behance: <SvgIcon component={BehanceIcon} />, // TODO - it does not show the icon
+  behance: (
+    <SvgIcon component={BehanceIcon} sx={{ backgroundColor: 'orange' }} />
+  ), // TODO - it does not show the icon
   // behance: (
   //   <Icon sx={{ '& img': { marginBottom: '0.4rem', marginRight: '2rem' } }}>
   //     <img src="/images/img-behance.svg" alt="" />
@@ -53,8 +55,14 @@ const linkStyles = {
 
 // TODO - hide the edit button for review (it should be taken care of when working on auth functionality ),  temporarily solution here
 const ProfileDetails = ({ artist, isLoggedIn = false }) => {
-  const { firstName, lastName, email, profileImageUrl, social, memberSince } =
-    artist;
+  const {
+    firstName,
+    lastName,
+    email,
+    profileImageUrl,
+    social,
+    memberSince
+  } = artist;
 
   return (
     <Card
@@ -168,12 +176,16 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
 
         {social.length > 0 &&
           social.map(({ name, url }, index) => (
-            <Box key={index} sx={{ marginTop: '1rem' }}>
+            <Box
+              key={index}
+              sx={{ marginTop: '1rem', backgroundColor: 'yellow' }}
+            >
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: ['center', 'flex-start']
+                  justifyContent: ['center', 'flex-start'],
+                  backgroundColor: 'green'
                 }}
               >
                 <Box
@@ -183,7 +195,11 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
                       fontSize: 20,
                       fontWeight: 'bold',
                       marginRight: '5px',
-                      color: 'primary.main'
+                      color: 'primary.main',
+                      fill: 'purple',
+                      '& path': {
+                        fill: 'primary.main'
+                      }
                     }
                   }}
                 >
