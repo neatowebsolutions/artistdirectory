@@ -13,6 +13,9 @@ const HomePage = () => {
   const { tags, tagsLoading, tagsError } = useTags();
   const { skills, skillsLoading, skillsError } = useSkills();
 
+  const isLoading = !!(categoriesLoading || tagsLoading || skillsLoading);
+  const isError = !!(categoriesError || tagsError || skillsError);
+
   return (
     <>
       <Head>
@@ -49,8 +52,8 @@ const HomePage = () => {
         </Layout.Intro>
         <Card elevation={6}>
           <Loader
-            isLoading={categoriesLoading || tagsLoading || skillsLoading}
-            isError={categoriesError || tagsError || skillsError}
+            isLoading={isLoading}
+            isError={isError}
             loadingComponent={() => (
               <LinearProgress color="primary"></LinearProgress>
             )}

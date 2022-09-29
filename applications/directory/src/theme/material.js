@@ -23,6 +23,10 @@ const theme = createTheme({
     },
     success: {
       main: '#7f8d16'
+    },
+    text: {
+      primary: 'rgba(0, 0, 0, 0.85)',
+      secondary: 'rgba(0, 0, 0, 0.6)'
     }
   }
 });
@@ -80,8 +84,8 @@ theme.typography.h3 = {
 };
 
 theme.typography.h4 = {
-  fontFamily: 'brandon-grotesque, sans-serif'
-
+  fontFamily: 'brandon-grotesque, sans-serif',
+  fontSize: '1rem'
   // TODO
 };
 
