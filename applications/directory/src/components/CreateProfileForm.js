@@ -25,6 +25,7 @@ import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import * as Yup from 'yup';
 import Upload from './Upload';
+import NewsLetterIcon from '../icons/newsletter.svg';
 import { useEmailValidation, useCreateArtist } from '../hooks';
 
 const categoriesDefaultValue = 'Dancer';
@@ -777,11 +778,16 @@ const CreateProfileForm = ({
               />
             </Stack>
           </Box>
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ '& img': { marginTop: '2rem', marginRight: '2rem' } }}>
-              {/* TODO make it svg icon */}
-              <img src="/images/img-newsletter.svg" alt="Evelope" />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <Box sx={{ marginRight: '1.5rem' }}>
+              <NewsLetterIcon sx={{ fontSize: 24, fontWeight: 'bold' }} />
             </Box>
+
             <Box sx={{ width: '75%' }}>
               <Typography variant="h3" component="h3" sx={h3Styles}>
                 Would you like to subscribe to our monthly newsletter about
