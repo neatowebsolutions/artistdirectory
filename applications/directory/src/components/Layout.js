@@ -33,6 +33,15 @@ const Layout = ({ children }) => (
       display: 'flex',
       flexDirection: 'column',
       overflowX: 'hidden'
+      minHeight: '100vh',
+      maxWidth: ['90%', '90%', '90%', '1180px', '1280px'],
+      margin: '0 auto',
+      '& main': {
+        flex: 1
+      },
+      '& p': {
+        fontSize: [14, 16, 20]
+      }
     }}
   >
     <Box>
