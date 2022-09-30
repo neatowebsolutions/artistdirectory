@@ -12,7 +12,7 @@
     "bootstrap": "dotenv -- lerna bootstrap --force-local",
     "postbootstrap": "dotenv -- lerna run build --stream --scope=@artistdirectory/*",
     "prestart": "yarn install && dotenv -- yarn bootstrap",
-    "start": "COLUMNS=120 dotenv -- lerna run start --parallel --scope={@artistdirectory/*,artistdirectory-directory,artistdirectory-logs-service,artistdirectory-artists-api,artistdirectory-directory-api}"
+    "start": "COLUMNS=120 dotenv -- lerna run start --parallel"
   },
   "contributors": [
     "riemersmajackie@gmail.com",

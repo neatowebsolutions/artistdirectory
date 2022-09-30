@@ -1,0 +1,21 @@
+{
+  "name": "@artistdirectory/gateway-http-client",
+  "version": "0.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neatowebsolutions/artistdirectory.git"
+  },
+  "homepage": "https://github.com/neatowebsolutions/artistdirectory/tree/master/packages/gateway-http-client",
+  "license": "UNLICENSED",
+  "author": "Chad Johnson <chad@neatowebsolutions.com>",
+  "dependencies": {
+    "aws-sdk": "^2.1116.0",
+    "axios": "^0.21.0",
+    "aws4-axios": "^2.2.0"
+  },
+  "scripts": {
+    "format": "eslint --fix index.js",
+    "lint": "eslint index.js"
+  }
+}

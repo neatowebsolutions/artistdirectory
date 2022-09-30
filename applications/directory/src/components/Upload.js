@@ -1,7 +1,7 @@
 // TODO - make dropzone only accept one file at a time??
 import { useDropzone } from 'react-dropzone';
 import { useState } from 'react';
-import Typography from '@mui/material/typography';
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import InfoIcon from '@mui/icons-material/Info';
@@ -14,16 +14,16 @@ import ThumbnailLoading from './ThumbnailLoading';
 
 const maxFilesNumber = 5;
 const imageMaxSize = 2097152;
-const baseUrl = 'https://assets.artistdirectory.co/profile/';
+
 const acceptedFileTypes = [
   'image/x-png',
   'image/png',
   'image/jpg',
   'image/jpeg',
-  'image/gif',
+  'image/gif'
 ];
 
-function Upload({ getFiles, files, formError, errorsNum }) {
+const Upload = ({ getFiles, files, formError, errorsNum }) => {
   const [errorMessage, setErrorMessage] = useState(false);
   const { getSignedProfileUrl, uploadFile } = useUpload();
 
@@ -69,7 +69,7 @@ function Upload({ getFiles, files, formError, errorsNum }) {
           // find the number of uploaded files
           const uploadedImagesNum = files.reduce((acc, { uploaded }) => {
             if (uploaded) {
-              return acc + 1;
+              return acc++;
             }
             return acc;
           }, 0);
@@ -93,11 +93,11 @@ function Upload({ getFiles, files, formError, errorsNum }) {
             return {
               file,
               loading: true, // for displaying loading state of the chosen image
-              uploadError: false, //  for displaying error if upload fails
+              uploadError: false //  for displaying error if upload fails
             };
           });
 
-          // delete duplicates from files 
+          // delete duplicates from files
           const noneDuplicate = files.filter(({ file: { name } }) => {
             const res = parsedFiles.find((item) => name === item.file.name);
             return res?.file.name !== name;
@@ -113,8 +113,9 @@ function Upload({ getFiles, files, formError, errorsNum }) {
               return {
                 ...item,
                 signedUrl: data?.signedUrl,
-                fileUrl: data && `${baseUrl}${data.fileName}`,
-                signedUrlError: error,
+                // fileUrl: data && `${baseUrl}${data.fileName}`,
+                fileName: data?.fileName,
+                signedUrlError: error
               };
             });
             return Promise.all(promises);
@@ -126,17 +127,16 @@ function Upload({ getFiles, files, formError, errorsNum }) {
           const uploadFiles = (filesArray) => {
             const promises = filesArray.map(async (item) => {
               const { file, signedUrl } = item;
-
               if (signedUrl) {
                 const { response, error } = await uploadFile(signedUrl, file);
                 return {
                   ...item,
                   file: Object.assign(file, {
-                    preview: URL.createObjectURL(file),
+                    preview: URL.createObjectURL(file)
                   }),
                   uploaded: response && response.ok,
                   loading: false,
-                  uploadError: error,
+                  uploadError: error
                 };
               }
               return item;
@@ -145,11 +145,10 @@ function Upload({ getFiles, files, formError, errorsNum }) {
           };
 
           const uploadedImageUrls = await uploadFiles(filesToUpload);
-
           await getFiles([...noneDuplicate, ...uploadedImageUrls]);
         }
       }
-    },
+    }
   });
 
   const handleFileDelete = (fileName) => {
@@ -186,32 +185,36 @@ function Upload({ getFiles, files, formError, errorsNum }) {
   });
 
   return (
-    <Box
-      sx={{
-        '& h2': {
-          marginTop: ['1.5rem'],
-        },
-        '& h3': {
-          marginTop: ['1rem'],
-          marginBottom: ['.5rem'],
-        },
-        '& p': {
-          fontStyle: 'italic',
-          marginBottom: '1.5rem',
-        },
-        '& span': {
-          color: 'primary.main',
-        },
-      }}
-    >
-      <Typography variant="h2" component="h2">
+    <Box>
+      <Typography variant="h2" component="h2" sx={{ marginTop: ['1.5rem'] }}>
         Work
       </Typography>
-      <Typography variant="h3" component="h3">
+      <Typography
+        variant="h3"
+        component="h3"
+        sx={{
+          marginTop: ['1rem'],
+          marginBottom: ['.5rem'],
+          fontSize: ['1.25rem']
+        }}
+      >
         Add up to 5 images of your work - up to 2mb in size
-        <span>*</span>
+        <Box component="span" sx={{ color: 'primary.main' }}>
+          *
+        </Box>
       </Typography>
-      <Typography variant="body1" component="p">
+      <Typography
+        variant="body1"
+        component="p"
+        sx={{
+          fontStyle: 'italic',
+          marginBottom: '1.5rem',
+          fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+          lineHeight: '1.33',
+          letterSpacing: '0.4px',
+          marginTop: '0'
+        }}
+      >
         At least 1 image of your work is required.
       </Typography>
 
@@ -226,7 +229,7 @@ function Upload({ getFiles, files, formError, errorsNum }) {
           flexDirection: 'column',
           justifyContent: 'space-evenly',
           alignItems: 'center',
-          textAlign: 'center',
+          textAlign: 'center'
         }}
         {...getRootProps({ className: 'dropzone' })}
       >
@@ -240,17 +243,20 @@ function Upload({ getFiles, files, formError, errorsNum }) {
             flexDirection: ['column', 'row'],
             alignItems: 'center',
             justifyContent: 'center',
-            width: '100%',
-            '& p': {
+            width: '100%'
+          }}
+        >
+          <Typography
+            variant="body1"
+            component="p"
+            sx={{
               typography: 'body1',
               fontSize: ['1rem', '1.25rem'],
               textAlign: 'center',
               fontStyle: 'normal',
-              margin: '0.313rem .5rem 0.313rem 0',
-            },
-          }}
-        >
-          <Typography variant="body1" component="p">
+              margin: '0.313rem .5rem 0.313rem 0'
+            }}
+          >
             Drag and drop here, or
           </Typography>
           <Button
@@ -259,7 +265,7 @@ function Upload({ getFiles, files, formError, errorsNum }) {
             sx={{
               width: '6.625rem',
               height: '2.25rem',
-              margin: ['0.5rem auto 0 auto', '0 0 0 1rem'],
+              margin: ['0.5rem auto 0 auto', '0 0 0 1rem']
             }}
           >
             Browse
@@ -279,7 +285,7 @@ function Upload({ getFiles, files, formError, errorsNum }) {
                 border: 'solid 1px #3d748a',
                 color: 'rgba(0, 0, 0, 0.87)',
                 typography: 'body1',
-                fontSize: ['.875rem', '.875rem', '.875rem', '.875rem'],
+                fontSize: ['.875rem', '.875rem', '.875rem', '.875rem']
               }}
             >
               {errorMessage || formError}
@@ -287,20 +293,19 @@ function Upload({ getFiles, files, formError, errorsNum }) {
           </Stack>
         </Box>
       )}
-
       <Box
         sx={{
           marginTop: '1.56rem',
           display: 'grid',
           gridTemplateColumns: ['repeat(2, 1fr)', 'repeat(3, 1fr)'],
           columnGap: '1.25rem',
-          rowGap: '1.56rem',
+          rowGap: '1.56rem'
         }}
       >
         {thumbs}
       </Box>
     </Box>
   );
-}
+};
 
 export default Upload;

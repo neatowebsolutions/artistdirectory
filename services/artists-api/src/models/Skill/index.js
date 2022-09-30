@@ -4,12 +4,12 @@ const mongodbClient = require('../mongodbClient');
 let Skill = null;
 
 const schemaOptions = {
-  timestamps: true
+  timestamps: true,
 };
 const schema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    slug: { type: String, required: true }
+    slug: { type: String, required: true },
   },
   schemaOptions
 );

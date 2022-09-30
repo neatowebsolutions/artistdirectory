@@ -13,6 +13,9 @@ const HomePage = () => {
   const { tags, tagsLoading, tagsError } = useTags();
   const { skills, skillsLoading, skillsError } = useSkills();
 
+  const isLoading = !!(categoriesLoading || tagsLoading || skillsLoading);
+  const isError = !!(categoriesError || tagsError || skillsError);
+
   return (
     <>
       <Head>
@@ -20,33 +23,37 @@ const HomePage = () => {
       </Head>
       <Layout>
         <Layout.Intro>
-          <Typography variant="h1" component="h1">
-            Discover artists and their work, all in one place.
-          </Typography>
-          <Box
-            sx={{
-              '& p': {
-                margin: '1rem 0',
-              },
-              '& p:nth-of-type(2n)': {
-                fontStyle: 'italic'
-              },
-            }}
-          >
-            <Typography variant="body1">
-              Whether you’re looking to purchase artwork, hire an artist, or
-              collaborate, this is the place to start.
+          <Box sx={{ marginTop: ['1rem', '3.5rem'] }}>
+            <Typography variant="h1" component="h1">
+              Discover artists and their work,
+              <br />
+              all in one place.
             </Typography>
-            <Typography variant="body1">
-              Search by Type of Artist, Tags, Hireable Skills, or whatever you
-              need.
-            </Typography>
+            <Box
+              sx={{
+                '& p': {
+                  margin: '1rem 0'
+                },
+                '& p:nth-of-type(2n)': {
+                  fontStyle: 'italic'
+                }
+              }}
+            >
+              <Typography variant="body1">
+                Whether you’re looking to purchase artwork, hire an artist, or
+                collaborate, this is the place to start.
+              </Typography>
+              <Typography variant="body1">
+                Search by Type of Artist, Tags, Hireable Skills, or whatever you
+                need.
+              </Typography>
+            </Box>
           </Box>
         </Layout.Intro>
         <Card elevation={6}>
           <Loader
-            isLoading={categoriesLoading || tagsLoading || skillsLoading}
-            isError={categoriesError || tagsError || skillsError}
+            isLoading={isLoading}
+            isError={isError}
             loadingComponent={() => (
               <LinearProgress color="primary"></LinearProgress>
             )}
@@ -54,8 +61,9 @@ const HomePage = () => {
               <Alert
                 severity="error"
                 sx={{
-                  fontSize: '1.2rem',
+                  fontSize: '1.2rem'
                 }}
+                elevation={4}
               >
                 An unexpected error occurred. Please try again shortly.
               </Alert>

@@ -33,10 +33,13 @@ provider:
     LOGS_API_URL: ${env:LOGS_API_URL, ssm:/artistdirectory/${self:provider.stage}/logs-api/url}
     MONGODB_URL_DIRECTORY: ${env:MONGODB_URL_DIRECTORY, ssm:/artistdirectory/${self:provider.stage}/database/mongodb-directory/url}
     SANDBOX: ${env:SANDBOX, ssm:/artistdirectory/${self:provider.stage}/sandbox}
-    AWS_UPLOADS_BUCKET: ${env:AWS_UPLOADS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/uploads}
+    UPLOADS_BUCKET: ${env:UPLOADS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/uploads}
+    ASSETS_BUCKET: ${env:ASSETS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/assets}
+    ASSETS_URL: ${env:ASSETS_URL, ssm:/artistdirectory/${self:provider.stage}/assets/url}
 
 custom:
   serverless-offline:
+    host: 0.0.0.0
     httpPort: ${env:ARTISTS_API_PORT, 3000}
     lambdaPort: 5000
   customDomain:
@@ -67,6 +70,14 @@ functions:
     warmup:
       default:
         enabled: false
+  checkProfileEmailValidity:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/emailValidate.handler
+    events:
+      - http:
+          path: /profile/email-validity/{email}
+          method: get
+          authorizer: aws_iam
   createArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/createArtist.handler
@@ -90,6 +101,22 @@ functions:
       - http:
           path: /artists/{artistId}
           method: get
+          authorizer: aws_iam
+  findOneArtistByField:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findOneArtistByField.handler
+    events:
+      - http:
+          path: /artists/{field}/{value}
+          method: get
+          authorizer: aws_iam
+  updateProfileStatusByToken:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/updateProfileStatusByToken.handler
+    events:
+      - http:
+          path: /reviews/token/{reviewToken}
+          method: patch
           authorizer: aws_iam
   findArtists:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}

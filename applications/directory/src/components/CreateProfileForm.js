@@ -1,9 +1,14 @@
 // TODO validation -  make sure at least one social link provided or delete the * for the social being required??
+// TODO - change marginLeft for input social on mobile
+// TODO reduce font size in drop-downs (bigger screen)?
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useFormik } from 'formik';
 import Box from '@mui/material/Box';
-import PropTypes from 'prop-types';
-import Typography from '@mui/material/typography';
+import Alert from '@mui/material/Alert';
+import PropTypes from 'prop-types'; // CreateProfileForm.propTypes = {className: PropTypes.string,} TODO - are we going to use classes?
+import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import FormGroup from '@mui/material/FormGroup';
@@ -18,219 +23,341 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Upload from './Upload';
+import NewsLetterIcon from '../icons/newsletter.svg';
+import { useEmailValidation, useCreateArtist } from '../hooks';
 
 const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
 const skillsDefaultValue = 'Carpentry';
 
-const initialValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  city: '',
-  description: '',
-  website: { checked: true, name: 'website', url: '' },
-  behance: { checked: false, name: 'behance', url: '' },
-  other: { checked: false, name: 'other', url: '' },
-  files: [],
-  categories: [categoriesDefaultValue],
-  tags: [tagsDefaultValue],
-  skills: [skillsDefaultValue],
-  subscribedToNewsletter: 'yes',
+// TODO - this function will go to a different file as a helper function because most likely it will be used in other components
+// convert artist data from backend to the values to be excepted by the form's "initial values"
+const parseArtist = (artist) => {
+  // check if artist is an empty object
+  if (Object.keys(artist).length === 0) {
+    return false;
+  }
+
+  const {
+    firstName,
+    lastName,
+    email,
+    city,
+    description,
+    categories,
+    social,
+    tags,
+    skills,
+    images
+  } = artist;
+
+  // parse images array to shape them into the form Upload component uses them to upload new images
+  const parsedImages = images.map((image) => {
+    const imageName = image.split('/').at(-1); // returns last array value which is a file name
+    return {
+      fileName: imageName,
+      file: { name: imageName, preview: image },
+      uploadError: undefined,
+      signedUrlError: undefined,
+      uploaded: true,
+      loading: false
+    };
+  });
+
+  // convert social to object
+  const parsedExistingSocial = social.reduce((list, item) => {
+    return {
+      ...list,
+      [item.name]: {
+        name: item.name,
+        url: item.url,
+        checked: Boolean(item.url)
+      }
+    };
+  }, {});
+
+  // create list of social like initial values for the form
+  const socialInitialValues = {
+    website: { checked: true, name: 'website', url: '' },
+    behance: { checked: false, name: 'behance', url: '' },
+    other: { checked: false, name: 'other', url: '' }
+  };
+
+  // parsedExistingSocial  overrides initial values with the values from the db and create an array of all 3 social to use in the form
+  const socialParsed = { ...socialInitialValues, ...parsedExistingSocial };
+
+  // convert from boolean values to yes/no strings
+  const subscribedToNewsletter = artist.subscribedToNewsletter ? 'yes' : 'no';
+
+  const existingArtist = {
+    firstName,
+    lastName,
+    email,
+    city,
+    description,
+    categories,
+    tags,
+    skills,
+    files: parsedImages,
+    ...socialParsed,
+    subscribedToNewsletter
+  };
+
+  return existingArtist;
 };
 
-// TODO: validation to ensure user enters either website, behance or other
-const formValidationSchema = Yup.object().shape({
-  firstName: Yup.string().required('First name is required'),
-  lastName: Yup.string().required('Last name is required'),
-  city: Yup.string().required('City is required'),
-  email: Yup.string()
-    .email('Please provide a valid email address.')
-    .required('Please enter your email address.'),
-  website: Yup.object({
-    checked: Yup.boolean(),
-    url: Yup.string().when('checked', {
-      is: true,
-      then: Yup.string()
-        .matches(
-          /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          'Enter correct url!'
-        )
-        .required('Please enter website url'),
-    }),
-  }),
-  behance: Yup.object({
-    checked: Yup.boolean(),
-    url: Yup.string().when('checked', {
-      is: true,
-      then: Yup.string()
-        .matches(
-          /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          'Enter correct url!'
-        )
-        .required('Please enter behance url'), // ?????? what is is? "behance url"??"
-    }),
-  }),
-  other: Yup.object({
-    checked: Yup.boolean(),
-    url: Yup.string().when('checked', {
-      is: true,
-      then: Yup.string()
-        .matches(
-          /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-          'Enter correct url!'
-        )
-        .required('Please enter website url'),
-    }),
-  }),
+const socialList = [
+  { name: 'website', label: 'Website URL' },
+  { name: 'behance', label: 'Behance URL' },
+  { name: 'other', label: 'Other' }
+];
 
-  category: Yup.object({
-    checked: Yup.boolean(),
-    name: Yup.string().when('checked', {
-      is: true,
-      then: Yup.string() // /^([a-zA-Z-]+,?\s*)+/g
-        .matches(/^([a-zA-Z-, ]+)?$/g, 'Enter correct artist type!')
-        .required('Please enter artist type'), // What is the correct message here
-    }),
-  }),
-
-  description: Yup.string()
-    .test(
-      'len',
-      'Must be at least 50 characters and not longer than 1500 characters', // what is the min length?
-      (val) => val && val.length > 50 && val.length <= 1500
-    )
-    .required('Description is required'),
-  categories: Yup.array()
-    .test('categories', 'Enter valid artist type', (categories) =>
-      categories.every(
-        (category) =>
-          /^([a-zA-Z- ]+)?$/g.test(category) &&
-          category.length < 30 &&
-          category.length > 3
-      )
-    )
-    .min(1, 'Please provide at least one artist type'),
-  tags: Yup.array()
-    .test('tags', 'Enter valid keyword', (tags) =>
-      tags.every(
-        (tag) =>
-          /^([a-zA-Z- ]+)?$/g.test(tag) && tag.length < 30 && tag.length > 3
-      )
-    )
-    .min(1, 'Please choose at least one keyword'),
-  skills: Yup.array()
-    .test('skills', 'Enter valid keyword', (skills) =>
-      skills.every(
-        (skill) =>
-          /^([a-zA-Z- ]+)?$/g.test(skill) &&
-          skill.length < 30 &&
-          skill.length > 3
-      )
-    )
-    .min(1, 'Please choose at least one keyword'),
-  files: Yup.array()
-    .min(1, 'Please provide at least 1 image')
-    .test('uploaded', 'All images should be successfully uploaded', (files) => {
-      const ifUploadError = files.every((file) => !file.uploadError);
-      const ifFinishedLoading = files.every((file) => !file.loading);
-      return ifUploadError && ifFinishedLoading;
-    }),
-  // check if each image has been successfully uploaded
-});
+const keywordsValidate = (keywords) =>
+  keywords.every(
+    (keyword) =>
+      /^([a-zA-Z- ]+)?$/g.test(keyword) &&
+      keyword.length < 30 &&
+      keyword.length > 3
+  );
 
 const inputFieldStyles = {
   style: {
     fontSize: '1rem',
-  },
+    '& :firstLetter': {
+      textTransform: 'capitalize'
+    }
+  }
 };
 
-// TODO - should it be a class across the whole app?
-const starSpanStyles = {
-  '& span': {
-    color: 'primary.main',
-  },
+const StarSpan = ({ children }) => (
+  <Box component="span" sx={{ color: 'primary.main' }}>
+    {children}
+  </Box>
+);
+
+const h3Styles = {
+  marginTop: ['1.5rem'],
+  marginBottom: ['1.5rem'],
+  fontSize: ['1.25rem']
 };
 
-const labelStyles = {
-  '& span': {
-    fontSize: '1rem',
-  },
+const buttonStyles = {
+  width: ['19.438rem', '11.063rem'],
+  marginBottom: '0.813rem'
 };
 
-function CreateProfileForm({
-  className,
+const pExampleStyles = {
+  typography: 'body1',
+  fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+  fontStyle: 'italic',
+  lineHeight: '1.33',
+  letterSpacing: '0.4px',
+  marginTop: '0',
+  marginBottom: '1rem'
+};
+
+const CreateProfileForm = ({
   categories = [categoriesDefaultValue],
   tags = [tagsDefaultValue],
   skills = [skillsDefaultValue],
-}) {
+  artist = {}
+}) => {
+  const router = useRouter();
+
+  const initialValues = {
+    firstName: '',
+    lastName: '',
+    email: artist ? artist.email : '',
+    city: '',
+    website: { checked: true, name: 'website', url: '' },
+    behance: { checked: false, name: 'behance', url: '' },
+    other: { checked: false, name: 'other', url: '' },
+    description: '',
+    categories: [categoriesDefaultValue],
+    tags: [tagsDefaultValue],
+    skills: [skillsDefaultValue],
+    files: [],
+    subscribedToNewsletter: 'yes'
+  };
+  const parsedArtist = parseArtist(artist);
+
+  const { createArtist } = useCreateArtist();
+  const { ifEmailExists } = useEmailValidation();
+  const [ifValidEmail, setIfValidEmail] = useState('');
+  const [formReset, setFormReset] = useState(false);
+  const [imageFiles, setFiles] = useState(
+    parsedArtist.files || initialValues.files
+  );
+  const [submissionError, setSubmissionError] = useState('');
+
+  // get the element to scroll into view if displayed
+  const alertElement = useRef();
+
+  // formik
   const {
     handleBlur,
     handleChange,
     handleSubmit,
-    handleReset,
     setFieldValue,
+    setValues,
+    setTouched,
     resetForm,
     values,
     isValid,
+    isSubmitting,
     dirty,
     errors,
-    touched,
+    touched
   } = useFormik({
-    initialValues,
+    initialValues: parsedArtist || initialValues,
     enableReinitialize: true, // lets the form to go back to initial values if reset form
-    validationSchema: formValidationSchema,
-    onSubmit: (vals) => {
+    validationSchema: Yup.object().shape({
+      firstName: Yup.string().required('First name is required'),
+      lastName: Yup.string().required('Last name is required'),
+      city: Yup.string().required('City is required'),
+      email: Yup.string()
+        .email('Please provide a valid email address.')
+        .test('email', ifValidEmail, () => ifValidEmail === '')
+        .required('Please enter your email address.'),
+      website: Yup.object({
+        checked: Yup.boolean(),
+        url: Yup.string().when('checked', {
+          is: true,
+          then: Yup.string()
+            .matches(
+              /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+              'Enter correct url!'
+            )
+            .required('Please enter website url')
+        })
+      }),
+      behance: Yup.object({
+        checked: Yup.boolean(),
+        url: Yup.string().when('checked', {
+          is: true,
+          then: Yup.string()
+            .matches(
+              /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+              'Enter correct url!'
+            )
+            .required('Please enter behance url') // ?????? what is is? "behance url"??"
+        })
+      }),
+      other: Yup.object({
+        checked: Yup.boolean(),
+        url: Yup.string().when('checked', {
+          is: true,
+          then: Yup.string()
+            .matches(
+              /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
+              'Enter correct url!'
+            )
+            .required('Please enter website url')
+        })
+      }),
+      description: Yup.string()
+        .test(
+          'len',
+          'Must be at least 50 characters and not longer than 1500 characters', // what is the min length?
+          (val) => val && val.length > 50 && val.length <= 1500
+        )
+        .required('Description is required'),
+      categories: Yup.array()
+        .test('categories', 'Enter valid artist type', (cts) =>
+          keywordsValidate(cts)
+        )
+        .min(1, 'Please provide at least one artist type'),
+      tags: Yup.array()
+        .test('tags', 'Enter valid keyword', (tgs) => keywordsValidate(tgs))
+        .min(1, 'Please choose at least one keyword'),
+      skills: Yup.array()
+        .test('skills', 'Enter valid keyword', (skls) => keywordsValidate(skls))
+        .min(1, 'Please choose at least one keyword'),
+      files: Yup.array()
+        .min(1, 'Please provide at least 1 image')
+        .test(
+          'uploaded',
+          'All images should be successfully uploaded',
+          (files) => {
+            const ifUploadError = files.every((file) => !file.uploadError);
+            const ifFinishedLoading = files.every((file) => !file.loading);
+            return ifUploadError && ifFinishedLoading;
+          }
+        )
+    }),
+    onSubmit: async (vals) => {
       const {
         firstName,
         lastName,
         email,
         city,
-        description,
         website,
         behance,
         other,
-        files,
-        subscribedToNewsletter,
+        description,
         categories: allCategories,
         tags: allTags,
         skills: allSkills,
+        files,
+        subscribedToNewsletter
       } = vals;
 
       // user social links
-      const social = [website, behance, other];
+      // create deep array copy to not effect original form values when deleting "checked" property
+      const social = JSON.parse(JSON.stringify([website, behance, other]))
+        .map((item) => {
+          delete item.checked;
+          return item;
+        })
+        .filter((item) => item.url);
 
-      const imageUrls = files.reduce((acc, { fileUrl }) => {
-        acc.push(fileUrl);
-        return acc;
-      }, []);
+      const images = files.map(({ fileName }) => fileName);
 
-      const formData = new FormData();
-      formData.append('firstName', firstName);
-      formData.append('lastName', lastName);
-      formData.append('email', email);
-      formData.append('city', city);
-      formData.append('description', description);
-      formData.append('social', JSON.stringify(social));
-      formData.append('categories', JSON.stringify(allCategories));
-      formData.append('tags', JSON.stringify(allTags));
-      formData.append('skills', JSON.stringify(allSkills));
-      formData.append('images', JSON.stringify(imageUrls));
-      formData.append('subscribedToNewsletter', subscribedToNewsletter);
+      // convert 'yes'/'no' to boolean
+      const subscribedToNewsletterParsed = subscribedToNewsletter === 'yes';
 
-      console.log([...formData]);
+      const data = {
+        firstName,
+        lastName,
+        email,
+        city,
+        social,
+        description,
+        categories: allCategories,
+        tags: allTags,
+        skills: allSkills,
+        images,
+        subscribedToNewsletter: subscribedToNewsletterParsed
+      };
+      try {
+        if (Object.keys(artist).length !== 0) {
+          console.log(data);
+          // TODO - send data to backend and update the artist
+        } else {
+          await createArtist(data);
+        }
 
-      // TODO - do something to submit data to the backend
-
-      resetForm(); // TODO - test reset form
-    },
+        // redirect to a thank-you page if the artist created successfully
+        router.push({
+          pathname: `/profile/thank-you/`, // TODO modify thank you page to make it work for a new artist and after editing profile??
+          query: { name: firstName }
+        });
+        resetForm();
+        setFiles([]); // delete files
+        setSubmissionError('');
+      } catch (error) {
+        setSubmissionError(
+          'An unexpected error occurred. Please try again to submit your form shortly.'
+        );
+        alertElement.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }
+    }
   });
-
-  const [formReset, setFormReset] = useState(false);
-  const [imageFiles, setFiles] = useState(initialValues.files);
 
   const handleChangeSocial = (e) => {
     const { value, name, type, checked } = e.target;
@@ -256,75 +383,95 @@ function CreateProfileForm({
   const handleFormReset = () => {
     setFormReset(!formReset);
     setFiles([]);
-    handleReset();
+    // works for both reset form for new artist and form for editing existing artist whose profile was rejected
+    setValues({ ...initialValues });
+    setTouched({}, false);
   };
 
   return (
-    <Box className={className}>
+    <Box>
+      {submissionError && (
+        <Alert
+          ref={alertElement}
+          severity="error"
+          sx={{
+            fontSize: '1.2rem',
+            marginBottom: '2rem'
+          }}
+          elevation={4}
+        >
+          {submissionError}
+        </Alert>
+      )}
       <form noValidate onSubmit={handleSubmit}>
         <Card
           sx={{
-            '& legend': {
-              margin: [
-                '0 4.188rem 1rem 1rem',
-                '0 0.188rem 1rem 0.5rem',
-                '0 2.375rem 1rem 0.5rem',
-              ],
-            },
-            '& p': {
-              marginBottom: '0.5rem',
-              typography: 'body2',
-              fontSize: '1.25rem',
-              lineHeight: '1.2',
-              letterSpacing: '0.15px',
-              ...starSpanStyles,
-            },
-            '& h3': {
-              marginTop: ['1.5rem'],
-              marginBottom: ['1.5rem'],
-              ...starSpanStyles,
-            },
+            padding: ['1.5rem 1rem', '1.5rem', '2rem'],
             '& label': {
-              marginLeft: ['.8rem', '.5rem'],
+              marginLeft: ['0rem', '.5rem'],
+              fontSize: '1rem'
             },
+            '& .MuiInputLabel-shrink': {
+              marginLeft: ['.1rem', '.4rem']
+            },
+            // error messages styling
+            '& .MuiFormHelperText-root': {
+              typography: 'body1',
+              fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
+              fontStyle: 'italic'
+            }
           }}
           elevation={6}
         >
-          <Typography variant="h2" component="legend">
+          <Typography
+            variant="h2"
+            component="legend"
+            sx={{
+              margin: [
+                '0 4.188rem 1rem 1rem',
+                '0 0.188rem 1rem 0.5rem',
+                '0 2.375rem 1rem 0.5rem'
+              ]
+            }}
+          >
             Your Info
           </Typography>
           <Typography
-            variant="h3"
-            component="p"
+            component="h3"
             sx={{
               margin: [
                 '1rem 4.813rem 1rem 1rem',
-                '1rem 0.313rem 1.5rem 0.5rem',
+                '1rem 0.313rem 1.5rem 0.5rem'
               ],
+              marginBottom: '1rem',
+              typography: 'body2',
+              fontSize: '1.25rem',
+              lineHeight: '1.2',
+              letterSpacing: '0.15px'
             }}
           >
-            <span>*</span>Required
+            <StarSpan>*</StarSpan>
+            Required
           </Typography>
-
           <Box
             sx={{
               '& .MuiFormControl-root': {
                 width: ['100%', '47%'],
-                marginBottom: '1.56rem',
-              },
+                marginBottom: '2.25rem'
+              }
             }}
           >
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: ['column', 'row'],
-                marginTop: '1.5rem',
+                marginTop: '1.5rem'
               }}
             >
               <TextField
                 required
                 sx={{
-                  marginRight: '1.56rem',
+                  marginRight: '1.56rem'
                 }}
                 InputProps={inputFieldStyles}
                 InputLabelProps={inputFieldStyles}
@@ -359,11 +506,33 @@ function CreateProfileForm({
                 id="outlined-required"
                 label="Email Address"
                 name="email"
+                disabled={Boolean(parsedArtist)} // the field is disabled if an artist editing the form after initial profile rejection
                 onChange={handleChange}
-                onBlur={handleBlur}
+                onBlur={async (e) => {
+                  if (values.email) {
+                    const isValidEmail = await ifEmailExists(values.email);
+                    // if email is valid set error message to empty string or populate with proper error message
+                    if (isValidEmail.validEmail) {
+                      await setIfValidEmail('');
+                    } else {
+                      const notValidEmail =
+                        !isValidEmail.validEmail && !isValidEmail.error
+                          ? 'Email is in use. Choose different email'
+                          : 'Server error. Fail to verify email';
+                      await setIfValidEmail(notValidEmail);
+                    }
+                  } else {
+                    await setIfValidEmail('');
+                  }
+                  handleBlur(e);
+                }}
                 value={values.email}
                 error={errors.email && touched.email}
-                helperText={touched.email ? errors.email : ''}
+                helperText={
+                  touched.email
+                    ? errors.email
+                    : (parsedArtist && 'Email cannot be changed!') || ''
+                }
               />
             </Box>
             <Box>
@@ -382,115 +551,70 @@ function CreateProfileForm({
               />
             </Box>
           </Box>
-
           <Box>
-            <Typography variant="h3" component="h3">
+            <Typography variant="h3" component="h3" sx={h3Styles}>
               What&apos;s the best place to find your work online? (Website,
               Behance, etc.)
-              <span>*</span>
+              <StarSpan>*</StarSpan>
             </Typography>
             <FormGroup
               component="fieldset"
               onChange={(e) => handleChangeSocial(e, values)}
-              sx={{
-                '& div .MuiBox-root': {
-                  marginBottom: '1.56rem',
-                  display: 'flex',
-                  flexDirection: ['column', 'row'],
-                },
-              }}
             >
-              <FormGroup>
-                <Box>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="website"
-                        value="website"
-                        checked={values.website.checked}
-                      />
+              {socialList.map(({ name, label }, index) => (
+                <FormGroup
+                  sx={{
+                    '& .MuiBox-root': {
+                      marginBottom: '1.56rem',
+                      display: 'flex',
+                      flexDirection: ['column', 'row']
                     }
-                    sx={{ width: '15%', ...labelStyles }}
-                    label="Website"
-                  />
-                  <TextField
-                    id="outlined-required"
-                    sx={{ width: ['94%', '50%'], marginLeft: '2rem' }}
-                    InputProps={inputFieldStyles}
-                    InputLabelProps={inputFieldStyles}
-                    label="Website URL"
-                    onBlur={handleBlur}
-                    name="website"
-                    value={values.website.url}
-                    error={errors.website && touched.website}
-                    helperText={touched.website ? errors.website?.url : ''} // ??
-                  />
-                </Box>
-              </FormGroup>
-
-              <FormGroup>
-                <Box>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="behance"
-                        value="behance"
-                        checked={values.behance.checked}
-                      />
-                    }
-                    sx={{ width: '15%', ...labelStyles }}
-                    label="Behance"
-                  />
-                  <TextField
-                    id="outlined-required"
-                    sx={{ width: ['94%', '50%'], marginLeft: '2rem' }}
-                    InputProps={inputFieldStyles}
-                    InputLabelProps={inputFieldStyles}
-                    label="Behance URL"
-                    onBlur={handleBlur}
-                    name="behance"
-                    value={values.behance.url}
-                    error={errors.behance && touched.behance}
-                    helperText={touched.behance ? errors.behance?.url : ''} // ??
-                  />
-                </Box>
-              </FormGroup>
-              <FormGroup>
-                <Box>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        name="other"
-                        value="other"
-                        checked={values.other.checked}
-                      />
-                    }
-                    sx={{ width: '15%', ...labelStyles }}
-                    label="other"
-                  />
-                  <TextField
-                    id="outlined-required"
-                    sx={{
-                      width: ['94%', '50%'],
-                      marginLeft: '2rem',
-                    }}
-                    InputProps={inputFieldStyles}
-                    InputLabelProps={inputFieldStyles}
-                    label="Other"
-                    onBlur={handleBlur}
-                    name="other"
-                    value={values.other.url}
-                    error={errors.other?.url && touched.other}
-                    helperText={touched.other ? errors.other?.url : ''} // ??
-                  />
-                </Box>
-              </FormGroup>
+                  }}
+                  key={index}
+                >
+                  <Box>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name={name}
+                          value={name}
+                          checked={values[name].checked}
+                        />
+                      }
+                      sx={{
+                        width: '15%',
+                        '& span': {
+                          fontSize: '1rem',
+                          textTransform: 'capitalize'
+                        }
+                      }}
+                      label={name}
+                    />
+                    <TextField
+                      id="outlined-required"
+                      sx={{
+                        width: ['calc(100% - 2.7rem)', '50%'],
+                        marginLeft: ['2.7rem', '2rem']
+                      }}
+                      InputProps={inputFieldStyles}
+                      InputLabelProps={inputFieldStyles}
+                      label={label}
+                      onBlur={handleBlur}
+                      name={name}
+                      value={values[name].url}
+                      error={errors[name]?.url && touched[name]}
+                      helperText={touched[name] ? errors[name]?.url : ''}
+                    />
+                  </Box>
+                </FormGroup>
+              ))}
             </FormGroup>
           </Box>
+
           <Box>
-            <Typography variant="h3" component="h3">
+            <Typography variant="h3" component="h3" sx={h3Styles}>
               What kind of artist are you? (Please list what apply)
-              <span>*</span>
+              <StarSpan>*</StarSpan>
             </Typography>
 
             <Stack>
@@ -525,32 +649,19 @@ function CreateProfileForm({
               />
             </Stack>
           </Box>
-
           <Upload
             getFiles={getFiles}
             files={imageFiles}
             formError={errors.files}
             errorsNum={Object.keys(errors).length} // shows how many errors are in the object to determine if upload component should be displayed
           />
-
-          <Box
-            sx={{
-              '& p': {
-                typography: 'body1',
-                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
-                fontStyle: 'italic',
-                lineHeight: '1.33',
-                letterSpacing: '0.4px',
-                marginTop: '0',
-                marginBottom: '1rem',
-              },
-            }}
-          >
-            <Typography
-              variant="h3"
-              component="h3"
-              sx={{
-                '& span:nth-of-type(2n)': {
+          <Box>
+            <Typography variant="h3" component="h3" sx={h3Styles}>
+              Short description of what you do.
+              <StarSpan>*</StarSpan>
+              <Box
+                component="span"
+                sx={{
                   color: 'primary.text',
                   opacity: '0.75',
                   fontSize: '0.875rem',
@@ -558,20 +669,18 @@ function CreateProfileForm({
                   fontStyle: 'italic',
                   lineHeight: '1.33',
                   letterSpacing: '1px',
-                  marginLeft: '0.938rem',
-                },
-              }}
-            >
-              Short description of what you do.
-              <span>*</span>
-              <span>1500 CHARACTERS MAX!</span>
+                  marginLeft: '0.938rem'
+                }}
+              >
+                1500 CHARACTERS MAX!
+              </Box>
             </Typography>
-            <p>
+            <Typography component="p" sx={pExampleStyles}>
               Example: Visual artist and musician whose work explores themes of
               nature, memory, trauma and identity. Reyes primarily creates
               participatory work that utilizes found objects and sounds of
               nature.
-            </p>
+            </Typography>
             <FormControl fullWidth>
               <TextField
                 id="outlined-textarea"
@@ -584,17 +693,16 @@ function CreateProfileForm({
                 value={values.description}
                 name="description"
                 onChange={handleChange}
-                error={errors.description && touched.description} // ??
-                helperText={touched.description ? errors.description : ''} // ??
+                error={errors.description && touched.description}
+                helperText={touched.description ? errors.description : ''}
               />
             </FormControl>
           </Box>
-
           <Box>
-            <Typography variant="h3" component="h3">
+            <Typography variant="h3" component="h3" sx={h3Styles}>
               Please list up to 10 keywords that would describe your work and
               services.
-              <span>*</span>
+              <StarSpan>*</StarSpan>
             </Typography>
 
             <Stack>
@@ -629,26 +737,15 @@ function CreateProfileForm({
               />
             </Stack>
           </Box>
-
-          <Box
-            sx={{
-              '& p': {
-                typography: 'body1',
-                fontSize: ['0.75rem', '0.75rem', '0.75rem', '0.75rem'],
-                fontStyle: 'italic',
-                lineHeight: '1.33',
-                letterSpacing: '0.4px',
-                marginTop: '0',
-                marginBottom: '1.25rem',
-              },
-            }}
-          >
-            <Typography variant="h3" component="h3">
+          <Box>
+            <Typography variant="h3" component="h3" sx={h3Styles}>
               Do you have skills, artistic or otherwise, for which you could be
               hired by Network visitors? If so, please list.
-              <span>*</span>
+              <StarSpan>*</StarSpan>
             </Typography>
-            <p>Example: DJ, wedding photographer, translation work, welding.</p>
+            <Typography component="p" sx={pExampleStyles}>
+              Example: DJ, wedding photographer, translation work, welding.
+            </Typography>
             <Stack>
               <Autocomplete
                 key={formReset}
@@ -675,20 +772,24 @@ function CreateProfileForm({
                     name="skills"
                     label="My 10 Keywords"
                     error={errors.skills && touched.skills}
-                    // touched={touched.skills} // ??
-                    helperText={touched.skills ? errors.skills : ''} // ??∂
+                    helperText={touched.skills ? errors.skills : ''}
                   />
                 )}
               />
             </Stack>
           </Box>
-
-          <Box sx={{ display: 'flex' }}>
-            <Box sx={{ '& img': { marginTop: '2rem', marginRight: '2rem' } }}>
-              <img src="/images/img-newsletter.svg" alt="Evelope" />
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <Box sx={{ marginRight: '1.5rem' }}>
+              <NewsLetterIcon sx={{ fontSize: 24, fontWeight: 'bold' }} />
             </Box>
+
             <Box sx={{ width: '75%' }}>
-              <Typography variant="h3" component="h3">
+              <Typography variant="h3" component="h3" sx={h3Styles}>
                 Would you like to subscribe to our monthly newsletter about
                 local art opportunities?
               </Typography>
@@ -723,18 +824,15 @@ function CreateProfileForm({
             display: 'flex',
             flexDirection: ['column', 'row'],
             alignItems: 'center',
-            justifyContent: ['center', 'space-between'],
-            '& button': {
-              width: ['19.438rem', '11.063rem'],
-              marginBottom: '0.813rem',
-            },
+            justifyContent: ['center', 'space-between']
           }}
         >
           <Button
             type="submit"
-            disabled={!isValid || !dirty}
+            disabled={!isValid || !dirty || isSubmitting}
             variant="contained"
             startIcon={<SendIcon />}
+            sx={buttonStyles}
           >
             Submit Form
           </Button>
@@ -743,6 +841,7 @@ function CreateProfileForm({
             variant="outlined"
             startIcon={<DeleteOutlineIcon />}
             onClick={handleFormReset}
+            sx={buttonStyles}
           >
             Clear Form
           </Button>
@@ -750,10 +849,6 @@ function CreateProfileForm({
       </form>
     </Box>
   );
-}
-
-CreateProfileForm.propTypes = {
-  className: PropTypes.string,
 };
 
 export default CreateProfileForm;

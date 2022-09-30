@@ -1,0 +1,6 @@
+email_bucket             = "artistdirectory-email-test"
+info_email               = "info@test.artistdirectory.com"
+support_email            = "support@test.artistdirectory.com"
+abuse_forwarding_email   = "chad@neatowebsolutions.com"
+info_forwarding_email    = "chad@neatowebsolutions.com"
+support_forwarding_email = "chad@neatowebsolutions.com"

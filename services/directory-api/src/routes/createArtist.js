@@ -3,23 +3,15 @@ const cors = require('@middy/http-cors');
 const {
   StatusCodes,
   ReasonPhrases,
-  getReasonPhrase
+  getReasonPhrase,
 } = require('http-status-codes');
-const { aws4Interceptor } = require('aws4-axios');
-const HttpClient = require('@artistdirectory/http-client').default;
+const HttpClient = require('@artistdirectory/gateway-http-client');
 
-const { AWS_REGION, ARTISTS_API_URL } = process.env;
+const { ARTISTS_API_URL } = process.env;
 
 const httpClient = new HttpClient({
-  baseUrl: ARTISTS_API_URL
+  baseUrl: ARTISTS_API_URL,
 });
-
-httpClient.addRequestInterceptor(
-  aws4Interceptor({
-    region: AWS_REGION,
-    service: 'execute-api'
-  })
-);
 
 const handler = middy(async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -31,11 +23,11 @@ const handler = middy(async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    const artist = await httpClient.post(`/artists`, data);
 
+    const artist = await httpClient.post(`/artists`, data);
     return {
       statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(artist)
+      body: JSON.stringify(artist),
     };
   } catch (error) {
     if (error.response && error.response.status) {
@@ -43,13 +35,13 @@ const handler = middy(async (event, context) => {
         statusCode: error.response.status,
         body:
           JSON.stringify(error.response.data) ||
-          getReasonPhrase(error.response.status)
+          getReasonPhrase(error.response.status),
       };
     }
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
     };
   }
 });

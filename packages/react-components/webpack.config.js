@@ -44,5 +44,10 @@ module.exports = {
     dev && new ESLintPlugin({ cache: true })
   ].filter(Boolean),
   stats: 'errors-warnings',
-  externals: ['@artistdirectory/react-hooks', 'prop-types', 'react', 'react-dom']
+  externals: [
+    '@artistdirectory/react-hooks',
+    'prop-types',
+    'react',
+    'react-dom'
+  ]
 };

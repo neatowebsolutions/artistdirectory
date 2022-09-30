@@ -4,16 +4,10 @@ const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 
 const {
-  AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY,
-  AWS_UPLOADS_BUCKET,
+  UPLOADS_BUCKET,
 } = process.env;
 
-const s3 = new AWS.S3({
-  accessKeyId: AWS_ACCESS_KEY_ID,
-  secretAccessKey: AWS_SECRET_ACCESS_KEY,
-  signatureVersion: 'v4',
-});
+const s3 = new AWS.S3();
 
 const handler = async (event) => {
   if (event.source === 'serverless-plugin-warmup') {
@@ -25,8 +19,8 @@ const handler = async (event) => {
     const { mimeType } = JSON.parse(event.body);
     const fileName = `${uuidv4()}.${mimeType.split('/')[1]}`; // TODO Improve how we get file extension
     const params = {
-      Bucket: AWS_UPLOADS_BUCKET,
-      Key: fileName,
+      Bucket: UPLOADS_BUCKET,
+      Key: `profile/${fileName}`,
       ContentType: mimeType,
     };
 
@@ -35,16 +29,16 @@ const handler = async (event) => {
 
     return {
       statusCode: StatusCodes.CREATED,
-      body: JSON.stringify({ signedUrl, fileName }), //  body: JSON.stringify(signedUrl),
+      body: JSON.stringify({ signedUrl, fileName }) //  body: JSON.stringify(signedUrl),
     };
   } catch (error) {
     await logger.error(`Error generating profile upload signed URL`, error, {
-      event,
+      event
     }); // Error text??
 
     return {
       statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR,
+      body: error.message || ReasonPhrases.INTERNAL_SERVER_ERROR
     };
   }
 };

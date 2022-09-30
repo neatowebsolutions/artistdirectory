@@ -1,4 +1,7 @@
-import axios from 'axios';
+const axios = require('axios');
+const { aws4Interceptor } = require('aws4-axios');
+
+const { AWS_REGION } = process.env;
 
 class HttpClient {
   constructor({ baseUrl, ...options }) {
@@ -18,8 +21,15 @@ class HttpClient {
 
     client.defaults = {
       ...client.defaults,
-      ...options
+      ...options,
     };
+
+    client.interceptors.request.use(
+      aws4Interceptor({
+        region: AWS_REGION,
+        service: 'execute-api',
+      })
+    );
 
     this.client = client;
   }
@@ -38,6 +48,10 @@ class HttpClient {
     return this.request('POST', url, data, options);
   }
 
+  async patch(url, data, options = {}) {
+    return this.request('PATCH', url, data, options);
+  }
+
   async put(url, data, options = {}) {
     return this.request('PUT', url, data, options);
   }
@@ -51,4 +65,4 @@ class HttpClient {
   }
 }
 
-export default HttpClient;
+module.exports = HttpClient;

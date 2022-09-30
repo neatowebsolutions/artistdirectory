@@ -6,7 +6,7 @@ import Footer from './Footer';
 import Toolbar from './Toolbar';
 
 const Intro = ({ children }) => (
-  <Box sx={{ textAlign: 'center', margin: '2.5rem auto' }}>
+  <Box sx={{ textAlign: 'center', margin: '0rem auto' }}>
     <section>{children}</section>
   </Box>
 );
@@ -15,7 +15,7 @@ const Root = ({ children }) => (
   <Box
     sx={{
       maxWidth: 1064,
-      margin: '0 auto',
+      margin: '0 auto'
     }}
   >
     <section>{children}</section>
@@ -24,7 +24,7 @@ const Root = ({ children }) => (
 
 Intro.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 const Layout = ({ children }) => (
@@ -32,22 +32,30 @@ const Layout = ({ children }) => (
     sx={{
       display: 'flex',
       flexDirection: 'column',
-      minHeight: '100vh',
-
-      maxWidth: ['90%', '90%', '90%', '1180px', '1280px'],
-      margin: '0 auto',
-      '& main': {
-        flex: 1,
-      },
-      '& p': {
-        fontSize: [14, 16, 20],
-      },
+      overflowX: 'hidden'
     }}
   >
-    {/* <Toolbar /> */}
-    <Header />
-    <main>{children}</main>
-    <Footer />
+    <Box>
+      <Toolbar />
+      <Header />
+    </Box>
+
+    <Box
+      component="main"
+      sx={{
+        backgroundColor: '#fcfcfc',
+        marginTop: '3px'
+      }}
+    >
+      <Box
+        sx={{
+          maxWidth: ['95%', '95%', '95%', '1180px', '1280px'],
+          margin: ' 0 auto'
+        }}
+      >
+        {children}
+      </Box>
+    </Box>
   </Box>
 );
 
@@ -55,7 +63,7 @@ Layout.Intro = Intro;
 Layout.Root = Root;
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export default Layout;

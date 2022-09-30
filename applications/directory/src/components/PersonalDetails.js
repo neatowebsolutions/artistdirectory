@@ -1,112 +1,130 @@
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 
-function PersonalDetails() {
+const renderDetailsList = (list, title, i) => (
+  <Box sx={{ flex: 1, marginRight: '1.25rem' }} key={i}>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '0.25rem'
+      }}
+    >
+      <Box
+        component="span"
+        sx={{
+          fontSize: '0.75rem',
+          fontWeight: '600',
+          lineHeight: '1.33',
+          letterSpacing: '0.4px',
+          marginTop: '1px',
+          color: 'text.secondary'
+        }}
+      >
+        {title}
+      </Box>
+    </Box>
+    <Box>
+      <List sx={{ padding: '0', marginBottom: '1.5rem' }}>
+        {list.map((item, index) => (
+          <ListItem
+            key={index}
+            sx={{
+              display: 'inline-flex',
+              // flex: '1',
+              width: 'auto',
+              padding: '0 0.406rem',
+              lineHeight: '1.5',
+              letterSpacing: '0.15px'
+            }}
+          >
+            <ListItemText
+              primary={item}
+              primaryTypographyProps={{ fontSize: ['1rem'], lineHeight: '1.5' }} // using this prop is the only way to change font properties
+              sx={{
+                textTransform: 'capitalize'
+              }}
+            />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  </Box>
+);
+
+const PersonalDetails = ({ artist }) => {
+  const { firstName, description, categories, tags, skills } = artist;
+  const keyWordsList = [
+    { list: categories, title: 'Type of Artist' },
+    { list: tags, title: `10 Words to Describe ${firstName}'s Work` },
+    { list: skills, title: `${firstName}' Skills` }
+  ];
+
   return (
     <Card
       sx={{
-        mb: '50px',
-        '& h2': { typography: 'body1', fontSize: '20px', fontWeight: '500' },
-        '& p': {
-          margin: '0'
-        }
+        marginBottom: '3.125rem',
+        color: 'text.primary',
+        boxShadow: '-0.625rem 0.625rem 1.25rem 0 rgba(30, 30, 30, 0.05)'
       }}
     >
-      <h2>Personal Details</h2>
+      <Typography
+        variant="h2"
+        sx={{
+          fontSize: '1.25rem',
+          fontFamily: 'gira-sans, sans-serif',
+          fontWeight: 500,
+          marginBottom: '0.875rem'
+        }}
+      >
+        Personal Details
+      </Typography>
+
       <Box
         sx={{
           display: 'flex',
-          borderBottom: 'solid 1px rgba(0, 0, 0, 0.1)'
+          flexDirection: ['column', 'column', 'row'],
+          borderBottom: 'solid 1px rgba(0, 0, 0, 0.1)',
+          marginBottom: '1.984rem'
         }}
       >
-        <Box sx={{ flex: 1, mr: '20px' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              mb: '10px',
-              '& span': {
-                fontSize: '12px',
-                fontWeight: '500',
-                lineHeight: '1.33',
-                letterSpacing: '0.4px',
-                mt: '1px',
-                color: 'rgba(0, 0, 0, 0.38)'
-              }
-            }}
-          >
-            <span>Type Of Artist</span>
-          </Box>
-          <p>Musician</p>
-          <p>Visual Artist</p>
-        </Box>
-        <Box sx={{ flex: 4, mb: '20px' }}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              mb: '10px',
-              '& span': {
-                fontSize: '12px',
-                fontWeight: '500',
-                lineHeight: '1.33',
-                letterSpacing: '0.4px',
-                mt: '1px',
-                color: 'rgba(0, 0, 0, 0.38)'
-              }
-            }}
-          >
-            <span>10 Words to Describe Josephine’s Work</span>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              maxWidth: '500px',
-              '& p': {
-                margin: '0 10px 0 0'
-              }
-            }}
-          >
-            <p>WordOne</p>
-            <p>WordTwo</p>
-            <p>WordThree</p>
-            <p>WordFour</p>
-            <p>WordFive</p>
-            <p>WordSix</p>
-            <p>WordSeven</p>
-            <p>WordEight</p>
-            <p>WordNine</p>
-            <p>WordTen</p>
-          </Box>
-        </Box>
+        {keyWordsList.map(({ list, title }, index) =>
+          renderDetailsList(list, title, index)
+        )}
       </Box>
-      <Box
-        sx={{
-          '& h2': { typography: 'body1', fontSize: '20px', fontWeight: '500' },
-          '& p': {
+      <Box>
+        <Typography
+          variant="h2"
+          sx={{
+            fontSize: '1.25rem',
+            fontFamily: 'gira-sans, sans-serif',
+            fontWeight: 500,
+            marginBottom: '0.875rem'
+          }}
+        >
+          About {firstName}
+        </Typography>
+        <Typography
+          variant="p"
+          component="p"
+          sx={{
             margin: '1rem 0',
-            fontSize: '16px',
+            fontSize: '1rem',
             lineHeight: '1.5',
-            letterSpacing: '0.15px'
-          }
-        }}
-      >
-        <h2>About Josephine</h2>
-        <p>
-          Josephine is a Grand Rapidian painter, sculptor and printmaker, noted
-          for his work in the areas of minimalism and post-painterly
-          abstraction. Josephine lives and works in Midtown, GR. She believes
-          that abstraction doesn’t have to be limited to a kind of rectilinear
-          geometry or even a simple curve geometry; it can have a geometry that
-          had a narrative impact. In other words, you can tell a story with the
-          shapes and interaction of the shapes and colors would give you a
-          narrative sense. Her work is on display at Madcap Coffee, and for sale
-          at The Lantern.
-        </p>
+            letterSpacing: '0.15px',
+            wordBreak: 'break-word',
+            textAlign: 'justify'
+          }}
+        >
+          {description}
+        </Typography>
       </Box>
     </Card>
   );
-}
+};
 
 export default PersonalDetails;

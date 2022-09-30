@@ -20,18 +20,14 @@ html {
 }
 body {
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  position: relative;
 }
 
 html,
 body,
 #__next {
-  height: 100%;
+  min-height: 100wv;
 }
-
-
 
 // h1 {
 //   font-size: 96px;

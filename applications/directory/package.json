@@ -9,7 +9,7 @@
   "author": "Chad Johnson <chad@neatowebsolutions.com>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@artistdirectory/http-client": "0.0.0",
+    "@artistdirectory/gateway-http-client": "0.0.0",
     "@artistdirectory/react-components": "0.0.0",
     "@artistdirectory/react-hooks": "0.0.0",
     "@emotion/react": "^11.5.0",
@@ -38,12 +38,14 @@
     "react-dropzone": "^11.4.2",
     "sass": "^1.43.4",
     "serverless-http": "^2.7.0",
+    "slugify": "^1.6.5",
     "swr": "^0.5.6",
     "universal-cookie": "^4.0.4",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@svgr/webpack": "^6.3.1",
     "babel-plugin-transform-imports": "^2.0.0",
     "nodemon": "^2.0.7",
     "serverless": "^2.43.1",
