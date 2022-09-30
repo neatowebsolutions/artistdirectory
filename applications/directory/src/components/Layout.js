@@ -32,7 +32,7 @@ const Layout = ({ children }) => (
     sx={{
       display: 'flex',
       flexDirection: 'column',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
       minHeight: '100vh',
       maxWidth: ['90%', '90%', '90%', '1180px', '1280px'],
       margin: '0 auto',

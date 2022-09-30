@@ -24,17 +24,6 @@ const Footer = () => {
             }}
           >
             © Copyright 2021 Avenue for the Arts
-            <MuiLink
-              href="https://www.avenueforthearts.co/about" // TODO  - correct path
-              sx={{
-                textDecoration: 'none',
-                color: 'primary.main',
-                fontWeight: '600',
-                letterSpacing: '1.25px'
-              }}
-            >
-              Contact Us
-            </MuiLink>
           </Typography>
         </Box>
       </Box>
