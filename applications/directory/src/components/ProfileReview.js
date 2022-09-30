@@ -236,7 +236,7 @@ const ProfileReview = ({ onSubmit }) => {
           >
             <Button
               type="submit"
-              disabled={!isValid || !dirty || isSubmitting}
+              disabled={!isValid  || isSubmitting}
               variant="contained"
               startIcon={<SendIcon />}
             >

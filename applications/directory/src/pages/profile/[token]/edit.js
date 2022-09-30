@@ -1,9 +1,7 @@
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Head from 'next/head';
+import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
-import Card from '@mui/material/Card';
 import { Loader } from '@artistdirectory/react-components';
 import LinearProgress from '@mui/material/LinearProgress';
 import CreateProfileForm from '../../../components/CreateProfileForm';
@@ -48,14 +46,38 @@ const ProfileReviewEditPage = ({ token }) => {
             maxWidth: '48.875rem',
             margin: ['2rem auto 0', '4.125rem auto 0', '3.5rem auto 0']
           }} */}
+
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'flex-start'
+              maxWidth: '48.875rem',
+              margin: ['2rem auto 0', '4.125rem auto 0', '3.5rem auto 0']
             }}
           >
-            <CreateProfileForm />
+            <Loader
+              isLoading={loading}
+              isError={error}
+              loadingComponent={() => (
+                <LinearProgress color="primary"></LinearProgress>
+              )}
+              errorComponent={() => (
+                <Alert
+                  severity="error"
+                  sx={{
+                    fontSize: '1.2rem'
+                  }}
+                  elevation={4}
+                >
+                  An unexpected error occurred. Please try again shortly.
+                </Alert>
+              )}
+            >
+              <CreateProfileForm
+                skills={skills}
+                tags={tags}
+                categories={categories}
+                artist={artist}
+              />
+            </Loader>
           </Box>
         </Layout.Root>
       </Layout>
