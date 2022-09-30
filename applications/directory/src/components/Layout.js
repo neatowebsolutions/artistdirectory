@@ -56,6 +56,7 @@ const Layout = ({ children }) => (
         {children}
       </Box>
     </Box>
+    <Footer />
   </Box>
 );
 
