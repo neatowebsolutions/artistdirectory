@@ -13,7 +13,7 @@ const Intro = ({ children }) => (
 const Root = ({ children }) => (
   <Box
     sx={{
-      maxWidth: 1064,
+      maxWidth: '66.5rem',
       margin: '0 auto'
     }}
   >
@@ -43,12 +43,13 @@ const Layout = ({ children }) => (
       component="main"
       sx={{
         backgroundColor: '#fcfcfc',
-        marginTop: '3px'
+        marginTop: '3px',
+        minHeight: '100vw'
       }}
     >
       <Box
         sx={{
-          maxWidth: ['95%', '95%', '95%', '1180px', '1280px'],
+          maxWidth: ['95%', '95%', '95%', '73.75rem', '80rem'],
           margin: ' 0 auto'
         }}
       >

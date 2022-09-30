@@ -41,12 +41,6 @@ const ProfileReviewEditPage = ({ token }) => {
             <Typography variant="h1">Edit artist profile</Typography>
           </Box>
 
-          {/* TODO - checkout styles in create profile page <Box
-          sx={{
-            maxWidth: '48.875rem',
-            margin: ['2rem auto 0', '4.125rem auto 0', '3.5rem auto 0']
-          }} */}
-
           <Box
             sx={{
               maxWidth: '48.875rem',
