@@ -2,20 +2,12 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
 const generateToken = require('./../utilities/generateToken');
 const parseKeywords = require('./../utilities/parseKeywords');
-const AWS = require('aws-sdk');
-const emailClient = require('@artistdirectory/email-client');
+const emailAdminToReviewArtist = require('./../utilities/emailAdminToReviewArtist');
+const copyImagesToAssetsBucket = require('./../utilities/copyImagesToAssetsBucket');
 const mongodbClient = require('../models/mongodbClient');
 const models = require('../models');
 
-const {
-  DIRECTORY_API_URL,
-  UPLOADS_BUCKET,
-  ASSETS_BUCKET,
-  ASSETS_URL,
-  ADMIN_EMAIL
-} = process.env;
-
-const s3 = new AWS.S3();
+const { ASSETS_URL } = process.env;
 
 const handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -57,22 +49,7 @@ const handler = async (event, context) => {
       await artist.validate();
 
       // send email to admin to initiate artist profile review
-      await emailClient.enqueue({
-        to: ADMIN_EMAIL,
-        from: 'noreply@artistdirectory.com',
-        subject: 'New artist profile ready for review',
-        body: `
-        <html>
-          <body>
-              <div style="text-align: center;">
-                <h1>Hello!</h1>
-                <p style="font-weight: 600">A new Artist has just created their profile. Follow this link to review - <a href="${DIRECTORY_API_URL}/profile/${reviewToken}/review">ArtistDirectory</a>!</p>
-                <p style="font-weight: 700">Thank you!</p>
-              </div>
-          </body>
-        </html>
-        `
-      });
+      await emailAdminToReviewArtist(reviewToken);
     } catch (error) {
       console.log(error);
       return {
@@ -85,20 +62,7 @@ const handler = async (event, context) => {
     await logger.info(`Artist created (${artist.toString()})`, { data });
 
     // copy images from uploads_bucket to assets_bucket
-    const copyImages = (imagesArray) => {
-      const copiedImages = imagesArray.map(async (image) => {
-        const params = {
-          Bucket: ASSETS_BUCKET,
-          CopySource: encodeURI(`${UPLOADS_BUCKET}/profile/${image}`),
-          Key: `profile/${image}`
-        };
-
-        return await s3.copyObject(params).promise(); // docs - https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#copyObject-property
-      });
-      return Promise.all(copiedImages);
-    };
-
-    await copyImages(data.images);
+    await copyImagesToAssetsBucket(data.images);
 
     return {
       statusCode: StatusCodes.CREATED,
