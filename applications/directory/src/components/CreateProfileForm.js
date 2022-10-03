@@ -26,7 +26,11 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import * as Yup from 'yup';
 import Upload from './Upload';
 import NewsLetterIcon from '../icons/newsletter.svg';
-import { useEmailValidation, useCreateArtist } from '../hooks';
+import {
+  useEmailValidation,
+  useCreateArtist,
+  useUpdateNewArtist
+} from '../hooks';
 
 const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
@@ -183,13 +187,15 @@ const CreateProfileForm = ({
   };
   const parsedArtist = parseArtist(artist);
 
-  const { createArtist } = useCreateArtist();
-  const { ifEmailExists } = useEmailValidation();
   const [ifValidEmail, setIfValidEmail] = useState('');
-  const [formReset, setFormReset] = useState(false);
+  const [formReset, setFormReset] = useState(null);
   const [imageFiles, setFiles] = useState(
     parsedArtist.files || initialValues.files
   );
+
+  const { createArtist } = useCreateArtist();
+  const { updateNewArtist } = useUpdateNewArtist();
+  const { ifEmailExists } = useEmailValidation();
   const [submissionError, setSubmissionError] = useState('');
 
   // get the element to scroll into view if displayed
@@ -335,6 +341,8 @@ const CreateProfileForm = ({
         if (Object.keys(artist).length !== 0) {
           console.log(data);
           // TODO - send data to backend and update the artist
+          const art = await updateNewArtist(data, artist.editProfileToken);
+          console.log(art);
         } else {
           await createArtist(data);
         }
@@ -380,8 +388,9 @@ const CreateProfileForm = ({
     setFiles(files);
     setFieldValue('files', files);
   };
+
   const handleFormReset = () => {
-    setFormReset(!formReset);
+    setFormReset(Math.random()); // form reset needs a random values to change the key prop of Autocomplete, which causes the component to re-render with the default values
     setFiles([]);
     // works for both reset form for new artist and form for editing existing artist whose profile was rejected
     setValues({ ...initialValues });
@@ -623,7 +632,9 @@ const CreateProfileForm = ({
                 key={formReset} // https://stackoverflow.com/questions/59790956/material-ui-autocomplete-clear-value
                 id="tags-filled"
                 options={categories.map((option) => option.name)}
-                defaultValue={[categoriesDefaultValue]}
+                defaultValue={
+                  (!formReset && artist.categories) || [categoriesDefaultValue]
+                } // populates the field if a new artist editing their profile and lets reset to default (initial values)
                 freeSolo
                 onBlur={handleBlur}
                 renderTags={(value, getTagProps) =>
@@ -636,7 +647,10 @@ const CreateProfileForm = ({
                     />
                   ))
                 }
-                onChange={(event, value) => setFieldValue('categories', value)}
+                onChange={(event, value, reason) => {
+                  console.log(reason);
+                  setFieldValue('categories', value);
+                }}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -711,7 +725,7 @@ const CreateProfileForm = ({
                 key={formReset} // https://stackoverflow.com/questions/59790956/material-ui-autocomplete-clear-value
                 id="tags-filled"
                 options={tags.map((option) => option.name)}
-                defaultValue={[tagsDefaultValue]}
+                defaultValue={(!formReset && artist.tags) || [tagsDefaultValue]} // populate the field if a new artist editing their profile and lets reset to default (initial values)
                 freeSolo
                 onBlur={handleBlur}
                 renderTags={(value, getTagProps) =>
@@ -752,7 +766,9 @@ const CreateProfileForm = ({
                 multiple
                 id="tags-filled"
                 options={skills.map((option) => option.name)}
-                defaultValue={[skillsDefaultValue]}
+                defaultValue={
+                  (!formReset && artist.skills) || [skillsDefaultValue]
+                } // populate the field if a new artist editing their profile and lets reset to default (initial values)
                 freeSolo
                 onBlur={handleBlur}
                 renderTags={(value, getTagProps) =>

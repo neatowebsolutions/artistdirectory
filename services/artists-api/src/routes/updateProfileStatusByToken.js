@@ -25,7 +25,7 @@ const handler = async (event, context) => {
       },
       {
         new: true
-      }// no need to return updated artist in our case
+      } // no need to return updated artist in our case
     );
 
     if (approvalStatus === 'rejected') {

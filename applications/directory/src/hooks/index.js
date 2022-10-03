@@ -8,3 +8,4 @@ export { default as useEmailValidation } from './emailValidation';
 export { default as useReview } from './reviewArtistProfile';
 export { default as useCreateArtist } from './createArtist';
 export { default as useEditProfile } from './editArtistProfile';
+export { default as useUpdateNewArtist } from './updateNewArtist';

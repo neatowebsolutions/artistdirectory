@@ -14,7 +14,7 @@ import {
 } from '../../../hooks';
 
 const ProfileReviewEditPage = ({ token }) => {
-  // TODO handle the scenario when an artist is not found byt the token (not found page)
+  // TODO handle the scenario when an artist is not found by the token (not found page)
   const { artist, artistError, artistLoading } = useEditProfile(token);
   const { categories, categoriesLoading, categoriesError } = useCategories();
   const { skills, skillsLoading, skillsError } = useSkills();
@@ -22,6 +22,7 @@ const ProfileReviewEditPage = ({ token }) => {
   const loading =
     categoriesLoading || tagsLoading || skillsLoading || artistLoading;
   const error = categoriesError || tagsError || skillsError || artistError;
+  
   return (
     <>
       <Head>
