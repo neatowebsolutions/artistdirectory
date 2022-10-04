@@ -26,11 +26,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import * as Yup from 'yup';
 import Upload from './Upload';
 import NewsLetterIcon from '../icons/newsletter.svg';
-import {
-  useEmailValidation,
-  useCreateArtist,
-  useUpdateNewArtist
-} from '../hooks';
+import { useEmailValidation, useArtist, usePendingArtist } from '../hooks';
 
 const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
@@ -193,8 +189,8 @@ const CreateProfileForm = ({
     parsedArtist.files || initialValues.files
   );
 
-  const { createArtist } = useCreateArtist();
-  const { updateNewArtist } = useUpdateNewArtist();
+  const { saveArtist } = useArtist();
+  const { savePendingArtist } = usePendingArtist();
   const { ifEmailExists } = useEmailValidation();
   const [submissionError, setSubmissionError] = useState('');
 
@@ -341,10 +337,10 @@ const CreateProfileForm = ({
         if (Object.keys(artist).length !== 0) {
           console.log(data);
           // TODO - send data to backend and update the artist
-          const art = await updateNewArtist(data, artist.editProfileToken);
+          const art = await savePendingArtist(data, artist.editProfileToken);
           console.log(art);
         } else {
-          await createArtist(data);
+          await saveArtist(data);
         }
 
         // redirect to a thank-you page if the artist created successfully

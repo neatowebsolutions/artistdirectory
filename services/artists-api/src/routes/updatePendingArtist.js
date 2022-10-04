@@ -2,10 +2,10 @@
 
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
-const generateToken = require('./../utilities/generateToken');
-const parseKeywords = require('./../utilities/parseKeywords');
-const emailAdminToReviewArtist = require('./../utilities/emailAdminToReviewArtist');
-const copyImagesToAssetsBucket = require('./../utilities/copyImagesToAssetsBucket');
+const generateToken = require('../utilities/generateToken');
+const parseKeywords = require('../utilities/parseKeywords');
+const emailAdminToReviewArtist = require('../utilities/emailAdminToReviewArtist');
+const copyImagesToAssetsBucket = require('../utilities/copyImagesToAssetsBucket');
 const mongodbClient = require('../models/mongodbClient');
 const models = require('../models');
 
