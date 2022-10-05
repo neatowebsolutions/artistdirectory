@@ -123,7 +123,7 @@ functions:
     handler: src/routes/updatePendingArtist.handler
     events:
       - http:
-          path: /artists/edit/edit-profile-token/{editProfileToken}
+          path: /artists/edit-profile-token/{editProfileToken}
           method: patch
           authorizer: aws_iam
   findArtists:

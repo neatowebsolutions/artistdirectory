@@ -1,3 +1,5 @@
+// TODO - check error in console -  GET http://localhost:3002/artists/edit-profile-token/undefined 404 (Not Found)
+
 // TODO validation -  make sure at least one social link provided or delete the * for the social being required??
 // TODO - change marginLeft for input social on mobile
 // TODO reduce font size in drop-downs (bigger screen)?
@@ -335,10 +337,7 @@ const CreateProfileForm = ({
       };
       try {
         if (Object.keys(artist).length !== 0) {
-          console.log(data);
-          // TODO - send data to backend and update the artist
-          const art = await savePendingArtist(data, artist.editProfileToken);
-          console.log(art);
+          await savePendingArtist(data, artist.editProfileToken);
         } else {
           await saveArtist(data);
         }
@@ -643,10 +642,7 @@ const CreateProfileForm = ({
                     />
                   ))
                 }
-                onChange={(event, value, reason) => {
-                  console.log(reason);
-                  setFieldValue('categories', value);
-                }}
+                onChange={(event, value) => setFieldValue('categories', value)}
                 renderInput={(params) => (
                   <TextField
                     {...params}

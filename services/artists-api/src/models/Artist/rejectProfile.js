@@ -7,6 +7,7 @@ const rejectProfile = async (artist, rejectionReason) => {
 
   const editProfileToken = await generateToken();
   artist.editProfileToken = editProfileToken;
+  artist.reviewToken = undefined;
   artist.rejectionReasons.push(rejectionReason);
   await artist.markModified('rejectionReasons'); // https://sarav.co/understanding-markModified-in-mongoose
 

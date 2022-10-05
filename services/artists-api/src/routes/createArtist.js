@@ -51,7 +51,6 @@ const handler = async (event, context) => {
       // send email to admin to initiate artist profile review
       await emailAdminToReviewArtist(reviewToken);
     } catch (error) {
-      console.log(error);
       return {
         statusCode: StatusCodes.BAD_REQUEST,
         body: ReasonPhrases.BAD_REQUEST

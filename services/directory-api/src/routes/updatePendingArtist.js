@@ -26,7 +26,7 @@ const handler = middy(async (event, context) => {
     const data = JSON.parse(event.body);
 
     const updatedArtist = await httpClient.patch(
-      `/artists/edit/edit-profile-token/${editProfileToken}`,
+      `/artists/edit-profile-token/${editProfileToken}`,
       data
     );
 
