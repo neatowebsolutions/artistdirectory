@@ -10,12 +10,12 @@ import {
   useCategories,
   useTags,
   useSkills,
-  usePendingArtist
+  useRejectedArtist
 } from '../../../hooks';
 
 const ProfileReviewEditPage = ({ token }) => {
   // TODO handle the scenario when an artist is not found by the token (not found page)
-  const { artist, artistError, artistLoading } = usePendingArtist(token);
+  const { artist, artistError, artistLoading } = useRejectedArtist(token);
   const { categories, categoriesLoading, categoriesError } = useCategories();
   const { skills, skillsLoading, skillsError } = useSkills();
   const { tags, tagsLoading, tagsError } = useTags();

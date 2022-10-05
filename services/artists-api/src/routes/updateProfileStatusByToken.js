@@ -34,6 +34,8 @@ const handler = async (event, context) => {
     } else {
       await artist.approveProfile();
     }
+    artist.reviewToken = undefined;
+    await artist.save();
 
     if (!artist) {
       return {

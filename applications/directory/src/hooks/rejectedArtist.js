@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import { useHttpClient } from '@artistdirectory/react-hooks';
 
-const usePendingArtist = (token) => {
+const useRejectedArtist = (token) => {
   const { httpClient } = useHttpClient();
 
   const { data: artist, error: artistError } = useSWR(
@@ -13,7 +13,7 @@ const usePendingArtist = (token) => {
   );
   const artistLoading = !artist && !artistError;
 
-  const savePendingArtist = async (data, editProfileToken) => {
+  const saveRejectedArtist = async (data, editProfileToken) => {
     return await httpClient.patch(
       `/artists/edit-profile-token/${editProfileToken}`,
       data
@@ -24,8 +24,8 @@ const usePendingArtist = (token) => {
     artist,
     artistError,
     artistLoading,
-    savePendingArtist
+    saveRejectedArtist
   };
 };
 
-export default usePendingArtist;
+export default useRejectedArtist;

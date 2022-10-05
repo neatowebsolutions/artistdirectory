@@ -118,9 +118,9 @@ functions:
           path: /reviews/token/{reviewToken}
           method: patch
           authorizer: aws_iam
-  updatePendingArtist:
+  updateRejectedArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
-    handler: src/routes/updatePendingArtist.handler
+    handler: src/routes/updateRejectedArtist.handler
     events:
       - http:
           path: /artists/edit-profile-token/{editProfileToken}

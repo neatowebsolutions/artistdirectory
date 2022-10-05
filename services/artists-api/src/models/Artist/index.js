@@ -18,10 +18,17 @@ const schema = new mongoose.Schema(
       default: 'pending',
       required: true
     },
-    reviewToken: { type: String, unique: true, required: true },
+    reviewToken: {
+      type: String,
+      required() {
+        return this.approvalStatus === 'pending';
+      }
+    },
     editProfileToken: {
       type: String,
-      required: false
+      required() {
+        return this.approvalStatus === 'rejected';
+      }
     },
     rejectionReasons: [
       {
@@ -62,6 +69,7 @@ schema.methods.rejectProfile = function (rejectionReason) {
 
 // create indexes
 schema.index({ editProfileToken: 1 }, { unique: true, sparse: true });
+schema.index({ reviewToken: 1 }, { unique: true, sparse: true });
 
 Artist = mongodbClient.connection.model('Artist', schema);
 

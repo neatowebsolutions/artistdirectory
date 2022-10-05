@@ -1,7 +1,7 @@
 export { default as useArtist } from './artist';
 export { default as useCategories } from './categories';
 export { default as useEmailValidation } from './emailValidation';
-export { default as usePendingArtist } from './pendingArtist';
+export { default as useRejectedArtist } from './rejectedArtist';
 export { default as useProduct } from './product';
 export { default as useProducts } from './products';
 export { default as useReview } from './review';
