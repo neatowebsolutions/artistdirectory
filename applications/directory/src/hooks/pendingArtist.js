@@ -5,7 +5,7 @@ const usePendingArtist = (token) => {
   const { httpClient } = useHttpClient();
 
   const { data: artist, error: artistError } = useSWR(
-    `/artists/edit-profile-token/${token}`,
+    token ? `/artists/edit-profile-token/${token}` : null,
     httpClient.get.bind(httpClient),
     {
       revalidateOnFocus: false
