@@ -86,7 +86,7 @@ const ProfileReviewPage = ({ token }) => {
               }}
             >
               <Box
-                sx={{ flex: 1, marginRight: ['0', '5%'], marginBottom: '5%' }}
+                sx={{ flex: '1', marginRight: ['0', '5%'], marginBottom: '5%' }}
               >
                 <ProfileDetails
                   artist={{
@@ -100,7 +100,7 @@ const ProfileReviewPage = ({ token }) => {
                 />
               </Box>
 
-              <Box sx={{ flex: 3 }}>
+              <Box sx={{ flex: '3 1 auto' }}>
                 <PersonalDetails
                   artist={{ firstName, description, skills, tags, categories }}
                 />

@@ -31,7 +31,8 @@ const Layout = ({ children }) => (
     sx={{
       display: 'flex',
       flexDirection: 'column',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
+      minHeight: '100vh'
     }}
   >
     <Box>
@@ -44,7 +45,7 @@ const Layout = ({ children }) => (
       sx={{
         backgroundColor: '#fcfcfc',
         marginTop: '3px',
-        minHeight: '100vw'
+        flex: 1
       }}
     >
       <Box

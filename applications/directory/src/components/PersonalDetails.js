@@ -6,7 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
 const renderDetailsList = (list, title, i) => (
-  <Box sx={{ flex: 1, marginRight: '1.25rem' }} key={i}>
+  <Box sx={{ flex: 1, marginRight: ['0', '0', '1rem', '1.25rem'] }} key={i}>
     <Box
       sx={{
         display: 'flex',
@@ -17,12 +17,14 @@ const renderDetailsList = (list, title, i) => (
       <Box
         component="span"
         sx={{
+          minHeight: ['auto', 'auto', '3rem'],
           fontSize: '0.75rem',
           fontWeight: '600',
           lineHeight: '1.33',
           letterSpacing: '0.4px',
           marginTop: '1px',
-          color: 'text.secondary'
+          color: 'text.secondary',
+          whiteSpace: 'pre-line'
         }}
       >
         {title}
@@ -103,7 +105,8 @@ const PersonalDetails = ({ artist }) => {
             fontSize: '1.25rem',
             fontFamily: 'gira-sans, sans-serif',
             fontWeight: 500,
-            marginBottom: '0.875rem'
+            marginBottom: '0.875rem',
+            whiteSpace: 'pre-line'
           }}
         >
           About {firstName}
