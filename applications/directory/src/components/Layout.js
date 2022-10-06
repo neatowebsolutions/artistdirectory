@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import Header from './Header';
+import Footer from './Footer';
 import Toolbar from './Toolbar';
 
 const Intro = ({ children }) => (
@@ -57,6 +58,7 @@ const Layout = ({ children }) => (
         {children}
       </Box>
     </Box>
+    <Footer />
   </Box>
 );
 
