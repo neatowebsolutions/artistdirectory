@@ -32,7 +32,7 @@ const rejectProfile = async (artist, rejectionReason) => {
           </html>
     `
   });
-  await artist.save();
+  
   return artist;
 };
 

@@ -1,8 +1,10 @@
-// TODO validation -  make sure at least one social link provided or delete the * for the social being required??
+// TODO - check error in console -  GET http://localhost:3002/artists/edit-profile-token/undefined 404 (Not Found)
+
+// TODO validation -  make sure at least one social link provided or delete the * for the social being required
 // TODO - change marginLeft for input social on mobile
 // TODO reduce font size in drop-downs (bigger screen)?
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import Box from '@mui/material/Box';
@@ -26,7 +28,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import * as Yup from 'yup';
 import Upload from './Upload';
 import NewsLetterIcon from '../icons/newsletter.svg';
-import { useEmailValidation, useCreateArtist } from '../hooks';
+import { useEmailValidation, useArtist, useRejectedArtist } from '../hooks';
 
 const categoriesDefaultValue = 'Dancer';
 const tagsDefaultValue = 'Education';
@@ -166,10 +168,12 @@ const CreateProfileForm = ({
 }) => {
   const router = useRouter();
 
+  const parsedArtist = parseArtist(artist);
+
   const initialValues = {
     firstName: '',
     lastName: '',
-    email: artist ? artist.email : '',
+    email: parsedArtist ? parsedArtist.email : '',
     city: '',
     website: { checked: true, name: 'website', url: '' },
     behance: { checked: false, name: 'behance', url: '' },
@@ -181,15 +185,16 @@ const CreateProfileForm = ({
     files: [],
     subscribedToNewsletter: 'yes'
   };
-  const parsedArtist = parseArtist(artist);
 
-  const { createArtist } = useCreateArtist();
-  const { ifEmailExists } = useEmailValidation();
   const [ifValidEmail, setIfValidEmail] = useState('');
-  const [formReset, setFormReset] = useState(false);
+  const [formReset, setFormReset] = useState(null);
   const [imageFiles, setFiles] = useState(
     parsedArtist.files || initialValues.files
   );
+
+  const { saveArtist } = useArtist();
+  const { saveRejectedArtist } = useRejectedArtist();
+  const { ifEmailExists } = useEmailValidation();
   const [submissionError, setSubmissionError] = useState('');
 
   // get the element to scroll into view if displayed
@@ -332,11 +337,10 @@ const CreateProfileForm = ({
         subscribedToNewsletter: subscribedToNewsletterParsed
       };
       try {
-        if (Object.keys(artist).length !== 0) {
-          console.log(data);
-          // TODO - send data to backend and update the artist
+        if (parsedArtist) {
+          await saveRejectedArtist(data, artist.editProfileToken);
         } else {
-          await createArtist(data);
+          await saveArtist(data);
         }
 
         // redirect to a thank-you page if the artist created successfully
@@ -380,8 +384,9 @@ const CreateProfileForm = ({
     setFiles(files);
     setFieldValue('files', files);
   };
+
   const handleFormReset = () => {
-    setFormReset(!formReset);
+    setFormReset(Math.random()); // form reset needs a random values to change the key prop of Autocomplete, which causes the component to re-render with the default values
     setFiles([]);
     // works for both reset form for new artist and form for editing existing artist whose profile was rejected
     setValues({ ...initialValues });
@@ -623,7 +628,9 @@ const CreateProfileForm = ({
                 key={formReset} // https://stackoverflow.com/questions/59790956/material-ui-autocomplete-clear-value
                 id="tags-filled"
                 options={categories.map((option) => option.name)}
-                defaultValue={[categoriesDefaultValue]}
+                defaultValue={
+                  (!formReset && artist.categories) || [categoriesDefaultValue]
+                } // populates the field if a new artist editing their profile and lets reset to default (initial values)
                 freeSolo
                 onBlur={handleBlur}
                 renderTags={(value, getTagProps) =>
@@ -711,7 +718,7 @@ const CreateProfileForm = ({
                 key={formReset} // https://stackoverflow.com/questions/59790956/material-ui-autocomplete-clear-value
                 id="tags-filled"
                 options={tags.map((option) => option.name)}
-                defaultValue={[tagsDefaultValue]}
+                defaultValue={(!formReset && artist.tags) || [tagsDefaultValue]} // populate the field if a new artist editing their profile and lets reset to default (initial values)
                 freeSolo
                 onBlur={handleBlur}
                 renderTags={(value, getTagProps) =>
@@ -752,7 +759,9 @@ const CreateProfileForm = ({
                 multiple
                 id="tags-filled"
                 options={skills.map((option) => option.name)}
-                defaultValue={[skillsDefaultValue]}
+                defaultValue={
+                  (!formReset && artist.skills) || [skillsDefaultValue]
+                } // populate the field if a new artist editing their profile and lets reset to default (initial values)
                 freeSolo
                 onBlur={handleBlur}
                 renderTags={(value, getTagProps) =>

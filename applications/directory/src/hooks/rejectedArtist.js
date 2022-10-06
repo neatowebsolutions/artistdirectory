@@ -1,11 +1,11 @@
 import useSWR from 'swr';
 import { useHttpClient } from '@artistdirectory/react-hooks';
 
-const useEditProfile = (token) => {
+const useRejectedArtist = (token) => {
   const { httpClient } = useHttpClient();
 
   const { data: artist, error: artistError } = useSWR(
-    `/artists/edit-profile-token/${token}`,
+    token ? `/artists/edit-profile-token/${token}` : null,
     httpClient.get.bind(httpClient),
     {
       revalidateOnFocus: false
@@ -13,11 +13,19 @@ const useEditProfile = (token) => {
   );
   const artistLoading = !artist && !artistError;
 
+  const saveRejectedArtist = async (data, editProfileToken) => {
+    return await httpClient.patch(
+      `/artists/edit-profile-token/${editProfileToken}`,
+      data
+    );
+  };
+
   return {
     artist,
     artistError,
-    artistLoading
+    artistLoading,
+    saveRejectedArtist
   };
 };
 
-export default useEditProfile;
+export default useRejectedArtist;

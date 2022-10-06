@@ -1,3 +1,4 @@
+//TODO - destroy reviewTOken?
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
 const mongodbClient = require('../models/mongodbClient');
@@ -25,7 +26,7 @@ const handler = async (event, context) => {
       },
       {
         new: true
-      }// no need to return updated artist in our case
+      } // no need to return updated artist in our case
     );
 
     if (approvalStatus === 'rejected') {
@@ -33,6 +34,8 @@ const handler = async (event, context) => {
     } else {
       await artist.approveProfile();
     }
+    artist.reviewToken = undefined;
+    await artist.save();
 
     if (!artist) {
       return {
