@@ -23,8 +23,7 @@ const renderDetailsList = (list, title, i) => (
           lineHeight: '1.33',
           letterSpacing: '0.4px',
           marginTop: '1px',
-          color: 'text.secondary',
-          whiteSpace: 'pre-line'
+          color: 'text.secondary'
         }}
       >
         {title}
