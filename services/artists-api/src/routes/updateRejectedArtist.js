@@ -1,9 +1,11 @@
+// TODO handle the case when the artist not found (wrong token provided) (for the front end)
+
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
-const generateToken = require('./../utilities/generateToken');
-const parseKeywords = require('./../utilities/parseKeywords');
-const emailAdminToReviewArtist = require('./../utilities/emailAdminToReviewArtist');
-const copyImagesToAssetsBucket = require('./../utilities/copyImagesToAssetsBucket');
+const generateToken = require('../utilities/generateToken');
+const parseKeywords = require('../utilities/parseKeywords');
+const emailAdminToReviewArtist = require('../utilities/emailAdminToReviewArtist');
+const copyImagesToAssetsBucket = require('../utilities/copyImagesToAssetsBucket');
 const mongodbClient = require('../models/mongodbClient');
 const models = require('../models');
 
@@ -21,7 +23,10 @@ const handler = async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
+    const { editProfileToken } = event.pathParameters;
+
     const { skills, tags, categories, social, images } = data;
+
     const [skillsParsed, tagsParsed, categoriesParsed] = await parseKeywords(
       skills,
       tags,
@@ -34,6 +39,7 @@ const handler = async (event, context) => {
 
     const dataParsed = {
       ...data,
+      approvalStatus: 'pending',
       images: imageUrls,
       social,
       skills: skillsParsed,
@@ -43,29 +49,37 @@ const handler = async (event, context) => {
     };
 
     const Artist = await models.get('Artist');
-    const artist = new Artist(dataParsed);
+    const updatedArtist = await Artist.findOneAndUpdate(
+      { editProfileToken },
+      {
+        ...dataParsed
+      },
+      {
+        new: true
+      } // no need to return updated artist in our case
+    );
+    updatedArtist.editProfileToken = undefined;
 
     try {
-      await artist.validate();
-
-      // send email to admin to initiate artist profile review
+      await updatedArtist.validate();
       await emailAdminToReviewArtist(reviewToken);
     } catch (error) {
+      console.log(error);
       return {
         statusCode: StatusCodes.BAD_REQUEST,
         body: ReasonPhrases.BAD_REQUEST
       };
     }
 
-    await artist.save();
-    await logger.info(`Artist created (${artist.toString()})`, { data });
+    await updatedArtist.save();
+    await logger.info(`Artist created (${updatedArtist.toString()})`, { data });
 
     // copy images from uploads_bucket to assets_bucket
     await copyImagesToAssetsBucket(data.images);
 
     return {
       statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(artist)
+      body: JSON.stringify(updatedArtist)
     };
   } catch (error) {
     await logger.error(`Error creating artist`, error, { event });

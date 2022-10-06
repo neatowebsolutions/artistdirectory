@@ -22,7 +22,6 @@ const approveProfile = async (artist) => {
           </body>
         </html>`
   });
-  await artist.save();
   return artist;
 };
 
