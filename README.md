@@ -70,6 +70,7 @@ And to restore a database:
    [default]
    region = us-east-1
    ```
+1. Get and import a copy of the database from another developer.
 1. Run `yarn global add lerna`.
 1. Run `yarn start`. This automatically does the following:
    1. Installs dependencies.
