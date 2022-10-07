@@ -197,7 +197,7 @@ const Header = () => {
                   position: 'relative',
                   top: 0,
                   left: '0',
-                  margin: '2rem 1.5rem',
+                  margin: '2rem 2.5rem 2rem 1.5rem',
                   padding: '0',
                   '& li:not(:first-of-type)': {
                     width: '95%',
@@ -215,7 +215,7 @@ const Header = () => {
                   component="li"
                   onClick={() => setAnchorElNav(false)}
                   sx={{
-                    margin: '0 .5rem',
+                    margin: '0 .5rem 0 0 ',
                     padding: 0,
                     width: 'auto',
                     position: 'absolute',

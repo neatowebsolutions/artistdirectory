@@ -3,7 +3,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Link from './Link';
 
-function Toolbar() {
+const Toolbar = () => {
   return (
     <Box
       sx={{
@@ -37,6 +37,6 @@ function Toolbar() {
       </List>
     </Box>
   );
-}
+};
 
 export default Toolbar;

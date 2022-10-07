@@ -70,7 +70,7 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
             objectFit: 'cover',
             // atl styling
             fontSize: '0.875rem',
-            margin: '0 1rem'
+            margin: '0 auto'
           }
         }}
       >
@@ -90,7 +90,8 @@ const ProfileDetails = ({ artist, isLoggedIn = false }) => {
             textAlign: 'center',
             fontSize: ['1.375rem'],
             fontFamily: 'gira-sans, sans-serif', // TODO - this component and ProfileDetails, WorkExamples use this fontFamily while all headers in MUI and many other pages are 'brandon-grotesque, sans-serif' for headers,
-            margin: '0.375rem'
+            margin: '0.5rem',
+            wordBreak: 'break-word'
           }}
         >
           {firstName} {lastName}
