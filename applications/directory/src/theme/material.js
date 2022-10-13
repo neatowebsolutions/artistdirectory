@@ -14,8 +14,8 @@ const theme = createTheme({
   palette: {
     primary: {
       main: '#be2926',
-      text: 'rgba(0, 0, 0, 0.87)'
-      // footer color - 'rgba(190, 41, 38, 0.1)',
+      text: 'rgba(0, 0, 0, 0.87)',
+      light: 'rgba(190, 41, 38, 0.1)'
     },
     secondary: {
       main: '#8a9918',

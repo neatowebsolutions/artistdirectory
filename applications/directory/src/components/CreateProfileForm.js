@@ -394,7 +394,7 @@ const CreateProfileForm = ({
   };
 
   return (
-    <Box>
+    <Box sx={{ marginBottom: '1rem' }}>
       {submissionError && (
         <Alert
           ref={alertElement}

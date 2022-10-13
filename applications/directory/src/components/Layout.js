@@ -2,6 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import Header from './Header';
+import Footer from './Footer';
 import Toolbar from './Toolbar';
 
 const Intro = ({ children }) => (
@@ -13,7 +14,7 @@ const Intro = ({ children }) => (
 const Root = ({ children }) => (
   <Box
     sx={{
-      maxWidth: 1064,
+      maxWidth: '66.5rem',
       margin: '0 auto'
     }}
   >
@@ -31,7 +32,8 @@ const Layout = ({ children }) => (
     sx={{
       display: 'flex',
       flexDirection: 'column',
-      overflowX: 'hidden'
+      overflowX: 'hidden',
+      minHeight: '100vh'
     }}
   >
     <Box>
@@ -43,18 +45,20 @@ const Layout = ({ children }) => (
       component="main"
       sx={{
         backgroundColor: '#fcfcfc',
-        marginTop: '3px'
+        marginTop: '3px',
+        flex: 1
       }}
     >
       <Box
         sx={{
-          maxWidth: ['95%', '95%', '95%', '1180px', '1280px'],
+          maxWidth: ['95%', '95%', '95%', '73.75rem', '80rem'],
           margin: ' 0 auto'
         }}
       >
         {children}
       </Box>
     </Box>
+    <Footer />
   </Box>
 );
 
