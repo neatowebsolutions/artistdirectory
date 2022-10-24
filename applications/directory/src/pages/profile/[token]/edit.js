@@ -10,11 +10,11 @@ import {
   useCategories,
   useTags,
   useSkills,
-  useRejectedArtist
+  useRejectedArtist,
+  use404
 } from '../../../hooks';
 
 const ProfileReviewEditPage = ({ token }) => {
-  // TODO handle the scenario when an artist is not found by the token (not found page)
   const { artist, artistError, artistLoading } = useRejectedArtist(token);
   const { categories, categoriesLoading, categoriesError } = useCategories();
   const { skills, skillsLoading, skillsError } = useSkills();
@@ -22,6 +22,8 @@ const ProfileReviewEditPage = ({ token }) => {
   const loading =
     categoriesLoading || tagsLoading || skillsLoading || artistLoading;
   const error = categoriesError || tagsError || skillsError || artistError;
+
+  use404(error);
 
   return (
     <>
@@ -50,7 +52,7 @@ const ProfileReviewEditPage = ({ token }) => {
           >
             <Loader
               isLoading={loading}
-              isError={error}
+              isError={Boolean(error)}
               loadingComponent={() => (
                 <LinearProgress color="primary"></LinearProgress>
               )}

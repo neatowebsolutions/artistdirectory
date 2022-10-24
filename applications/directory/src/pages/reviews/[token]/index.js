@@ -1,11 +1,10 @@
-// TODO handle the scenario when an artist is not found byt the token (show not found page)
 import Box from '@mui/material/Box';
 import Head from 'next/head';
 import Typography from '@mui/material/Typography';
 import { Loader } from '@artistdirectory/react-components';
 import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
-import { useReview } from '../../../hooks';
+import { use404, useReview } from '../../../hooks';
 import ProfileDetails from '../../../components/ProfileDetails';
 import PersonalDetails from '../../../components/PersonalDetails';
 import ProfileReview from '../../../components/ProfileReview';
@@ -27,6 +26,8 @@ const ProfileReviewPage = ({ token }) => {
     images,
     createdAt
   } = artist || {};
+
+  use404(error);
 
   const date = new Date(createdAt);
   const memberSince = date.getFullYear();
@@ -63,7 +64,7 @@ const ProfileReviewPage = ({ token }) => {
           </Box>
           <Loader
             isLoading={artistLoading}
-            isError={error}
+            isError={Boolean(error)}
             loadingComponent={() => (
               <LinearProgress color="primary"></LinearProgress>
             )}

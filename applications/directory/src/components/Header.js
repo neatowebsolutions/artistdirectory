@@ -93,7 +93,7 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
 const Header = () => {
   const { getCookie, setCookie, removeCookie } = useCookies();
 
-  // setCookie('authToken', 'dummy');
+  //setCookie('authToken', 'dummy');
   // setCookie('authToken', null);
   const user = getCookie('authToken');
   removeCookie('authToken');

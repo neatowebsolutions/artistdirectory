@@ -4,7 +4,7 @@
 // TODO - change marginLeft for input social on mobile
 // TODO reduce font size in drop-downs (bigger screen)?
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import Box from '@mui/material/Box';
@@ -82,7 +82,7 @@ const parseArtist = (artist) => {
 
   // create list of social like initial values for the form
   const socialInitialValues = {
-    website: { checked: true, name: 'website', url: '' },
+    website: { checked: false, name: 'website', url: '' }, // set website to 'false' unlike it is in the initial values to except a case when no social links were provided and reflect it in the form
     behance: { checked: false, name: 'behance', url: '' },
     other: { checked: false, name: 'other', url: '' }
   };
