@@ -14,7 +14,8 @@ const ProfileReviewCompletePage = () => {
         <Layout.Root>
           <Box
             sx={{
-              marginTop: ['1.5rem', '2.5rem', '2.6rem', '4.188rem']
+              marginTop: ['1.5rem', '2.5rem', '2.6rem', '4.188rem'],
+              marginBottom: ['1.5rem', '2.5rem', '2.6rem', '4.188rem']
             }}
           >
             <Card

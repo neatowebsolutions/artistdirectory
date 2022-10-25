@@ -8,3 +8,4 @@ export { default as useReview } from './review';
 export { default as useSkills } from './skills';
 export { default as useTags } from './tags';
 export { default as useUpload } from './upload';
+export { default as use404 } from './404';
