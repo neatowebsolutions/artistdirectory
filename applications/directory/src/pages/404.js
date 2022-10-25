@@ -1,20 +1,18 @@
-import { useRouter } from 'next/router';
 import Head from 'next/head';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
-import { Layout } from '../../components';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
-const ThankYouPage = () => {
-  const { query } = useRouter();
+import { Layout } from '../components';
 
+const Custom404 = () => {
   return (
     <>
       <Head>
-        <title>Thank you</title>
+        <title>404</title>
       </Head>
       <Layout>
-        <Layout.Root>
+        <Layout.Intro>
           <Box
             sx={{
               marginTop: ['1.5rem', '2.5rem', '2.6rem', '4.188rem'],
@@ -29,38 +27,40 @@ const ThankYouPage = () => {
               }}
               elevation={6}
             >
-              <Typography
-                variant="h2"
-                component="h2"
-                sx={{
-                  fontWeight: '900',
-                  fontSize: ['0.875rem', '1.25rem', '1.5rem'],
-                  textTransform: 'uppercase',
-                  letterSpacing: 3.53,
-                  marginBottom: ['1.063rem', '1.625rem', '1.5rem']
-                }}
-              >
-                Grand Rapids Artist Directory
-              </Typography>
               <Box>
+                <Typography
+                  variant="h1"
+                  component="h1"
+                  sx={{
+                    fontWeight: '900',
+                    fontSize: ['3rem', '3.5rem', '4rem'],
+                    color: 'secondary.secondary',
+                    textTransform: 'uppercase',
+                    letterSpacing: [2, 3],
+                    marginBottom: ['1.063rem', '1.625rem', '1.5rem']
+                  }}
+                >
+                  404
+                </Typography>
                 <Typography
                   variant="h2"
                   component="h2"
                   sx={{
-                    fontFamily: 'gira-sans, sans-serif',
-                    lineHeight: ['normal', '1.17', '1.2'],
+                    fontWeight: '900',
+                    fontSize: ['1.25rem', '1.5rem', '2rem'],
+                    color: 'secondary.secondary',
                     textTransform: 'uppercase',
-                    color: 'success.main',
-                    letterSpacing: [2, 3]
+                    letterSpacing: [2, 3],
+                    marginBottom: ['1.063rem', '1.625rem', '1.5rem']
                   }}
                 >
-                  Get found.
+                  Page Not found
                 </Typography>
               </Box>
               <Box>
                 <Box
                   component="img"
-                  src="/images/img-success.svg"
+                  src="/images/img-sadface.svg"
                   alt="Success"
                   sx={{
                     width: ['4rem', '5rem', '9rem'],
@@ -77,25 +77,15 @@ const ThankYouPage = () => {
                     margin: 'margin: 1.375rem 0 0.813rem'
                   }}
                 >
-                  Thanks, {query.name}!
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: 'secondary.secondary',
-                    fontWeight: '500',
-                    margin: '0.813rem 0 0'
-                  }}
-                >
-                  Your profile has been submitted for review!
+                  Oh No! That page has gone missing...
                 </Typography>
               </Box>
             </Card>
           </Box>
-        </Layout.Root>
+        </Layout.Intro>
       </Layout>
     </>
   );
 };
 
-export default ThankYouPage;
+export default Custom404;
