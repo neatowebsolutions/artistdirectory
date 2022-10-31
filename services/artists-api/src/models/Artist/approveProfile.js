@@ -1,5 +1,5 @@
 const emailClient = require('@artistdirectory/email-client');
-const { DIRECTORY_API_URL, ADMIN_EMAIL } = process.env;
+const { DIRECTORY_API_URL, ADMIN_EMAIL } = process.env; // check if correct env variables used
 
 const approveProfile = async (artist) => {
   const { firstName, lastName, email } = artist;

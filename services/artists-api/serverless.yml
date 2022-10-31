@@ -86,6 +86,14 @@ functions:
           path: /artists
           method: post
           authorizer: aws_iam
+  createAccount:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/createAccount.handler
+    events:
+      - http:
+          path: /accounts
+          method: post
+          authorizer: aws_iam
   generateProfileUploadSignedUrl:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/generateProfileUploadSignedUrl.handler

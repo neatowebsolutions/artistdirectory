@@ -516,12 +516,13 @@ const CreateProfileForm = ({
                 onBlur={async (e) => {
                   if (values.email) {
                     const isValidEmail = await ifEmailExists(values.email);
+      
                     // if email is valid set error message to empty string or populate with proper error message
-                    if (isValidEmail.validEmail) {
+                    if (!isValidEmail.profile) {
                       await setIfValidEmail('');
                     } else {
                       const notValidEmail =
-                        !isValidEmail.validEmail && !isValidEmail.error
+                        isValidEmail.profile && !isValidEmail.error
                           ? 'Email is in use. Choose different email'
                           : 'Server error. Fail to verify email';
                       await setIfValidEmail(notValidEmail);
