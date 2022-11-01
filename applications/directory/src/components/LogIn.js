@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 import Alert from '@mui/material/Alert';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
-import { signIn } from 'next-auth/react';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -11,14 +9,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import Button from '@mui/material/Button';
 import VerifiedIcon from '@mui/icons-material/Verified';
-import { useEmailValidation } from '../hooks';
+import { useEmailValidation, useAuth } from '../hooks';
 
 const LogIn = () => {
-  const router = useRouter();
   const [ifValidEmail, setIfValidEmail] = useState('');
   const { ifEmailExists } = useEmailValidation();
-  const [authError, setAuthError] = useState();
-
+  const { authError, onSubmit: onSubmitCredentials } = useAuth();
   // formik
   const {
     handleBlur,
@@ -39,23 +35,15 @@ const LogIn = () => {
       email: '',
       password: ''
     },
-    enableReinitialize: true, // lets the form to go back to initial values if reset form
+    // enableReinitialize: true, // lets the form to go back to initial values if reset form
     validationSchema: Yup.object().shape({
       email: Yup.string()
         .email('Please provide a valid email address.')
         .test('email', ifValidEmail, () => ifValidEmail === '')
         .required('Please enter your email address.')
     }),
-    onSubmit: async ({ email, password }) => {
-      const res = await signIn('credentials', {
-        email,
-        password,
-        callbackUrl: `${window.location.origin}`,
-        redirect: false
-      });
-      if (res.url) router.push('/');
-      if (res.error) setAuthError('An Error occurred. Try again');
-    }
+    onSubmit: async ({ email, password }) =>
+      onSubmitCredentials(email, password)
   });
   return (
     <Card
@@ -91,7 +79,6 @@ const LogIn = () => {
       }}
       elevation={6}
     >
-     
       {authError && (
         <Alert
           severity="error"
@@ -106,7 +93,7 @@ const LogIn = () => {
       )}
 
       <form noValidate onSubmit={handleSubmit}>
-        <legend className="formTitle">Create an Account</legend>
+        <legend className="formTitle">Log In</legend>
         <p>
           <span>*</span>Required
         </p>
