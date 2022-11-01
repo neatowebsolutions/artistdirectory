@@ -11,7 +11,7 @@ const options = {
     CredentialsProvider({
       id: 'credentials',
       name: 'Artist-local-auth',
-      type: "credentials",
+      type: 'credentials',
       //   credentials: {
       //     username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
       //     password: { label: 'Password', type: 'password' }
@@ -22,32 +22,33 @@ const options = {
         console.log(req);
 
         //  const { email, password } = credentials;
-       
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
-        // const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
-        const res = await fetch(`${process.env.DIRECTORY_API_URL}/accounts`, {
-          method: 'POST',
-          body: JSON.stringify(credentials),
-          headers: { 'Content-Type': 'application/json' }
-        });
+        try {
+          // provide your logic that takes the credentials submitted and returns either a object representing a user or value that is false/null if the credentials are invalid.
 
-        console.log('======= ARTIST============');
-        const artist = await res.json();
-        console.log(artist);
-        if (!res.ok) {
-          throw new Error(artist.exception);
+          // It is possible use the `req` object to obtain additional parameters (i.e., the request IP address)
+          const res = await fetch(`${process.env.DIRECTORY_API_URL}/accounts`, {
+            method: 'POST',
+            body: JSON.stringify(credentials),
+            headers: { 'Content-Type': 'application/json' }
+          });
+
+          console.log('======= ARTIST============');
+          const artist = await res.json();
+          console.log(artist);
+          // If no error and we have user data, return it
+          if (res.ok && artist) {
+            return artist;
+          }
+        } catch (error) {
+          const errorMessage = error.response.data.message;
+          // Redirecting to the login page with error message in the URL ??
+          throw new Error(errorMessage);
+          // if (!res.ok) {
+          //   throw new Error(artist.exception);
+          // }
+          // Return null if user data could not be retrieved
+          //return null;
         }
-        // If no error and we have user data, return it
-        if (res.ok && artist) {
-          return artist;
-        }
-        // Return null if user data could not be retrieved
-        return null;
       }
     })
   ],
@@ -55,7 +56,6 @@ const options = {
   pages: {
     createAccount: '/auth/create-account',
     logIn: '/auth/login'
-    // logOut: '/auth/logout'
   },
   callbacks: {
     async jwt({ token, user, account }) {
