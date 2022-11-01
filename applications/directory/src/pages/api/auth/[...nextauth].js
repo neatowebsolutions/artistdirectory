@@ -80,10 +80,12 @@ const options = {
       // // console.log(token);
       // console.log('user');
       // console.log(user);
-      session.user = token.user;
-      session.user.accessToken = token.accessToken;
-      session.user.refreshToken = token.refreshToken;
-      session.user.accessTokenExpires = token.accessTokenExpires;
+      if (token) {
+        session.user = token.user;
+        session.user.accessToken = token.accessToken;
+        session.user.refreshToken = token.refreshToken;
+        session.user.accessTokenExpires = token.accessTokenExpires;
+      }
 
       return session;
     }
