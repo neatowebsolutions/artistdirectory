@@ -4,6 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 // https://blog.devso.io/implementing-credentials-provider-on-nextjs-and-nextauth
 const options = {
   //   site: process.env.DIRECTORY_APP_URL,
+  debug: true,
   session: {
     strategy: 'jwt'
   },
@@ -21,9 +22,8 @@ const options = {
         console.log('========REQ================');
         console.log(req);
 
-        //  const { email, password } = credentials;
         try {
-          // provide your logic that takes the credentials submitted and returns either a object representing a user or value that is false/null if the credentials are invalid.
+          // Provide logic that takes the credentials submitted and returns either an object representing an artist or value that is false/null if the credentials are invalid.
 
           // It is possible use the `req` object to obtain additional parameters (i.e., the request IP address)
           const res = await fetch(`${process.env.DIRECTORY_API_URL}/accounts`, {
@@ -35,19 +35,14 @@ const options = {
           console.log('======= ARTIST============');
           const artist = await res.json();
           console.log(artist);
-          // If no error and we have user data, return it
+          // If no error and we have artist data, return it
           if (res.ok && artist) {
             return artist;
           }
         } catch (error) {
           const errorMessage = error.response.data.message;
-          // Redirecting to the login page with error message in the URL ??
+          // creates error message to display on auth page
           throw new Error(errorMessage);
-          // if (!res.ok) {
-          //   throw new Error(artist.exception);
-          // }
-          // Return null if user data could not be retrieved
-          //return null;
         }
       }
     })

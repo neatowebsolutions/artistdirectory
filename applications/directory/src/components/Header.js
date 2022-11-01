@@ -110,7 +110,6 @@ const Header = () => {
   // for main menu
   const [anchorElNav, setAnchorElNav] = useState(false);
   const handleCloseNavMenu = () => {
-    console.log(anchorElNav)
     setAnchorElNav(false);
   };
 
