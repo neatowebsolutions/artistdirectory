@@ -4,7 +4,7 @@
 // TODO - change marginLeft for input social on mobile
 // TODO reduce font size in drop-downs (bigger screen)?
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import Box from '@mui/material/Box';
@@ -393,6 +393,26 @@ const CreateProfileForm = ({
     setTouched({}, false);
   };
 
+  const handleEmailBlur = async (e) => {
+    if (values.email) {
+      const isValidEmail = await ifEmailExists(values.email);
+
+      // if email is valid set error message to empty string or populate with proper error message
+      if (!isValidEmail.profile) {
+        setIfValidEmail('');
+      } else {
+        const notValidEmail =
+          isValidEmail.profile && !isValidEmail.error
+            ? 'Email is in use. Choose different email'
+            : 'Server error. Fail to verify email';
+        setIfValidEmail(notValidEmail);
+      }
+    } else {
+      setIfValidEmail('');
+    }
+    handleBlur(e);
+  };
+
   return (
     <Box sx={{ marginBottom: '1rem' }}>
       {submissionError && (
@@ -513,24 +533,7 @@ const CreateProfileForm = ({
                 name="email"
                 disabled={Boolean(parsedArtist)} // the field is disabled if an artist editing the form after initial profile rejection
                 onChange={handleChange}
-                onBlur={async (e) => {
-                  if (values.email) {
-                    const isValidEmail = await ifEmailExists(values.email);
-                    // if email is valid set error message to empty string or populate with proper error message
-                    if (isValidEmail.validEmail) {
-                      await setIfValidEmail('');
-                    } else {
-                      const notValidEmail =
-                        !isValidEmail.validEmail && !isValidEmail.error
-                          ? 'Email is in use. Choose different email'
-                          : 'Server error. Fail to verify email';
-                      await setIfValidEmail(notValidEmail);
-                    }
-                  } else {
-                    await setIfValidEmail('');
-                  }
-                  handleBlur(e);
-                }}
+                onBlur={handleEmailBlur}
                 value={values.email}
                 error={errors.email && touched.email}
                 helperText={

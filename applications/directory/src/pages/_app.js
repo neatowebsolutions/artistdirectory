@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
+import { SessionProvider } from 'next-auth/react'; // https://stackoverflow.com/questions/70243476/module-not-found-error-package-path-client-is-not-exported-from-package
 import { HttpClientProvider } from '@artistdirectory/react-hooks';
 import createEmotionCache from '../theme/createEmotionCache';
 
@@ -30,15 +31,17 @@ const App = ({
 }) => (
   <CacheProvider value={emotionCache}>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <HttpClientProvider
-      baseUrl={process.env.DIRECTORY_API_URL}
-      requestInterceptor={httpRequestInterceptor}
-    >
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </HttpClientProvider>
+    <SessionProvider session={pageProps.session}>
+      <HttpClientProvider
+        baseUrl={process.env.DIRECTORY_API_URL}
+        requestInterceptor={httpRequestInterceptor}
+      >
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </HttpClientProvider>
+    </SessionProvider>
   </CacheProvider>
 );
 
