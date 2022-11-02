@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/react';
-import { useCookies } from '@artistdirectory/react-hooks';
+import { signOut, useSession } from 'next-auth/react';
+//import { useCookies } from '@artistdirectory/react-hooks';
 import { useRouter } from 'next/router';
 import { Link as MuiLink } from '@mui/material';
 import AppBar from '@mui/material/AppBar';

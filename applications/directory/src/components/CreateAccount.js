@@ -1,3 +1,4 @@
+// TODO - needs styling
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import * as Yup from 'yup';
@@ -21,10 +22,6 @@ const CreateAccount = () => {
     handleBlur,
     handleChange,
     handleSubmit,
-    setFieldValue,
-    setValues,
-    setTouched,
-    resetForm,
     values,
     isValid,
     isSubmitting,
@@ -59,6 +56,22 @@ const CreateAccount = () => {
       onSubmitCredentials(email, password);
     }
   });
+  const handleEmailBlur = async (e) => {
+    if (values.email) {
+      const ifAccountExists = await ifEmailExists(values.email);
+      // if email is valid (there is a profile with this email in DB) set error message to empty string or populate with proper error message
+      if (ifAccountExists.error) {
+        setIfValidEmail('Server error. Fail to verify email');
+      } else if (!ifAccountExists.profile) {
+        setIfValidEmail('No Profile found associated with provided email');
+      } else if (ifAccountExists.account) {
+        setIfValidEmail('Account with given email already exists');
+      } else {
+        setIfValidEmail('');
+      }
+    }
+    handleBlur(e);
+  };
 
   return (
     <Card
@@ -131,24 +144,7 @@ const CreateAccount = () => {
             sx={{ minWidth: ['100%', '100%', '325px'] }}
             required
             onChange={handleChange}
-            onBlur={async (e) => {
-              if (values.email) {
-                const ifAccountExists = await ifEmailExists(values.email);
-                // if email is valid (there is a profile with this email in DB) set error message to empty string or populate with proper error message
-                if (ifAccountExists.error) {
-                  setIfValidEmail('Server error. Fail to verify email');
-                } else if (!ifAccountExists.profile) {
-                  setIfValidEmail(
-                    'No Profile found associated with provided email'
-                  );
-                } else if (ifAccountExists.account) {
-                  setIfValidEmail('Account with given email already exists');
-                } else {
-                  setIfValidEmail('');
-                }
-              }
-              handleBlur(e);
-            }}
+            onBlur={handleEmailBlur}
             value={values.email}
             error={errors.email && touched.email}
             helperText={touched.email ? errors.email : ''}

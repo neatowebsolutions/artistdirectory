@@ -3,7 +3,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 // https://blog.devso.io/implementing-credentials-provider-on-nextjs-and-nextauth
 const options = {
-  //   site: process.env.DIRECTORY_APP_URL,
   debug: true,
   session: {
     strategy: 'jwt'
@@ -13,15 +12,7 @@ const options = {
       id: 'credentials',
       name: 'Artist-local-auth',
       type: 'credentials',
-      //   credentials: {
-      //     username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
-      //     password: { label: 'Password', type: 'password' }
-      //   },
       async authorize(credentials, req) {
-        console.log('======[...next-auth]================');
-        console.log('========REQ================');
-        console.log(req);
-
         try {
           // Provide logic that takes the credentials submitted and returns either an object representing an artist or value that is false/null if the credentials are invalid.
 
@@ -31,8 +22,6 @@ const options = {
             body: JSON.stringify(credentials),
             headers: { 'Content-Type': 'application/json' }
           });
-
-          console.log('======= ARTIST============');
           const artist = await res.json();
           console.log(artist);
           // If no error and we have artist data, return it
@@ -54,14 +43,6 @@ const options = {
   },
   callbacks: {
     async jwt({ token, user, account }) {
-      console.log('=========CALLBACKS==========');
-      // console.log('token');
-      // console.log(token);
-      // console.log('user');
-      // console.log(user);
-      // console.log('account');
-      // console.log(account);
-
       if (account && user) {
         const { firstName, lastName, profileImageUrl, _id } = user;
         return {
@@ -74,12 +55,6 @@ const options = {
       return token;
     },
     async session({ session, token, user }) {
-      // console.log('=====SESSION');
-      // // console.log(session);
-      // // console.log('token');
-      // // console.log(token);
-      // console.log('user');
-      // console.log(user);
       if (token) {
         session.user = token.user;
         session.user.accessToken = token.accessToken;

@@ -1,13 +1,7 @@
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
-const generateToken = require('./../utilities/generateToken');
-const parseKeywords = require('./../utilities/parseKeywords');
-const emailAdminToReviewArtist = require('./../utilities/emailAdminToReviewArtist');
-const copyImagesToAssetsBucket = require('./../utilities/copyImagesToAssetsBucket');
 const mongodbClient = require('../models/mongodbClient');
 const models = require('../models');
-
-const { ASSETS_URL } = process.env;
 
 const handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -25,7 +19,7 @@ const handler = async (event, context) => {
 
     const Artist = await models.get('Artist');
     const artist = await Artist.findOne({ email });
-    console.log('=============ARTIST-API===================');
+
     if (!artist) {
       return {
         statusCode: StatusCodes.NOT_FOUND,
@@ -56,10 +50,12 @@ const handler = async (event, context) => {
 
     await artist.save();
 
-    console.log(artist);
-    await logger.info(`Account created/artist updated (${artist.toString()})`, {
-      data
-    });
+    await logger.info(
+      `Account created, artist updated (${artist.toString()})`,
+      {
+        data
+      }
+    );
 
     return {
       statusCode: StatusCodes.CREATED,

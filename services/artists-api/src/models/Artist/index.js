@@ -69,10 +69,7 @@ schema.methods.rejectProfile = function (rejectionReason) {
   return rejectProfile(this, rejectionReason);
 };
 
-// Method to set salt and hash the password for a user
-// setPassword method first creates a salt unique for every user
-// then it hashes the salt with user password and creates a hash
-// this hash is stored in the database as user password
+// Method to set salt and hash the password for a user setPassword method first creates a salt unique for every user then it hashes the salt with user password and creates a hash this hash is stored in the database as user password
 schema.methods.setPassword = function (password) {
   // Creating a unique salt for a particular user
   this.salt = crypto.randomBytes(16).toString('hex');
@@ -90,8 +87,6 @@ schema.methods.validPassword = function (password) {
   const validatePassword = crypto
     .pbkdf2Sync(password, this.salt, 1000, 64, `sha512`)
     .toString(`hex`);
-  console.log('==========PASWARD VALIDITY=========');
-  console.log(this.password === validatePassword);
   return this.password === validatePassword;
 };
 

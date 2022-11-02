@@ -26,8 +26,6 @@ const handler = middy(async (event, context) => {
 
     const artist = await httpClient.post(`/accounts`, data);
 
-console.log('=============DIRECTORY===================')
-
     return {
       statusCode: StatusCodes.CREATED,
       body: JSON.stringify(artist)
