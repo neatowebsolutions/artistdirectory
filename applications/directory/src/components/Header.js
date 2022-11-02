@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { useCookies } from '@artistdirectory/react-hooks';
+import { signOut, useSession } from 'next-auth/react';
+//import { useCookies } from '@artistdirectory/react-hooks';
 import { useRouter } from 'next/router';
 import { Link as MuiLink } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -57,6 +58,7 @@ const pages = [
 
 const NavLink = ({ href, children, onClick, isTopNav = false }) => {
   // isTopNav used to style only top nav links
+
   const router = useRouter();
   let active = false;
 
@@ -91,12 +93,19 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
 };
 
 const Header = () => {
-  const { getCookie, setCookie, removeCookie } = useCookies();
+  // const { getCookie, setCookie, removeCookie } = useCookies();
 
-  //setCookie('authToken', 'dummy');
-  // setCookie('authToken', null);
-  const user = getCookie('authToken');
-  removeCookie('authToken');
+  // //setCookie('authToken', 'dummy');
+  // // setCookie('authToken', null);
+  // const user = getCookie('authToken');
+  // removeCookie('authToken');
+
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    console.log(status);
+    console.log(session);
+  }, [session, status]);
 
   // for main menu
   const [anchorElNav, setAnchorElNav] = useState(false);
@@ -253,8 +262,8 @@ const Header = () => {
                   </NavLink>
                 </ListItem>
 
-                {user && <Divider light />}
-                {user && (
+                {session && <Divider light />}
+                {session && (
                   <ListItem button component="li">
                     <NavLink
                       onClick={handleCloseNavMenu}
@@ -264,14 +273,20 @@ const Header = () => {
                     </NavLink>
                   </ListItem>
                 )}
-                {user && (
+                {session && (
                   <ListItem button component="li">
-                    <NavLink onClick={handleCloseNavMenu} href={'/logout'}>
+                    <NavLink
+                      onClick={() => {
+                        handleCloseNavMenu();
+                        signOut();
+                      }}
+                      href={'/auth/logout'}
+                    >
                       Log Out
                     </NavLink>
                   </ListItem>
                 )}
-                {!user && (
+                {!session && (
                   <ListItem button component="li">
                     <NavLink
                       onClick={handleCloseNavMenu}
@@ -281,10 +296,10 @@ const Header = () => {
                     </NavLink>
                   </ListItem>
                 )}
-                {!user && <Divider light />}
-                {!user && (
+                {!session && <Divider light />}
+                {!session && (
                   <ListItem button component="li">
-                    <NavLink onClick={handleCloseNavMenu} href={'/login'}>
+                    <NavLink onClick={handleCloseNavMenu} href={'/auth/login'}>
                       Log In
                     </NavLink>
                   </ListItem>
@@ -352,7 +367,7 @@ const Header = () => {
               ))}
             </List>
           </Box>
-          {!user && (
+          {!session && (
             <Box
               sx={{
                 marginRight: ['.5rem', '1rem']
@@ -378,7 +393,7 @@ const Header = () => {
               </Button>
             </Box>
           )}
-          {user ? (
+          {session ? (
             <Box
               sx={{
                 flexGrow: 0,
@@ -404,7 +419,7 @@ const Header = () => {
               >
                 <Avatar
                   alt="User's name"
-                  src="/images/placeholder.png"
+                  src={session.user.profileImageUrl}
                   sx={{
                     margin: ['0', '0.5rem 1.25rem 0.5rem 0'],
                     borderRadius: '0.625rem',
@@ -422,7 +437,7 @@ const Header = () => {
                     fontWeight: 'bold'
                   }}
                 >
-                  Josephine Washington
+                  {`${session.user.firstName} ${session.user.lastName}`}
                 </Typography>
               </Link>
               <Box
@@ -438,14 +453,14 @@ const Header = () => {
                   onClick={handleOpenUserMenu}
                   color="primary"
                   sx={{
-                    display: ['none', 'none', 'none', 'flex']
+                    display: ['none', 'none', 'flex', 'flex']
                   }}
                 />
               </Box>
 
               <Menu
                 sx={{
-                  display: ['none', 'none', 'none', 'flex'],
+                  display: ['none', 'none', 'flex', 'flex'],
                   marginTop: '45px',
                   '& .MuiMenu-paper': {
                     borderRadius: '4px',
@@ -512,8 +527,13 @@ const Header = () => {
                   </Link>
                 </MenuItem>
                 <Divider light />
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Link href="/logout" textAlign="center">
+                <MenuItem
+                  onClick={() => {
+                    handleCloseUserMenu();
+                    signOut();
+                  }}
+                >
+                  <Link textAlign="center" href="/">
                     <LogoutRoundedIcon />
                     Log Out
                   </Link>
@@ -530,8 +550,9 @@ const Header = () => {
             >
               <Button
                 component="a"
-                href="/login"
+                href="/auth/login"
                 variant="outlined"
+                //  onClick={() => signIn()}
                 sx={{
                   fontSize: '0.875rem',
                   width: '100%',

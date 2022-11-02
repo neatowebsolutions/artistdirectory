@@ -5,21 +5,18 @@ const useEmailValidation = () => {
 
   const ifEmailExists = async (email) => {
     try {
-      const validEmail = await httpClient.get(
-        `/profile/email-validity/${email}`
-      );
-      return {
-        validEmail: !validEmail, // returns 'true' if an artist with provided email address not found
-      };
+      const artist = await httpClient.get(`/profile/email-validity/${email}`);
+
+      return artist; // returns  { profile: true (if profile with given email created), account: false (if account  for existed profile is not created) })
     } catch (error) {
       return {
-        error: error.message,
+        error: error.message
       };
     }
   };
 
   return {
-    ifEmailExists,
+    ifEmailExists
   };
 };
 
