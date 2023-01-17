@@ -14,7 +14,6 @@ const httpClient = new HttpClient({
 });
 
 const handler = middy(async (event, context) => {
-  
   context.callbackWaitsForEmptyEventLoop = false;
 
   if (event.source === 'serverless-plugin-warmup') {
@@ -23,11 +22,13 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    const tags = await httpClient.get('/tags');
+    const data = JSON.parse(event.body);
+
+    const artist = await httpClient.post(`/accounts`, data);
 
     return {
-      statusCode: StatusCodes.OK,
-      body: JSON.stringify(tags)
+      statusCode: StatusCodes.CREATED,
+      body: JSON.stringify(artist)
     };
   } catch (error) {
     if (error.response && error.response.status) {

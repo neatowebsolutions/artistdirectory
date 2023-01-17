@@ -78,6 +78,14 @@ functions:
           path: /artists
           method: post
           cors: true
+  createAccount:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/createAccount.handler
+    events:
+      - http:
+          path: /accounts
+          method: post
+          cors: true
   findOneArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findOneArtist.handler
