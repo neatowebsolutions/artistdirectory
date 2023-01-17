@@ -1,4 +1,4 @@
-// TODO - needs styling
+// TODO - needs better styling
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import * as Yup from 'yup';
@@ -13,6 +13,7 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 import { useEmailValidation, useAuth } from '../hooks';
 
 const LogIn = () => {
+
   const [ifValidEmail, setIfValidEmail] = useState('');
   const { ifEmailExists } = useEmailValidation();
   const { authError, onSubmit: onSubmitCredentials } = useAuth();
@@ -168,3 +169,20 @@ const LogIn = () => {
 };
 
 export default LogIn;
+
+// export async function getServerSideProps(context) {
+//   const session = await getSession({ req: context.req });
+
+//   if (session) {
+//     console.log(session)
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false
+//       }
+//     };
+//   }
+//   return {
+//     props: { session }
+//   };
+// }

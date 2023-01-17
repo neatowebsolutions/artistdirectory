@@ -184,6 +184,19 @@ functions:
           path: /skills
           method: get
           cors: true
+  findArtistProfile:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findArtistProfile.handler
+    events:
+      - http:
+          path: /profile
+          method: get
+          cors: true
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
 plugins:
   - serverless-offline
   - serverless-plugin-monorepo

@@ -59,10 +59,11 @@ const renderDetailsList = (list, title, i) => (
 
 const PersonalDetails = ({ artist }) => {
   const { firstName, description, categories, tags, skills } = artist;
+
   const keyWordsList = [
     { list: categories, title: 'Type of Artist' },
     { list: tags, title: `10 Words to Describe ${firstName}'s Work` },
-    { list: skills, title: `${firstName}' Skills` }
+    { list: skills, title: `${firstName}'s Skills` }
   ];
 
   return (

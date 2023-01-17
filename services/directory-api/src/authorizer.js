@@ -36,7 +36,9 @@ const generateAuthResponse = (principalId, effect, methodArn) => {
 
 const handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
-
+  console.log('++++++++========AUTHORIZER============++++++++++');
+  console.log(event.headers);
+  console.log('++++++++========AUTHORIZER============++++++++++');
   if (event.source === 'serverless-plugin-warmup') {
     await new Promise((resolve) => setTimeout(resolve, 25));
     return 'Lambda is warm!';

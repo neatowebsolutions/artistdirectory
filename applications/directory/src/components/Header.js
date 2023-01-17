@@ -101,12 +101,7 @@ const Header = () => {
   // removeCookie('authToken');
 
   const { data: session, status } = useSession();
-
-  useEffect(() => {
-    console.log(status);
-    console.log(session);
-  }, [session, status]);
-
+//console.log(session.user.profileImageUrl)
   // for main menu
   const [anchorElNav, setAnchorElNav] = useState(false);
   const handleCloseNavMenu = () => {
@@ -267,7 +262,7 @@ const Header = () => {
                   <ListItem button component="li">
                     <NavLink
                       onClick={handleCloseNavMenu}
-                      href={'/profile/user-id'} // TODO - correct path
+                      href={'/profile'} // TODO - correct path
                     >
                       My Profile
                     </NavLink>
@@ -405,7 +400,7 @@ const Header = () => {
               }}
             >
               <Link
-                href={'/profile/user-id'} // TODO - correct path
+                href={'/profile'} // TODO - correct path
                 sx={{
                   padding: 0,
                   display: 'flex',
@@ -520,7 +515,7 @@ const Header = () => {
               >
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Link
-                    href="/profile/user-id"
+                    href="/profile"
                     /* TODO - add correct path */ textAlign="center"
                   >
                     My Profile

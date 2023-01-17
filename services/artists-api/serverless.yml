@@ -222,6 +222,14 @@ functions:
           path: /skills
           method: get
           authorizer: aws_iam
+  findArtistProfile:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findArtistProfile.handler
+    events:
+      - http:
+          path: /profile
+          method: get
+          authorizer: aws_iam
 plugins:
   - serverless-offline
   - serverless-plugin-monorepo

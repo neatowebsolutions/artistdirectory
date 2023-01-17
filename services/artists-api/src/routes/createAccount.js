@@ -20,6 +20,8 @@ const handler = async (event, context) => {
     const Artist = await models.get('Artist');
     const artist = await Artist.findOne({ email });
 
+    //TODO - should we reject account creating for profiles which are pending or rejected??
+    console.log(artist);
     if (!artist) {
       return {
         statusCode: StatusCodes.NOT_FOUND,
