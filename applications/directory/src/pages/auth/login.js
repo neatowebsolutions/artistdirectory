@@ -10,9 +10,9 @@ const LogInPage = () => {
         <title>Log In</title>
       </Head>
       <Layout>
-        <Layout.Root>
+        <Layout.Intro>
           <LogIn />
-        </Layout.Root>
+        </Layout.Intro>
       </Layout>
     </>
   );

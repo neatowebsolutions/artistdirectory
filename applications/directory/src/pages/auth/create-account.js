@@ -10,15 +10,7 @@ const CreateAccountPage = () => (
     </Head>
     <Layout>
       <Layout.Intro>
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: ['column', 'row'],
-            alignItems: ['start']
-          }}
-        >
-          <CreateAccount />
-        </Box>
+        <CreateAccount />
       </Layout.Intro>
     </Layout>
   </>
