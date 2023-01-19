@@ -23,11 +23,14 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import Link from './Link';
+import LogIn from './LogIn';
 
 /**
  * Hook that alerts clicks outside of the passed ref and closes menu on click
  */
 function useOutsideAlerter(ref, setAnchor) {
+  console.log('outside click');
+  console.log(ref.current);
   useEffect(() => {
     /**
      * close menu if clicked on outside of element
@@ -36,8 +39,10 @@ function useOutsideAlerter(ref, setAnchor) {
       if (
         ref.current &&
         !ref.current.contains(event.target) &&
-        !event.target.closest('[aria-controls="menu-appbar"]')
+        !event.target.closest('[aria-controls="menu-appbar"]') &&
+        !event.target.closest('[aria-label="login-window"]')
       ) {
+        console.log('???');
         setAnchor(false);
       }
     }
@@ -47,7 +52,7 @@ function useOutsideAlerter(ref, setAnchor) {
       // Unbind the event listener on clean up
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [ref]);
+  }, [ref, setAnchor]);
 }
 
 const pages = [
@@ -101,7 +106,7 @@ const Header = () => {
   // removeCookie('authToken');
 
   const { data: session, status } = useSession();
-//console.log(session.user.profileImageUrl)
+  //console.log(session.user.profileImageUrl)
   // for main menu
   const [anchorElNav, setAnchorElNav] = useState(false);
   const handleCloseNavMenu = () => {
@@ -120,6 +125,15 @@ const Header = () => {
   // handle click outside menu to close menu
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, setAnchorElNav);
+
+  // for login window
+  const [anchorElLogin, setAnchorElLogin] = useState(false);
+  const handleCloseLoginWindow = () => {
+    setAnchorElLogin(false);
+  };
+  // handle click outside menu to close menu
+  const wrapperRefLogin = useRef(null);
+  useOutsideAlerter(wrapperRefLogin, setAnchorElLogin);
 
   return (
     <AppBar
@@ -166,7 +180,10 @@ const Header = () => {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={() => setAnchorElNav(!anchorElNav)}
+              onClick={() => {
+                setAnchorElNav((prev) => !prev);
+                setAnchorElLogin(false);
+              }}
               color="inherit"
               sx={{
                 padding: 0
@@ -294,6 +311,7 @@ const Header = () => {
                 {!session && <Divider light />}
                 {!session && (
                   <ListItem button component="li">
+                    {/* TODO - close menu and open the right  drawer with login component */}
                     <NavLink onClick={handleCloseNavMenu} href={'/auth/login'}>
                       Log In
                     </NavLink>
@@ -543,7 +561,7 @@ const Header = () => {
                 marginRight: 0
               }}
             >
-              <Button
+              {/* <Button
                 component="a"
                 href="/auth/login"
                 variant="outlined"
@@ -556,7 +574,82 @@ const Header = () => {
                 }}
               >
                 Log In
+              </Button> */}
+              <Button
+                component="a"
+                variant="outlined"
+                aria-label="login-window"
+                aria-haspopup="true"
+                onClick={() => {
+                  setAnchorElLogin((prev) => !prev);
+                  setAnchorElNav(false);
+                }}
+                sx={{
+                  fontSize: '0.875rem',
+                  width: '100%',
+                  padding: '0.625rem 0',
+                  border: 'solid 1px rgba(0, 0, 0, 0.12)'
+                }}
+              >
+                Log In
               </Button>
+
+              <Drawer
+                ref={wrapperRefLogin}
+                anchor={'right'}
+                open={anchorElLogin}
+                onClose={() => setAnchorElLogin(false)}
+                sx={{
+                  display: 'flex',
+                  minHeight: '100%',
+                  top: ['6.8rem', '8rem'],
+                  '& .MuiBackdrop-root': {
+                    backdropFilter: 'blur(3px)',
+                    top: ['6.8rem', '8rem']
+                  },
+                  '& .MuiPaper-root': {
+                    top: ['6.8rem', '8rem'],
+                    right: '1.5rem',
+                    minWidth: ['19.313rem', '21.438rem'],
+                    height: 'auto',
+                    padding: 0,
+                    boxShadow:
+                      '0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 8px 10px 1px rgba(0, 0, 0, 0.14)'
+                  }
+                }}
+              >
+                <Box> some staff</Box>
+                <Button
+                  button
+                  component="button"
+                  onClick={() => setAnchorElLogin(false)}
+                  sx={{
+                    margin: '0 .5rem 0 0 ',
+                    padding: 0,
+                    width: 'auto',
+
+                    display: 'flex',
+                    alignItems: 'center',
+                    '& span': {
+                      margin: '2px',
+                      borderRadius: '50%!important',
+                      height: '70%',
+                      top: '3px'
+                    },
+                    '&:hover': {
+                      backgroundColor: 'transparent',
+                      '@media (hover: none)': {
+                        backgroundColor: 'transparent'
+                      }
+                    }
+                  }}
+                >
+                  <IconButton sx={{ display: 'flex' }}>
+                    <CloseRoundedIcon fontSize="small" />
+                  </IconButton>
+                </Button>
+                <LogIn />
+              </Drawer>
             </Box>
           )}
         </Toolbar>
