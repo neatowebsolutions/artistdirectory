@@ -1,4 +1,3 @@
-// TODO - needs styling
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import * as Yup from 'yup';
@@ -9,6 +8,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { useEmailValidation, useAuth } from '../hooks';
@@ -16,10 +16,14 @@ import { useEmailValidation, useAuth } from '../hooks';
 const inputFieldStyles = {
   style: {
     fontSize: '1rem',
-    '& :firstLetter': {
-      textTransform: 'capitalize'
-    }
+    textTransform: 'capitalize'
   }
+};
+
+const inputBoxStyles = {
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  maxWidth: '20.31rem'
 };
 
 const CreateAccount = () => {
@@ -44,12 +48,11 @@ const CreateAccount = () => {
       password: '',
       confirmPassword: ''
     },
-    enableReinitialize: true, // lets the form to go back to initial values if reset form
     validationSchema: Yup.object().shape({
       email: Yup.string()
         .email('Please provide a valid email address.')
-        .test('email', ifValidEmail, () => ifValidEmail === '')
-        .required('Please enter your email address.'),
+        .required('Please enter your email address.')
+        .test('email', ifValidEmail, () => ifValidEmail === ''),
       password: Yup.string()
         .required('Please provide password.')
         .min(8, 'Password is too short - should be 8 chars minimum.')
@@ -135,7 +138,13 @@ const CreateAccount = () => {
           Create Account
         </Typography>
         <form noValidate onSubmit={handleSubmit}>
-          <Box sx={{ marginBottom: '0.875rem', marginTop: 3 }}>
+          <Box
+            sx={{
+              marginBottom: '0.875rem',
+              marginTop: '1.5rem',
+              ...inputBoxStyles
+            }}
+          >
             <TextField
               id="outlined-required"
               label="Email Address"
@@ -149,16 +158,16 @@ const CreateAccount = () => {
                 ...inputFieldStyles
               }}
               InputLabelProps={inputFieldStyles}
-              sx={{ minWidth: ['100%', '100%', '20.31rem'] }}
               required
               onChange={handleChange}
               onBlur={handleEmailBlur}
               value={values.email}
               error={errors.email && touched.email}
               helperText={touched.email ? errors.email : ''}
+              sx={{ width: '100%' }}
             />
           </Box>
-          <Box sx={{ marginBottom: '0.875rem' }}>
+          <Box sx={{ marginBottom: '0.875rem', ...inputBoxStyles }}>
             <TextField
               required
               type="password"
@@ -167,16 +176,23 @@ const CreateAccount = () => {
               name="password"
               autoComplete="current-password"
               onChange={handleChange}
-              InputProps={inputFieldStyles}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <VisibilityOffIcon />
+                  </InputAdornment>
+                ),
+                ...inputFieldStyles
+              }}
               InputLabelProps={inputFieldStyles}
               onBlur={handleBlur}
               value={values.password}
               error={errors.password && touched.password}
               helperText={touched.password ? errors.password : ''}
-              sx={{ minWidth: ['100%', '100%', '20.31rem'] }}
+              sx={{ width: '100%' }}
             />
           </Box>
-          <Box>
+          <Box sx={inputBoxStyles}>
             <TextField
               required
               id="outlined-password-input"
@@ -185,28 +201,28 @@ const CreateAccount = () => {
               name="confirmPassword"
               autoComplete="current-password"
               InputProps={{
-                style: {
-                  fontSize: '1rem',
-                  '& :firstLetter': {
-                    textTransform: 'capitalize'
-                  }
-                }
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <VisibilityOffIcon />
+                  </InputAdornment>
+                ),
+                ...inputFieldStyles
               }}
-              InputLabelProps={{
-                style: {
-                  fontSize: '1rem'
-                }
-              }}
+              InputLabelProps={inputFieldStyles}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.confirmPassword}
               error={errors.confirmPassword && touched.confirmPassword}
               helperText={touched.confirmPassword ? errors.confirmPassword : ''}
-              sx={{ minWidth: ['100%', '100%', '20.31rem'] }}
+              sx={{ width: '100%' }}
             />
           </Box>
           <Button
-            sx={{ mt: 3, mb: 1, maxWidth: ['100%', '100%', '325px'] }}
+            sx={{
+              marginTop: '1.5rem',
+              marginBottom: '0.5rem',
+              maxWidth: ['100%', '100%', '20.31rem']
+            }}
             type="submit"
             disabled={!isValid || !dirty || isSubmitting}
             variant="contained"

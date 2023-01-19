@@ -1,4 +1,5 @@
-// TODO - needs styling
+// TODO - could not make the icon from zepling designs work, it won't import from MUI!
+// TODO - add proper UX for wrong credentials (display proper error message in Alert)
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import * as Yup from 'yup';
@@ -12,6 +13,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import ResetTvIcon from '@mui/icons-material/ResetTv';
 // import LockResetIcon from '@mui/icons-material/LockReset'; ===> ERROR - Module not found: Can't resolve '@mui/icons-material/LockReset'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import Link from './Link';
@@ -20,10 +22,13 @@ import { useEmailValidation, useAuth } from '../hooks';
 const inputFieldStyles = {
   style: {
     fontSize: '1rem',
-    '& :firstLetter': {
-      textTransform: 'capitalize'
-    }
+    textTransform: 'capitalize'
   }
+};
+const inputBoxStyles = {
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  maxWidth: '20.31rem'
 };
 
 const LogIn = () => {
@@ -35,10 +40,6 @@ const LogIn = () => {
     handleBlur,
     handleChange,
     handleSubmit,
-    setFieldValue,
-    setValues,
-    setTouched,
-    resetForm,
     values,
     isValid,
     isSubmitting,
@@ -50,12 +51,12 @@ const LogIn = () => {
       email: '',
       password: ''
     },
-    // enableReinitialize: true, // lets the form to go back to initial values if reset form
     validationSchema: Yup.object().shape({
       email: Yup.string()
         .email('Please provide a valid email address.')
-        .test('email', ifValidEmail, () => ifValidEmail === '')
         .required('Please enter your email address.')
+        .test('email', ifValidEmail, () => ifValidEmail === ''),
+      password: Yup.string().required('Please provide password.')
     }),
     onSubmit: async ({ email, password }) =>
       onSubmitCredentials(email, password)
@@ -129,7 +130,13 @@ const LogIn = () => {
           Login
         </Typography>
         <form noValidate onSubmit={handleSubmit}>
-          <Box sx={{ marginBottom: '0.875rem', marginTop: 3 }}>
+          <Box
+            sx={{
+              marginBottom: '0.875rem',
+              marginTop: '1.5rem',
+              ...inputBoxStyles
+            }}
+          >
             <TextField
               id="outlined-required"
               label="Email Address"
@@ -143,7 +150,7 @@ const LogIn = () => {
                 ...inputFieldStyles
               }}
               InputLabelProps={inputFieldStyles}
-              sx={{ minWidth: ['100%', '100%', '20.31rem'] }}
+              sx={{ width: '100%' }}
               required
               onChange={handleChange}
               onBlur={handleEmailBlur}
@@ -152,7 +159,7 @@ const LogIn = () => {
               helperText={touched.email ? errors.email : ''}
             />
           </Box>
-          <Box sx={{ marginBottom: '0.875rem' }}>
+          <Box sx={{ marginBottom: '0.875rem', ...inputBoxStyles }}>
             <TextField
               required
               type="password"
@@ -160,16 +167,21 @@ const LogIn = () => {
               label="Password"
               name="password"
               autoComplete="current-password"
-              InputProps={inputFieldStyles}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <VisibilityOffIcon />
+                  </InputAdornment>
+                ),
+                ...inputFieldStyles
+              }}
               InputLabelProps={inputFieldStyles}
               onChange={handleChange}
               onBlur={handleBlur}
               value={values.password}
               error={errors.password && touched.password}
               helperText={touched.password ? errors.password : ''}
-              sx={{
-                minWidth: ['100%', '100%', '20.31rem']
-              }}
+              sx={{ width: '100%' }}
             />
           </Box>
 
@@ -197,20 +209,10 @@ const LogIn = () => {
             marginTop: '1rem'
           }}
         >
-          {/* <Box
-            component="img"
-            src="/images/img-lock-reset-black.svg"
-            alt="Lock"
-            sx={{
-              width: ['1.5rem', '2rem', '3rem'],
-              marginTop: ['1rem', '1.5rem', '2.6rem'],
-              marginBottom: ['1rem', '1.3rem']
-            }}
-          /> */}
           <ResetTvIcon sx={{ color: 'primary.main', marginRight: '0.5rem' }} />
 
           <Link
-            href="/reset"
+            href="/profile/reset"
             sx={{
               color: 'primary.main',
               textTransform: 'uppercase',

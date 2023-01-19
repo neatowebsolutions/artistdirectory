@@ -127,9 +127,7 @@ const keywordsValidate = (keywords) =>
 const inputFieldStyles = {
   style: {
     fontSize: '1rem',
-    '& :firstLetter': {
-      textTransform: 'capitalize'
-    }
+    textTransform: 'capitalize'
   }
 };
 
@@ -514,7 +512,7 @@ const CreateProfileForm = ({
                 InputProps={inputFieldStyles}
                 InputLabelProps={inputFieldStyles}
                 id="outlined-required"
-                label="Last Name"
+                label="Last name"
                 name="lastName"
                 onChange={handleChange}
                 onBlur={handleBlur}
