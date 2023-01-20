@@ -23,7 +23,7 @@ const options = {
             headers: { 'Content-Type': 'application/json' }
           });
           const artist = await res.json();
-          console.log(artist);
+          // console.log(artist);
           // If no error and we have artist data, return it
           if (res.ok && artist) {
             return artist;
