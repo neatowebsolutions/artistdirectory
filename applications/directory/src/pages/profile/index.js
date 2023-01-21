@@ -1,4 +1,7 @@
-import { getSession } from 'next-auth/react';
+import { useEffect } from 'react';
+import { getSession, useSession } from 'next-auth/react';
+import { getToken } from 'next-auth/jwt';
+//import { unstable_getServerSession } from 'next-auth/next';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
 import PersonalDetails from '../../components/PersonalDetails';
@@ -15,6 +18,8 @@ const ProfilePage = (props) => {
   // console.log(profile);
   // console.log(profileError);
   // console.log(profileLoading);
+  //const { data } = useSession();
+
   return (
     <RouteGuard>
       <Head>
@@ -66,19 +71,35 @@ const ProfilePage = (props) => {
 
 export default ProfilePage;
 
-// export async function getServerSideProps(context) {
-//   const session = await getSession({ req: context.req });
-//   console.log('========GET SERVER PROPS===========');
-//   console.log(context.req);
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: '/auth/login',
-//         permanent: false
-//       }
-//     };
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  const token = await getToken({
+    req: context.req,
+    secret: process.env.NEXTAUTH_SECRET
+  });
+  console.log('JSON Web Token', token);
+  console.log('========GET SERVER PROPS===========');
+  console.log(context.req.headers.cookie);
+  console.log(session);
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: false
+      }
+    };
+  }
+  return {
+    props: { session }
+  };
+}
+
+// export async function getServerSideProps({req}) {
+//   let headers = {}
+//   const session = await getSession({ req });
+//   if (session) {
+//     headers = {Authorization: `Bearer ${session.jwt}`};
 //   }
-//   return {
-//     props: { session }
-//   };
+
+//   // Use this session information where you want.
 // }

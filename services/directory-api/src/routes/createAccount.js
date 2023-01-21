@@ -23,7 +23,7 @@ const handler = middy(async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-
+    // TODO - check if valid password and email???
     const artist = await httpClient.post(`/accounts`, data);
 
     return {

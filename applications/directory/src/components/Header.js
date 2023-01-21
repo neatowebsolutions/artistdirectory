@@ -29,8 +29,6 @@ import LogIn from './LogIn';
  * Hook that alerts clicks outside of the passed ref and closes menu on click
  */
 function useOutsideAlerter(ref, setAnchor) {
-  console.log('outside click');
-  console.log(ref.current);
   useEffect(() => {
     /**
      * close menu if clicked on outside of element
@@ -618,9 +616,8 @@ const Header = () => {
                   }
                 }}
               >
-                <Box> some staff</Box>
                 <Button
-                  button
+                  // button
                   component="button"
                   onClick={() => setAnchorElLogin(false)}
                   sx={{
@@ -644,9 +641,9 @@ const Header = () => {
                     }
                   }}
                 >
-                  <IconButton sx={{ display: 'flex' }}>
-                    <CloseRoundedIcon fontSize="small" />
-                  </IconButton>
+                  {/* <IconButton sx={{ display: 'flex' }}> */}
+                  <CloseRoundedIcon fontSize="small" />
+                  {/* </IconButton> */}
                 </Button>
                 <LogIn />
               </Drawer>

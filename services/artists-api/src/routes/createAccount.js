@@ -21,7 +21,8 @@ const handler = async (event, context) => {
     const artist = await Artist.findOne({ email });
 
     //TODO - should we reject account creating for profiles which are pending or rejected??
-    console.log(artist);
+    // TODO - server side password and email validation??
+    //console.log(artist);
     if (!artist) {
       return {
         statusCode: StatusCodes.NOT_FOUND,
@@ -60,7 +61,7 @@ const handler = async (event, context) => {
     );
 
     return {
-      statusCode: StatusCodes.CREATED,
+      statusCode: StatusCodes.CREATED, // TODO - is it correct status code?
       body: JSON.stringify(artist)
     };
   } catch (error) {

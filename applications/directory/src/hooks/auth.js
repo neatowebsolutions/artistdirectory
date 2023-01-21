@@ -17,7 +17,12 @@ const useAuth = () => {
       setAuthError('');
       router.push('/');
     }
-    if (res.error) setAuthError('An Error occurred. Try again');
+
+    if (res.error) {
+      setAuthError(res.status === 401 && ' Wrong email or password. Try again');
+    } else {
+      setAuthError(' An Error occurred. Try again later');
+    }
   };
 
   return { onSubmit, authError };

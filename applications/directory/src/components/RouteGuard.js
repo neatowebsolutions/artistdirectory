@@ -1,6 +1,6 @@
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-
+// https://blog.logrocket.com/building-authentication-api-nextauth-js/
 const RouteGuard = ({ children }) => {
   const router = useRouter();
   const { data: session, status } = useSession({

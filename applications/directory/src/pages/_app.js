@@ -12,7 +12,7 @@ import '../theme/index.scss';
 // Add the token to each request.
 const httpRequestInterceptor = (config) => {
   const token = sessionStorage.authToken;
-
+  // debugger; // eslint-disable-line
   if (token) {
     config.headers = config.headers || {};
     config.headers.Authorization = `Bearer ${token}`;
