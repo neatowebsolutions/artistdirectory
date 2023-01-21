@@ -8,7 +8,7 @@ const options = {
   // !!!https://next-auth.js.org/getting-started/upgrade-v4#callbacks
   session: {
     jwt: true,
-    strategy: 'jwt' //'jwt'
+    strategy: 'jwt'
   },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,

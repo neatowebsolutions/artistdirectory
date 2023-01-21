@@ -1,16 +1,30 @@
-// TODO - needs styling
 import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import { Typography } from '@mui/material';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import { useEmailValidation, useAuth } from '../hooks';
+
+const inputFieldStyles = {
+  style: {
+    fontSize: '1rem',
+    textTransform: 'capitalize'
+  }
+};
+
+const inputBoxStyles = {
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  maxWidth: '20.31rem'
+};
 
 const CreateAccount = () => {
   const [ifValidEmail, setIfValidEmail] = useState('');
@@ -34,12 +48,11 @@ const CreateAccount = () => {
       password: '',
       confirmPassword: ''
     },
-    enableReinitialize: true, // lets the form to go back to initial values if reset form
     validationSchema: Yup.object().shape({
       email: Yup.string()
         .email('Please provide a valid email address.')
-        .test('email', ifValidEmail, () => ifValidEmail === '')
-        .required('Please enter your email address.'),
+        .required('Please enter your email address.')
+        .test('email', ifValidEmail, () => ifValidEmail === ''),
       password: Yup.string()
         .required('Please provide password.')
         .min(8, 'Password is too short - should be 8 chars minimum.')
@@ -74,126 +87,153 @@ const CreateAccount = () => {
   };
 
   return (
-    <Card
+    <Box
       sx={{
-        flex: 1,
-        textAlign: 'center',
-        border: '2px solid',
-        borderColor: 'secondary.secondary',
-        '& p.create': {
-          color: 'secondary.secondary',
-          fontSize: '1.875rem',
-          fontWeight: '500',
-          mt: 0
-        },
-        '& form': {
-          '& legend.formTitle': {
-            fontSize: '1.5rem',
-            fontWeight: 'bold',
-            lineHeight: '1',
-            letterSpacing: '0.18px'
-          },
-          '& p': {
-            typography: 'body2',
-            fontSize: '1.25rem',
-            lineHeight: '1.2',
-            letterSpacing: '0.15px',
-            margin: '1rem 0',
-            '& span': {
-              color: 'primary.main'
-            }
-          }
-        }
+        marginTop: ['1.5rem', '2.5rem', '2.6rem', '4.188rem'],
+        marginBottom: ['1.5rem', '2.5rem', '2.6rem', '4.188rem']
       }}
-      elevation={6}
     >
-      <p className="create">
-        Create an account to manage your work and update your profile in the
-        future.
-      </p>
-      {authError && (
-        <Alert
-          severity="error"
-          sx={{
-            fontSize: '1.2rem',
-            marginBottom: '2rem'
-          }}
-          elevation={4}
-        >
-          {authError}
-        </Alert>
-      )}
-
-      <form noValidate onSubmit={handleSubmit}>
-        <legend className="formTitle">Create an Account</legend>
-        <p>
-          <span>*</span>Required
-        </p>
-        <Box sx={{ mb: 2, mt: 3 }}>
-          <TextField
-            id="outlined-required"
-            label="Email Address"
-            name="email"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <MailOutlineIcon />
-                </InputAdornment>
-              )
+      <Card
+        sx={{
+          textAlign: 'center',
+          width: ['100%', '80%', '70%'],
+          margin: '0 auto'
+        }}
+        elevation={6}
+      >
+        {authError && (
+          <Alert
+            severity="error"
+            sx={{
+              fontSize: '1.2rem',
+              marginBottom: '2rem'
             }}
-            sx={{ minWidth: ['100%', '100%', '325px'] }}
-            required
-            onChange={handleChange}
-            onBlur={handleEmailBlur}
-            value={values.email}
-            error={errors.email && touched.email}
-            helperText={touched.email ? errors.email : ''}
-          />
-        </Box>
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            required
-            type="password"
-            id="outlined-password-input"
-            label="Password"
-            name="password"
-            autoComplete="current-password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-            error={errors.password && touched.password}
-            helperText={touched.password ? errors.password : ''}
-            sx={{ minWidth: ['100%', '100%', '325px'] }}
-          />
-        </Box>
-        <Box>
-          <TextField
-            required
-            id="outlined-password-input"
-            label="Confirm Password"
-            type="password"
-            name="confirmPassword"
-            autoComplete="current-password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.confirmPassword}
-            error={errors.confirmPassword && touched.confirmPassword}
-            helperText={touched.confirmPassword ? errors.confirmPassword : ''}
-            sx={{ minWidth: ['100%', '100%', '325px'] }}
-          />
-        </Box>
-        <Button
-          sx={{ mt: 3, mb: 1, maxWidth: ['100%', '100%', '325px'] }}
-          type="submit"
-          disabled={!isValid || !dirty || isSubmitting}
-          variant="contained"
-          startIcon={<VerifiedIcon />}
-          fullWidth
+            elevation={4}
+          >
+            {authError}
+          </Alert>
+        )}
+        <Box
+          component="img"
+          src="/images/img-knockknock.svg"
+          alt="Knockknock"
+          sx={{
+            width: ['4rem', '5rem', '9rem'],
+            marginTop: ['1rem', '1.5rem', '2.6rem'],
+            marginBottom: ['1rem', '1.3rem']
+          }}
+        />
+        <Typography
+          variant="h1"
+          component="h1"
+          sx={{
+            fontWeight: '900',
+            fontSize: ['1.5rem', '2rem', '2.5rem'],
+            color: 'primary.main',
+            textTransform: 'uppercase',
+            letterSpacing: [2, 3],
+            marginBottom: ['1.063rem', '1.625rem', '1.5rem']
+          }}
         >
           Create Account
-        </Button>
-      </form>
-    </Card>
+        </Typography>
+        <form noValidate onSubmit={handleSubmit}>
+          <Box
+            sx={{
+              marginBottom: '0.875rem',
+              marginTop: '1.5rem',
+              ...inputBoxStyles
+            }}
+          >
+            <TextField
+              id="outlined-required"
+              label="Email Address"
+              name="email"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <MailOutlineIcon />
+                  </InputAdornment>
+                ),
+                ...inputFieldStyles
+              }}
+              InputLabelProps={inputFieldStyles}
+              required
+              onChange={handleChange}
+              onBlur={handleEmailBlur}
+              value={values.email}
+              error={errors.email && touched.email}
+              helperText={touched.email ? errors.email : ''}
+              sx={{ width: '100%' }}
+            />
+          </Box>
+          <Box sx={{ marginBottom: '0.875rem', ...inputBoxStyles }}>
+            <TextField
+              required
+              type="password"
+              id="outlined-password-input"
+              label="Password"
+              name="password"
+              autoComplete="current-password"
+              onChange={handleChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <VisibilityOffIcon />
+                  </InputAdornment>
+                ),
+                ...inputFieldStyles
+              }}
+              InputLabelProps={inputFieldStyles}
+              onBlur={handleBlur}
+              value={values.password}
+              error={errors.password && touched.password}
+              helperText={touched.password ? errors.password : ''}
+              sx={{ width: '100%' }}
+            />
+          </Box>
+          <Box sx={inputBoxStyles}>
+            <TextField
+              required
+              id="outlined-password-input"
+              label="Confirm Password"
+              type="password"
+              name="confirmPassword"
+              autoComplete="current-password"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <VisibilityOffIcon />
+                  </InputAdornment>
+                ),
+                ...inputFieldStyles
+              }}
+              InputLabelProps={inputFieldStyles}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.confirmPassword}
+              error={errors.confirmPassword && touched.confirmPassword}
+              helperText={touched.confirmPassword ? errors.confirmPassword : ''}
+              sx={{ width: '100%' }}
+            />
+          </Box>
+          <Button
+            sx={{
+              marginTop: '1.5rem',
+              marginBottom: '0.5rem',
+              maxWidth: ['100%', '100%', '20.31rem']
+            }}
+            type="submit"
+            disabled={!isValid || !dirty || isSubmitting}
+            variant="contained"
+            startIcon={<VerifiedIcon />}
+            fullWidth
+          >
+            Create Account
+          </Button>
+        </form>
+      </Card>
+    </Box>
   );
 };
 
