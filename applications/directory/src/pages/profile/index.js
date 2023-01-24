@@ -7,18 +7,33 @@ import Box from '@mui/material/Box';
 import PersonalDetails from '../../components/PersonalDetails';
 import ProfileDetails from '../../components/ProfileDetails';
 import WorkExamples from '../../components/WorkExamples';
-
 import { Layout } from '../../components';
 import useProfile from '../../hooks/profile';
 import RouteGuard from '../../components/RouteGuard';
-
+const secret = process.env.NEXTAUTH_SECRET;
 const ProfilePage = (props) => {
   // console.log(props);
-  const { profile, profileLoading, profileError } = useProfile();
+  // const { profile, profileLoading, profileError } = useProfile();
   // console.log(profile);
   // console.log(profileError);
   // console.log(profileLoading);
   //const { data } = useSession();
+  useEffect(() => {
+    // const options = { headers: { cookie: props.cookie } };
+
+    const getProfile = async () => {
+      const res = await fetch(`${process.env.DIRECTORY_API_URL}/profile`, {
+        credentials: 'include'
+        // headers: { Cookie: props.cookie }
+      });
+      return await res.json();
+    };
+
+    const response = getProfile();
+    console.log(response);
+  }, [props.cookie]);
+
+  console.log(props);
 
   return (
     <RouteGuard>
@@ -73,14 +88,27 @@ export default ProfilePage;
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-  const token = await getToken({
-    req: context.req,
-    secret: process.env.NEXTAUTH_SECRET
-  });
-  console.log('JSON Web Token', token);
+  const { cookie } = context.req.headers;
+
+  // const token = await getToken({ req: context, secret });
+  // const token = await getToken({
+  //   req: context.req,
+  //   secret: process.env.NEXTAUTH_SECRET,
+  //   raw: true
+  // });
+
+  // console.log('JSON Web Token', token);
   console.log('========GET SERVER PROPS===========');
-  console.log(context.req.headers.cookie);
-  console.log(session);
+  //console.log(context.req.headers.cookie);
+  //console.log(session);
+  //console.log(token);
+  // if (context.req) {
+  //   const options = context.req
+  //     ? { headers: { cookie: context.req.headers.cookie } }
+  //     : {};
+  //   const res = await fetch(`${process.env.DIRECTORY_API_URL}/profile`, options);
+  //   console.log(res);
+  // }
   if (!session) {
     return {
       redirect: {
@@ -89,8 +117,9 @@ export async function getServerSideProps(context) {
       }
     };
   }
+
   return {
-    props: { session }
+    props: { session, cookie }
   };
 }
 

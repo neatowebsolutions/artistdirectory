@@ -2,7 +2,6 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
 const mongodbClient = require('../models/mongodbClient');
 const models = require('../models');
-
 const handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
@@ -12,6 +11,7 @@ const handler = async (event, context) => {
     await new Promise((resolve) => setTimeout(resolve, 25));
     return 'Lambda is warm!';
   }
+  console.log('=======ARTIST API===========');
 
   try {
     const data = JSON.parse(event.body);
