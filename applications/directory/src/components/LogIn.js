@@ -59,16 +59,17 @@ const LogIn = () => {
       password: Yup.string().required('Please provide password.')
     }),
     onSubmit: async ({ email, password }) =>
-      onSubmitCredentials(email, password)
+      onSubmitCredentials(email, password, false) // false stands for logging in an artist with existing  profile (account)
   });
 
   const handleEmailBlur = async (e) => {
     if (values.email) {
       const ifAccountExists = await ifEmailExists(values.email);
       // if email is valid (there is a profile with this email in DB) set error message to empty string or populate with proper error message
+      console.log(ifAccountExists);
       if (ifAccountExists.error) {
         setIfValidEmail('Server error. Fail to verify email');
-      } else if (!ifAccountExists.profile) {
+      } else if (!ifAccountExists.account) {
         setIfValidEmail('No Profile found associated with provided email');
       } else {
         setIfValidEmail('');

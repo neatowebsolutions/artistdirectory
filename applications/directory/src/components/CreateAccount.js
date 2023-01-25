@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 import Alert from '@mui/material/Alert';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -66,7 +67,7 @@ const CreateAccount = () => {
         .required('Please confirm password.')
     }),
     onSubmit: async ({ email, password }) => {
-      onSubmitCredentials(email, password);
+      onSubmitCredentials(email, password, true); // true stands for creating a profile (account)
     }
   });
   const handleEmailBlur = async (e) => {

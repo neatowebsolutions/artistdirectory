@@ -15,11 +15,10 @@ const handler = async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    const { email, password } = data;
+    const { email, password, isNew } = data;
 
     const Artist = await models.get('Artist');
     const artist = await Artist.findOne({ email });
-
     //TODO - should we reject account creating for profiles which are pending or rejected??
     // TODO - server side password and email validation??
     //console.log(artist);
@@ -30,7 +29,7 @@ const handler = async (event, context) => {
       };
     }
 
-    if (artist && artist.password) {
+    if (isNew === 'false' && artist.password) {
       const isValidPassword = await artist.validPassword(password);
       if (!isValidPassword) {
         return {
@@ -38,8 +37,13 @@ const handler = async (event, context) => {
           body: ReasonPhrases.UNAUTHORIZED
         };
       }
-    } else {
+    } else if (isNew === 'true') {
       await artist.setPassword(password);
+    } else {
+      return {
+        statusCode: StatusCodes.UNAUTHORIZED,
+        body: ReasonPhrases.UNAUTHORIZED
+      };
     }
 
     try {
