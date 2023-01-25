@@ -88,17 +88,17 @@ export default ProfilePage;
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-  const { cookie } = context.req.headers;
+  //const { cookie } = context.req.headers;
 
-  // const token = await getToken({ req: context, secret });
+  console.log('========GET SERVER PROPS===========');
+  //console.log(cookie);
+  console.log(session);
   // const token = await getToken({
   //   req: context.req,
   //   secret: process.env.NEXTAUTH_SECRET,
   //   raw: true
   // });
-
   // console.log('JSON Web Token', token);
-  console.log('========GET SERVER PROPS===========');
   //console.log(context.req.headers.cookie);
   //console.log(session);
   //console.log(token);
@@ -112,14 +112,14 @@ export async function getServerSideProps(context) {
   if (!session) {
     return {
       redirect: {
-        destination: '/auth/login',
+        destination: '/auth/login', // TODO - where to send
         permanent: false
       }
     };
   }
 
   return {
-    props: { session, cookie }
+    props: { session }
   };
 }
 

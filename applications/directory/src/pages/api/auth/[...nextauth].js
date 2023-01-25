@@ -12,7 +12,7 @@ const nextAuthOptions = (req, res) => {
       strategy: 'jwt'
     },
     jwt: {
-      secret: process.env.NEXTAUTH_SECRET,
+      secret: process.env.JWT_SECRET,
       encryption: true
     },
     // secret:, // If you set NEXTAUTH_SECRET as an environment variable, you don't have to define this option.
@@ -27,7 +27,7 @@ const nextAuthOptions = (req, res) => {
             // Provide logic that takes the credentials submitted and returns either an object representing an artist or value that is false/null if the credentials are invalid.
 
             // It is possible use the `req` object to obtain additional parameters (i.e., the request IP address)
-            // TODO - checkout  https://stackoverflow.com/questions/70174989/next-auth-custom-auth-provider-with-custom-backend , https://medium.com/vmlyrpoland-tech/nextjs-with-full-stack-authorization-based-on-jwt-and-external-api-e9977f9fdd5e
+            // TODO - checkout  https://stackoverflow.com/questions/70174989/next-auth-custom-auth-provider-with-custom-backend , https://medium.com/vmlyrpoland-tech/nextjs-with-full-stack-authorization-based-on-jwt-and-external-api-e9977f9fdd5e, https://github.com/nextauthjs/next-auth/issues/3719, https://stackoverflow.com/questions/67594977/how-to-send-httponly-cookies-client-side-when-using-next-auth-credentials-provid/69418553#69418553
             const response = await fetch(
               `${process.env.DIRECTORY_API_URL}/accounts`,
               {
@@ -37,9 +37,13 @@ const nextAuthOptions = (req, res) => {
               }
             );
 
-            const artist = await response.json();
+            console.log('================COOKIES=======');
 
+            console.log(response.headers);
+            const artist = await response.json();
+            // console.log(artist);
             // If no error and we have artist data, return it
+
             if (response.ok && artist) {
               return artist;
             }
@@ -52,13 +56,18 @@ const nextAuthOptions = (req, res) => {
         }
       })
     ],
-    secret: process.env.JWT_SECRET,
+    //secret: process.env.JWT_SECRET, // if you set NEXTAUTH_SECRET as an environment variable, you don't have to define this option.
     pages: {
       createAccount: '/auth/create-account',
       logIn: '/auth/login'
     },
     callbacks: {
       async jwt({ token, user, account }) {
+        console.log(token);
+        console.log('======account======');
+        // console.log(account);
+        console.log('======user======');
+        //console.log(user);
         if (account && user) {
           const { firstName, lastName, profileImageUrl, _id } = user;
           return {

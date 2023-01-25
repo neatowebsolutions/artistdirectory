@@ -54,7 +54,7 @@ const handler = async (event, context) => {
     await artist.save();
 
     await logger.info(
-      `Account created, artist updated (${artist.toString()})`,
+      `Account created/artist signed in (${artist.toString()})`,
       {
         data
       }

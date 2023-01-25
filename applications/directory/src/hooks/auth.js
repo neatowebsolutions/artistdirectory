@@ -18,6 +18,7 @@ const useAuth = () => {
       router.push('/');
     }
 
+    console.log(res);
     if (res.error) {
       setAuthError(res.status === 401 && ' Wrong email or password. Try again');
     } else {
