@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
-//const nextAuthJWT = require('next-auth/jwt');
-const { JWT_SECRET, NEXTAUTH_SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 
 // Reference: https://github.com/tmaximini/serverless-jwt-authorizer/blob/master/functions/authorize.js
 
@@ -36,15 +35,7 @@ const generateAuthResponse = (principalId, effect, methodArn) => {
 
 const handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
-  console.log('++++++++========AUTHORIZER============++++++++++');
-  console.log(event.headers.Cookie);
-  // const tokenTest = await nextStuff.getToken({
-  //   req: event,
-  //   secret: process.env.NEXTAUTH_SECRET,
-  //   raw: true
-  // });
 
-  console.log('++++++++========AUTHORIZER============++++++++++');
   if (event.source === 'serverless-plugin-warmup') {
     await new Promise((resolve) => setTimeout(resolve, 25));
     return 'Lambda is warm!';
@@ -52,6 +43,9 @@ const handler = async (event, context) => {
 
   const authorizationHeader =
     event.headers.Authorization || event.headers.authorization;
+  console.log('++++++++========AUTHORIZER============++++++++++');
+
+  console.log('++++++++========AUTHORIZER============++++++++++');
   const token =
     authorizationHeader && authorizationHeader.replace('Bearer ', '');
   const { methodArn } = event;
@@ -67,8 +61,7 @@ const handler = async (event, context) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log('=======DECODED=======');
-    console.log(decoded);
+
     if (decoded) {
       return {
         ...generateAuthResponse(decoded.userId, 'Allow', methodArn),

@@ -11,7 +11,7 @@ const withAuth = (Component) => {
       if (!session) {
         router.replace('/auth/login');
       }
-    }, []);
+    }, [router, session]);
 
     return session ? <Component session={session} /> : null;
   };

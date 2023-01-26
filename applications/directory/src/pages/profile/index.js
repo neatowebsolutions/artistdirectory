@@ -10,7 +10,7 @@ import WorkExamples from '../../components/WorkExamples';
 import { Layout } from '../../components';
 import useProfile from '../../hooks/profile';
 import RouteGuard from '../../components/RouteGuard';
-const secret = process.env.NEXTAUTH_SECRET;
+
 const ProfilePage = (props) => {
   // console.log(props);
   // const { profile, profileLoading, profileError } = useProfile();
@@ -23,17 +23,22 @@ const ProfilePage = (props) => {
 
     const getProfile = async () => {
       const res = await fetch(`${process.env.DIRECTORY_API_URL}/profile`, {
-        credentials: 'include'
-        // headers: { Cookie: props.cookie }
+        credentials: 'include',
+        headers: {
+          Authorization: `Bearer ${props.session.user.accessToken}`,
+          'Content-Type': 'application/json'
+        }
       });
-      return await res.json();
+      const data = await res.json();
+      console.log(data);
+      return data;
     };
 
     const response = getProfile();
     console.log(response);
   }, [props.cookie]);
 
-  console.log(props);
+  // console.log(props);
 
   return (
     <RouteGuard>
@@ -88,20 +93,22 @@ export default ProfilePage;
 
 export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
-  //const { cookie } = context.req.headers;
 
   console.log('========GET SERVER PROPS===========');
   //console.log(cookie);
-  console.log(session);
+
   // const token = await getToken({
   //   req: context.req,
-  //   secret: process.env.NEXTAUTH_SECRET,
+  //   secret: process.env.JWT_SECRET,
   //   raw: true
   // });
+  // console.log('====TOKEN0======');
+  // console.log(token);
+
   // console.log('JSON Web Token', token);
   //console.log(context.req.headers.cookie);
   //console.log(session);
-  //console.log(token);
+
   // if (context.req) {
   //   const options = context.req
   //     ? { headers: { cookie: context.req.headers.cookie } }
@@ -109,6 +116,8 @@ export async function getServerSideProps(context) {
   //   const res = await fetch(`${process.env.DIRECTORY_API_URL}/profile`, options);
   //   console.log(res);
   // }
+  // console.log('======SESSION======');
+  // console.log(session);
   if (!session) {
     return {
       redirect: {

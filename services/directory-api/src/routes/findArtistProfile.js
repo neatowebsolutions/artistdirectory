@@ -22,16 +22,13 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    // const { artistId } = event.pathParameters;
-    console.log('=============context==========');
-    console.log(context);
-    //console.log(event)
-    // const data = JSON.parse(event.body);
-    // const artist = await httpClient.get(`/artists/${artistId}`, data);
+    const artistId = event.requestContext.authorizer.userId;
+
+    const profile = await httpClient.get(`/profile/${artistId}`);
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify({ profile: {} }) // found artist
+      body: JSON.stringify(profile) // found artist
     };
   } catch (error) {
     if (error.response && error.response.status) {

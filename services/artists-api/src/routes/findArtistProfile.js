@@ -14,21 +14,24 @@ const handler = async (event, context) => {
   }
 
   try {
-    //console.log(event);
-   // console.log(context)
-    // const Artist = await models.get('Artist');
-    // const artist = await Artist.findById(artistId);
+    console.log('=====ARTIST EVENT======');
+    console.log(event);
+    console.log('=====ARTIST CONTEXT======');
+    console.log(context);
+    const { artistId } = event.pathParameters;
+    const Artist = await models.get('Artist');
+    const profile = await Artist.findById(artistId);
 
-    // if (!profile) {
-    //   return {
-    //     statusCode: StatusCodes.NOT_FOUND,
-    //     body: ReasonPhrases.NOT_FOUND,
-    //   };
-    // }
+    if (!profile) {
+      return {
+        statusCode: StatusCodes.NOT_FOUND,
+        body: ReasonPhrases.NOT_FOUND
+      };
+    }
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify({})
+      body: JSON.stringify(profile)
     };
   } catch (error) {
     await logger.error(`Error retrieving artist`, error, { event });

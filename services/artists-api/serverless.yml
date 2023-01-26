@@ -36,7 +36,7 @@ provider:
     UPLOADS_BUCKET: ${env:UPLOADS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/uploads}
     ASSETS_BUCKET: ${env:ASSETS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/assets}
     ASSETS_URL: ${env:ASSETS_URL, ssm:/artistdirectory/${self:provider.stage}/assets/url}
-
+    JWT_SECRET: ${env:JWT_SECRET, ssm:/artistdirectory/${self:provider.stage}/jwt-secret}
 custom:
   serverless-offline:
     host: 0.0.0.0
@@ -227,7 +227,7 @@ functions:
     handler: src/routes/findArtistProfile.handler
     events:
       - http:
-          path: /profile
+          path: /profile/{artistId}
           method: get
           authorizer: aws_iam
 plugins:

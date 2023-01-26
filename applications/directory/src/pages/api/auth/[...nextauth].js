@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
+import jwt from 'jsonwebtoken';
 // https://blog.devso.io/implementing-credentials-provider-on-nextjs-and-nextauth
 const nextAuthOptions = (req, res) => {
   return {
@@ -16,6 +16,10 @@ const nextAuthOptions = (req, res) => {
       encryption: true
     },
     // secret:, // If you set NEXTAUTH_SECRET as an environment variable, you don't have to define this option.
+    pages: {
+      createAccount: '/auth/create-account',
+      logIn: '/auth/login'
+    },
     providers: [
       CredentialsProvider({
         id: 'credentials',
@@ -29,7 +33,6 @@ const nextAuthOptions = (req, res) => {
             // It is possible use the `req` object to obtain additional parameters (i.e., the request IP address)
             // TODO - checkout  https://stackoverflow.com/questions/70174989/next-auth-custom-auth-provider-with-custom-backend , https://medium.com/vmlyrpoland-tech/nextjs-with-full-stack-authorization-based-on-jwt-and-external-api-e9977f9fdd5e, https://github.com/nextauthjs/next-auth/issues/3719, https://stackoverflow.com/questions/67594977/how-to-send-httponly-cookies-client-side-when-using-next-auth-credentials-provid/69418553#69418553, https://stackoverflow.com/questions/61255258/migrating-expressjs-app-to-serverless-express-session-problem, https://github.com/nextauthjs/next-auth/discussions/1290
 
-            console.log(credentials);
             const response = await fetch(
               `${process.env.DIRECTORY_API_URL}/accounts`,
               {
@@ -39,15 +42,18 @@ const nextAuthOptions = (req, res) => {
               }
             );
 
-            console.log('================COOKIES=======');
+            // console.log('================COOKIES=======');
 
-            console.log(response.headers);
-            const artist = await response.json();
-            // console.log(artist);
+            const data = await response.json();
+            //  console.log(artist);
             // If no error and we have artist data, return it
+            const artistDetails = jwt.verify(
+              data?.accessToken,
+              process.env.JWT_SECRET
+            );
 
-            if (response.ok && artist) {
-              return artist;
+            if (response.ok && data) {
+              return { accessToken: data.accessToken, ...artistDetails };
             }
           } catch (error) {
             const errorMessage = error.response.data.message;
@@ -58,33 +64,30 @@ const nextAuthOptions = (req, res) => {
         }
       })
     ],
-    //secret: process.env.JWT_SECRET, // if you set NEXTAUTH_SECRET as an environment variable, you don't have to define this option.
-    pages: {
-      createAccount: '/auth/create-account',
-      logIn: '/auth/login'
-    },
+
     callbacks: {
       async jwt({ token, user, account }) {
-        console.log(token);
-        console.log('======account======');
-        // console.log(account);
-        console.log('======user======');
-        //console.log(user);
-        if (account && user) {
-          const { firstName, lastName, profileImageUrl, _id } = user;
+        if (token && user) {
+          const { firstName, lastName, profileImageUrl, userId } = user;
           return {
             ...token,
-            // accessToken: user.data?.token,
+            accessToken: user.accessToken,
             // refreshToken: user.data?.refreshToken,
-            user: { firstName, lastName, profileImageUrl, _id }
+            user: { firstName, lastName, profileImageUrl, userId }
           };
         }
         return token;
       },
       async session({ session, token, user }) {
+        // console.log('==========TOKEN SESSION==========');
+        // console.log(token);
+        // console.log('======session======');
+        // console.log(session);
+        // console.log('======user======');
+        // console.log(user);
         if (token) {
           session.user = token.user;
-          // session.user.accessToken = token.accessToken;
+          session.user.accessToken = token.accessToken;
           // session.user.refreshToken = token.refreshToken;
           // session.user.accessTokenExpires = token.accessTokenExpires;
         }
