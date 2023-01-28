@@ -62,10 +62,7 @@ const handler = async (event, context) => {
     await artist.save();
 
     const { _id: userId, firstName, lastName, profileImageUrl } = artist;
-    const accessToken = jwt.sign(
-      { userId, firstName, lastName, profileImageUrl },
-      JWT_SECRET
-    );
+    const accessToken = jwt.sign({ userId }, JWT_SECRET);
 
     await logger.info(
       `Account created/artist signed in (${artist.toString()})`,
@@ -77,7 +74,11 @@ const handler = async (event, context) => {
     return {
       statusCode: StatusCodes.CREATED, // TODO - is it correct status code?
       body: JSON.stringify({
-        accessToken
+        accessToken,
+        userId,
+        firstName,
+        lastName,
+        profileImageUrl
       })
     };
   } catch (error) {

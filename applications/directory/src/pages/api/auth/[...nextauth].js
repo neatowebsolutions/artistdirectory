@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import jwt from 'jsonwebtoken';
+
 // https://blog.devso.io/implementing-credentials-provider-on-nextjs-and-nextauth
 const nextAuthOptions = (req, res) => {
   return {
@@ -11,10 +12,10 @@ const nextAuthOptions = (req, res) => {
       jwt: true,
       strategy: 'jwt'
     },
-    jwt: {
-      secret: process.env.JWT_SECRET,
-      encryption: true
-    },
+    // jwt: {
+    //   secret: process.env.JWT_SECRET,
+    //   encryption: true
+    // },
     // secret:, // If you set NEXTAUTH_SECRET as an environment variable, you don't have to define this option.
     pages: {
       createAccount: '/auth/create-account',
@@ -45,15 +46,13 @@ const nextAuthOptions = (req, res) => {
             // console.log('================COOKIES=======');
 
             const data = await response.json();
-            //  console.log(artist);
+            console.log(data);
             // If no error and we have artist data, return it
-            const artistDetails = jwt.verify(
-              data?.accessToken,
-              process.env.JWT_SECRET
-            );
-
             if (response.ok && data) {
-              return { accessToken: data.accessToken, ...artistDetails };
+              // return { accessToken: data.accessToken, ...artistDetails };
+              res.setHeader('Set-Cookie', `access-token=${data.accessToken}`);
+              // TODO - why this cookie gets removed from cookies in a little while
+              return data;
             }
           } catch (error) {
             const errorMessage = error.response.data.message;
@@ -64,11 +63,13 @@ const nextAuthOptions = (req, res) => {
         }
       })
     ],
-
     callbacks: {
       async jwt({ token, user, account }) {
         if (token && user) {
+          //  console.log('==========JWT USER==========');
+          // console.log(user);
           const { firstName, lastName, profileImageUrl, userId } = user;
+
           return {
             ...token,
             accessToken: user.accessToken,
@@ -76,6 +77,8 @@ const nextAuthOptions = (req, res) => {
             user: { firstName, lastName, profileImageUrl, userId }
           };
         }
+        // console.log('==========JWT TOKEN RETURNED==========');
+        // console.log(token);
         return token;
       },
       async session({ session, token, user }) {
@@ -87,11 +90,12 @@ const nextAuthOptions = (req, res) => {
         // console.log(user);
         if (token) {
           session.user = token.user;
+          //session.accessToken = token.accessToken;
           session.user.accessToken = token.accessToken;
           // session.user.refreshToken = token.refreshToken;
           // session.user.accessTokenExpires = token.accessTokenExpires;
         }
-
+        console.log(session);
         return session;
       }
     }

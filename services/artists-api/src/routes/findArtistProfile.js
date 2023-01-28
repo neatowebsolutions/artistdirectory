@@ -14,10 +14,6 @@ const handler = async (event, context) => {
   }
 
   try {
-    console.log('=====ARTIST EVENT======');
-    console.log(event);
-    console.log('=====ARTIST CONTEXT======');
-    console.log(context);
     const { artistId } = event.pathParameters;
     const Artist = await models.get('Artist');
     const profile = await Artist.findById(artistId);

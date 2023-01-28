@@ -1,7 +1,4 @@
-import { useEffect } from 'react';
-import { getSession, useSession } from 'next-auth/react';
-import { getToken } from 'next-auth/jwt';
-//import { unstable_getServerSession } from 'next-auth/next';
+import { getSession } from 'next-auth/react';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
 import PersonalDetails from '../../components/PersonalDetails';
@@ -13,32 +10,10 @@ import RouteGuard from '../../components/RouteGuard';
 
 const ProfilePage = (props) => {
   // console.log(props);
-  // const { profile, profileLoading, profileError } = useProfile();
-  // console.log(profile);
+  const { profile, profileLoading, profileError } = useProfile();
+  console.log(profile);
   // console.log(profileError);
   // console.log(profileLoading);
-  //const { data } = useSession();
-  useEffect(() => {
-    // const options = { headers: { cookie: props.cookie } };
-
-    const getProfile = async () => {
-      const res = await fetch(`${process.env.DIRECTORY_API_URL}/profile`, {
-        credentials: 'include',
-        headers: {
-          Authorization: `Bearer ${props.session.user.accessToken}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      const data = await res.json();
-      console.log(data);
-      return data;
-    };
-
-    const response = getProfile();
-    console.log(response);
-  }, [props.cookie]);
-
-  // console.log(props);
 
   return (
     <RouteGuard>
@@ -95,29 +70,7 @@ export async function getServerSideProps(context) {
   const session = await getSession({ req: context.req });
 
   console.log('========GET SERVER PROPS===========');
-  //console.log(cookie);
 
-  // const token = await getToken({
-  //   req: context.req,
-  //   secret: process.env.JWT_SECRET,
-  //   raw: true
-  // });
-  // console.log('====TOKEN0======');
-  // console.log(token);
-
-  // console.log('JSON Web Token', token);
-  //console.log(context.req.headers.cookie);
-  //console.log(session);
-
-  // if (context.req) {
-  //   const options = context.req
-  //     ? { headers: { cookie: context.req.headers.cookie } }
-  //     : {};
-  //   const res = await fetch(`${process.env.DIRECTORY_API_URL}/profile`, options);
-  //   console.log(res);
-  // }
-  // console.log('======SESSION======');
-  // console.log(session);
   if (!session) {
     return {
       redirect: {
@@ -131,13 +84,3 @@ export async function getServerSideProps(context) {
     props: { session }
   };
 }
-
-// export async function getServerSideProps({req}) {
-//   let headers = {}
-//   const session = await getSession({ req });
-//   if (session) {
-//     headers = {Authorization: `Bearer ${session.jwt}`};
-//   }
-
-//   // Use this session information where you want.
-// }

@@ -23,12 +23,11 @@ const handler = middy(async (event, context) => {
 
   try {
     const artistId = event.requestContext.authorizer.userId;
-
     const profile = await httpClient.get(`/profile/${artistId}`);
 
     return {
       statusCode: StatusCodes.OK,
-      body: JSON.stringify(profile) // found artist
+      body: JSON.stringify(profile) // found artist profile
     };
   } catch (error) {
     if (error.response && error.response.status) {
