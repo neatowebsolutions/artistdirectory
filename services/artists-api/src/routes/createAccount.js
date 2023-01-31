@@ -3,7 +3,7 @@ const logger = require('@artistdirectory/logger');
 const jwt = require('jsonwebtoken');
 const mongodbClient = require('../models/mongodbClient');
 const models = require('../models');
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, REFRESH_JWT_SECRET } = process.env;
 
 const handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -62,7 +62,13 @@ const handler = async (event, context) => {
     await artist.save();
 
     const { _id: userId, firstName, lastName, profileImageUrl } = artist;
-    const accessToken = jwt.sign({ userId }, JWT_SECRET);
+    const accessToken = jwt.sign({ userId }, JWT_SECRET, {
+      expiresIn: '4m'
+    });
+    const accessTokenExpiry = new Date().getTime() + 1000 * 60 * 4;
+    const refreshToken = jwt.sign({ userId }, REFRESH_JWT_SECRET, {
+      expiresIn: '30m'
+    });
 
     await logger.info(
       `Account created/artist signed in (${artist.toString()})`,
@@ -75,6 +81,8 @@ const handler = async (event, context) => {
       statusCode: StatusCodes.CREATED, // TODO - is it correct status code?
       body: JSON.stringify({
         accessToken,
+        accessTokenExpiry,
+        refreshToken,
         userId,
         firstName,
         lastName,

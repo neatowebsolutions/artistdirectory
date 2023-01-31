@@ -5,6 +5,7 @@ const {
   ReasonPhrases,
   getReasonPhrase
 } = require('http-status-codes');
+
 const HttpClient = require('@artistdirectory/gateway-http-client');
 
 const { ARTISTS_API_URL } = process.env;
@@ -12,6 +13,10 @@ const { ARTISTS_API_URL } = process.env;
 const httpClient = new HttpClient({
   baseUrl: ARTISTS_API_URL
 });
+
+// function generateAccessToken(user){
+
+// }
 
 const handler = middy(async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
@@ -24,11 +29,11 @@ const handler = middy(async (event, context) => {
   try {
     const data = JSON.parse(event.body);
     // TODO - check if valid password and email???
-    const artistData = await httpClient.post(`/accounts`, data); // TODO change route name for something  like /auth
+    const refreshToken = await httpClient.post(`/auth/refresh`, data);
 
     return {
       statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(artistData)
+      body: JSON.stringify(refreshToken)
     };
   } catch (error) {
     if (error.response && error.response.status) {

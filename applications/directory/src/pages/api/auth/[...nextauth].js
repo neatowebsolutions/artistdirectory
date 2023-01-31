@@ -2,6 +2,38 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import jwt from 'jsonwebtoken';
 
+async function refreshAccessToken(tokenObject) {
+  try {
+    // Get a new set of tokens with a refreshToken
+    const tokenResponse = await fetch(
+      `${process.env.DIRECTORY_API_URL}/auth/refresh`,
+      {
+        method: 'POST',
+        body: JSON.stringify({ token: tokenObject.refreshToken }),
+        headers: {
+          Authorization: `Bearer ${tokenObject.accessToken}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    const data = await tokenResponse.json();
+    console.log('====FROM REFRESH TOKEN FUNCTION=======');
+    console.log(data);
+
+    return {
+      ...tokenObject,
+      accessToken: data.accessToken,
+      accessTokenExpiry: data.accessTokenExpiry, // TODO - need to assign this somewhere
+      refreshToken: data.refreshToken
+    };
+  } catch (error) {
+    return {
+      ...tokenObject,
+      error: 'RefreshAccessTokenError'
+    };
+  }
+}
+
 // https://blog.devso.io/implementing-credentials-provider-on-nextjs-and-nextauth
 const nextAuthOptions = (req, res) => {
   return {
@@ -43,15 +75,18 @@ const nextAuthOptions = (req, res) => {
               }
             );
 
-            // console.log('================COOKIES=======');
-
             const data = await response.json();
+            console.log('================DATA =======');
             console.log(data);
             // If no error and we have artist data, return it
             if (response.ok && data) {
-              // return { accessToken: data.accessToken, ...artistDetails };
-              res.setHeader('Set-Cookie', `access-token=${data.accessToken}`);
-              // TODO - why this cookie gets removed from cookies in a little while
+              //  about Cookies https://www.webmound.com/cookies-nodejs-express-server/
+              // TODO - cookies disapear on page refresh, need to fix
+              res.setHeader('Set-Cookie', [
+                `access-token=${data.accessToken};`,
+                `refresh-token=${data.refreshToken}; httpOnly=true; sameSite=None; Secure`
+              ]); // ?? maxAge: 24 * 60 * 60 * 1000
+
               return data;
             }
           } catch (error) {
@@ -65,25 +100,40 @@ const nextAuthOptions = (req, res) => {
     ],
     callbacks: {
       async jwt({ token, user, account }) {
-        if (token && user) {
+        if (user) {
           //  console.log('==========JWT USER==========');
           // console.log(user);
           const { firstName, lastName, profileImageUrl, userId } = user;
 
-          return {
-            ...token,
-            accessToken: user.accessToken,
-            // refreshToken: user.data?.refreshToken,
-            user: { firstName, lastName, profileImageUrl, userId }
-          };
+          token.accessTokenExpiry = user.accessTokenExpiry;
+          token.accessToken = user.accessToken;
+          token.refreshToken = user.refreshToken;
+          token.user = { firstName, lastName, profileImageUrl, userId };
         }
-        // console.log('==========JWT TOKEN RETURNED==========');
-        // console.log(token);
+
+        console.log('===accessTOkenExpiry=======');
+
+        // If accessTokenExpiry is 10 mins, we have to refresh token before 10 mins pass.
+        const shouldRefreshTime = Math.round(
+          token.accessTokenExpiry - 3 * 60 * 1000 - Date.now()
+        );
+        console.log('===SHOULD REFRESH TIME=======');
+        console.log(shouldRefreshTime);
+        // If the token is still valid, just return it.
+        if (shouldRefreshTime > 0) {
+          return token;
+        }
+
+        // If the call arrives after 7minutes have passed, we allow to refresh the token.
+        token = await refreshAccessToken(token);
+
+        console.log('==========JWT TOKEN RETURNED==========');
+        console.log(token);
         return token;
       },
       async session({ session, token, user }) {
-        // console.log('==========TOKEN SESSION==========');
-        // console.log(token);
+        console.log('==========TOKEN SESSION==========');
+        console.log(token);
         // console.log('======session======');
         // console.log(session);
         // console.log('======user======');
@@ -93,8 +143,9 @@ const nextAuthOptions = (req, res) => {
           //session.accessToken = token.accessToken;
           session.user.accessToken = token.accessToken;
           // session.user.refreshToken = token.refreshToken;
-          // session.user.accessTokenExpires = token.accessTokenExpires;
+          session.user.accessTokenExpiry = token.accessTokenExpiry;
         }
+        console.log('====SESSION======');
         console.log(session);
         return session;
       }

@@ -37,6 +37,7 @@ provider:
     ASSETS_BUCKET: ${env:ASSETS_BUCKET, ssm:/artistdirectory/${self:provider.stage}/bucket/assets}
     ASSETS_URL: ${env:ASSETS_URL, ssm:/artistdirectory/${self:provider.stage}/assets/url}
     JWT_SECRET: ${env:JWT_SECRET, ssm:/artistdirectory/${self:provider.stage}/jwt-secret}
+    REFRESH_JWT_SECRET: ${env:REFRESH_JWT_SECRET, ssm:/artistdirectory/${self:provider.stage}/refresh-jwt-secret}
 custom:
   serverless-offline:
     host: 0.0.0.0
@@ -92,6 +93,14 @@ functions:
     events:
       - http:
           path: /accounts
+          method: post
+          authorizer: aws_iam
+  authRefreshToken:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/authRefreshToken.handler
+    events:
+      - http:
+          path: /auth/refresh
           method: post
           authorizer: aws_iam
   generateProfileUploadSignedUrl:
