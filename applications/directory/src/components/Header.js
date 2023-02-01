@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
-//import { useCookies } from '@artistdirectory/react-hooks';
+import { useCookies } from '@artistdirectory/react-hooks';
 import { useRouter } from 'next/router';
 import { Link as MuiLink } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -40,7 +40,6 @@ function useOutsideAlerter(ref, setAnchor) {
         !event.target.closest('[aria-controls="menu-appbar"]') &&
         !event.target.closest('[aria-label="login-window"]')
       ) {
-        console.log('???');
         setAnchor(false);
       }
     }
@@ -61,7 +60,6 @@ const pages = [
 
 const NavLink = ({ href, children, onClick, isTopNav = false }) => {
   // isTopNav used to style only top nav links
-
   const router = useRouter();
   let active = false;
 
@@ -77,6 +75,9 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
       href={href}
       sx={{
         color: active ? 'primary' : '#464852', // TODO Should this color go to material.js?
+        display: 'flex',
+        width: '100%',
+        //backgroundColor: 'yellow',
         borderBottom: active ? '3px solid' : 'none',
         borderColor: active ? 'primary' : 'none',
         paddingBottom: active ? [null, null, '0.375rem', '0.5rem'] : '0',
@@ -96,15 +97,13 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
 };
 
 const Header = () => {
-  // const { getCookie, setCookie, removeCookie } = useCookies();
-
-  // //setCookie('authToken', 'dummy');
-  // // setCookie('authToken', null);
-  // const user = getCookie('authToken');
-  // removeCookie('authToken');
-
   const { data: session, status } = useSession();
-  //console.log(session.user.profileImageUrl)
+  const { removeCookie } = useCookies();
+
+  const signArtistOut = () => {
+    removeCookie('access-token');
+    signOut({ callbackUrl: '/', redirect: false });
+  };
   // for main menu
   const [anchorElNav, setAnchorElNav] = useState(false);
   const handleCloseNavMenu = () => {
@@ -126,9 +125,9 @@ const Header = () => {
 
   // for login window
   const [anchorElLogin, setAnchorElLogin] = useState(false);
-  const handleCloseLoginWindow = () => {
-    setAnchorElLogin(false);
-  };
+  // const handleCloseLoginWindow = () => {
+  //   setAnchorElLogin(false);
+  // };
   // handle click outside menu to close menu
   const wrapperRefLogin = useRef(null);
   useOutsideAlerter(wrapperRefLogin, setAnchorElLogin);
@@ -275,10 +274,7 @@ const Header = () => {
                 {session && <Divider light />}
                 {session && (
                   <ListItem button component="li">
-                    <NavLink
-                      onClick={handleCloseNavMenu}
-                      href={'/profile'} // TODO - correct path
-                    >
+                    <NavLink onClick={handleCloseNavMenu} href={'/profile'}>
                       My Profile
                     </NavLink>
                   </ListItem>
@@ -288,11 +284,12 @@ const Header = () => {
                     <NavLink
                       onClick={() => {
                         handleCloseNavMenu();
-                        signOut();
+                        setAnchorElLogin(false); // WHY?
+                        signArtistOut();
                       }}
-                      href={'/auth/logout'}
+                      href={'/auth/logout'} // TODO - which path should be here
                     >
-                      Log Out
+                      Log Out??
                     </NavLink>
                   </ListItem>
                 )}
@@ -541,12 +538,13 @@ const Header = () => {
                 <MenuItem
                   onClick={() => {
                     handleCloseUserMenu();
-                    signOut();
+                    signArtistOut();
                   }}
                 >
+                  {/* TODO -what is the path for logout */}
                   <Link textAlign="center" href="/">
                     <LogoutRoundedIcon />
-                    Log Out
+                    Log Out?
                   </Link>
                 </MenuItem>
               </Menu>
@@ -645,7 +643,7 @@ const Header = () => {
                   <CloseRoundedIcon fontSize="small" />
                   {/* </IconButton> */}
                 </Button>
-                <LogIn />
+                <LogIn closeDropdownLoginWindow={setAnchorElLogin} />
               </Drawer>
             </Box>
           )}

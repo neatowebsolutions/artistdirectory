@@ -31,7 +31,7 @@ const inputBoxStyles = {
   maxWidth: '20.31rem'
 };
 
-const LogIn = () => {
+const LogIn = ({ closeDropdownLoginWindow }) => {
   const [ifValidEmail, setIfValidEmail] = useState('');
   const { ifEmailExists } = useEmailValidation();
   const { authError, onSubmit: onSubmitCredentials } = useAuth();
@@ -58,8 +58,12 @@ const LogIn = () => {
         .test('email', ifValidEmail, () => ifValidEmail === ''),
       password: Yup.string().required('Please provide password.')
     }),
-    onSubmit: async ({ email, password }) =>
-      onSubmitCredentials(email, password, false) // false stands for logging in an artist with existing  profile (account)
+
+    // react_devtools_backend.js:4012 Warning: Can't perform a React state update on an unmounted component
+    onSubmit: async ({ email, password }) => {
+      await onSubmitCredentials(email, password, false); // false stands for logging in an artist with existing  profile (account)
+      if (closeDropdownLoginWindow) closeDropdownLoginWindow(false); // close drop down login menu window if login component was rendered from it
+    }
   });
 
   const handleEmailBlur = async (e) => {
@@ -191,7 +195,8 @@ const LogIn = () => {
               marginTop: '0.875rem',
               marginBottom: '0.188rem',
               maxWidth: ['100%', '100%', '20.31rem'],
-              height: '2.25rem!important'
+              height: '2.25rem!important',
+              ...inputBoxStyles
             }}
             type="submit"
             disabled={!isValid || !dirty || isSubmitting}

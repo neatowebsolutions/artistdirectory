@@ -3,6 +3,13 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
+function setHeaders(res, accessToken) {
+  res.setHeader('Set-Cookie', [
+    `access-token=${accessToken}; Max-Age=10 * 60 * 1000; Path=/;` // 10 minutes
+    // `refresh-token=${data.refreshToken}; httpOnly=true; sameSite=None; Secure`
+  ]); // ?? maxAge: 24 * 60 * 60 * 1000 Do we need this token in the cookies??
+}
+
 async function refreshAccessToken(tokenObject, res) {
   try {
     // Get a new set of tokens with a refreshToken
@@ -20,10 +27,7 @@ async function refreshAccessToken(tokenObject, res) {
     const data = await tokenResponse.json();
     console.log('=======FROM REFETCH TOKEN======');
     console.log(data);
-    res.setHeader('Set-Cookie', [
-      `access-token=${data.accessToken}; Max-Age=10 * 60 * 1000; Path=/;` // 10 minutes
-      // `refresh-token=${data.refreshToken}; httpOnly=true; sameSite=None; Secure`
-    ]); // ?? maxAge: 24 * 60 * 60 * 1000 Do we need this token in the cookies??
+    setHeaders(res, data.accessToken);
 
     return {
       ...tokenObject,
@@ -83,11 +87,7 @@ const nextAuthOptions = (req, res) => {
             // If no error and we have artist data, return it
             if (response.ok && data) {
               //  about Cookies https://www.webmound.com/cookies-nodejs-express-server/
-              // TODO - cookies disapear on page refresh, need to fix
-              res.setHeader('Set-Cookie', [
-                `access-token=${data.accessToken}; Max-Age=10 * 60 * 1000; Path=/;` // 10 minutes
-                // `refresh-token=${data.refreshToken}; httpOnly=true; sameSite=None; Secure;`
-              ]); // ?? maxAge: 24 * 60 * 60 * 1000 Do we need this token in the cookies??
+              setHeaders(res, data.accessToken);
 
               return data;
             }
@@ -114,9 +114,9 @@ const nextAuthOptions = (req, res) => {
         }
         if (token.user) {
           // If accessTokenExpiry is 10 mins, we have to refresh token before 10 mins pass.
-          const shouldRefreshTime = Math.round(
-            token.accessTokenExpiry - 7 * 60 * 1000 - Date.now()
-          );
+          const shouldRefreshTime =
+            Math.round(token.accessTokenExpiry - 7 * 60 * 1000 - Date.now()) ||
+            0; // TODO - test this
           console.log('===SHOULD REFRESH TIME=======');
           console.log(shouldRefreshTime);
           // If the token is still valid, just return it.
@@ -127,6 +127,7 @@ const nextAuthOptions = (req, res) => {
           // If the call arrives after 7minutes have passed, we allow to refresh the token.
           // TODO - we lost refresh token after first refresh
           token = await refreshAccessToken(token, res);
+
           return token;
         }
         return token;
@@ -138,6 +139,7 @@ const nextAuthOptions = (req, res) => {
           session.accessTokenExpiry = token.accessTokenExpiry;
           session.error = token.error;
         }
+
         console.log('====SESSION======');
         console.log(session);
         return session;

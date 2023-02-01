@@ -12,7 +12,7 @@ const useProfile = () => {
     }
   );
   const profileLoading = !profile && !profileError;
-
+  console.log(profileLoading);
   return {
     profile,
     profileError,
