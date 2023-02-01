@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
@@ -17,10 +16,9 @@ const RefreshTokenHandler = ({ setInterval }) => {
 
   useEffect(() => {
     if (session) {
-      // We did set the token to be ready to refresh after 7 minutes, here we set interval of 7 minutes.
-      console.log(session);
+      // We set the token to be ready to refresh after 7 minutes, here we set interval of 7 minutes.
       const timeRemaining = Math.round(
-        (session.user.accessTokenExpiry - 2 * 60 * 1000 - Date.now()) / 1000
+        (session.accessTokenExpiry - 7 * 60 * 1000 - Date.now()) / 1000
       );
       console.log(timeRemaining);
       setInterval(timeRemaining > 0 ? timeRemaining : 0);
@@ -43,6 +41,7 @@ const App = ({
   const httpRequestInterceptor = (config) => {
     // const token = sessionStorage.authToken;
     const accessToken = getCookie('access-token');
+
     // debugger; // eslint-disable-line
 
     if (accessToken) {

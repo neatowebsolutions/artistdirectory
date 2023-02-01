@@ -14,10 +14,6 @@ const httpClient = new HttpClient({
   baseUrl: ARTISTS_API_URL
 });
 
-// function generateAccessToken(user){
-
-// }
-
 const handler = middy(async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
@@ -28,11 +24,11 @@ const handler = middy(async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    // TODO - check if valid password and email???
+
     const refreshToken = await httpClient.post(`/auth/refresh`, data);
 
     return {
-      statusCode: StatusCodes.CREATED,
+      statusCode: StatusCodes.CREATED, // TODO correct status code
       body: JSON.stringify(refreshToken)
     };
   } catch (error) {

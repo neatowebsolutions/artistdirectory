@@ -63,11 +63,11 @@ const handler = async (event, context) => {
 
     const { _id: userId, firstName, lastName, profileImageUrl } = artist;
     const accessToken = jwt.sign({ userId }, JWT_SECRET, {
-      expiresIn: '4m'
+      expiresIn: '10m'
     });
-    const accessTokenExpiry = new Date().getTime() + 1000 * 60 * 4;
+    const accessTokenExpiry = new Date().getTime() + 10 * 60 * 1000;
     const refreshToken = jwt.sign({ userId }, REFRESH_JWT_SECRET, {
-      expiresIn: '30m'
+      expiresIn: '50m'
     });
 
     await logger.info(

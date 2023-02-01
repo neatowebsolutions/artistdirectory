@@ -1,8 +1,9 @@
+// TODO -delete access cookie when on logout
+
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import jwt from 'jsonwebtoken';
 
-async function refreshAccessToken(tokenObject) {
+async function refreshAccessToken(tokenObject, res) {
   try {
     // Get a new set of tokens with a refreshToken
     const tokenResponse = await fetch(
@@ -17,14 +18,17 @@ async function refreshAccessToken(tokenObject) {
       }
     );
     const data = await tokenResponse.json();
-    console.log('====FROM REFRESH TOKEN FUNCTION=======');
+    console.log('=======FROM REFETCH TOKEN======');
     console.log(data);
+    res.setHeader('Set-Cookie', [
+      `access-token=${data.accessToken}; Max-Age=10 * 60 * 1000; Path=/;` // 10 minutes
+      // `refresh-token=${data.refreshToken}; httpOnly=true; sameSite=None; Secure`
+    ]); // ?? maxAge: 24 * 60 * 60 * 1000 Do we need this token in the cookies??
 
     return {
       ...tokenObject,
       accessToken: data.accessToken,
-      accessTokenExpiry: data.accessTokenExpiry, // TODO - need to assign this somewhere
-      refreshToken: data.refreshToken
+      accessTokenExpiry: data.accessTokenExpiry
     };
   } catch (error) {
     return {
@@ -76,16 +80,14 @@ const nextAuthOptions = (req, res) => {
             );
 
             const data = await response.json();
-            console.log('================DATA =======');
-            console.log(data);
             // If no error and we have artist data, return it
             if (response.ok && data) {
               //  about Cookies https://www.webmound.com/cookies-nodejs-express-server/
               // TODO - cookies disapear on page refresh, need to fix
               res.setHeader('Set-Cookie', [
-                `access-token=${data.accessToken};`,
-                `refresh-token=${data.refreshToken}; httpOnly=true; sameSite=None; Secure`
-              ]); // ?? maxAge: 24 * 60 * 60 * 1000
+                `access-token=${data.accessToken}; Max-Age=10 * 60 * 1000; Path=/;` // 10 minutes
+                // `refresh-token=${data.refreshToken}; httpOnly=true; sameSite=None; Secure;`
+              ]); // ?? maxAge: 24 * 60 * 60 * 1000 Do we need this token in the cookies??
 
               return data;
             }
@@ -110,40 +112,31 @@ const nextAuthOptions = (req, res) => {
           token.refreshToken = user.refreshToken;
           token.user = { firstName, lastName, profileImageUrl, userId };
         }
+        if (token.user) {
+          // If accessTokenExpiry is 10 mins, we have to refresh token before 10 mins pass.
+          const shouldRefreshTime = Math.round(
+            token.accessTokenExpiry - 7 * 60 * 1000 - Date.now()
+          );
+          console.log('===SHOULD REFRESH TIME=======');
+          console.log(shouldRefreshTime);
+          // If the token is still valid, just return it.
+          if (shouldRefreshTime > 0) {
+            return token;
+          }
 
-        console.log('===accessTOkenExpiry=======');
-
-        // If accessTokenExpiry is 10 mins, we have to refresh token before 10 mins pass.
-        const shouldRefreshTime = Math.round(
-          token.accessTokenExpiry - 3 * 60 * 1000 - Date.now()
-        );
-        console.log('===SHOULD REFRESH TIME=======');
-        console.log(shouldRefreshTime);
-        // If the token is still valid, just return it.
-        if (shouldRefreshTime > 0) {
+          // If the call arrives after 7minutes have passed, we allow to refresh the token.
+          // TODO - we lost refresh token after first refresh
+          token = await refreshAccessToken(token, res);
           return token;
         }
-
-        // If the call arrives after 7minutes have passed, we allow to refresh the token.
-        token = await refreshAccessToken(token);
-
-        console.log('==========JWT TOKEN RETURNED==========');
-        console.log(token);
         return token;
       },
       async session({ session, token, user }) {
-        console.log('==========TOKEN SESSION==========');
-        console.log(token);
-        // console.log('======session======');
-        // console.log(session);
-        // console.log('======user======');
-        // console.log(user);
         if (token) {
           session.user = token.user;
-          //session.accessToken = token.accessToken;
-          session.user.accessToken = token.accessToken;
-          // session.user.refreshToken = token.refreshToken;
-          session.user.accessTokenExpiry = token.accessTokenExpiry;
+          session.accessToken = token.accessToken;
+          session.accessTokenExpiry = token.accessTokenExpiry;
+          session.error = token.error;
         }
         console.log('====SESSION======');
         console.log(session);

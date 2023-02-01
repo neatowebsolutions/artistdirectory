@@ -1,4 +1,5 @@
 import { getSession } from 'next-auth/react';
+import { useCookies } from '@artistdirectory/react-hooks';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
 import PersonalDetails from '../../components/PersonalDetails';
@@ -6,17 +7,24 @@ import ProfileDetails from '../../components/ProfileDetails';
 import WorkExamples from '../../components/WorkExamples';
 import { Layout } from '../../components';
 import useProfile from '../../hooks/profile';
+import useAuthorization from '../../hooks/authorization';
 import RouteGuard from '../../components/RouteGuard';
 
 const ProfilePage = (props) => {
   // console.log(props);
+  const { getCookie } = useCookies('access-token');
+  console.log(getCookie('access-token'));
   const { profile, profileLoading, profileError } = useProfile();
   console.log(profile);
   // console.log(profileError);
   // console.log(profileLoading);
 
+  // const isAuthorized = useAuthorization(true);
+
   return (
     <RouteGuard>
+      {/* {isAuthorized ? (
+        <> */}
       <Head>
         <title>Artist Profile</title>
       </Head>
@@ -60,27 +68,29 @@ const ProfilePage = (props) => {
           </Box>
         </Layout.Root>
       </Layout>
+
+      {/* //   ) : null} */}
     </RouteGuard>
   );
 };
 
 export default ProfilePage;
 
-export async function getServerSideProps(context) {
-  const session = await getSession({ req: context.req });
+// export async function getServerSideProps(context) {
+//   const session = await getSession({ req: context.req });
 
-  console.log('========GET SERVER PROPS===========');
+//   console.log('========GET SERVER PROPS===========');
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/login', // TODO - where to send
-        permanent: false
-      }
-    };
-  }
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: '/auth/login', // TODO - where to send
+//         permanent: false
+//       }
+//     };
+//   }
 
-  return {
-    props: { session }
-  };
-}
+//   return {
+//     props: { session }
+//   };
+// }

@@ -21,6 +21,7 @@ const handler = async (event, context) => {
     console.log('=======DATA ARTIST_API REFRESH=======');
     console.log(token);
     try {
+      // TODO - do we need to store the token in DB and then check if it exists along with decoding?
       const decoded = jwt.verify(token, REFRESH_JWT_SECRET);
 
       if (decoded) {
@@ -28,7 +29,7 @@ const handler = async (event, context) => {
         const accessToken = jwt.sign({ userId: decoded.userId }, JWT_SECRET, {
           expiresIn: '10m'
         });
-        const accessTokenExpiry = new Date().getTime() + 1000 * 60 * 10;
+        const accessTokenExpiry = new Date().getTime() + 10 * 60 * 1000;
 
         // TODO - what to return here
         await logger.info(

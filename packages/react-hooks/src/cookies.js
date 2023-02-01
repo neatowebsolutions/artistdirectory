@@ -51,7 +51,6 @@ class Cookies {
 
 const useCookies = (cookieString) => {
   const cookies = new Cookies(cookieString);
-
   const getCookie = (name) => {
     return cookies.get(name);
   };
