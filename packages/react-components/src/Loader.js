@@ -20,7 +20,6 @@ const Loader = ({
   emptyStateComponent: EmptyStateComponent,
   children
 }) => {
-  console.log(isLoading);
   if (isError) {
     return <ErrorComponent />;
   }

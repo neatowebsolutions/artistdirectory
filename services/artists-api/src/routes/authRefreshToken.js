@@ -18,27 +18,30 @@ const handler = async (event, context) => {
 
   try {
     const { token } = JSON.parse(event.body);
-    console.log('=======DATA ARTIST_API REFRESH=======');
-    console.log(token);
+
     try {
       // TODO - do we need to store the token in DB and then check if it exists along with decoding?
       const decoded = jwt.verify(token, REFRESH_JWT_SECRET);
 
       if (decoded) {
-        // TODO - return new set of tokens
+        console.log(decoded);
+        // return new accessToken
         const accessToken = jwt.sign({ userId: decoded.userId }, JWT_SECRET, {
           expiresIn: '10m'
         });
-        const accessTokenExpiry = new Date().getTime() + 10 * 60 * 1000;
+        const accessTokenExpiry = new Date().getTime() + 10 * 60 * 1000; // TODO - change to longer token, like 15 mins or more
 
         // TODO - what to return here
         await logger.info(
           `New access token issued (${accessToken.toString()})`,
           {
-            data: token
+            data: accessToken
           }
         );
-
+        console.log({
+          accessToken,
+          accessTokenExpiry
+        });
         return {
           statusCode: StatusCodes.CREATED, // TODO - is it correct status code?
           body: JSON.stringify({

@@ -33,7 +33,6 @@ const ProfilePage = () => {
           <Box
             sx={{
               display: 'flex',
-
               justifyContent: 'space-between',
               alignItems: ['center', 'start', 'start', 'start', 'start'],
               flexDirection: ['column', 'column', 'row', 'row', 'row']

@@ -218,20 +218,22 @@ const CreateAccount = () => {
               sx={{ width: '100%' }}
             />
           </Box>
-          <Button
-            sx={{
-              marginTop: '1.5rem',
-              marginBottom: '0.5rem',
-              maxWidth: ['100%', '100%', '20.31rem']
-            }}
-            type="submit"
-            disabled={!isValid || !dirty || isSubmitting}
-            variant="contained"
-            startIcon={<VerifiedIcon />}
-            fullWidth
-          >
-            Create Account
-          </Button>
+          <Box sx={{ marginBottom: '0.875rem', ...inputBoxStyles }}>
+            <Button
+              sx={{
+                marginTop: '1.5rem',
+                marginBottom: '0.5rem',
+                maxWidth: ['100%', '100%', '20.31rem']
+              }}
+              type="submit"
+              disabled={!isValid || !dirty || isSubmitting}
+              variant="contained"
+              startIcon={<VerifiedIcon />}
+              fullWidth
+            >
+              Create Account
+            </Button>
+          </Box>
         </form>
       </Card>
     </Box>

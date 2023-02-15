@@ -58,6 +58,15 @@ const pages = [
   { name: 'About', url: '/about' }
 ];
 
+const linkStyles = {
+  width: '100%',
+  textAlign: 'center',
+  textTransform: 'uppercase',
+  lineHeight: '1.43',
+  fontSize: '0.875rem',
+  letterSpacing: '1.25px'
+};
+
 const NavLink = ({ href, children, onClick, isTopNav = false }) => {
   // isTopNav used to style only top nav links
   const router = useRouter();
@@ -76,19 +85,14 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
       sx={{
         color: active ? 'primary' : '#464852', // TODO Should this color go to material.js?
         display: 'flex',
-        width: '100%',
-        //backgroundColor: 'yellow',
+        justifyContent: 'center',
         borderBottom: active ? '3px solid' : 'none',
         borderColor: active ? 'primary' : 'none',
         paddingBottom: active ? [null, null, '0.375rem', '0.5rem'] : '0',
         fontWeight: active ? '500' : 'normal',
         textDecoration: 'none',
-        textAlign: 'center',
         marginRight: '1.25rem',
-        textTransform: 'uppercase',
-        fontSize: '0.875rem',
-        lineHeight: '1.43',
-        letterSpacing: '1.25px'
+        ...linkStyles
       }}
     >
       {children}
@@ -280,17 +284,31 @@ const Header = () => {
                   </ListItem>
                 )}
                 {session && (
-                  <ListItem button component="li">
-                    <NavLink
+                  <ListItem
+                    button
+                    component="li"
+                    sx={{
+                      padding: '0!important'
+                    }}
+                  >
+                    <Button
                       onClick={() => {
                         handleCloseNavMenu();
-                        setAnchorElLogin(false); // WHY?
+                        setAnchorElLogin(false);
                         signArtistOut();
                       }}
-                      href={'/auth/logout'} // TODO - which path should be here
+                      sx={{
+                        height: '100%',
+                        padding: '.75rem 0 0.75rem 0.5rem',
+                        justifyContent: 'flex-start',
+                        color: 'inherit',
+                        fontWeight: 'normal',
+                        ...linkStyles,
+                        '&:hover': { background: 'none' }
+                      }}
                     >
-                      Log Out??
-                    </NavLink>
+                      Log Out
+                    </Button>
                   </ListItem>
                 )}
                 {!session && (
@@ -540,12 +558,24 @@ const Header = () => {
                     handleCloseUserMenu();
                     signArtistOut();
                   }}
+                  sx={{
+                    padding: '0!important'
+                  }}
                 >
-                  {/* TODO -what is the path for logout */}
-                  <Link textAlign="center" href="/">
+                  {/* TODO - fix background color when the button is clicked */}
+                  <Button
+                    textAlign="center"
+                    sx={{
+                      height: '100%',
+                      padding: '.75rem 0.5rem 0.75rem 0.5rem',
+                      justifyContent: 'center',
+                      ...linkStyles,
+                      '&:hover': { background: 'none' }
+                    }}
+                  >
                     <LogoutRoundedIcon />
-                    Log Out?
-                  </Link>
+                    Log Out
+                  </Button>
                 </MenuItem>
               </Menu>
             </Box>
@@ -557,20 +587,6 @@ const Header = () => {
                 marginRight: 0
               }}
             >
-              {/* <Button
-                component="a"
-                href="/auth/login"
-                variant="outlined"
-                //  onClick={() => signIn()}
-                sx={{
-                  fontSize: '0.875rem',
-                  width: '100%',
-                  padding: '0.625rem 0',
-                  border: 'solid 1px rgba(0, 0, 0, 0.12)'
-                }}
-              >
-                Log In
-              </Button> */}
               <Button
                 component="a"
                 variant="outlined"
@@ -606,7 +622,7 @@ const Header = () => {
                   '& .MuiPaper-root': {
                     top: ['6.8rem', '8rem'],
                     right: '1.5rem',
-                    minWidth: ['19.313rem', '21.438rem'],
+                    minWidth: ['21.438rem'],
                     height: 'auto',
                     padding: 0,
                     boxShadow:
@@ -614,36 +630,45 @@ const Header = () => {
                   }
                 }}
               >
-                <Button
-                  // button
-                  component="button"
-                  onClick={() => setAnchorElLogin(false)}
+                <Box
                   sx={{
-                    margin: '0 .5rem 0 0 ',
-                    padding: 0,
-                    width: 'auto',
-
-                    display: 'flex',
-                    alignItems: 'center',
-                    '& span': {
-                      margin: '2px',
-                      borderRadius: '50%!important',
-                      height: '70%',
-                      top: '3px'
-                    },
-                    '&:hover': {
-                      backgroundColor: 'transparent',
-                      '@media (hover: none)': {
-                        backgroundColor: 'transparent'
-                      }
-                    }
+                    position: 'relative',
+                    margin: '1rem'
                   }}
                 >
-                  {/* <IconButton sx={{ display: 'flex' }}> */}
-                  <CloseRoundedIcon fontSize="small" />
-                  {/* </IconButton> */}
-                </Button>
-                <LogIn closeDropdownLoginWindow={setAnchorElLogin} />
+                  <Button
+                    component="button"
+                    onClick={() => setAnchorElLogin(false)}
+                    sx={{
+                      position: 'absolute',
+                      top: '-0.5rem',
+                      right: '-1rem',
+                      margin: '0',
+                      color: 'inherit',
+                      padding: 0,
+                      width: 'auto',
+                      display: 'flex',
+                      alignItems: 'center',
+                      '& span': {
+                        margin: '2px',
+                        borderRadius: '50%!important',
+                        height: '70%',
+                        top: '3px'
+                      },
+                      '&:hover': {
+                        backgroundColor: 'transparent',
+                        '@media (hover: none)': {
+                          backgroundColor: 'transparent'
+                        }
+                      }
+                    }}
+                  >
+                    {/* <IconButton sx={{ display: 'flex' }}> */}
+                    {/* TODO - fix styling - effect on button click */}
+                    <CloseRoundedIcon fontSize="small" />
+                  </Button>
+                  <LogIn closeDropdownLoginWindow={setAnchorElLogin} />
+                </Box>
               </Drawer>
             </Box>
           )}

@@ -70,7 +70,6 @@ const LogIn = ({ closeDropdownLoginWindow }) => {
     if (values.email) {
       const ifAccountExists = await ifEmailExists(values.email);
       // if email is valid (there is a profile with this email in DB) set error message to empty string or populate with proper error message
-      console.log(ifAccountExists);
       if (ifAccountExists.error) {
         setIfValidEmail('Server error. Fail to verify email');
       } else if (!ifAccountExists.account) {
@@ -85,154 +84,147 @@ const LogIn = ({ closeDropdownLoginWindow }) => {
   return (
     <Box
       sx={{
-        marginTop: ['1.5rem', '2.5rem', '2.6rem', '4.188rem'],
-        marginBottom: ['1.5rem', '2.5rem', '2.6rem', '4.188rem']
+        textAlign: 'center',
+        width: '100%',
+        margin: '0 auto'
       }}
+      elevation={6}
     >
-      <Card
-        sx={{
-          textAlign: 'center',
-          width: ['100%', '80%', '70%'],
-          margin: '0 auto'
-        }}
-        elevation={6}
-      >
-        {authError && (
-          <Alert
-            severity="error"
-            sx={{
-              fontSize: '1.2rem',
-              marginBottom: '2rem'
-            }}
-            elevation={4}
-          >
-            {authError}
-          </Alert>
-        )}
-
-        <Box
-          component="img"
-          src="/images/img-knockknock.svg"
-          alt="Knockknock"
+      {authError && (
+        <Alert
+          severity="error"
           sx={{
-            width: ['4rem', '5rem', '9rem'],
-            marginTop: ['1rem', '1.5rem', '2.6rem'],
-            marginBottom: ['1rem', '1.3rem']
+            fontSize: '1.2rem',
+            marginBottom: '2rem'
           }}
-        />
-        <Typography
-          variant="h1"
-          component="h1"
+          elevation={4}
+        >
+          {authError}
+        </Alert>
+      )}
+
+      <Box
+        component="img"
+        src="/images/img-knockknock.svg"
+        alt="Knockknock"
+        sx={{
+          width: ['4rem', '5rem', '9rem'],
+          marginTop: ['1rem', '1.5rem', '2.6rem'],
+          marginBottom: ['1rem', '1.3rem']
+        }}
+      />
+      <Typography
+        variant="h1"
+        component="h1"
+        sx={{
+          fontWeight: '900',
+          fontSize: ['1.5rem', '2rem', '2.5rem'],
+          color: 'primary.main',
+          textTransform: 'uppercase',
+          letterSpacing: [2, 3],
+          marginBottom: ['1.063rem', '1.625rem', '1.5rem']
+        }}
+      >
+        Login
+      </Typography>
+      <form noValidate onSubmit={handleSubmit}>
+        <Box
           sx={{
-            fontWeight: '900',
-            fontSize: ['1.5rem', '2rem', '2.5rem'],
+            marginBottom: '0.875rem',
+            marginTop: '1.5rem',
+            ...inputBoxStyles
+          }}
+        >
+          <TextField
+            id="outlined-required"
+            label="Email Address"
+            name="email"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MailOutlineIcon />
+                </InputAdornment>
+              ),
+              ...inputFieldStyles
+            }}
+            InputLabelProps={inputFieldStyles}
+            sx={{ width: '100%' }}
+            required
+            onChange={handleChange}
+            onBlur={handleEmailBlur}
+            value={values.email}
+            error={errors.email && touched.email}
+            helperText={touched.email ? errors.email : ''}
+          />
+        </Box>
+        <Box sx={{ marginBottom: '0.875rem', ...inputBoxStyles }}>
+          <TextField
+            required
+            type="password"
+            id="outlined-password-input"
+            label="Password"
+            name="password"
+            autoComplete="current-password"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <VisibilityOffIcon />
+                </InputAdornment>
+              ),
+              ...inputFieldStyles
+            }}
+            InputLabelProps={inputFieldStyles}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.password}
+            error={errors.password && touched.password}
+            helperText={touched.password ? errors.password : ''}
+            sx={{ width: '100%' }}
+          />
+        </Box>
+
+        <Button
+          sx={{
+            marginTop: '0.875rem',
+            marginBottom: '0.188rem',
+            maxWidth: ['100%', '100%', '20.31rem'],
+            height: '2.25rem!important',
+            ...inputBoxStyles
+          }}
+          type="submit"
+          disabled={!isValid || !dirty || isSubmitting}
+          variant="contained"
+          startIcon={<VerifiedIcon />}
+          fullWidth
+        >
+          Log In
+        </Button>
+      </form>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '1rem'
+        }}
+      >
+        <ResetTvIcon sx={{ color: 'primary.main', marginRight: '0.5rem' }} />
+
+        <Link
+          href="/profile/reset"
+          sx={{
             color: 'primary.main',
             textTransform: 'uppercase',
             letterSpacing: [2, 3],
-            marginBottom: ['1.063rem', '1.625rem', '1.5rem']
+            fontWeight: 500,
+            fontSize: '0.875rem',
+            textDecoration: 'none',
+            padding: '0.625rem 0'
           }}
         >
-          Login
-        </Typography>
-        <form noValidate onSubmit={handleSubmit}>
-          <Box
-            sx={{
-              marginBottom: '0.875rem',
-              marginTop: '1.5rem',
-              ...inputBoxStyles
-            }}
-          >
-            <TextField
-              id="outlined-required"
-              label="Email Address"
-              name="email"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MailOutlineIcon />
-                  </InputAdornment>
-                ),
-                ...inputFieldStyles
-              }}
-              InputLabelProps={inputFieldStyles}
-              sx={{ width: '100%' }}
-              required
-              onChange={handleChange}
-              onBlur={handleEmailBlur}
-              value={values.email}
-              error={errors.email && touched.email}
-              helperText={touched.email ? errors.email : ''}
-            />
-          </Box>
-          <Box sx={{ marginBottom: '0.875rem', ...inputBoxStyles }}>
-            <TextField
-              required
-              type="password"
-              id="outlined-password-input"
-              label="Password"
-              name="password"
-              autoComplete="current-password"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <VisibilityOffIcon />
-                  </InputAdornment>
-                ),
-                ...inputFieldStyles
-              }}
-              InputLabelProps={inputFieldStyles}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-              error={errors.password && touched.password}
-              helperText={touched.password ? errors.password : ''}
-              sx={{ width: '100%' }}
-            />
-          </Box>
-
-          <Button
-            sx={{
-              marginTop: '0.875rem',
-              marginBottom: '0.188rem',
-              maxWidth: ['100%', '100%', '20.31rem'],
-              height: '2.25rem!important',
-              ...inputBoxStyles
-            }}
-            type="submit"
-            disabled={!isValid || !dirty || isSubmitting}
-            variant="contained"
-            startIcon={<VerifiedIcon />}
-            fullWidth
-          >
-            Log In
-          </Button>
-        </form>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '1rem'
-          }}
-        >
-          <ResetTvIcon sx={{ color: 'primary.main', marginRight: '0.5rem' }} />
-
-          <Link
-            href="/profile/reset"
-            sx={{
-              color: 'primary.main',
-              textTransform: 'uppercase',
-              letterSpacing: [2, 3],
-              fontWeight: 500,
-              fontSize: '0.875rem',
-              textDecoration: 'none',
-              padding: '0.625rem 0'
-            }}
-          >
-            Forgot password?
-          </Link>
-        </Box>
-      </Card>
+          Forgot password?
+        </Link>
+      </Box>
     </Box>
   );
 };

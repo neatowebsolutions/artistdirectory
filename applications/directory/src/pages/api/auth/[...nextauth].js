@@ -1,5 +1,4 @@
-// TODO -delete access cookie when on logout
-
+// TODO - delete access cookie when on logout
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
@@ -7,13 +6,13 @@ function setHeaders(res, accessToken) {
   res.setHeader('Set-Cookie', [
     `access-token=${accessToken}; Max-Age=10 * 60 * 1000; Path=/;` // 10 minutes
     // `refresh-token=${data.refreshToken}; httpOnly=true; sameSite=None; Secure`
-  ]); // ?? maxAge: 24 * 60 * 60 * 1000 Do we need this token in the cookies??
+  ]); // TODO: maxAge: 24 * 60 * 60 * 1000 Do we need this token in the cookies??
 }
 
 async function refreshAccessToken(tokenObject, res) {
   try {
-    // Get a new set of tokens with a refreshToken
-    const tokenResponse = await fetch(
+    // Get a new access token
+    const response = await fetch(
       `${process.env.DIRECTORY_API_URL}/auth/refresh`,
       {
         method: 'POST',
@@ -24,9 +23,15 @@ async function refreshAccessToken(tokenObject, res) {
         }
       }
     );
-    const data = await tokenResponse.json();
-    console.log('=======FROM REFETCH TOKEN======');
-    console.log(data);
+
+    if (response.status >= 400 && response.status < 500) {
+      return {
+        ...tokenObject,
+        error: 'RefreshAccessTokenError'
+      };
+    }
+    const data = await response.json();
+    // add new accessToken to headers
     setHeaders(res, data.accessToken);
 
     return {
@@ -35,6 +40,7 @@ async function refreshAccessToken(tokenObject, res) {
       accessTokenExpiry: data.accessTokenExpiry
     };
   } catch (error) {
+    console.error(error);
     return {
       ...tokenObject,
       error: 'RefreshAccessTokenError'
@@ -56,7 +62,7 @@ const nextAuthOptions = (req, res) => {
     //   secret: process.env.JWT_SECRET,
     //   encryption: true
     // },
-    // secret:, // If you set NEXTAUTH_SECRET as an environment variable, you don't have to define this option.
+    // secret:, // If  NEXTAUTH_SECRET set as an environment variable, don't have to define this option.
     pages: {
       createAccount: '/auth/create-account',
       logIn: '/auth/login'
@@ -70,7 +76,6 @@ const nextAuthOptions = (req, res) => {
         async authorize(credentials) {
           try {
             // Provide logic that takes the credentials submitted and returns either an object representing an artist or value that is false/null if the credentials are invalid.
-
             // It is possible use the `req` object to obtain additional parameters (i.e., the request IP address)
             // TODO - checkout  https://stackoverflow.com/questions/70174989/next-auth-custom-auth-provider-with-custom-backend , https://medium.com/vmlyrpoland-tech/nextjs-with-full-stack-authorization-based-on-jwt-and-external-api-e9977f9fdd5e, https://github.com/nextauthjs/next-auth/issues/3719, https://stackoverflow.com/questions/67594977/how-to-send-httponly-cookies-client-side-when-using-next-auth-credentials-provid/69418553#69418553, https://stackoverflow.com/questions/61255258/migrating-expressjs-app-to-serverless-express-session-problem, https://github.com/nextauthjs/next-auth/discussions/1290
 
@@ -84,11 +89,9 @@ const nextAuthOptions = (req, res) => {
             );
 
             const data = await response.json();
-            // If no error and we have artist data, return it
+            // If no error and we have artist data and accessToken, return it
             if (response.ok && data) {
-              //  about Cookies https://www.webmound.com/cookies-nodejs-express-server/
               setHeaders(res, data.accessToken);
-
               return data;
             }
           } catch (error) {
@@ -113,21 +116,19 @@ const nextAuthOptions = (req, res) => {
           token.user = { firstName, lastName, profileImageUrl, userId };
         }
         if (token.user) {
-          // If accessTokenExpiry is 10 mins, we have to refresh token before 10 mins pass.
+          // If accessTokenExpiry is 10 mins, we have to refresh token before 10 mins passes.
           const shouldRefreshTime =
             Math.round(token.accessTokenExpiry - 7 * 60 * 1000 - Date.now()) ||
-            0; // TODO - test this
-          console.log('===SHOULD REFRESH TIME=======');
-          console.log(shouldRefreshTime);
+            0;
+          // console.log('===SHOULD REFRESH TIME=======');
+          // console.log(shouldRefreshTime);
           // If the token is still valid, just return it.
           if (shouldRefreshTime > 0) {
             return token;
           }
 
           // If the call arrives after 7minutes have passed, we allow to refresh the token.
-          // TODO - we lost refresh token after first refresh
           token = await refreshAccessToken(token, res);
-
           return token;
         }
         return token;
@@ -139,9 +140,6 @@ const nextAuthOptions = (req, res) => {
           session.accessTokenExpiry = token.accessTokenExpiry;
           session.error = token.error;
         }
-
-        console.log('====SESSION======');
-        console.log(session);
         return session;
       }
     }

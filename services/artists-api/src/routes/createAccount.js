@@ -23,15 +23,14 @@ const handler = async (event, context) => {
     const Artist = await models.get('Artist');
     const artist = await Artist.findOne({ email });
     //TODO - should we reject account creating for profiles which are pending or rejected??
-    // TODO - server side password and email validation??
-    //console.log(artist);
+
     if (!artist) {
       return {
         statusCode: StatusCodes.NOT_FOUND,
         body: ReasonPhrases.NOT_FOUND
       };
     }
-
+    // TODO - for isNew try sending 0 or 1 from the front end instead
     if (isNew === 'false' && artist.password) {
       const isValidPassword = await artist.validPassword(password);
       if (!isValidPassword) {
@@ -43,7 +42,6 @@ const handler = async (event, context) => {
     } else if (isNew === 'true') {
       await artist.setPassword(password);
     } else {
-      // TODO - provide right feedback if artist did not go through account creating stage on the front end
       return {
         statusCode: StatusCodes.UNAUTHORIZED,
         body: ReasonPhrases.UNAUTHORIZED
@@ -65,9 +63,9 @@ const handler = async (event, context) => {
     const accessToken = jwt.sign({ userId }, JWT_SECRET, {
       expiresIn: '10m'
     });
-    const accessTokenExpiry = new Date().getTime() + 10 * 60 * 1000;
+    const accessTokenExpiry = new Date().getTime() + 10 * 60 * 1000; // 10 minutes
     const refreshToken = jwt.sign({ userId }, REFRESH_JWT_SECRET, {
-      expiresIn: '50m'
+      expiresIn: '50m' // 50 minutes  TODO - change to 30 days or about that
     });
 
     await logger.info(

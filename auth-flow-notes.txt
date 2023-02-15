@@ -1,0 +1,9 @@
+
+1. User logs in or creates an account on the front end. Frontend sends request to backend - /accounts. I would rename it to /auth/sign or /auth/accounts.
+2 Backend creates an account or (if exists) logs user in. Loging in happens by creating a set of JWT tokens: accessToken, refreshToken and sends those to the front end along with accessToken expiry and some artist info:  userId, firstName, lastName, profileImageUrl.
+3. Next-auth takes care of authentication on the frontend. We add accessToken to the session object provided by next-auth.
+4. in [...next-auth].js] callbacks we take care of token rotation: when accessToken expires we sent a request to backend to get new access token: /auth/refresh which returns 
+a new accessToken and accessTokenExpiry.
+Question - Do we need to store refreshToken in DB and then check if it exists along with decoding in artist-api?
+
+5. When user logs out we manually remove accessToken from cookies (in  Header.js)  in signArtistOut()

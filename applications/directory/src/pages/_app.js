@@ -21,7 +21,7 @@ const RefreshTokenHandler = ({ setInterval }) => {
         Math.round(
           (session.accessTokenExpiry - 7 * 60 * 1000 - Date.now()) / 1000
         ) || 0;
-      console.log(timeRemaining);
+      //  console.log(timeRemaining);
       setInterval(timeRemaining > 0 ? timeRemaining : 0);
     }
   }, [session, setInterval]);
@@ -36,7 +36,7 @@ const App = ({
 }) => {
   const [interval, setInterval] = useState(0);
   const { getCookie } = useCookies();
-  console.log(interval);
+  // console.log(interval);
   // TODO - do I have to use useCallback  here
   // Add the token to each request.
   const httpRequestInterceptor = (config) => {

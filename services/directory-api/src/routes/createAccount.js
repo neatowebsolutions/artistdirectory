@@ -23,8 +23,8 @@ const handler = middy(async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    // TODO - check if valid password and email???
-    const artistData = await httpClient.post(`/accounts`, data); // TODO change route name for something  like /auth
+    // TODO - check if valid password and email??? WILL be checked in the mongoose model
+    const artistData = await httpClient.post(`/accounts`, data); // TODO change route name for something  like /auth/accounts or /auth/signin
 
     return {
       statusCode: StatusCodes.CREATED,

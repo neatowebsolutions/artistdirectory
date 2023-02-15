@@ -43,12 +43,12 @@ const handler = async (event, context) => {
 
   const authorizationHeader =
     event.headers.Authorization || event.headers.authorization;
-  console.log('++++++++========AUTHORIZER============++++++++++');
-
-  console.log('++++++++========AUTHORIZER============++++++++++');
   const token =
     authorizationHeader && authorizationHeader.replace('Bearer ', '');
   const { methodArn } = event;
+  // console.log('++++++++========AUTHORIZER============++++++++++');
+
+  // console.log('++++++++========AUTHORIZER============++++++++++');
 
   if (!token || !methodArn) {
     await logger.warn('Unauthorized access attempt', null, { event });
