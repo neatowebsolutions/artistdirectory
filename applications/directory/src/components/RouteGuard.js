@@ -9,17 +9,6 @@ const RouteGuard = ({ children }) => {
   const { data: session, status } = useSession({});
   const { removeCookie } = useCookies();
   useEffect(() => {
-    console.log(session);
-    console.log(status);
-    if (
-      session &&
-      (session.error === 'RefreshAccessTokenError' || !session.accessToken)
-    ) {
-      console.log('refreshtoken error)');
-      removeCookie('access-token');
-      signOut({ callbackUrl: '/auth/login', redirect: true });
-    }
-
     if (session === null) {
       if (router.route !== '/auth/login') {
         router.replace('/auth/login');
@@ -28,9 +17,9 @@ const RouteGuard = ({ children }) => {
       if (router.route === '/auth/login') {
         router.replace('/');
       }
-    } else if (session && !session.accessToken) {
-      // does not work
-      console.log('access token is undefined');
+    }
+
+    if (session && session.error === 'RefreshAccessTokenError') {
       removeCookie('access-token');
       signOut({ callbackUrl: '/auth/login', redirect: true });
     }

@@ -24,7 +24,6 @@ const handler = async (event, context) => {
       const decoded = jwt.verify(token, REFRESH_JWT_SECRET);
 
       if (decoded) {
-        console.log(decoded);
         // return new accessToken
         const accessToken = jwt.sign({ userId: decoded.userId }, JWT_SECRET, {
           expiresIn: '10m'

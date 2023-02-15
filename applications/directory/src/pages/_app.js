@@ -16,12 +16,12 @@ const RefreshTokenHandler = ({ setInterval }) => {
 
   useEffect(() => {
     if (session) {
-      // We set the token to be ready to refresh after 7 minutes, here we set interval of 7 minutes.
+      // We set the token to be ready to refresh after 8 minutes, here we set interval of 8 minutes.
       const timeRemaining =
         Math.round(
-          (session.accessTokenExpiry - 7 * 60 * 1000 - Date.now()) / 1000
+          (session.accessTokenExpiry - 8 * 60 * 1000 - Date.now()) / 1000
         ) || 0;
-      //  console.log(timeRemaining);
+
       setInterval(timeRemaining > 0 ? timeRemaining : 0);
     }
   }, [session, setInterval]);
@@ -36,7 +36,6 @@ const App = ({
 }) => {
   const [interval, setInterval] = useState(0);
   const { getCookie } = useCookies();
-  // console.log(interval);
   // TODO - do I have to use useCallback  here
   // Add the token to each request.
   const httpRequestInterceptor = (config) => {

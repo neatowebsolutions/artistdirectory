@@ -85,7 +85,7 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
       sx={{
         color: active ? 'primary' : '#464852', // TODO Should this color go to material.js?
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: ['flex-start', 'flex-start', 'center'],
         borderBottom: active ? '3px solid' : 'none',
         borderColor: active ? 'primary' : 'none',
         paddingBottom: active ? [null, null, '0.375rem', '0.5rem'] : '0',
@@ -129,9 +129,7 @@ const Header = () => {
 
   // for login window
   const [anchorElLogin, setAnchorElLogin] = useState(false);
-  // const handleCloseLoginWindow = () => {
-  //   setAnchorElLogin(false);
-  // };
+
   // handle click outside menu to close menu
   const wrapperRefLogin = useRef(null);
   useOutsideAlerter(wrapperRefLogin, setAnchorElLogin);
@@ -367,10 +365,7 @@ const Header = () => {
           >
             <List
               sx={{
-                display: 'flex',
-                '&:last-child': {
-                  //  marginRight: 0,
-                }
+                display: 'flex'
               }}
             >
               {pages.map((page) => (
@@ -562,7 +557,7 @@ const Header = () => {
                     padding: '0!important'
                   }}
                 >
-                  {/* TODO - fix background color when the button is clicked */}
+                  {/* TODO - fix button background color when the button is clicked (it is not pinkish instead of grey) */}
                   <Button
                     textAlign="center"
                     sx={{

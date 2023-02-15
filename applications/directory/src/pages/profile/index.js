@@ -9,19 +9,10 @@ import ProfileDetails from '../../components/ProfileDetails';
 import WorkExamples from '../../components/WorkExamples';
 import { Layout } from '../../components';
 import useProfile from '../../hooks/profile';
-import useAuthorization from '../../hooks/authorization';
 import RouteGuard from '../../components/RouteGuard';
-import withAuth from '../../components/withAuth';
-
-// TODO - it does not log user out if access token because undefined?? or it just creates arror because the call to get /profile was unsuccessfull
 
 const ProfilePage = () => {
-  // console.log(props);
-
   const { profile, profileLoading, profileError } = useProfile();
-  console.log(profile);
-  console.log(profileError);
-  console.log(profileLoading);
 
   return (
     <RouteGuard>
@@ -100,7 +91,7 @@ const ProfilePage = () => {
               <Box sx={{ flex: 3 }}>
                 <PersonalDetails artist={profile} />
                 {/* TODO  - why profile.images gives an error */}
-                <WorkExamples images={profile?.images} />
+                <WorkExamples images={profile && profile.images} />
               </Box>
             </Loader>
           </Box>

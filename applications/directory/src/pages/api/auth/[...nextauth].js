@@ -1,12 +1,11 @@
-// TODO - delete access cookie when on logout
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 function setHeaders(res, accessToken) {
   res.setHeader('Set-Cookie', [
     `access-token=${accessToken}; Max-Age=10 * 60 * 1000; Path=/;` // 10 minutes
-    // `refresh-token=${data.refreshToken}; httpOnly=true; sameSite=None; Secure`
-  ]); // TODO: maxAge: 24 * 60 * 60 * 1000 Do we need this token in the cookies??
+    // `refresh-token=${data.refreshToken}; maxAge: 24 * 60 * 60 * 1000; httpOnly=true; sameSite=None; Secure`
+  ]); // TODO:  Do we need this token in the cookies??
 }
 
 async function refreshAccessToken(tokenObject, res) {
@@ -40,7 +39,6 @@ async function refreshAccessToken(tokenObject, res) {
       accessTokenExpiry: data.accessTokenExpiry
     };
   } catch (error) {
-    console.error(error);
     return {
       ...tokenObject,
       error: 'RefreshAccessTokenError'
@@ -48,12 +46,10 @@ async function refreshAccessToken(tokenObject, res) {
   }
 }
 
-// https://blog.devso.io/implementing-credentials-provider-on-nextjs-and-nextauth
 const nextAuthOptions = (req, res) => {
   return {
     site: process.env.NEXTAUTH_URL,
     debug: true,
-    // !!!https://next-auth.js.org/getting-started/upgrade-v4#callbacks
     session: {
       jwt: true,
       strategy: 'jwt'
@@ -72,12 +68,12 @@ const nextAuthOptions = (req, res) => {
         id: 'credentials',
         name: 'Artist-local-auth',
         type: 'credentials',
+
         // args - second argument is 'req'
         async authorize(credentials) {
           try {
             // Provide logic that takes the credentials submitted and returns either an object representing an artist or value that is false/null if the credentials are invalid.
             // It is possible use the `req` object to obtain additional parameters (i.e., the request IP address)
-            // TODO - checkout  https://stackoverflow.com/questions/70174989/next-auth-custom-auth-provider-with-custom-backend , https://medium.com/vmlyrpoland-tech/nextjs-with-full-stack-authorization-based-on-jwt-and-external-api-e9977f9fdd5e, https://github.com/nextauthjs/next-auth/issues/3719, https://stackoverflow.com/questions/67594977/how-to-send-httponly-cookies-client-side-when-using-next-auth-credentials-provid/69418553#69418553, https://stackoverflow.com/questions/61255258/migrating-expressjs-app-to-serverless-express-session-problem, https://github.com/nextauthjs/next-auth/discussions/1290
 
             const response = await fetch(
               `${process.env.DIRECTORY_API_URL}/accounts`,
@@ -106,8 +102,6 @@ const nextAuthOptions = (req, res) => {
     callbacks: {
       async jwt({ token, user, account }) {
         if (user) {
-          //  console.log('==========JWT USER==========');
-          // console.log(user);
           const { firstName, lastName, profileImageUrl, userId } = user;
 
           token.accessTokenExpiry = user.accessTokenExpiry;
@@ -118,10 +112,8 @@ const nextAuthOptions = (req, res) => {
         if (token.user) {
           // If accessTokenExpiry is 10 mins, we have to refresh token before 10 mins passes.
           const shouldRefreshTime =
-            Math.round(token.accessTokenExpiry - 7 * 60 * 1000 - Date.now()) ||
+            Math.round(token.accessTokenExpiry - 8 * 60 * 1000 - Date.now()) ||
             0;
-          // console.log('===SHOULD REFRESH TIME=======');
-          // console.log(shouldRefreshTime);
           // If the token is still valid, just return it.
           if (shouldRefreshTime > 0) {
             return token;
@@ -146,4 +138,3 @@ const nextAuthOptions = (req, res) => {
   };
 };
 export default (req, res) => NextAuth(req, res, nextAuthOptions(req, res));
-// ?? - https://stackoverflow.com/questions/67594977/how-to-send-httponly-cookies-client-side-when-using-next-auth-credentials-provid/69418553#69418553
