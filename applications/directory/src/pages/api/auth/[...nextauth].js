@@ -112,7 +112,7 @@ const nextAuthOptions = (req, res) => {
         if (token.user) {
           // If accessTokenExpiry is 10 mins, we have to refresh token before 10 mins passes.
           const shouldRefreshTime =
-            Math.round(token.accessTokenExpiry - 8 * 60 * 1000 - Date.now()) ||
+            Math.round(token.accessTokenExpiry - 2 * 60 * 1000 - Date.now()) ||
             0;
           // If the token is still valid, just return it.
           if (shouldRefreshTime > 0) {

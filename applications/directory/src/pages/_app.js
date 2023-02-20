@@ -16,10 +16,10 @@ const RefreshTokenHandler = ({ setInterval }) => {
 
   useEffect(() => {
     if (session) {
-      // We set the token to be ready to refresh after 8 minutes, here we set interval of 8 minutes.
+      // We set the token to be ready to refresh after 8 minutes, here we set interval of 9 minutes.
       const timeRemaining =
         Math.round(
-          (session.accessTokenExpiry - 8 * 60 * 1000 - Date.now()) / 1000
+          (session.accessTokenExpiry - 1 * 60 * 1000 - Date.now()) / 1000
         ) || 0;
 
       setInterval(timeRemaining > 0 ? timeRemaining : 0);

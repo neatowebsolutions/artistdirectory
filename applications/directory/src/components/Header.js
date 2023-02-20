@@ -1,4 +1,3 @@
-import { useState, useEffect, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
 import { useCookies } from '@artistdirectory/react-hooks';
 import { useRouter } from 'next/router';
@@ -24,33 +23,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import Link from './Link';
 import LogIn from './LogIn';
-
-/**
- * Hook that alerts clicks outside of the passed ref and closes menu on click
- */
-function useOutsideAlerter(ref, setAnchor) {
-  useEffect(() => {
-    /**
-     * close menu if clicked on outside of element
-     */
-    function handleClickOutside(event) {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target) &&
-        !event.target.closest('[aria-controls="menu-appbar"]') &&
-        !event.target.closest('[aria-label="login-window"]')
-      ) {
-        setAnchor(false);
-      }
-    }
-    // Bind the event listener
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [ref, setAnchor]);
-}
+import useHeaderSubMenu from '../hooks/headerSubMenu';
 
 const pages = [
   { name: 'Home', url: '/' },
@@ -101,38 +74,27 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
 };
 
 const Header = () => {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const { removeCookie } = useCookies();
 
   const signArtistOut = () => {
     removeCookie('access-token');
     signOut({ callbackUrl: '/', redirect: false });
   };
-  // for main menu
-  const [anchorElNav, setAnchorElNav] = useState(false);
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(false);
-  };
 
-  // for user submenu
-  const [anchorElUser, setAnchorElUser] = useState(false);
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  // handle click outside menu to close menu
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, setAnchorElNav);
-
-  // for login window
-  const [anchorElLogin, setAnchorElLogin] = useState(false);
-
-  // handle click outside menu to close menu
-  const wrapperRefLogin = useRef(null);
-  useOutsideAlerter(wrapperRefLogin, setAnchorElLogin);
+  const {
+    anchorNav,
+    setAnchorNav,
+    handleCloseNavMenu,
+    anchorUserMenu,
+    userMenuOpen,
+    handleOpenUserMenu,
+    handleCloseUserMenu,
+    wrapperRef,
+    wrapperRefLogin,
+    anchorElLogin,
+    setAnchorElLogin
+  } = useHeaderSubMenu();
 
   return (
     <AppBar
@@ -180,7 +142,7 @@ const Header = () => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={() => {
-                setAnchorElNav((prev) => !prev);
+                setAnchorNav((prev) => !prev);
                 setAnchorElLogin(false);
               }}
               color="inherit"
@@ -193,8 +155,8 @@ const Header = () => {
             <Drawer
               ref={wrapperRef}
               anchor={'left'}
-              open={anchorElNav}
-              onClose={() => setAnchorElNav(false)}
+              open={anchorNav}
+              onClose={handleCloseNavMenu}
               sx={{
                 display: ['flex', 'flex', 'none'],
                 minHeight: '100%',
@@ -233,7 +195,7 @@ const Header = () => {
                 <ListItem
                   button
                   component="li"
-                  onClick={() => setAnchorElNav(false)}
+                  onClick={handleCloseNavMenu}
                   sx={{
                     margin: '0 .5rem 0 0 ',
                     padding: 0,
@@ -471,7 +433,6 @@ const Header = () => {
                 }}
               >
                 <ArrowDropDownIcon
-                  onClick={handleOpenUserMenu}
                   color="primary"
                   sx={{
                     display: ['none', 'none', 'flex', 'flex']
@@ -480,6 +441,8 @@ const Header = () => {
               </Box>
 
               <Menu
+                open={userMenuOpen}
+                onClose={handleCloseUserMenu}
                 sx={{
                   display: ['none', 'none', 'flex', 'flex'],
                   marginTop: '45px',
@@ -526,7 +489,7 @@ const Header = () => {
                   }
                 }}
                 id="menu-appbar"
-                anchorEl={anchorElUser}
+                anchorEl={anchorUserMenu}
                 anchorOrigin={{
                   vertical: 'top',
                   horizontal: 'right'
@@ -536,8 +499,6 @@ const Header = () => {
                   vertical: 'top',
                   horizontal: 'right'
                 }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Link
@@ -589,7 +550,7 @@ const Header = () => {
                 aria-haspopup="true"
                 onClick={() => {
                   setAnchorElLogin((prev) => !prev);
-                  setAnchorElNav(false);
+                  setAnchorNav(false);
                 }}
                 sx={{
                   fontSize: '0.875rem',

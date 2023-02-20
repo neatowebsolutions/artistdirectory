@@ -57,7 +57,7 @@ const handler = async (event, context) => {
       };
     }
 
-    await artist.save();
+    await artist.save(); // TODO - ???
 
     const { _id: userId, firstName, lastName, profileImageUrl } = artist;
     const accessToken = jwt.sign({ userId }, JWT_SECRET, {

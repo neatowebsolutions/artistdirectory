@@ -10,3 +10,4 @@ export { default as useTags } from './tags';
 export { default as useUpload } from './upload';
 export { default as use404 } from './404';
 export { default as useAuth } from './auth';
+export { default as useHeaderSubMenu } from './headerSubMenu';

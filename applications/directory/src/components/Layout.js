@@ -30,7 +30,7 @@ Intro.propTypes = {
 
 // TODO - use Session here to pass props to header ??
 const Layout = ({ children }) => {
-  const { data: session, status } = useSession();
+  //const { data: session, status } = useSession();
 
   return (
     <Box
@@ -43,7 +43,8 @@ const Layout = ({ children }) => {
     >
       <Box>
         <Toolbar />
-        <Header session={session} />
+        {/*   <Header session={session} /> */}
+        <Header />
       </Box>
 
       <Box
