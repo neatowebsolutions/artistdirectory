@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
 import { signOut, useSession } from 'next-auth/react';
-//import { useCookies } from '@artistdirectory/react-hooks';
+import { useCookies } from '@artistdirectory/react-hooks';
 import { useRouter } from 'next/router';
 import { Link as MuiLink } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -23,32 +22,8 @@ import Divider from '@mui/material/Divider';
 import MenuItem from '@mui/material/MenuItem';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import Link from './Link';
-
-/**
- * Hook that alerts clicks outside of the passed ref and closes menu on click
- */
-function useOutsideAlerter(ref, setAnchor) {
-  useEffect(() => {
-    /**
-     * close menu if clicked on outside of element
-     */
-    function handleClickOutside(event) {
-      if (
-        ref.current &&
-        !ref.current.contains(event.target) &&
-        !event.target.closest('[aria-controls="menu-appbar"]')
-      ) {
-        setAnchor(false);
-      }
-    }
-    // Bind the event listener
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [ref]);
-}
+import LogIn from './LogIn';
+import useHeaderSubMenu from '../hooks/headerSubMenu';
 
 const pages = [
   { name: 'Home', url: '/' },
@@ -56,9 +31,17 @@ const pages = [
   { name: 'About', url: '/about' }
 ];
 
+const linkStyles = {
+  width: '100%',
+  textAlign: 'center',
+  textTransform: 'uppercase',
+  lineHeight: '1.43',
+  fontSize: '0.875rem',
+  letterSpacing: '1.25px'
+};
+
 const NavLink = ({ href, children, onClick, isTopNav = false }) => {
   // isTopNav used to style only top nav links
-
   const router = useRouter();
   let active = false;
 
@@ -74,17 +57,15 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
       href={href}
       sx={{
         color: active ? 'primary' : '#464852', // TODO Should this color go to material.js?
+        display: 'flex',
+        justifyContent: ['flex-start', 'flex-start', 'center'],
         borderBottom: active ? '3px solid' : 'none',
         borderColor: active ? 'primary' : 'none',
         paddingBottom: active ? [null, null, '0.375rem', '0.5rem'] : '0',
         fontWeight: active ? '500' : 'normal',
         textDecoration: 'none',
-        textAlign: 'center',
         marginRight: '1.25rem',
-        textTransform: 'uppercase',
-        fontSize: '0.875rem',
-        lineHeight: '1.43',
-        letterSpacing: '1.25px'
+        ...linkStyles
       }}
     >
       {children}
@@ -93,38 +74,27 @@ const NavLink = ({ href, children, onClick, isTopNav = false }) => {
 };
 
 const Header = () => {
-  // const { getCookie, setCookie, removeCookie } = useCookies();
+  const { data: session } = useSession();
+  const { removeCookie } = useCookies();
 
-  // //setCookie('authToken', 'dummy');
-  // // setCookie('authToken', null);
-  // const user = getCookie('authToken');
-  // removeCookie('authToken');
-
-  const { data: session, status } = useSession();
-
-  useEffect(() => {
-    console.log(status);
-    console.log(session);
-  }, [session, status]);
-
-  // for main menu
-  const [anchorElNav, setAnchorElNav] = useState(false);
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(false);
+  const signArtistOut = () => {
+    removeCookie('access-token');
+    signOut({ callbackUrl: '/', redirect: false });
   };
 
-  // for user submenu
-  const [anchorElUser, setAnchorElUser] = useState(false);
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  // handle click outside menu to close menu
-  const wrapperRef = useRef(null);
-  useOutsideAlerter(wrapperRef, setAnchorElNav);
+  const {
+    anchorNav,
+    setAnchorNav,
+    handleCloseNavMenu,
+    anchorUserMenu,
+    userMenuOpen,
+    handleOpenUserMenu,
+    handleCloseUserMenu,
+    wrapperRef,
+    wrapperRefLogin,
+    anchorElLogin,
+    setAnchorElLogin
+  } = useHeaderSubMenu();
 
   return (
     <AppBar
@@ -171,7 +141,10 @@ const Header = () => {
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={() => setAnchorElNav(!anchorElNav)}
+              onClick={() => {
+                setAnchorNav((prev) => !prev);
+                setAnchorElLogin(false);
+              }}
               color="inherit"
               sx={{
                 padding: 0
@@ -182,8 +155,8 @@ const Header = () => {
             <Drawer
               ref={wrapperRef}
               anchor={'left'}
-              open={anchorElNav}
-              onClose={() => setAnchorElNav(false)}
+              open={anchorNav}
+              onClose={handleCloseNavMenu}
               sx={{
                 display: ['flex', 'flex', 'none'],
                 minHeight: '100%',
@@ -222,7 +195,7 @@ const Header = () => {
                 <ListItem
                   button
                   component="li"
-                  onClick={() => setAnchorElNav(false)}
+                  onClick={handleCloseNavMenu}
                   sx={{
                     margin: '0 .5rem 0 0 ',
                     padding: 0,
@@ -265,25 +238,37 @@ const Header = () => {
                 {session && <Divider light />}
                 {session && (
                   <ListItem button component="li">
-                    <NavLink
-                      onClick={handleCloseNavMenu}
-                      href={'/profile/user-id'} // TODO - correct path
-                    >
+                    <NavLink onClick={handleCloseNavMenu} href={'/profile'}>
                       My Profile
                     </NavLink>
                   </ListItem>
                 )}
                 {session && (
-                  <ListItem button component="li">
-                    <NavLink
+                  <ListItem
+                    button
+                    component="li"
+                    sx={{
+                      padding: '0!important'
+                    }}
+                  >
+                    <Button
                       onClick={() => {
                         handleCloseNavMenu();
-                        signOut();
+                        setAnchorElLogin(false);
+                        signArtistOut();
                       }}
-                      href={'/auth/logout'}
+                      sx={{
+                        height: '100%',
+                        padding: '.75rem 0 0.75rem 0.5rem',
+                        justifyContent: 'flex-start',
+                        color: 'inherit',
+                        fontWeight: 'normal',
+                        ...linkStyles,
+                        '&:hover': { background: 'none' }
+                      }}
                     >
                       Log Out
-                    </NavLink>
+                    </Button>
                   </ListItem>
                 )}
                 {!session && (
@@ -299,6 +284,7 @@ const Header = () => {
                 {!session && <Divider light />}
                 {!session && (
                   <ListItem button component="li">
+                    {/* TODO - close menu and open the right  drawer with login component */}
                     <NavLink onClick={handleCloseNavMenu} href={'/auth/login'}>
                       Log In
                     </NavLink>
@@ -341,10 +327,7 @@ const Header = () => {
           >
             <List
               sx={{
-                display: 'flex',
-                '&:last-child': {
-                  //  marginRight: 0,
-                }
+                display: 'flex'
               }}
             >
               {pages.map((page) => (
@@ -405,7 +388,7 @@ const Header = () => {
               }}
             >
               <Link
-                href={'/profile/user-id'} // TODO - correct path
+                href={'/profile'} // TODO - correct path
                 sx={{
                   padding: 0,
                   display: 'flex',
@@ -450,7 +433,6 @@ const Header = () => {
                 }}
               >
                 <ArrowDropDownIcon
-                  onClick={handleOpenUserMenu}
                   color="primary"
                   sx={{
                     display: ['none', 'none', 'flex', 'flex']
@@ -459,6 +441,8 @@ const Header = () => {
               </Box>
 
               <Menu
+                open={userMenuOpen}
+                onClose={handleCloseUserMenu}
                 sx={{
                   display: ['none', 'none', 'flex', 'flex'],
                   marginTop: '45px',
@@ -505,7 +489,7 @@ const Header = () => {
                   }
                 }}
                 id="menu-appbar"
-                anchorEl={anchorElUser}
+                anchorEl={anchorUserMenu}
                 anchorOrigin={{
                   vertical: 'top',
                   horizontal: 'right'
@@ -515,12 +499,10 @@ const Header = () => {
                   vertical: 'top',
                   horizontal: 'right'
                 }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
               >
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Link
-                    href="/profile/user-id"
+                    href="/profile"
                     /* TODO - add correct path */ textAlign="center"
                   >
                     My Profile
@@ -530,13 +512,26 @@ const Header = () => {
                 <MenuItem
                   onClick={() => {
                     handleCloseUserMenu();
-                    signOut();
+                    signArtistOut();
+                  }}
+                  sx={{
+                    padding: '0!important'
                   }}
                 >
-                  <Link textAlign="center" href="/">
+                  {/* TODO - fix button background color when the button is clicked (it is not pinkish instead of grey) */}
+                  <Button
+                    textAlign="center"
+                    sx={{
+                      height: '100%',
+                      padding: '.75rem 0.5rem 0.75rem 0.5rem',
+                      justifyContent: 'center',
+                      ...linkStyles,
+                      '&:hover': { background: 'none' }
+                    }}
+                  >
                     <LogoutRoundedIcon />
                     Log Out
-                  </Link>
+                  </Button>
                 </MenuItem>
               </Menu>
             </Box>
@@ -550,9 +545,13 @@ const Header = () => {
             >
               <Button
                 component="a"
-                href="/auth/login"
                 variant="outlined"
-                //  onClick={() => signIn()}
+                aria-label="login-window"
+                aria-haspopup="true"
+                onClick={() => {
+                  setAnchorElLogin((prev) => !prev);
+                  setAnchorNav(false);
+                }}
                 sx={{
                   fontSize: '0.875rem',
                   width: '100%',
@@ -562,6 +561,71 @@ const Header = () => {
               >
                 Log In
               </Button>
+
+              <Drawer
+                ref={wrapperRefLogin}
+                anchor={'right'}
+                open={anchorElLogin}
+                onClose={() => setAnchorElLogin(false)}
+                sx={{
+                  display: 'flex',
+                  minHeight: '100%',
+                  top: ['6.8rem', '8rem'],
+                  '& .MuiBackdrop-root': {
+                    backdropFilter: 'blur(3px)',
+                    top: ['6.8rem', '8rem']
+                  },
+                  '& .MuiPaper-root': {
+                    top: ['6.8rem', '8rem'],
+                    right: '1.5rem',
+                    minWidth: ['21.438rem'],
+                    height: 'auto',
+                    padding: 0,
+                    boxShadow:
+                      '0 5px 5px -3px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 8px 10px 1px rgba(0, 0, 0, 0.14)'
+                  }
+                }}
+              >
+                <Box
+                  sx={{
+                    position: 'relative',
+                    margin: '1rem'
+                  }}
+                >
+                  <Button
+                    component="button"
+                    onClick={() => setAnchorElLogin(false)}
+                    sx={{
+                      position: 'absolute',
+                      top: '-0.5rem',
+                      right: '-1rem',
+                      margin: '0',
+                      color: 'inherit',
+                      padding: 0,
+                      width: 'auto',
+                      display: 'flex',
+                      alignItems: 'center',
+                      '& span': {
+                        margin: '2px',
+                        borderRadius: '50%!important',
+                        height: '70%',
+                        top: '3px'
+                      },
+                      '&:hover': {
+                        backgroundColor: 'transparent',
+                        '@media (hover: none)': {
+                          backgroundColor: 'transparent'
+                        }
+                      }
+                    }}
+                  >
+                    {/* <IconButton sx={{ display: 'flex' }}> */}
+                    {/* TODO - fix styling - effect on button click */}
+                    <CloseRoundedIcon fontSize="small" />
+                  </Button>
+                  <LogIn closeDropdownLoginWindow={setAnchorElLogin} />
+                </Box>
+              </Drawer>
             </Box>
           )}
         </Toolbar>

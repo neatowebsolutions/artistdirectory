@@ -3,9 +3,7 @@ const logger = require('@artistdirectory/logger');
 const AWS = require('aws-sdk');
 const { v4: uuidv4 } = require('uuid');
 
-const {
-  UPLOADS_BUCKET,
-} = process.env;
+const { UPLOADS_BUCKET } = process.env;
 
 const s3 = new AWS.S3();
 
@@ -21,7 +19,7 @@ const handler = async (event) => {
     const params = {
       Bucket: UPLOADS_BUCKET,
       Key: `profile/${fileName}`,
-      ContentType: mimeType,
+      ContentType: mimeType
     };
 
     // Generate and return signed URL. See https://trello.com/c/dl1YhHM0/56-refactor-uploading-to-upload-in-background-on-image-select#comment-6255922adccab9652b63ed48

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
 import Alert from '@mui/material/Alert';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -59,14 +60,14 @@ const CreateAccount = () => {
         .matches(
           // https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/,
-          'Password must contain Minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character.'
+          'Password must contain minimum eight and maximum 10 characters, at least one uppercase letter, one lowercase letter, one number and one special character.'
         ),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), null], 'Passwords must match')
         .required('Please confirm password.')
     }),
     onSubmit: async ({ email, password }) => {
-      onSubmitCredentials(email, password);
+      onSubmitCredentials(email, password, true); // true stands for creating a profile (account)
     }
   });
   const handleEmailBlur = async (e) => {
@@ -217,20 +218,22 @@ const CreateAccount = () => {
               sx={{ width: '100%' }}
             />
           </Box>
-          <Button
-            sx={{
-              marginTop: '1.5rem',
-              marginBottom: '0.5rem',
-              maxWidth: ['100%', '100%', '20.31rem']
-            }}
-            type="submit"
-            disabled={!isValid || !dirty || isSubmitting}
-            variant="contained"
-            startIcon={<VerifiedIcon />}
-            fullWidth
-          >
-            Create Account
-          </Button>
+          <Box sx={{ marginBottom: '0.875rem', ...inputBoxStyles }}>
+            <Button
+              sx={{
+                marginTop: '1.5rem',
+                marginBottom: '0.5rem',
+                maxWidth: ['100%', '100%', '20.31rem']
+              }}
+              type="submit"
+              disabled={!isValid || !dirty || isSubmitting}
+              variant="contained"
+              startIcon={<VerifiedIcon />}
+              fullWidth
+            >
+              Create Account
+            </Button>
+          </Box>
         </form>
       </Card>
     </Box>

@@ -1,56 +1,123 @@
+import { Loader } from '@artistdirectory/react-components';
+import LinearProgress from '@mui/material/LinearProgress';
 import Head from 'next/head';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import Alert from '@mui/material/Alert';
 import PersonalDetails from '../../components/PersonalDetails';
 import ProfileDetails from '../../components/ProfileDetails';
 import WorkExamples from '../../components/WorkExamples';
 import { Layout } from '../../components';
+import useProfile from '../../hooks/profile';
+import RouteGuard from '../../components/RouteGuard';
 
-const AccountPage = () => (
-  <>
-    <Head>
-      <title>Artist Account</title>
-    </Head>
-    <Layout>
-      <Layout.Root>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            '& h1': {
-              fontSize: '2.2rem'
-            }
-          }}
-        >
-          <h1>My Profile</h1>
-          {/* <h1>Artist Profile</h1> */}
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: ['center', 'start', 'start', 'start', 'start'],
-            flexDirection: ['column', 'column', 'row', 'row', 'row']
-          }}
-        >
+const ProfilePage = () => {
+  const { profile, profileLoading, profileError } = useProfile();
+
+  return (
+    <RouteGuard>
+      <Head>
+        <title>Artist Profile</title>
+      </Head>
+      <Layout>
+        <Layout.Root>
           <Box
             sx={{
-              flex: 1,
-              mr: ['0', '0', '5%', '5%', '5%'],
-              mb: '50px',
-              width: '100%'
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: ['center', 'start', 'start', 'start', 'start'],
+              flexDirection: ['column', 'column', 'row', 'row', 'row']
             }}
           >
-            <ProfileDetails />
+            <Loader
+              isLoading={profileLoading}
+              isError={profileError}
+              loadingComponent={() => (
+                <Card
+                  elevation={6}
+                  sx={{ width: '100%', marginTop: '1.375rem' }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginBottom: '1.375rem',
+                      '& h1': {
+                        fontSize: '2.2rem'
+                      }
+                    }}
+                  >
+                    <h1>My Profile</h1>
+                  </Box>
+                  <LinearProgress color="primary"></LinearProgress>{' '}
+                </Card>
+              )}
+              errorComponent={() => (
+                <Alert
+                  severity="error"
+                  sx={{
+                    fontSize: '1.2rem'
+                  }}
+                  elevation={4}
+                >
+                  An unexpected error occurred. Please try again shortly.
+                </Alert>
+              )}
+            >
+              <Box
+                sx={{
+                  flex: 1,
+                  mr: ['0', '0', '5%', '5%', '5%'],
+                  mb: '50px',
+                  width: '100%'
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: '1.375rem',
+                    '& h1': {
+                      fontSize: '2.2rem'
+                    }
+                  }}
+                >
+                  <h1>My Profile</h1>
+                </Box>
+                <ProfileDetails artist={profile} />
+              </Box>
+              <Box sx={{ flex: 3 }}>
+                <PersonalDetails artist={profile} />
+                {/* TODO  - why profile.images gives an error */}
+                <WorkExamples images={profile && profile.images} />
+              </Box>
+            </Loader>
           </Box>
-          <Box sx={{ flex: 3 }}>
-            <PersonalDetails />
-            <WorkExamples />
-          </Box>
-        </Box>
-      </Layout.Root>
-    </Layout>
-  </>
-);
+        </Layout.Root>
+      </Layout>
+    </RouteGuard>
+  );
+};
 
-export default AccountPage;
+export default ProfilePage;
+
+// export async function getServerSideProps(context) {
+//   const session = await getSession({ req: context.req });
+
+//   console.log('========GET SERVER PROPS===========');
+
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: '/auth/login', // TODO - where to send
+//         permanent: false
+//       }
+//     };
+//   }
+
+//   return {
+//     props: { session }
+//   };
+// }

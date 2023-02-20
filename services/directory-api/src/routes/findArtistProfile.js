@@ -22,13 +22,12 @@ const handler = middy(async (event, context) => {
   }
 
   try {
-    const data = JSON.parse(event.body);
-    // TODO - check if valid password and email??? WILL be checked in the mongoose model
-    const artistData = await httpClient.post(`/accounts`, data); // TODO change route name for something  like /auth/accounts or /auth/signin
+    const artistId = event.requestContext.authorizer.userId;
+    const profile = await httpClient.get(`/profile/${artistId}`);
 
     return {
-      statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(artistData)
+      statusCode: StatusCodes.OK,
+      body: JSON.stringify(profile) // found artist profile
     };
   } catch (error) {
     if (error.response && error.response.status) {

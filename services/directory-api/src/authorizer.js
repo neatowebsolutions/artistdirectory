@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
-
 const { JWT_SECRET } = process.env;
 
 // Reference: https://github.com/tmaximini/serverless-jwt-authorizer/blob/master/functions/authorize.js
@@ -47,6 +46,9 @@ const handler = async (event, context) => {
   const token =
     authorizationHeader && authorizationHeader.replace('Bearer ', '');
   const { methodArn } = event;
+  // console.log('++++++++========AUTHORIZER============++++++++++');
+
+  // console.log('++++++++========AUTHORIZER============++++++++++');
 
   if (!token || !methodArn) {
     await logger.warn('Unauthorized access attempt', null, { event });

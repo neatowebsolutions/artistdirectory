@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSession } from 'next-auth/react';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
 import Header from './Header';
@@ -27,40 +28,46 @@ Intro.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-const Layout = ({ children }) => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      overflowX: 'hidden',
-      minHeight: '100vh'
-    }}
-  >
-    <Box>
-      <Toolbar />
-      <Header />
-    </Box>
+// TODO - use Session here to pass props to header ??
+const Layout = ({ children }) => {
+  //const { data: session, status } = useSession();
 
+  return (
     <Box
-      component="main"
       sx={{
-        backgroundColor: '#fcfcfc',
-        marginTop: '3px',
-        flex: 1
+        display: 'flex',
+        flexDirection: 'column',
+        overflowX: 'hidden',
+        minHeight: '100vh'
       }}
     >
+      <Box>
+        <Toolbar />
+        {/*   <Header session={session} /> */}
+        <Header />
+      </Box>
+
       <Box
+        component="main"
         sx={{
-          maxWidth: ['95%', '95%', '95%', '73.75rem', '80rem'],
-          margin: ' 0 auto'
+          backgroundColor: '#fcfcfc',
+          marginTop: '3px',
+          flex: 1
         }}
       >
-        {children}
+        <Box
+          sx={{
+            maxWidth: ['95%', '95%', '95%', '73.75rem', '80rem'],
+            margin: ' 0 auto'
+          }}
+        >
+          {children}
+        </Box>
       </Box>
+      <Footer />
     </Box>
-    <Footer />
-  </Box>
-);
+  );
+};
 
 Layout.Intro = Intro;
 Layout.Root = Root;

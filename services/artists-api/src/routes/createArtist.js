@@ -1,3 +1,5 @@
+// TODO - should we do server side user  data validation validation??
+
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('@artistdirectory/logger');
 const generateToken = require('./../utilities/generateToken');

@@ -5,6 +5,7 @@ const {
   ReasonPhrases,
   getReasonPhrase
 } = require('http-status-codes');
+
 const HttpClient = require('@artistdirectory/gateway-http-client');
 
 const { ARTISTS_API_URL } = process.env;
@@ -23,12 +24,12 @@ const handler = middy(async (event, context) => {
 
   try {
     const data = JSON.parse(event.body);
-    // TODO - check if valid password and email??? WILL be checked in the mongoose model
-    const artistData = await httpClient.post(`/accounts`, data); // TODO change route name for something  like /auth/accounts or /auth/signin
+
+    const refreshToken = await httpClient.post(`/auth/refresh`, data);
 
     return {
-      statusCode: StatusCodes.CREATED,
-      body: JSON.stringify(artistData)
+      statusCode: StatusCodes.CREATED, // TODO correct status code
+      body: JSON.stringify(refreshToken)
     };
   } catch (error) {
     if (error.response && error.response.status) {

@@ -17,6 +17,7 @@ provider:
   environment:
     ARTISTS_API_URL: ${env:ARTISTS_API_URL, ssm:/artistdirectory/${self:provider.stage}/artists-api/url}
     JWT_SECRET: ${env:JWT_SECRET, ssm:/artistdirectory/${self:provider.stage}/jwt-secret}
+    REFRESH_JWT_SECRET: ${env:REFRESH_JWT_SECRET, ssm:/artistdirectory/${self:provider.stage}/refresh-jwt-secret}
     LOGS_API_URL: ${env:LOGS_API_URL, ssm:/artistdirectory/${self:provider.stage}/logs-api/url}
     LOG_QUEUE_URL: ${ssm:/artistdirectory/${self:provider.stage}/queues/log/url, ''}
     LOG_SOURCE: 'directory-api'
@@ -78,6 +79,7 @@ functions:
           path: /artists
           method: post
           cors: true
+  # TODO - rename the route to something like /auth/signin
   createAccount:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/createAccount.handler
@@ -86,6 +88,19 @@ functions:
           path: /accounts
           method: post
           cors: true
+  authRefreshToken:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/authRefreshToken.handler
+    events:
+      - http:
+          path: /auth/refresh
+          method: post
+          cors: true
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
   findOneArtist:
     role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
     handler: src/routes/findOneArtist.handler
@@ -184,6 +199,19 @@ functions:
           path: /skills
           method: get
           cors: true
+  findArtistProfile:
+    role: ${env:SERVICES_CONSUMER_ROLE_ARN, ssm:/artistdirectory/${self:provider.stage}/roles/services-consumer-arn}
+    handler: src/routes/findArtistProfile.handler
+    events:
+      - http:
+          path: /profile
+          method: get
+          cors: true
+          authorizer:
+            name: authorizer
+            type: request
+            identitySource: method.request.header.Authorization
+            resultTtlInSeconds: 0
 plugins:
   - serverless-offline
   - serverless-plugin-monorepo
